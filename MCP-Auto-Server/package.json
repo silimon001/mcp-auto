@@ -1,0 +1,46 @@
+{
+  "name": "mcp-auto",
+  "version": "0.2.22",
+  "description": "A MCP server for deploying MCP server automatically",
+  "mcpName": "MCP-Auto",
+  "license": "MIT",
+  "author": "Silimon001",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "mcp-auto": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/*.js && shx cp src/*.py dist/",
+    "watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "start:debug": "node --inspect-brk=9229 dist/index.js",
+    "prepare": "npm run build",
+    "clean": "shx rm -rf dist",
+    "link:local": "npm run build && npm link",
+    "unlink:local": "npm unlink",
+    "inspector": "npx @modelcontextprotocol/inspector dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.9.0",
+    "@vscode/ripgrep": "^1.15.9",
+    "cross-fetch": "^4.1.0",
+    "fastest-levenshtein": "^1.0.16",
+    "glob": "^10.3.10",
+    "isbinaryfile": "^5.0.4",
+    "zod": "^3.24.1",
+    "zod-to-json-schema": "^3.23.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.24",
+    "commander": "^13.1.0",
+    "nodemon": "^3.0.2",
+    "shx": "^0.3.4",
+    "typescript": "^5.3.3"
+  }
+}

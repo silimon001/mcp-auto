@@ -1,0 +1,1224 @@
+2026-03-17 22:10:19,590 - INFO - Running
+2026-03-17 22:10:19,591 - INFO - 0 Process file: data/dataset/js_ts_test/simplified_readme/946569933_mcp-servers-jos_README.md
+2026-03-17 22:10:23,194 - INFO - answer:
+Analysis: The README explicitly states that the project consists of "Model Context Protocol (MCP) servers by JOS". It lists a specific sub-project ("juce-docs-mcp-server") designed to provide access to JUCE Framework documentation, which aligns with the definition of an MCP Server providing tools or resources for AI models. Although the README is brief and lacks detailed deployment instructions in this snippet, it clearly identifies the project's purpose as implementing MCP servers rather than being a template, aggregator, or unrelated system.
+
+Conclusion: @Yes@
+
+2026-03-17 22:10:23,194 - INFO - 1 Process file: data/dataset/js_ts_test/simplified_readme/991692154_wezterm-mcp_README.md
+2026-03-17 22:10:26,600 - INFO - answer:
+Analysis: The README explicitly titles the project "WezTerm MCP Server" and states in the overview that it is a Model Context Protocol (MCP) server designed to allow control of WezTerm from MCP clients like Claude Desktop. It provides clear installation instructions, including a JSON configuration snippet for adding the server to an MCP host and a command-line instruction via Smithery to install it specifically for Claude Desktop. This meets the criteria for being an MCP Server as it describes the project's purpose and deployment method clearly.
+
+Conclusion: @Yes@
+
+2026-03-17 22:10:26,601 - INFO - 2 Process file: data/dataset/js_ts_test/simplified_readme/954181532_mcp-painter_README.md
+2026-03-17 22:10:29,772 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server that provides drawing capabilities for AI assistants." It outlines specific features related to drawing (creating canvases, drawing rectangles, exporting images). Furthermore, it provides clear installation instructions via Smithery and manual configuration steps for an MCP client (Claude Desktop), demonstrating how to deploy and use it as an MCP Server. The primary purpose of the project is to serve as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:10:29,772 - INFO - 3 Process file: data/dataset/js_ts_test/simplified_readme/959449558_sumup-ai_README.md
+2026-03-17 22:10:36,212 - INFO - answer:
+Analysis: The README describes "SumUp AI" as a toolkit containing SDKs for building AI-enhanced applications. While it mentions that SumUp hosts an MCP and provides instructions on how to run the "SumUp MCP server locally" using `npx -y @sumup/mcp`, the project itself is presented primarily as an "Agent Toolkit" (TypeScript SDK) rather than being defined explicitly as the MCP Server implementation itself. The text distinguishes between the "Model Context Protocol" section (pointing to a link or separate command) and the "Agent Toolkit" section. However, the instruction `SUMUP_API_KEY=YOUR_SUMUP_API_KEY npx -y @sumup/mcp` suggests there is a package available that functions as the server. Despite this, the primary description focuses on the "toolkit" for agents, and the MCP server seems to be a specific component or separate entry point within the broader ecosystem rather than the sole definition of the project's identity in the README. More critically, the README says "SumUp hosts a Model Context Protocol (MCP) at `a link...`" implying the MCP might be hosted elsewhere or is a service, while the local run command suggests a client-side or tool-side execution. Given the ambiguity and the focus on the "Agent Toolkit" SDK as the main deliverable (`npm install @sumup/agent-toolkit`), it leans more towards a library/toolkit that *uses* or *connects to* MCP rather than being the MCP Server itself. However, looking closer at the line "Your can also run SumUp MCP server locally", it implies the project includes the capability to run as one. But usually, if a project is an MCP Server, the README title and intro focus heavily on that role. Here, the title is "SumUp AI" and the intro is about enabling AI Agents via SDKs. The MCP part is a subsection. Therefore, it is likely a toolkit that supports MCP integration rather than being classified strictly as an MCP Server project in isolation.
+
+Wait, let's re-evaluate based on strict criteria: "If the README states that the entire project can be deployed and used as an MCP Server, then the project is an MCP Server."
+The README says: "You can also run SumUp MCP server locally: `SUMUP_API_KEY=YOUR_SUMUP_API_KEY npx -y @sumup/mcp`".
+This implies the package `@sumup/mcp` exists and runs the server.
+
+2026-03-17 22:10:36,213 - INFO - 4 Process file: data/dataset/js_ts_test/simplified_readme/851640817_ibmi-talks_README.md
+2026-03-17 22:10:39,559 - INFO - answer:
+Analysis: The README document is titled "IBM i Talks" and describes a repository containing links or recordings of various technical talks related to IBM i, VS Code, Git, and AI. While one talk listed mentions "Building an MCP Server," the repository itself is a collection of educational content (talks) rather than a deployable software application that functions as an MCP Server. It does not provide installation instructions for running an MCP server, nor does it claim to offer tools or resources for LLMs via the Model Context Protocol as its primary purpose.
+
+Conclusion: @No@
+
+2026-03-17 22:10:39,559 - INFO - 5 Process file: data/dataset/js_ts_test/simplified_readme/898748304_mcp-google-calendar_README.md
+2026-03-17 22:10:42,571 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server implementation" designed to enable AI assistants like Claude to interact with Google Calendar. It details features including "Full MCP protocol implementation" and provides setup and usage instructions for running the server (`npm start`). This clearly indicates the project's primary purpose is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:10:42,571 - INFO - 6 Process file: data/dataset/js_ts_test/simplified_readme/678715471_kiran1689_README.md
+2026-03-17 22:10:45,772 - INFO - answer:
+Analysis: The provided README document is a personal portfolio page for an individual named Kiran1689. It describes the person's skills, current learning goals, and lists some blog posts (including one mentioning "Storyblok MCP Server," but that is a link to a blog post, not the project itself). The document lacks any description of software installation, deployment instructions, or code functionality related to being an MCP Server. It serves as a personal profile rather than a technical documentation for an MCP Server project.
+
+Conclusion: @No@
+
+2026-03-17 22:10:45,773 - INFO - 7 Process file: data/dataset/js_ts_test/simplified_readme/997774413_staruml-mcp-server_README.md
+2026-03-17 22:10:49,305 - INFO - answer:
+Analysis: The README explicitly titles the project "StarUML MCP Server" and describes it as a server that enables creating diagrams or generating code in StarUML via prompts. It provides specific setup instructions for configuring `claude_desktop_config.json` to connect to this server using the MCP protocol (defining `mcpServers`). It lists available tools (`generate_diagram`, etc.) and includes development steps to build and run the server. This clearly indicates the project is an implementation of an MCP Server designed to provide tools for AI models interacting with StarUML.
+
+Conclusion: @Yes@
+
+2026-03-17 22:10:49,305 - INFO - 8 Process file: data/dataset/js_ts_test/simplified_readme/992061421_servers-archived_README.md
+2026-03-17 22:10:52,684 - INFO - answer:
+Analysis: The README explicitly states that this repository is "ARCHIVED" and "no longer maintained." It describes the content as "historical reference implementations" created to "demonstrate MCP features and SDK capabilities." Furthermore, it directs users to a different repository for current, actively maintained servers. Because the project is intended solely as a teaching example or historical archive rather than a deployable, functional MCP Server for production use, it does not qualify as an MCP Server under the given criteria.
+
+Conclusion: @No@
+
+2026-03-17 22:10:52,684 - INFO - 9 Process file: data/dataset/js_ts_test/simplified_readme/951463469_datagouv-mcp-server_README.md
+2026-03-17 22:10:56,187 - INFO - answer:
+Analysis: The README explicitly titles the project "Data Gouv MCP Server" and describes it as an "MCP server for interacting with Datagouv APIs." It details specific tools provided by the server (e.g., `search-company`) and includes clear installation and deployment instructions, including running the server (`pnpm run dev`) and configuring an MCP client to connect to it. Although there is a note about deprecation, the content clearly defines the project's primary purpose as implementing the MCP protocol to provide tools to AI clients.
+
+Conclusion: @Yes@
+
+2026-03-17 22:10:56,188 - INFO - 10 Process file: data/dataset/js_ts_test/simplified_readme/1018214853_mcp-server-chatgpt-mac-app_README.md
+2026-03-17 22:10:59,898 - INFO - answer:
+Analysis: The README explicitly states that the project is "an MCP server that allows you to use the ChatGPT macOS app via MCP." It provides clear installation and usage instructions, including how to add it globally using `claude mcp add` and how to configure it locally in `.mcp.json`. The primary functionality is to serve as a bridge between an LLM client (like Claude) and the ChatGPT macOS application through the Model Context Protocol.
+
+Conclusion: @Yes@
+
+2026-03-17 22:10:59,899 - INFO - 11 Process file: data/dataset/js_ts_test/simplified_readme/962337754_ChatPPT-MCP_README.md
+2026-03-17 22:11:03,189 - INFO - answer:
+Analysis: The README explicitly identifies the project as "ChatPPT-MCP" and describes it as an "AI-powered presentation generation service" that provides MCP Server capabilities. It details three methods for experiencing the service (Python, Node.js, Streamable HTTP) and mentions deployment modes like STDIO and Streamable HTTP. It explains how to configure clients (Cursor, Trae) to use the server and lists specific tools/APIs provided by the server (PPT authoring, document processing). This indicates the project is designed to be deployed and used directly as an MCP Server providing tools for LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:03,189 - INFO - 12 Process file: data/dataset/js_ts_test/simplified_readme/1066381960_portaljs-mcp-server_README.md
+2026-03-17 22:11:06,348 - INFO - answer:
+Analysis: The README explicitly titles the project "Building a Remote MCP Server on Cloudflare (Without Auth)" and describes it as an example/template for deploying such a server. It states, "This example allows you to deploy..." and provides instructions using `npm create cloudflare@latest` with a specific template flag (`--template=cloudflare/ai/demos/remote-mcp-authless`). The content indicates this is a demonstration or starter kit ("demos" in the command path) rather than a standalone production-ready MCP Server application itself. According to the task criteria, projects intended to demonstrate a solution or serve as a development template are not considered MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:11:06,348 - INFO - 13 Process file: data/dataset/js_ts_test/simplified_readme/902058659_mcp-server-apple-shortcuts_README.md
+2026-03-17 22:11:09,074 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server" designed to let AI assistants control Apple Shortcuts. It provides specific configuration instructions for integrating with an MCP host (Claude Desktop), including JSON setup examples and build/run steps. The primary purpose of the project is to serve as an MCP Server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:09,074 - INFO - 14 Process file: data/dataset/js_ts_test/simplified_readme/1024114979_react-native-upgrader-mcp_README.md
+2026-03-17 22:11:12,494 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server" designed to streamline React Native project upgrades. It provides specific setup instructions for configuring it as an MCP server within hosts like Cursor and VS Code, including JSON configuration examples showing how to invoke the command (`npx -y react-native-upgrader-mcp`). The project defines tools available through the protocol (`get-stable-version`, `get-react-native-diff`, etc.) and includes development instructions. This meets the criteria of being deployable and usable as an MCP Server with clear usage instructions.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:12,495 - INFO - 15 Process file: data/dataset/js_ts_test/simplified_readme/937214663_mcp-server-taskwarrior_README.md
+2026-03-17 22:11:15,932 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Node.js server implementing Model Context Protocol (MCP) for TaskWarrior operations." It details specific MCP tools (get_next_tasks, add_task, mark_task_done), provides installation instructions via npm, and includes configuration examples for connecting to an MCP host (Claude Desktop). The entire project is designed to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:15,932 - INFO - 16 Process file: data/dataset/js_ts_test/simplified_readme/992027013_World-Wild-Web-AI-And-MCP-Hack-Night_README.md
+2026-03-17 22:11:19,252 - INFO - answer:
+Analysis: The README describes a repository for a "Hack Night" event focused on building MCP servers, rather than being an MCP server itself. It provides instructions for participants to use tools like `mcp-lite` and Cloudflare Workers to create their own projects ("Build something that excites you"). The project serves as a template or guide for others to build servers, not as a functional MCP server offering tools or resources directly.
+
+Conclusion: @No@
+
+2026-03-17 22:11:19,253 - INFO - 17 Process file: data/dataset/js_ts_test/simplified_readme/908868990_mcp-compass_README.md
+2026-03-17 22:11:22,547 - INFO - answer:
+Analysis: The README describes "MCP Compass" as a "discovery & recommendation service" that helps users explore Model Context Protocol servers. It explicitly states it acts as a guide to find and understand available MCP services based on natural language queries. While the installation instructions show how to add it to an AI assistant's MCP configuration (similar to an MCP Server), the core functionality described is aggregating and recommending *other* MCP Servers rather than providing its own specific tools or resources for LLMs to interact with external infrastructure directly. According to the task criteria, projects that aim to aggregate other MCP Servers and do not themselves provide MCP Server capabilities are not considered MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:11:22,548 - INFO - 18 Process file: data/dataset/js_ts_test/simplified_readme/958259443_mobsf-mcp-server_README.md
+2026-03-17 22:11:26,046 - INFO - answer:
+Analysis: The README explicitly states that the project is an "MCP (Model Context Protocol) compatible tool" designed to allow MobSF to scan files via MCP-capable clients like Claude. It provides specific installation instructions, configuration steps (including .env setup), and example configuration snippets for MCP hosts (Claude Desktop and 5ire). The document describes how to run the server (`npx tsx server.ts`) and how it exposes tools (e.g., `scanFile`) to MCP clients. This clearly indicates the project functions as an MCP Server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:26,046 - INFO - 19 Process file: data/dataset/js_ts_test/simplified_readme/1102782418_opencode-manager_README.md
+2026-03-17 22:11:29,754 - INFO - answer:
+Analysis: The README describes "opencode-manager" as a "Mobile-first web interface for OpenCode AI agents." While it mentions "MCP" in the features list ("Local and remote MCP server support with pre-built templates"), this indicates that the project *supports* or *integrates* MCP servers rather than being an MCP server itself. The primary functionality is a web interface/dashboard for managing AI agents, Git, files, chat, etc., not providing tools/resources via the MCP protocol to an LLM host. It acts as a client or aggregator of capabilities rather than serving as the MCP server implementation.
+
+Conclusion: @No@
+
+2026-03-17 22:11:29,754 - INFO - 20 Process file: data/dataset/js_ts_test/simplified_readme/901609361_anki-mcp-server_README.md
+2026-03-17 22:11:34,145 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP server implementation" designed to connect to Anki. It details specific MCP resources and tools provided by the server. Furthermore, it includes clear configuration instructions for deploying the server with Claude Desktop, including the necessary JSON configuration format and command paths. This meets the criteria for a qualified MCP Server README.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:34,145 - INFO - 21 Process file: data/dataset/js_ts_test/simplified_readme/1119339048_context101_README.md
+2026-03-17 22:11:37,956 - INFO - answer:
+Analysis: The README explicitly states that "Context101 is an MCP server that works inside your AI code editor." It provides specific installation instructions via CLI (`npx @context101/mcp`) and manual configuration for various IDEs (Cursor, Windsurf, Cline, Claude) by adding the project to the `mcpServers` configuration. The project's primary purpose is to function as a server providing tools/resources (courses, quizzes, building guidance) to MCP clients within AI editors.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:37,956 - INFO - 22 Process file: data/dataset/js_ts_test/simplified_readme/588766206_sei-js_README.md
+2026-03-17 22:11:41,397 - INFO - answer:
+Analysis: The README describes "SeiJS" as a monorepo containing multiple NPM libraries for interacting with the Sei blockchain. While it lists a specific package named `@sei-js/mcp-server` within the table of packages, the project itself is defined as a collection of various tools (CLI, wallet, ledger, precompiles, etc.). The README does not state that the entire SeiJS project is an MCP Server; rather, it indicates that one component within the monorepo serves that function. According to the task instructions, projects that incorporate an MCP Server as one of their components rather than offering MCP Server functionality as their primary purpose are not considered MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:11:41,397 - INFO - 23 Process file: data/dataset/js_ts_test/simplified_readme/930986416_todoist-mcp_README.md
+2026-03-17 22:11:45,261 - INFO - answer:
+Analysis: The README explicitly states that this is a "Model Context Protocol server" designed to connect an LLM (specifically Claude) to Todoist. It details the functionality provided by the server (task management, project management, etc.) and includes specific setup instructions for configuring it as an MCP server within the Claude desktop app configuration file (`claude_desktop_config.json`). It also provides distribution methods like Smithery for installing it as an MCP client/server integration. The entire project is presented as an implementation of the MCP protocol for Todoist.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:45,261 - INFO - 24 Process file: data/dataset/js_ts_test/simplified_readme/977794831_shiprocket-mcp_README.md
+2026-03-17 22:11:48,359 - INFO - answer:
+Analysis: The README explicitly states "This is a Model Context Protocol (MCP) server for Shiprocket." It details the specific tools and capabilities provided to AI clients (like Claude or Cursor), such as order tracking, shipping rate calculation, and order creation. Furthermore, it provides clear deployment instructions, including prerequisites (Node version) and configuration steps for setting up the MCP connection in both Claude Desktop and Cursor environments. The project functions as a standalone server providing tools for LLMs via the MCP protocol.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:48,359 - INFO - 25 Process file: data/dataset/js_ts_test/simplified_readme/1002926247_mcp-chat_README.md
+2026-03-17 22:11:51,730 - INFO - answer:
+Analysis: The project "MCP Chat by Pipedream" is described as a chat application (client-side) built using the AI SDK that connects to Pipedream's MCP server. It functions as an example or reference implementation for building AI chat applications, rather than being the server itself. The README focuses on deploying the chat app (e.g., to Vercel) and running it locally, not on setting up an MCP server to serve other clients. Therefore, it is a client application utilizing MCP, not an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:11:51,730 - INFO - 26 Process file: data/dataset/js_ts_test/simplified_readme/970249805_peppa-mcp-server-on-lambda_README.md
+2026-03-17 22:11:55,355 - INFO - answer:
+Analysis: The README explicitly states the project is a "Peppa MCP Server running natively on AWS Lambda and Amazon API Gateway". It describes the architecture as an MCP server utilizing the Streamable HTTP transport. The instructions detail how to install dependencies, bootstrap the server using Terraform, set environment variables for the endpoint, and run a client to interact with the server's resources and tools (e.g., `listResources`, `callTool`). The primary functionality described is providing MCP capabilities (tools/resources) via a serverless deployment. Although it mentions the repo is not being maintained, it clearly functions as an implementation of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:55,355 - INFO - 27 Process file: data/dataset/js_ts_test/simplified_readme/953358831_mcp-figma-to-react_README.md
+2026-03-17 22:11:59,602 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server" designed to convert Figma designs to React components. It details the features, prerequisites, installation steps, and configuration required to run it as an MCP server using stdio or SSE transports. The documentation includes specific usage instructions for running the server (`npm start` with transport flags) and lists available tools provided to MCP clients. This clearly indicates the project's primary purpose is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:11:59,602 - INFO - 28 Process file: data/dataset/js_ts_test/simplified_readme/945213178_mcp-node-fetch_README.md
+2026-03-17 22:12:02,870 - INFO - answer:
+Analysis: The README explicitly states that the project is "An MCP server" in the first sentence. It details specific MCP tools provided by the server (`fetch-url`, `extract-html-fragment`, `check-status`) and includes configuration instructions for connecting it to an MCP host (Claude for Desktop) via `claude_desktop_config.json`. This confirms the project's primary purpose is to function as an MCP Server providing web fetching capabilities.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:02,870 - INFO - 29 Process file: data/dataset/js_ts_test/simplified_readme/947574276_mcp-dingding-bot_README.md
+2026-03-17 22:12:06,283 - INFO - answer:
+Analysis: The README explicitly states that the project is an "MCP Server for the DingDing Bot API". It details specific tools available to the server (`send_text_message`, `send_markdown_message`) and provides configuration instructions for integrating it with an MCP host (Claude Desktop) via the `mcpServers` section in the config file. It also includes deployment instructions using Docker or NPX, confirming it is designed to be deployed and used as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:06,283 - INFO - 30 Process file: data/dataset/js_ts_test/simplified_readme/937522079_Langflow-DOC-QA-SERVER_README.md
+2026-03-17 22:12:09,553 - INFO - answer:
+Analysis: The README explicitly states that the project is a "TypeScript-based MCP server" and describes its purpose as providing a document Q&A system via the Model Context Protocol. It includes specific installation instructions for integrating with an MCP host (Claude Desktop) by configuring the `mcpServers` section in the client configuration file. Additionally, it mentions deployment via Smithery, a platform specifically for distributing MCP servers. The content clearly defines the project's primary functionality as serving MCP clients.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:09,553 - INFO - 31 Process file: data/dataset/js_ts_test/simplified_readme/1077018045_claude-plugins_README.md
+2026-03-17 22:12:12,918 - INFO - answer:
+Analysis: The README describes a "Claude Code Plugin Marketplace" rather than a single MCP Server. It lists multiple independent plugins (e.g., css-development, firebase-development) and mentions external MCP servers as part of the marketplace listing. The project functions as a collection or repository for these tools/plugins, not as a standalone server implementation itself. While it contains references to MCP servers, the project's primary purpose is aggregation and distribution (a marketplace/monorepo), not serving as an MCP Server instance.
+
+Conclusion: @No@
+
+2026-03-17 22:12:12,918 - INFO - 32 Process file: data/dataset/js_ts_test/simplified_readme/912228709_mcp-cline-personas_README.md
+2026-03-17 22:12:16,519 - INFO - answer:
+Analysis: The README explicitly titles the project "Cline Personas MCP Server" and describes it as "An MCP server for managing `.clinerules` files". It provides installation instructions (clone, install dependencies, build) and usage instructions including a specific command to run the server (`npm start`). The file structure also indicates an `index.ts` as the "MCP server entry point". This clearly identifies the project as an implementation of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:16,519 - INFO - 33 Process file: data/dataset/js_ts_test/simplified_readme/966341486_compound-mcp-server_README.md
+2026-03-17 22:12:20,488 - INFO - answer:
+Analysis: The README explicitly states that the project "Provides a Model Context Protocol (MCP) server for interacting with Groq models." It details the tools it exposes, provides installation instructions via npm, and includes specific usage examples showing how to configure an MCP client (like Claude Desktop) to connect to this server using stdio transport. Additionally, it describes deployment options for hosting the server on Vercel. The content clearly defines the project as an implementation of the MCP protocol designed to provide tools to AI clients.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:20,488 - INFO - 34 Process file: data/dataset/js_ts_test/simplified_readme/957328751_postmancer_README.md
+2026-03-17 22:12:23,672 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A standalone MCP server for API testing and management" and states that it is an "MCP (Model Context Protocol) server". It provides clear deployment instructions, including installation via npm/npx and configuration steps for connecting to an MCP host like Claude Desktop. The documentation details how to set up the server within the MCP ecosystem, confirming its primary purpose is to function as an MCP Server providing tools for AI assistants.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:23,672 - INFO - 35 Process file: data/dataset/js_ts_test/simplified_readme/80143894_product-management-case-studies_README.md
+2026-03-17 22:12:27,066 - INFO - answer:
+Analysis: The project is primarily a searchable database website for product management case studies built with Next.js. While the README mentions "MCP server integration" and provides a command `npx productcasestudies-mcp` to connect via Model Context Protocol, this appears to be an optional feature or a separate tool within the ecosystem rather than the project's primary purpose. The main functionality described is a static site generation application (website) with features like search, filtering, and SEO. The MCP aspect is presented as an integration point ("Connect to Claude... via Model Context Protocol") rather than the core definition of the repository itself. Therefore, it is not classified as an MCP Server project but rather a web application that supports MCP integration.
+
+Conclusion: @No@
+
+2026-03-17 22:12:27,066 - INFO - 36 Process file: data/dataset/js_ts_test/simplified_readme/896784796_github-stars_README.md
+2026-03-17 22:12:30,227 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "GitHub Stars MCP Server" in the title and description. It details the project's purpose (searching GitHub starred repositories via natural language using the Model Context Protocol), lists features including exposing an MCP-compatible API, and provides specific setup, deployment, and usage instructions for running it as an MCP server (including local development commands like `pnpm dev:mcp` and deployment to Cloudflare Workers). The documentation clearly explains how to deploy and use the project as an MCP server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:30,228 - INFO - 37 Process file: data/dataset/js_ts_test/simplified_readme/936549348_sms-mcp-server_README.md
+2026-03-17 22:12:33,857 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server" designed to enable AI assistants like Claude to send SMS and MMS messages via Twilio. It provides clear installation requirements (Node.js), configuration steps (environment variables for Twilio credentials), and specific deployment instructions for integrating with an MCP host (Claude Desktop configuration JSON). The primary purpose of the project is to function as an MCP Server providing tools for LLMs, meeting all criteria for classification.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:33,858 - INFO - 38 Process file: data/dataset/js_ts_test/simplified_readme/907849235_REDIS-MCP-Server_README.md
+2026-03-17 22:12:36,978 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Redis Model Context Protocol (MCP) server implementation." It details how to install and configure it specifically for use with MCP clients like Claude Desktop, including JSON configuration examples for `mcpServers`. It provides deployment instructions via npx, npm, or Docker, confirming that the entire project functions as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:36,978 - INFO - 39 Process file: data/dataset/js_ts_test/simplified_readme/446407956_AI-Makerspace_README.md
+2026-03-17 22:12:41,056 - INFO - answer:
+Analysis: The README describes "AI Makerspace" as a repository containing code templates and use case examples to guide the development of AI applications. It lists various platforms, tools (including MCP and Model Context Protocol), and applications that have been explored or used within the project. However, it explicitly states that the code is intended to "guide development" and serves as a support for innovation teams. While it mentions "Serverless MCP servers" in a list of applications explored, the project itself is presented as a collection of blueprints and resources rather than a deployable MCP Server implementation. There are no instructions on how to deploy this specific project as an MCP server, nor does it claim to function as one; instead, it aggregates knowledge about many technologies including MCP.
+
+Conclusion: @No@
+
+2026-03-17 22:12:41,056 - INFO - 40 Process file: data/dataset/js_ts_test/simplified_readme/922971473_mcp-server-postman-tool-generation_README.md
+2026-03-17 22:12:44,840 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP server that generates AI agent tools from Postman collections." It provides specific instructions on how to configure and run the project as an MCP Server (e.g., adding configuration to `cline_mcp_settings.json` with `mcpServers`). The documentation details the tool provided (`generate_ai_tool`) and how it integrates with MCP clients like Claude Desktop.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:44,840 - INFO - 41 Process file: data/dataset/js_ts_test/simplified_readme/996555896_mysql-mcp-server_README.md
+2026-03-17 22:12:48,216 - INFO - answer:
+Analysis: The README explicitly states the project is an "MCP MySQL Server" built on the `@modelcontextprotocol/sdk`. It describes core functionalities such as executing SQL queries, retrieving table structures, and checking connection status, which are tools provided for AI agents. The document includes clear installation and usage instructions (cloning, installing dependencies, configuring environment variables, and starting the service). Furthermore, it provides specific configuration examples for integrating with MCP clients like Cursor, demonstrating how to deploy and use it as a server within the MCP architecture.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:48,216 - INFO - 42 Process file: data/dataset/js_ts_test/simplified_readme/1013722145_bookstack-mcp-server_README.md
+2026-03-17 22:12:51,733 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "BookStack MCP Server" and states its purpose is to connect BookStack to AI assistants through the Model Context Protocol (MCP). It provides specific installation instructions (`npm install -g bookstack-mcp-server`), configuration steps (environment variables), and integration details for adding it to Claude. The documentation confirms that the entire project functions as an MCP server providing tools and resources for LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:51,733 - INFO - 43 Process file: data/dataset/js_ts_test/simplified_readme/911765860_Memgpt-MCP-Server_README.md
+2026-03-17 22:12:55,430 - INFO - answer:
+Analysis: The README explicitly titles the project "MemGPT MCP Server" and describes it as a TypeScript-based implementation of the Model Context Protocol (MCP) for LLMs. It details specific tools provided by the server (chat, get_memory, clear_memory, use_provider, use_model) designed for AI clients to interact with. Furthermore, it includes clear installation and configuration instructions for connecting to an MCP host like Claude Desktop, specifying the JSON configuration required to register this project as an MCP server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:12:55,430 - INFO - 44 Process file: data/dataset/js_ts_test/simplified_readme/1116585613_short-url_README.md
+2026-03-17 22:12:59,511 - INFO - answer:
+Analysis: The project "极简短链" (Ultra Short Link) is primarily a URL shortening service platform with frontend, backend, and user management capabilities. While the README explicitly mentions that it includes an MCP Server component (`packages/short-mcp-server`) to allow AI assistants to generate short links, the project's main purpose is a full-stack URL shortening application rather than being solely an MCP Server. The documentation focuses on deploying the entire system (frontend + backend + database) via Docker or manual setup, with the MCP integration described as an additional feature for AI tools to interact with the existing service. According to the criteria, projects that incorporate an MCP Server as one of their components rather than offering MCP Server functionality as their primary purpose are not classified as MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:12:59,511 - INFO - 45 Process file: data/dataset/js_ts_test/simplified_readme/959266108_mcp-server-generator_README.md
+2026-03-17 22:13:05,206 - INFO - answer:
+Analysis: The project is titled "MCP Server Generator" and its primary purpose is to help users create, manage, and register custom MCP servers for Claude Desktop. While the README includes instructions on how to register this specific tool with Claude Desktop (showing a JSON config snippet similar to an MCP server registration), the core functionality described is generating *other* servers ("Create an simple MCP server that integrates with PostgreSQL..."). It acts as a meta-tool or generator for MCP servers rather than being a standard MCP server providing tools/data directly to an LLM in the traditional sense of serving external capabilities like databases or APIs itself. However, looking closely at the registration example: `command: node, args: [/Users/username/Documents/GitHub/mcprotocol/creator-server.js]`. This indicates the project *is* deployed as an MCP server instance (`mcp-server-generator`) that provides tools like `createMcpServer`, `listServers`, etc., to the host (Claude). The README explicitly states "Register the creator server with Claude Desktop" and lists available tools provided by this server. Therefore, it functions as an MCP Server that provides management tools for other MCP servers.
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:05,207 - INFO - 46 Process file: data/dataset/js_ts_test/simplified_readme/951598083_solana-mcp_README.md
+2026-03-17 22:13:08,688 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "MCP server to interact with the Solana blockchain." It provides clear setup instructions, including installation via Smithery and manual setup steps (cloning, installing dependencies, building). Furthermore, it details how to integrate the project with MCP clients like Cursor and Claude Desktop by specifying command configurations. The project's primary purpose is to serve as an MCP Server providing tools for LLMs to interact with the Solana blockchain.
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:08,688 - INFO - 47 Process file: data/dataset/js_ts_test/simplified_readme/1031654370_Agentboard_README.md
+2026-03-17 22:13:13,130 - INFO - answer:
+Analysis: The project "Agentboard" is primarily a dashboard/extension for AI task management within an IDE. While it includes a component named `mcp_based_chat_detection_extension` which functions as an MCP HTTP/SSE server to track sessions, the overall project's purpose is to provide a unified view of AI tasks (sidebar extension) rather than serving as a standalone MCP Server providing tools/resources for LLMs. The README describes it as a system where the MCP server is just one backend package supporting the main UI extension, and the primary value proposition is the IDE sidebar integration, not acting as an MCP Server itself.
+
+Conclusion: @No@
+
+2026-03-17 22:13:13,131 - INFO - 48 Process file: data/dataset/js_ts_test/simplified_readme/697252953_e2b-cookbook_README.md
+2026-03-17 22:13:16,870 - INFO - answer:
+Analysis: The README describes "E2B Cookbook" as a collection of example code and guides for building with the E2B SDK. It lists various examples including Hello World guides, open-source apps, LLM provider integrations, AI framework integrations, and use cases. While it mentions Model Context Protocol (MCP) under a specific section, these are listed as examples of how to connect to MCP clients or servers within the E2B sandbox environment (e.g., "Basic MCP client connection", "Connect to custom filesystem MCP server"). The project itself is a repository of templates and tutorials rather than a deployable MCP Server application that provides tools or resources directly via the MCP protocol.
+
+Conclusion: @No@
+
+2026-03-17 22:13:16,871 - INFO - 49 Process file: data/dataset/js_ts_test/simplified_readme/948699685_mcp-server-text-editor_README.md
+2026-03-17 22:13:20,334 - INFO - answer:
+Analysis: The README explicitly states that the project is an "open-source implementation of the Claude built-in text editor tool as a Model Context Protocol (MCP) server." It details the features, supported versions, and provides clear installation instructions (`npm install`, `npx -y mcp-server-text-editor`) and usage configuration for connecting to an MCP host like Claude Desktop. The primary purpose of the project is to function as an MCP Server providing file editing tools.
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:20,334 - INFO - 50 Process file: data/dataset/js_ts_test/simplified_readme/967450974_mcp-starter_README.md
+2026-03-17 22:13:23,520 - INFO - answer:
+Analysis: The project is titled "MCP Server Starter" and explicitly states its purpose is to provide a basic structure for users to build their own MCP servers ("Want to build your own MCP server?"). It serves as a development template or scaffolding tool rather than a functional MCP Server itself that provides tools or resources to an AI host. The documentation focuses on how to use the starter kit to create a server (e.g., "Add option to publish your own packages", "Better CLI support for scaffolding"), indicating it is a framework/template for developers, not a deployed server offering capabilities to LLMs.
+
+Conclusion: @No@
+
+2026-03-17 22:13:23,520 - INFO - 51 Process file: data/dataset/js_ts_test/simplified_readme/906466946_chess-mcp_README.md
+2026-03-17 22:13:26,569 - INFO - answer:
+Analysis: The README explicitly describes the project as a tool for Claude that integrates with the Model Context Protocol (MCP). It provides specific installation instructions via Smithery and manual configuration steps for Claude Desktop, including a JSON configuration block under `mcpServers`. The project defines itself as an MCP server implementation (`chess-mcp`) that provides tools (position analysis, database lookup) to the MCP host (Claude Desktop).
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:26,569 - INFO - 52 Process file: data/dataset/js_ts_test/simplified_readme/1091802549_talkcody_README.md
+2026-03-17 22:13:30,236 - INFO - answer:
+Analysis: The README describes TalkCody as an "AI Coding Agent" and a desktop application built with Rust + Tauri. While it mentions "MCP Server Support" as a feature to extend capabilities, the project itself is a client application (an AI agent) that connects to models and potentially uses MCP servers, rather than being an MCP Server implementation itself. It does not provide instructions on how to deploy this project *as* an MCP server for other clients to connect to; instead, it instructs users on how to install the desktop app and configure API keys.
+
+Conclusion: @No@
+
+2026-03-17 22:13:30,236 - INFO - 53 Process file: data/dataset/js_ts_test/simplified_readme/960737310_trusted-mcp-server_README.md
+2026-03-17 22:13:33,713 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "gmail MCP server" and describes its functionality as providing access to Gmail via the Model Context Protocol. It includes specific deployment instructions for running the server within an AWS Nitro enclave (using `make run`, `setup.sh`, etc.) and usage instructions for connecting clients via `mcp.json`. Although it highlights security considerations and attestation verification, the core purpose is clearly to function as a deployable MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:33,713 - INFO - 54 Process file: data/dataset/js_ts_test/simplified_readme/1116132419_turn-mcp_README.md
+2026-03-17 22:13:38,332 - INFO - answer:
+Analysis: The project "Turn MCP" is primarily described as a VSCode/Windsurf plugin (extension) rather than a standalone MCP Server. While it mentions using the MCP protocol and includes configuration for an `mcp-server.js` file in the manual setup section, the core functionality focuses on enabling multi-turn interactions within an IDE environment by detecting when an AI calls a specific tool (`turn`). The installation instructions emphasize building and installing a VSIX extension for VSCode/Windsurf, and the usage guide describes interacting with a panel within the editor. Although it contains server-side code logic to handle the blocking/wait state, the project's main identity and deployment target are the client-side IDE extension that facilitates the interaction, not a standalone server meant to be connected to by various hosts. Therefore, it functions more as a client/plugin that leverages MCP capabilities rather than being classified strictly as an MCP Server itself.
+
+Conclusion: @No@
+
+2026-03-17 22:13:38,333 - INFO - 55 Process file: data/dataset/js_ts_test/simplified_readme/860142295_catalog-service-node_README.md
+2026-03-17 22:13:41,587 - INFO - answer:
+Analysis: The project is primarily a demo application for Docker services, integration testing, and CI/CD workflows (GitHub Actions). While it mentions "Postgres MCP" in a section about utilities, this refers to using an external tool ("Postgres MCP") with GitHub Copilot alongside the project's own API, rather than the project itself being an MCP Server. The main purpose of the repository is to demonstrate containerized development environments and application architecture, not to serve as an MCP Server implementation.
+
+Conclusion: @No@
+
+2026-03-17 22:13:41,588 - INFO - 56 Process file: data/dataset/js_ts_test/simplified_readme/940533374_rember-mcp_README.md
+2026-03-17 22:13:44,549 - INFO - answer:
+Analysis: The README explicitly identifies the project as "Rember MCP" and states it is a server for the Model Context Protocol (MCP) that allows Claude to create flashcards. It provides specific deployment instructions using `npx` and configuration details for integrating with Claude Desktop (`claude_desktop_config.json`). The project's primary purpose is to function as an MCP Server providing tools like `create_flashcards`.
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:44,549 - INFO - 57 Process file: data/dataset/js_ts_test/simplified_readme/1120332090_godot-mcp_README.md
+2026-03-17 22:13:47,928 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP server that connects Claude to your Godot editor." It details how to configure it with MCP clients (Claude Desktop, VSCode/Copilot), provides installation instructions for the server and addon, describes the tools and resources it exposes to AI models, and includes CLI smoke tests using JSON-RPC frames typical of MCP communication. The project is designed to be deployed and used directly as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:47,928 - INFO - 58 Process file: data/dataset/js_ts_test/simplified_readme/927141407_ai-cookbook_README.md
+2026-03-17 22:13:51,954 - INFO - answer:
+Analysis: The project "AI cookbook" is described as a repository containing use cases and demos for building AI-featured applications, specifically focusing on LangGraph + Next.js integration and Model Context Protocol (MCP) demonstrations. While it includes sections on how to run MCP servers (Booking MCP, Calendar MCP) and integrate them with LangGraph, the primary purpose of the repository is to serve as a starter kit, teaching example, or demonstration template ("demonstrating how to build", "Starter kit", "You can use this project as the starting point"). It aggregates multiple components (LangGraph server, Next.js client, various MCP servers) rather than being a single dedicated MCP Server itself. According to the criteria, projects intended to demonstrate solutions, serve as teaching examples, or act as templates are not classified as MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:13:51,955 - INFO - 59 Process file: data/dataset/js_ts_test/simplified_readme/948205964_mcp-frontend-starter_README.md
+2026-03-17 22:13:56,087 - INFO - answer:
+Analysis: The project is titled "MCP Frontend Starter" and explicitly describes itself as a "toolkit, playground, and starter for integrating MCP servers with GitHub Copilots Agent in VS Code." It provides configuration examples (`.vscode/mcp.json`) to connect *other* MCP servers (like Perplexity) rather than functioning as an MCP server itself. The README encourages users to "Create your own MCP server" and mentions it is a development template/starter kit. According to the criteria, projects intended to serve as a development template or demonstrate solutions are not considered MCP Servers themselves.
+
+Conclusion: @No@
+
+2026-03-17 22:13:56,087 - INFO - 60 Process file: data/dataset/js_ts_test/simplified_readme/906818381_command-executor-mcp-server_README.md
+2026-03-17 22:13:59,294 - INFO - answer:
+Analysis: The README explicitly titles the project "command-executor MCP Server" and describes it as "A Model Context Protocol server for executing pre-approved commands securely." It details features specific to MCP servers, such as communication via stdio and building with the MCP SDK. Furthermore, it provides configuration instructions for integrating with an MCP Host (Claude Desktop) under the `mcpServers` key and documents a specific tool (`execute_command`) exposed by the server. This clearly indicates the project is designed to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:13:59,294 - INFO - 61 Process file: data/dataset/js_ts_test/simplified_readme/915822493_computer-use-mcp_README.md
+2026-03-17 22:14:02,357 - INFO - answer:
+Analysis: The README explicitly states that "computer-use-mcp" is a "model context protocol server for Claude to control your computer." It provides detailed installation and configuration instructions for various MCP hosts (Claude Code, Claude Desktop, Cursor, Cline), including specific JSON configurations for the `mcpServers` section. The project's primary purpose is to function as an MCP Server providing tools for AI models to interact with the local system.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:02,357 - INFO - 62 Process file: data/dataset/js_ts_test/simplified_readme/1011843584_aitable-mcp-server_README.md
+2026-03-17 22:14:05,998 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A Model Context Protocol server" designed to provide tools (list_spaces, search_nodes, create_record, etc.) for LLMs to interact with AITable.ai. It provides clear deployment and usage instructions, including configuration examples for MCP clients like Claude Desktop and CherryStudio, as well as debugging steps using the MCP inspector. The entire project is presented as a deployable MCP Server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:05,998 - INFO - 63 Process file: data/dataset/js_ts_test/simplified_readme/991556556_PDB-MCP-Server_README.md
+2026-03-17 22:14:09,411 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server" designed to provide access to the Protein Data Bank. It details specific MCP tools (e.g., `search_structures`, `get_structure_info`) and resources (e.g., `pdb://structure/{pdb_id}`) available through the protocol. Furthermore, it provides clear installation instructions (`npm install`, `npm run build`) and deployment usage instructions for connecting with an MCP host like Claude Desktop via a configuration JSON snippet. The project's primary purpose is to function as this server, not merely as a template or aggregator.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:09,411 - INFO - 64 Process file: data/dataset/js_ts_test/simplified_readme/904166910_mcp-google-custom-search-server_README.md
+2026-03-17 22:14:12,820 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server" in the title and description. It details how to install, configure (via environment variables), and run the server using Node.js. Furthermore, it provides specific integration instructions for an MCP host (Claude Desktop), including the necessary JSON configuration format (`mcpServers`). This clearly indicates the project's primary purpose is to function as an MCP Server providing search tools to LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:12,820 - INFO - 65 Process file: data/dataset/js_ts_test/simplified_readme/820879833_core_README.md
+2026-03-17 22:14:16,194 - INFO - answer:
+Analysis: The project "Ship UI" is primarily described as a UI library for Angular, not an MCP Server. While the README mentions that ShipUI includes an MCP server component (`npx @ship-ui/core ship-mcp`) to help AI agents understand its components, this is a feature within a larger UI library rather than the project's primary purpose. The main functionality of the project is providing UI components and styles for Angular development. According to the criteria, projects that incorporate an MCP Server as one of their components rather than offering MCP Server functionality as their primary purpose are not classified as MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:14:16,195 - INFO - 66 Process file: data/dataset/js_ts_test/simplified_readme/1069129013_aps-mcp-server-nodejs_README.md
+2026-03-17 22:14:19,792 - INFO - answer:
+Analysis: The README explicitly states the project is a "Simple Model Context Protocol server built with Node.js". It provides detailed instructions on prerequisites, setup (including environment variables for APS and Secure Service Accounts), and usage. The usage section describes how to connect to this specific server via MCP Inspector, Claude Desktop, Visual Studio Code, and Cursor using standard MCP configuration formats (e.g., `mcpServers` JSON structure). The primary purpose of the project is to serve as an MCP Server providing access to Autodesk Platform Services API.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:19,792 - INFO - 67 Process file: data/dataset/js_ts_test/simplified_readme/952405479_mcp-github-notifications_README.md
+2026-03-17 22:14:23,095 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP (Model Context Protocol) server" designed to provide tools for managing GitHub notifications. It details the prerequisites, installation steps, and specific usage instructions for connecting it to an MCP host like Claude Desktop via a configuration file (`claude_desktop_config.json`). The project's primary purpose is to function as an MCP Server providing specific capabilities (listing notifications, marking read, etc.) to AI assistants.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:23,096 - INFO - 68 Process file: data/dataset/js_ts_test/simplified_readme/1004623537_sunnysideFigma-Context-MCP_README.md
+2026-03-17 22:14:27,138 - INFO - answer:
+Analysis: The project is titled "Sunnyside Figma MCP" and explicitly states in the README that it connects Figma designs to AI agents. It includes a section on "Getting Started" with instructions to install dependencies, set up an environment variable for the Figma API key, and run `npm run start`, which "starts both the plugin server and MCP integration." The documentation mentions connecting via "Direct API" and implies functionality for AI agents to extract code and assets through this protocol. While it also functions as a Figma Plugin, the README clearly positions the core capability as providing an MCP integration for AI access to Figma data, fitting the definition of an MCP Server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:27,139 - INFO - 69 Process file: data/dataset/js_ts_test/simplified_readme/1041061399_payments-mcp_README.md
+2026-03-17 22:14:30,426 - INFO - answer:
+Analysis: The README explicitly identifies the project as "Payments MCP is an MCP server & companion wallet app". It provides installation instructions via `npx @coinbase/payments-mcp` and configuration examples for connecting to it as an MCP client (e.g., Claude, Codex). The documentation details how to deploy and use the project specifically as an MCP server to enable AI agents to perform payments.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:30,426 - INFO - 70 Process file: data/dataset/js_ts_test/simplified_readme/965655363_mcp-veo2_README.md
+2026-03-17 22:14:33,520 - INFO - answer:
+Analysis: The README explicitly states that the project "implements a Model Context Protocol (MCP) server" and describes its functionality as exposing Google's Veo2 video generation capabilities to clients via MCP tools and resources. It provides detailed installation instructions (including Smithery, FLUJO, and manual setup) and usage examples for starting the server with stdio or SSE transports. The primary purpose of the project is clearly defined as serving as an MCP Server for video generation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:33,520 - INFO - 71 Process file: data/dataset/js_ts_test/simplified_readme/936298951_mcp-server-serper_README.md
+2026-03-17 22:14:37,754 - INFO - answer:
+Analysis: The README explicitly states that the project is a "TypeScript-based MCP server" designed to provide web search and webpage scraping capabilities using the Serper API. It details specific tools (`google_search`, `scrape`) available through this server. The document provides comprehensive installation and deployment instructions for various environments (Smithery, Claude Desktop, Cline, Cursor, Docker), including configuration examples showing how to connect it as an MCP server. The primary purpose of the project is clearly to function as an MCP Server for LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:37,754 - INFO - 72 Process file: data/dataset/js_ts_test/simplified_readme/1029771187_dida365-mcp-servers_README.md
+2026-03-17 22:14:41,569 - INFO - answer:
+Analysis: The README explicitly states that this is a "Model Context Protocol (MCP) server" for TickTick (滴答清单). It describes the project's purpose as allowing AI assistants to interact with the TickTick API through a standardized interface. It provides clear installation instructions (using npm or local setup), configuration details (environment variables for API tokens), and specific usage examples for connecting it as an MCP server (JSON configuration snippet). It lists available tools (create_task, get_tasks, etc.) and resources compatible with the MCP protocol. Therefore, it qualifies as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:41,570 - INFO - 73 Process file: data/dataset/js_ts_test/simplified_readme/412170632_OSPO_README.md
+2026-03-17 22:14:45,130 - INFO - answer:
+Analysis: The README describes the "Microsoft OSPO" project as a repository containing learning resources, survey questions, and examples related to open source management. While it mentions Model Context Protocol (MCP) servers in the context of potential future usage for dependency risk instruction files (e.g., "You might have the `dependency-risk-company-level.instructions.md` file point at your companys MCP server"), the project itself is not an implementation of an MCP Server. Instead, it serves as a collection of documentation, templates, and instructional files for GitHub Copilot. It does not provide server-side functionality or tools for AI systems via the MCP protocol.
+
+Conclusion: @No@
+
+2026-03-17 22:14:45,130 - INFO - 74 Process file: data/dataset/js_ts_test/simplified_readme/963758704_slack-mcp-server_README.md
+2026-03-17 22:14:48,222 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A MCP(Model Context Protocol) server for accessing Slack API." It details how to install, configure (environment variables), and run the server using both Stdio and Streamable HTTP transports. It provides specific client configuration examples for connecting to this server (e.g., in Claude Desktop). The entire project is designed to function as an MCP Server providing tools for AI assistants to interact with Slack.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:48,223 - INFO - 75 Process file: data/dataset/js_ts_test/simplified_readme/471464596_iata-code-decoder-api_README.md
+2026-03-17 22:14:51,804 - INFO - answer:
+Analysis: The README explicitly describes the project as an API that provides two interfaces, one of which is a "MCP Server" for AI systems. It details how to deploy and run the application (via Node.js or Docker) and specifically includes instructions on how to configure it as an MCP server within Claude Desktop using the `mcpServers` configuration. The project's primary functionality includes exposing IATA code lookup tools via the Model Context Protocol, fulfilling the criteria of being an MCP Server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:14:51,804 - INFO - 76 Process file: data/dataset/js_ts_test/simplified_readme/971936592_epic-me-mcp_README.md
+2026-03-17 22:14:55,501 - INFO - answer:
+Analysis: The README explicitly states that "EpicMe MCP" is an application exclusively accessible via the Model Context Protocol (MCP). It describes itself as a server providing tools for LLMs to interact with user data (journaling, authentication, etc.). However, the text clearly identifies the project as "an example of an application" intended to "demonstrate a possible future" and serve as the basis to "teach how to build MCP tools." Additionally, it includes a disclaimer calling it an "experimental playground" rather than a production service. According to the task criteria, projects intended to demonstrate solutions or serve as teaching examples are not considered MCP Servers in this classification context.
+
+Conclusion: @No@
+
+2026-03-17 22:14:55,501 - INFO - 77 Process file: data/dataset/js_ts_test/simplified_readme/984700095_cybos_README.md
+2026-03-17 22:14:59,126 - INFO - answer:
+Analysis: This project is called Cybos (Cybernetic Operating System), described as an AI-powered VC operations assistant. Looking at the architecture section, it clearly shows "MCP SERVERS" as a component layer that Cybos connects to and uses (exa, perplexity, parallel-task, nano-banana, typefully, gmail). The README describes Cybos as a client/agent system that consumes other MCP servers rather than providing MCP server functionality itself. There are no instructions on how to deploy or use this project AS an MCP server - instead it explains how to set up commands and workflows within the Cybos system. The project aggregates and utilizes existing MCP servers for its operations but does not offer MCP Server capabilities as its primary purpose.
+
+Conclusion: @No@
+
+2026-03-17 22:14:59,126 - INFO - 78 Process file: data/dataset/js_ts_test/simplified_readme/907676142_google-workspace-mcp-server_README.md
+2026-03-17 22:15:03,006 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server" designed to provide tools for interacting with Gmail and Calendar APIs. It details specific features (Gmail Tools, Calendar Tools) available through the MCP interface. Furthermore, it provides comprehensive setup instructions including prerequisites (Node.js, Google Cloud Console), installation steps (clone, npm install), configuration of OAuth credentials, and specific JSON configuration examples for integrating the server into MCP hosts like VSCode or Claude desktop app. The entire project is presented as a deployable MCP Server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:03,006 - INFO - 79 Process file: data/dataset/js_ts_test/simplified_readme/1040503820_codex-cli-mcp-tool_README.md
+2026-03-17 22:15:06,762 - INFO - answer:
+Analysis: The README explicitly titles the project "Codex CLI MCP Server" and states in the first sentence that it is "An MCP server that allows Claude Code to interact with the OpenAI Codex CLI." It provides specific installation instructions for adding it to Claude Code using `claude mcp add`, lists available tools (ask-codex, exec-codex, etc.) that function within the MCP protocol context, and details configuration options relevant to an MCP server setup. The documentation clearly describes how to deploy and use the project as an MCP server component for AI interaction.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:06,762 - INFO - 80 Process file: data/dataset/js_ts_test/simplified_readme/1107800889_cursor-n8n-builder_README.md
+2026-03-17 22:15:10,188 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server" designed to enable AI assistants in Cursor IDE to manage n8n workflows. It provides detailed installation instructions, configuration examples for `~/.cursor/mcp.json`, and lists specific tools available through the MCP protocol. The entire project is structured as an implementation of the MCP protocol to provide external capabilities to an AI host.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:10,188 - INFO - 81 Process file: data/dataset/js_ts_test/simplified_readme/1009618009_o3-search-mcp_README.md
+2026-03-17 22:15:13,421 - INFO - answer:
+Analysis: The project is explicitly titled "o3-search-mcp" and described as an "MCP server that enables the use of OpenAIs high-end models and their powerful web search capabilities." The README provides clear installation instructions for registering it with AI coding agents (specifically mentioning Claude Code) using standard MCP configuration formats, including JSON snippets defining `mcpServers` with command and environment variables. It functions as a standalone server providing tools/resources to MCP clients, fitting the definition of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:13,421 - INFO - 82 Process file: data/dataset/js_ts_test/simplified_readme/920571653_ragrabbit_README.md
+2026-03-17 22:15:17,581 - INFO - answer:
+Analysis: The README describes RagRabbit as a "Self Hosted Site AI Search, LLMs.txt, MCP Server that crawls your content." While it explicitly mentions an MCP Server feature (`npx @ragrabbit/mcp`), the project itself is primarily a full-stack Next.js application (SaaS) for site search and indexing. The MCP functionality is presented as one of several features within this larger system rather than the sole purpose of the project. The documentation focuses on deploying the main web application via Vercel, configuring the chat widget, and managing the database, with the MCP server being a specific tool accessed via `npx` to interact with the deployed instance. Therefore, it is a complex system incorporating an MCP Server component, not an MCP Server project in its entirety.
+
+Conclusion: @No@
+
+2026-03-17 22:15:17,581 - INFO - 83 Process file: data/dataset/js_ts_test/simplified_readme/1017108665_memory-mcp_README.md
+2026-03-17 22:15:20,655 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Memory MCP Server" and describes it as an "MCP (Model Context Protocol) server that provides memory management and context window caching for AI coding environments." It details specific tools provided by the server (e.g., `save-memories`, `archive-context`) and includes clear deployment instructions for both Cursor and Claude Desktop, including configuration JSON examples and command-line setup steps. The project is designed to be deployed and used directly as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:20,655 - INFO - 84 Process file: data/dataset/js_ts_test/simplified_readme/918760179_webflow-dev-setup_README.md
+2026-03-17 22:15:23,998 - INFO - answer:
+Analysis: The README describes a "Webflow Developer Setup" project, which is a development environment template for building Webflow sites using tools like Bun, TypeScript, and GSAP. While it mentions "Webflow MCP in Cursor" under the Integrations section as a separate resource to use with the IDE, the project itself is a frontend development boilerplate, not an MCP Server implementation. It does not provide tools or resources for LLMs via the Model Context Protocol; rather, it is a standard web development setup.
+
+Conclusion: @No@
+
+2026-03-17 22:15:23,998 - INFO - 85 Process file: data/dataset/js_ts_test/simplified_readme/1114991630_remnote-mcp-bridge_README.md
+2026-03-17 22:15:28,727 - INFO - answer:
+Analysis: The README describes a project called "RemNote MCP Bridge" which consists of two main components: a RemNote Plugin and an MCP Server. While the project includes an MCP Server component (`remnote-mcp-server`), the primary purpose of this specific repository appears to be the RemNote Plugin that acts as a bridge between the AI assistant (via the MCP Server) and the RemNote knowledge base. The documentation explicitly separates the installation of the "RemNote Plugin" from the "MCP Server," suggesting this repository likely hosts the plugin code, while the server is either a separate package or a companion tool. The project aggregates functionality to connect RemNote to AI via MCP, but the core deliverable described here is the bridge/plugin infrastructure rather than a standalone MCP Server implementation itself. However, looking closer at the architecture section, it shows the flow: AI Assistant -> MCP Server -> WebSocket -> RemNote Plugin. The README instructs users to install `remnote-mcp-server` separately or clone it locally. This repository seems to focus on the RemNote Plugin side ("Install the RemNote Plugin", "Configure Your AI Assistant" points to the server config). Since the project's primary identity in this README is the "Bridge" plugin connecting to an external server, and it distinguishes the server as a separate entity to be installed/configured alongside it, it functions more as a client-side integration or a bridge system rather than being the MCP Server itself.
+
+Conclusion: @No@
+
+2026-03-17 22:15:28,727 - INFO - 86 Process file: data/dataset/js_ts_test/simplified_readme/1006354677_mcp-use-cli_README.md
+2026-03-17 22:15:33,395 - INFO - answer:
+Analysis: The README explicitly describes the project as a "CLI tool for interacting with Model Context Protocol (MCP) servers" and states, "This CLI is a client for Model Context Protocol (MCP) servers." It provides instructions on how to connect to external MCP servers using slash commands like `/server add` and `/server connect`. Since the project functions as an MCP Client or Host that consumes capabilities from other servers rather than providing tools/resources itself as an MCP Server implementation, it does not qualify as an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:15:33,395 - INFO - 87 Process file: data/dataset/js_ts_test/simplified_readme/867824791_Daemon_README.md
+2026-03-17 22:15:37,048 - INFO - answer:
+Analysis: The project "Daemon" is primarily a static website (Astro-based) designed to serve as a personal digital identity or API for human connection. While the README explicitly mentions that it includes an MCP Server component ("For AI systems: An MCP (Model Context Protocol) server"), it clarifies that this is a separate Cloudflare Worker architecture, not the main repository's primary function. The core code provided is for the static site, and the MCP server setup is described as advanced, optional, and requiring separate deployment steps ("The MCP server code and setup instructions will be documented separately"). Therefore, the project itself is a static site template with an optional/secondary MCP integration, rather than being an MCP Server in its entirety.
+
+Conclusion: @No@
+
+2026-03-17 22:15:37,049 - INFO - 88 Process file: data/dataset/js_ts_test/simplified_readme/1115781593_arnos_README.md
+2026-03-17 22:15:41,222 - INFO - answer:
+Analysis: The README explicitly states that ArnOS is a "comprehensive personal operating system you control through natural language with Claude" and lists its architecture protocol as the "Model Context Protocol (MCP)". It provides specific configuration instructions for adding ArnOS to an MCP server configuration file (`mcpServers` in `claude_desktop_config.json` or similar), including command and arguments for running the Node.js application. The project describes itself as providing tools (todos, habits, journal, CRM, etc.) for the MCP host (Claude) to use, fitting the definition of an MCP Server that provides resources and tools to AI systems.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:41,222 - INFO - 89 Process file: data/dataset/js_ts_test/simplified_readme/1080043419_create-real-simple-roadmap_README.md
+2026-03-17 22:15:44,934 - INFO - answer:
+Analysis: The project `create-real-simple-roadmap` is primarily a feature roadmap management system that integrates into existing projects. While it includes an MCP server component (`rs-server`) to allow AI assistants like Claude Desktop to read and modify the roadmap, the project's main purpose is to provide a complete roadmap UI and data storage solution (frontend + backend), not solely to function as an MCP Server. The README describes it as a "complete roadmap system installed into your project" with both frontend and backend components, where the MCP functionality is just one feature ("AI-integrated"). Therefore, it is a complex system incorporating an MCP Server rather than being an MCP Server itself.
+
+Conclusion: @No@
+
+2026-03-17 22:15:44,935 - INFO - 90 Process file: data/dataset/js_ts_test/simplified_readme/956535736_mcp-typescribe_README.md
+2026-03-17 22:15:48,587 - INFO - answer:
+Analysis: The README explicitly identifies the project as "MCP-Typescribe - an MCP Server providing LLMs API information." It describes the project's purpose as implementing the Model Context Protocol (MCP) to provide LLMs with contextual access to TypeScript API documentation. The document includes specific installation and usage instructions, detailing how to build the project (`npm run build`) and how to connect it to AI agents like Cline or via the inspector (`npx @modelcontextprotocol/inspector node ./dist/mcp-server/cli.js run-server`). It provides a configuration example for `cline_mcp_settings.json` showing how to register this project as an MCP server. Therefore, the project is designed to be deployed and used specifically as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:48,587 - INFO - 91 Process file: data/dataset/js_ts_test/simplified_readme/1009729416_obsidian-mcp-plugin_README.md
+2026-03-17 22:15:52,315 - INFO - answer:
+Analysis: The README explicitly states that the project is an "Obsidian MCP Plugin" designed to connect an Obsidian vault to AI assistants through the Model Context Protocol (MCP). It describes the project's purpose as providing AI with semantic agency over a knowledge graph via MCP. Crucially, it provides specific configuration instructions for setting up the project as an MCP server within compatible clients like Claude Desktop or VS Code (e.g., configuring `mcpServers` in JSON with `command: npx` and `args: [mcp-remote, ...]`). The documentation details how to install, configure, and use the plugin specifically as an MCP server component to expose tools and resources to an MCP host.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:52,315 - INFO - 92 Process file: data/dataset/js_ts_test/simplified_readme/1085337816_kiri_README.md
+2026-03-17 22:15:55,834 - INFO - answer:
+Analysis: The README explicitly identifies the project as "KIRI MCP Server" and states in the description that it is an "MCP server that provides intelligent code context extraction from Git repositories." It provides clear installation instructions (`npm install -g kiri-mcp-server`) and configuration examples for connecting to MCP clients like Claude Desktop (via `~/.claude/mcp.json`). The document details specific MCP tools provided by the server and explains how to deploy and use it as a server component. There is no indication that this is merely a template, teaching example, or aggregation tool; it is a functional implementation of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:55,834 - INFO - 93 Process file: data/dataset/js_ts_test/simplified_readme/906063664_mcp-neurolora_README.md
+2026-03-17 22:15:59,390 - INFO - answer:
+Analysis: The README explicitly identifies the project as "MCP Neurolora" and describes it as an "intelligent MCP server that provides tools for code analysis using OpenAI API, code collection, and documentation generation." It includes detailed installation instructions (Node.js, uv) and specific configuration steps to register the project as an MCP server within environments like VSCode or Claude Desktop. The document outlines available tools (`analyze_code`, `collect_code`, `install_base_servers`) that the server exposes to clients, confirming its primary functionality is serving as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:15:59,390 - INFO - 94 Process file: data/dataset/js_ts_test/simplified_readme/54631744_ndb-core_README.md
+2026-03-17 22:16:03,468 - INFO - answer:
+Analysis: The README describes "Aam Digital" as a case management software platform for the social sector, built on Angular and Node.js. While the document contains a section titled "MCP Servers," it explicitly lists these as tools configured in `.vscode/mcp.json` (such as `angular-cli`, `chrome-devtools`, `sentry`, `github`) to assist developers with AI-assisted development within their IDE. These are external MCP servers used by the project's developers, not capabilities provided by the Aam Digital project itself. The project is an application that *uses* MCP servers, rather than being an MCP Server implementation that provides tools or resources to AI models.
+
+Conclusion: @No@
+
+2026-03-17 22:16:03,468 - INFO - 95 Process file: data/dataset/js_ts_test/simplified_readme/996988898_c4-genai-suite_README.md
+2026-03-17 22:16:07,423 - INFO - answer:
+Analysis: The README describes "c4 GenAI Suite" as an AI chatbot application that *integrates* with Model Context Protocol (MCP) servers via extensions. It explicitly states it supports MCP servers as a feature ("Use any MCP server offering an sse interface...") and allows administrators to add them as extensions to assistants. The project itself functions as an MCP Host or client application that consumes MCP servers, rather than being an MCP Server implementation itself. It does not provide tools/resources for other clients to connect to; instead, it connects to external MCP servers.
+
+Conclusion: @No@
+
+2026-03-17 22:16:07,423 - INFO - 96 Process file: data/dataset/js_ts_test/simplified_readme/1013541801_vscode-mcp_README.md
+2026-03-17 22:16:10,631 - INFO - answer:
+Analysis: The README explicitly describes "VSCode MCP" as a solution that enables MCP clients to access VSCode context information. It details specific tools provided through the MCP protocol (e.g., `get_diagnostics`, `get_symbol_lsp_info`) and provides clear installation instructions for configuring it as an MCP server in various hosts like Codex, Claude Code, Cursor, and Gemini CLI. The project functions as a server-side implementation of the MCP protocol, translating MCP calls into VSCode extension requests.
+
+Conclusion: @Yes@
+
+2026-03-17 22:16:10,631 - INFO - 97 Process file: data/dataset/js_ts_test/simplified_readme/1081736859_mcp-memory-sqlite_README.md
+2026-03-17 22:16:14,242 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "memory system for AI assistants" and states it is designed for "Claude (or any MCP-compatible AI)". It provides specific configuration instructions for integrating with Claude Desktop under the `mcpServers` section, which is the standard method for connecting to an MCP Server. The project lists specific MCP tools (e.g., `create_entities`, `search_nodes`) that the server exposes. The installation and usage instructions confirm it functions as a standalone server component that can be invoked via `npx`.
+
+Conclusion: @Yes@
+
+2026-03-17 22:16:14,242 - INFO - 98 Process file: data/dataset/js_ts_test/simplified_readme/1118127856_thunderbird-mcp_README.md
+2026-03-17 22:16:17,946 - INFO - answer:
+Analysis: The project is explicitly titled "Thunderbird MCP" and describes itself as a tool that gives AI assistants access to Thunderbird through the Model Context Protocol (MCP). The README details how to configure an MCP client (like Claude Code) to connect to this project via a Node.js bridge (`mcp-bridge.cjs`) which acts as the server-side implementation of the MCP protocol. It provides specific setup instructions for configuring the MCP client to use this project, lists available MCP tools, and explains the architecture where the project serves as the server component connecting the AI client to the Thunderbird extension.
+
+Conclusion: @Yes@
+
+2026-03-17 22:16:17,946 - INFO - 99 Process file: data/dataset/js_ts_test/simplified_readme/1025017049_Arion_README.md
+2026-03-17 22:16:21,325 - INFO - answer:
+Analysis: The README describes "Arion" as a cross-platform desktop application built with Electron and React, designed for geospatial analysis. It explicitly states that the application allows users to "integrate custom Model Context Protocol (MCP) servers," indicating that Arion acts as an MCP Host or Client rather than an MCP Server itself. The project provides tools for LLMs but functions as the interface where these servers are connected, not as the server providing the tools. Therefore, it does not qualify as an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:16:21,326 - INFO - 100 Process file: data/dataset/js_ts_test/simplified_readme/940725761_notionMCP_README.md
+2026-03-17 22:16:24,781 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server" in both the title and the description. It details how to set up the server, including prerequisites like Node.js and Claude Desktop, installation steps (`npm install`), and configuration instructions for connecting it to an MCP host (Claude Desktop) via `claude_desktop_config.json`. The documentation clearly explains that this project serves as a bridge allowing AI assistants to interact with Notion through the MCP protocol, fulfilling the definition of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:16:24,781 - INFO - 101 Process file: data/dataset/js_ts_test/simplified_readme/913753132_systemprompt-mcp-core_README.md
+2026-03-17 22:16:27,997 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A specialized Model Context Protocol (MCP) server." It details its functionality for managing AI agents, prompts, and tools via the MCP protocol. Furthermore, it provides clear deployment instructions for integrating with an MCP host (Claude Desktop), including configuration examples for `claude_desktop_config.json` and installation methods via Smithery or manual setup. This confirms the project is designed to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:16:27,997 - INFO - 102 Process file: data/dataset/js_ts_test/simplified_readme/950898398_tambo-template_README.md
+2026-03-17 22:16:31,441 - INFO - answer:
+Analysis: The README describes "Tambo Template" as a starter Next.js application for building generative UI/UX applications using the Tambo AI SDK. While it mentions "Full MCP support for connecting to external tool servers" and includes features like configuring MCP servers via an in-app modal, the project itself is a client-side application (a web app) that *consumes* or *connects to* MCP servers rather than acting as one. It serves as a template/demo for integrating AI capabilities into a React interface, not as a server implementation of the Model Context Protocol providing tools to other clients.
+
+Conclusion: @No@
+
+2026-03-17 22:16:31,441 - INFO - 103 Process file: data/dataset/js_ts_test/simplified_readme/856950596_esports-ics_README.md
+2026-03-17 22:16:39,203 - INFO - answer:
+Analysis: The project is primarily an Esports Calendar sync service that generates iCal/ICS feeds for calendar applications. While the README mentions an "MCP Server" feature in the Features section and Quick Start (Option 4), stating "Plug our MCP to your AI Chatbot," this appears to be a secondary capability or integration rather than the project's primary definition as an MCP Server itself. The core functionality described throughout the document focuses on generating calendar URLs, API endpoints for ICS feeds, and web interface usage. The MCP aspect is presented as one of several options ("Option 4: Use the MCP") alongside using the Web Interface or Direct API Usage, suggesting the project is a calendar service with an MCP integration, not fundamentally an MCP Server repository designed solely for that protocol. However, looking closely at the criteria: "If the README states that the entire project can be deployed and used as an MCP Server, then the project is an MCP Server." The README says "Import this server into ChatGPT or any other MCP client". This implies there is an MCP server component. But is the *project* an MCP Server? The title is "Esports Calendar", the main features are about syncing to calendars via ICS. The MCP part seems like an add-on feature ("Plug our MCP"). Usually, if a project is an MCP Server, the README focuses heavily on MCP configuration, transports, tools, etc. Here, the bulk is about ICS generation. Furthermore, the instruction says "Some projects are complex systems that incorporate an MCP Server as one of their components... Such projects are not MCP Servers." This fits that description better; it's a calendar service that *has* an MCP server component.
+
+Conclusion: @No@
+
+2026-03-17 22:16:39,204 - INFO - 104 Process file: data/dataset/js_ts_test/simplified_readme/1115219062_all_agent_README.md
+2026-03-17 22:16:43,531 - INFO - answer:
+Analysis: The project "传智星通用智能体平台" is described as a general-purpose AI agent platform built on the Langchain 1.0 framework. While it mentions using MCP (Model Context Protocol) in its technology stack section ("MCP (Model Context Protocol) - 模型上下文协议，实现模型与工具的安全交互") and lists subdirectories like `mcps/` and references other specific MCP servers (e.g., pptx-mcp, excel-mcp-server) in the acknowledgments, the project itself is a comprehensive Agent Platform rather than an MCP Server implementation. It functions as a host or application that integrates various tools and potentially connects to MCP servers, but its primary purpose is to provide a full-stack agent system with UI, database, and orchestration capabilities, not to serve as a standalone MCP server for LLMs to connect to via the protocol. The README indicates it is a platform for developers to build agents, not a server specifically designed to expose tools/resources *via* the MCP protocol as its main identity.
+
+Conclusion: @No@
+
+2026-03-17 22:16:43,531 - INFO - 105 Process file: data/dataset/js_ts_test/simplified_readme/1073964975_clerk-evals_README.md
+2026-03-17 22:16:47,627 - INFO - answer:
+Analysis: The project `clerk-evals` is an evaluation suite designed to test how LLMs perform at writing Clerk code. While the README mentions MCP tools (e.g., `--mcp` flag, `MCP_SERVER_URL_OVERRIDE`, and running evaluations with MCP tools enabled), this indicates the project *uses* MCP capabilities to evaluate models, rather than functioning as an MCP Server itself. The primary purpose is benchmarking and testing LLM performance, not providing tools or resources for other AI systems via the Model Context Protocol. It does not describe deployment instructions for setting up a server that clients would connect to; instead, it provides instructions for running eval suites locally.
+
+Conclusion: @No@
+
+2026-03-17 22:16:47,628 - INFO - 106 Process file: data/dataset/js_ts_test/simplified_readme/553163791_comet_README.md
+2026-03-17 22:16:51,461 - INFO - answer:
+Analysis: The project "Comet" is primarily described as a React with TypeScript Component Library based on the U.S. Web Design System (USWDS). While it includes a specific package named `comet-mcp` which is a Model Context Protocol server for AI-enhanced development workflow, this is listed as one of several packages within a larger ecosystem focused on UI components and design systems. The README indicates that the MCP functionality is just one part of a complex system rather than the primary purpose of the entire project. According to the guidelines, projects that incorporate an MCP Server as one of their components, rather than offering the MCP Server functionality as their primary purpose, are not considered MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:16:51,462 - INFO - 107 Process file: data/dataset/js_ts_test/simplified_readme/1020989451_vibe-annotations_README.md
+2026-03-17 22:16:54,936 - INFO - answer:
+Analysis: The README describes "Vibe Annotations" as a system consisting of two main parts: a Browser Extension and an NPM Package (`vibe-annotations-server`). The documentation explicitly states that the NPM package functions as an "MCP server, local HTTP API, data storage." It provides detailed instructions on how to install, start, and configure this server component for various AI coding agents (Claude Code, Cursor, Windsurf, etc.) using MCP configurations. While the project includes a browser extension, the core functionality described for the server package is specifically to act as an MCP Server providing tools/resources for AI agents.
+
+Conclusion: @Yes@
+
+2026-03-17 22:16:54,936 - INFO - 108 Process file: data/dataset/js_ts_test/simplified_readme/950898067_youtube-mcp-server_README.md
+2026-03-17 22:16:59,163 - INFO - answer:
+Analysis: This README clearly describes a YouTube MCP Server project. The title explicitly states "YouTube MCP Server" and the content explains it's a practical example of creating MCP (Model Context Protocol) servers. Key indicators include:
+
+1. **Clear MCP Server Identity**: The project is described as implementing the Model Context Protocol with two transport options (stdio for local use and SSE for remote use).
+
+2. **Complete Implementation**: The README states it includes a "Servidor MCP completo" (Complete MCP Server) - a functional implementation of the MCP protocol.
+
+3. **Deployment Instructions**: Clear installation steps are provided for both stdio and remote versions, including cloning, dependency installation, environment configuration, and running commands.
+
+4. **Usage Documentation**: Instructions on how to configure with GitHub Copilot Chat and examples of available tools (`get_youtube_channel`) are included.
+
+5. **MCP Architecture**: The README explains MCP components (Server/Client) and how this server fits into that architecture.
+
+The project provides a complete, deployable MCP Server implementation that can be used with AI clients like GitHub Copilot Chat or Claude Desktop.
+
+Conclusion: @Yes@
+
+2026-03-17 22:16:59,163 - INFO - 109 Process file: data/dataset/js_ts_test/simplified_readme/1010450415_coderabbitai-mcp_README.md
+2026-03-17 22:17:02,611 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server for interacting with CodeRabbit AI reviews on GitHub pull requests." It provides detailed installation instructions (via NPX), configuration steps for MCP hosts like Claude Desktop and Claude Code, and lists specific tools available through the server. The documentation clearly describes how to deploy and use the project specifically as an MCP server component within the MCP architecture.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:02,611 - INFO - 110 Process file: data/dataset/js_ts_test/simplified_readme/1124287085_stitch_README.md
+2026-03-17 22:17:07,789 - INFO - answer:
+Analysis: The README describes "stitch" as a tool for tracking intent and linking it to git commits. While the project includes an MCP Server component (exposed via `stitch-mcp`), the primary purpose of the project is described as an "intent log" or CLI tool for agents and humans, rather than being solely an MCP Server implementation. The MCP functionality is presented as one feature among many (CLI commands, library usage, etc.), and the installation instructions cover both CLI-only and MCP-only options, indicating the project is a broader system that *contains* an MCP server capability rather than being defined exclusively as an MCP Server. However, the prompt asks if the project *is* an MCP Server. Since the README explicitly states "Stitch includes an MCP... server" and provides specific deployment instructions for running it as such (`stitch-mcp`), but the core identity is the "intent log tool", this falls into the category of a complex system incorporating an MCP Server as a component. According to the guidelines: "Some projects are complex systems that incorporate an MCP Server as one of their components, rather than offering the MCP Server functionality as their primary purpose. Such projects are not MCP Servers."
+
+Conclusion: @No@
+
+2026-03-17 22:17:07,789 - INFO - 111 Process file: data/dataset/js_ts_test/simplified_readme/949718913_slack-mcp-server_README.md
+2026-03-17 22:17:11,260 - INFO - answer:
+Analysis: The README explicitly titles the project "Slack Model Context Protocol Server" and states in the first paragraph that it is a connector to allow Claude Desktop (or any MCP client) to interact with a Slack workspace. It provides specific instructions on how to configure the MCP server within the Claude Desktop config file and how to run the server locally using Node.js commands (`node dist/index.js`). This clearly indicates the project's primary purpose is to function as an MCP Server providing tools for LLMs to access Slack data.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:11,261 - INFO - 112 Process file: data/dataset/js_ts_test/simplified_readme/996187386_minecraft-mcp_README.md
+2026-03-17 22:17:15,099 - INFO - answer:
+Analysis: The README explicitly describes the project as an MCP server for Minecraft integration. It states "This library is the Client library for a Minecraft Game Skills and MCP Integration" and lists "MCP Standard: Compatible with any MCP client (Claude Desktop, etc.)" as a feature. The installation instructions provide commands to install `@fundamentallabs/minecraft-mcp` via npm/npx. Crucially, the Usage section details how to start the MCP server (`minecraft-mcp`) and provides specific JSON configuration examples for integrating it with Claude Desktop and other MCP clients using the stdio transport. The project's primary functionality is to expose Minecraft bot control tools to LLMs via the Model Context Protocol.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:15,099 - INFO - 113 Process file: data/dataset/js_ts_test/simplified_readme/1055292336_devtools-debugger-mcp_README.md
+2026-03-17 22:17:18,815 - INFO - answer:
+Analysis: The README explicitly identifies the project as "An MCP server" in the first sentence and title. It details how to install it (`npm install devtools-debugger-mcp`) and configure it within an MCP settings file (JSON configuration for command and args). It further explains the tools provided by the server (e.g., `start_node_debug`, `set_breakpoint`) and how clients interact with them via the MCP protocol. The documentation clearly describes the project's deployment and usage as a standalone MCP Server component.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:18,815 - INFO - 114 Process file: data/dataset/js_ts_test/simplified_readme/1116237629_infinitty_README.md
+2026-03-17 22:17:22,428 - INFO - answer:
+Analysis: The README describes "Infinitty" as a hybrid terminal application (client-side desktop app) that combines native terminal features with AI-powered workflows. While it explicitly mentions "MCP Support" and "Connect to MCP tool servers," this indicates the application acts as an **MCP Client** or Host (consuming tools from external MCP servers) rather than functioning as an MCP Server itself. The architecture diagram shows an "MCP Client" component within the app, further confirming it connects to servers rather than serving them. The project is a user-facing application for developers/LLMs to interact with, not a server providing tools to LLMs.
+
+Conclusion: @No@
+
+2026-03-17 22:17:22,428 - INFO - 115 Process file: data/dataset/js_ts_test/simplified_readme/1021732487_mcp-c64_README.md
+2026-03-17 22:17:27,048 - INFO - answer:
+Analysis: The README explicitly identifies the project as "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64". It details the tools provided (assemble_program, tokenize_program, run_program) which are designed to be called by an LLM via the Model Context Protocol. The document provides clear installation instructions (Node + npm, VICE, 64Tass), configuration steps (.env file), and specific examples of how to configure it within various MCP hosts like Cursor, VSCode, and Github Copilot using standard MCP JSON configurations. It also includes a REPL client for testing the server's tools. This meets all criteria for being an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:27,048 - INFO - 116 Process file: data/dataset/js_ts_test/simplified_readme/985774752_open-feishu-mcp-server_README.md
+2026-03-17 22:17:31,105 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) Server" for Feishu. It details how to deploy it (e.g., on Cloudflare Workers), configure OAuth, and connect clients (Cursor, ChatWise, Inspector). The primary purpose is to provide Feishu tools and resources to LLMs via the MCP protocol, fulfilling the definition of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:31,105 - INFO - 117 Process file: data/dataset/js_ts_test/simplified_readme/1048436880_sosumi.ai_README.md
+2026-03-17 22:17:35,310 - INFO - answer:
+Analysis: The README explicitly describes "sosumi.ai" as a project that provides an MCP server. It includes a dedicated section titled "MCP Integration" which details the supported transports (Streamable HTTP and SSE), provides configuration examples for connecting to the MCP server, and lists specific tools available through the MCP interface (e.g., `searchAppleDocumentation`, `fetchAppleDocumentation`). Furthermore, the "Self-Hosting" section provides instructions on how to deploy and run the application locally, including configuring MCP clients to use the local instance. While it also offers other features like an HTTP API and CLI, the core functionality includes serving as an MCP Server for AI models to access Apple documentation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:35,310 - INFO - 118 Process file: data/dataset/js_ts_test/simplified_readme/1038323082_starepo_README.md
+2026-03-17 22:17:38,974 - INFO - answer:
+Analysis: The README explicitly describes "Starepo" as a tool that includes an MCP Server feature. It provides specific instructions on how to configure and run the project as an MCP server (e.g., adding it to `claude_desktop_config.json`, using the `starepo serve` command). The documentation details available MCP tools (`search_stars`, `list_stars`, etc.) and resources, confirming its primary capability is to function as an MCP server for searching GitHub starred repositories. While it also has CLI functionality, the README clearly states it can be deployed and used as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:38,975 - INFO - 119 Process file: data/dataset/js_ts_test/simplified_readme/877586593_unbuilt.app_README.md
+2026-03-17 22:17:42,768 - INFO - answer:
+Analysis: The README describes "unbuilt.app" as an open-source web tool and CLI for analyzing website technology stacks. While the document mentions "Future Plans" to include an MCP Server ("Expose unbuilt as a tool for any MCP-compatible agent") and discusses integration with AI coding agents via an `AGENTS.md` file and specific CLI output formats, it does not currently state that the project is deployed or usable as an MCP Server. The primary functionality is static/dynamic code analysis via web or CLI, not serving as an MCP server implementation at this time.
+
+Conclusion: @No@
+
+2026-03-17 22:17:42,768 - INFO - 120 Process file: data/dataset/js_ts_test/simplified_readme/1068951716_sdd-mcp_README.md
+2026-03-17 22:17:46,572 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP Server" in its title and description ("Spec-Driven Development MCP Server - An MCP server that provides spec-driven development custom slash commands as MCP tools"). It details specific MCP tools available to clients like Claude Code, provides installation instructions for running the server (via bunx/npx), and explains how to use these tools within the MCP protocol context. The project's primary purpose is to function as a server providing capabilities to MCP clients.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:46,572 - INFO - 121 Process file: data/dataset/js_ts_test/simplified_readme/1032487349_chat-ytchannel_README.md
+2026-03-17 22:17:50,368 - INFO - answer:
+Analysis: This project is a RAG (Retrieval-Augmented Generation) chatbot template built for the Mastra AI framework. While it mentions using MCP (Model Context Protocol) to access YouTube metadata via Smithery.ai servers, the project itself is not an MCP Server. Instead, it is a client application that utilizes external MCP servers as part of its functionality. The README explicitly states this is a "template" intended for learning and demonstration purposes ("This template shows you how to use key Mastra features", "Learn by Building"). It does not provide tools or resources for other MCP clients to connect to; rather, it connects to existing services like Smithery.ai MCP servers. Therefore, it does not qualify as an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:17:50,368 - INFO - 122 Process file: data/dataset/js_ts_test/simplified_readme/957893144_binance-mcp_README.md
+2026-03-17 22:17:54,168 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Binance MCP Server" and describes it as a backend service utilizing the Model Context Protocol (MCP) framework to interact with the Binance API. It provides clear installation instructions, configuration steps for environment variables, and specific integration details for connecting to an MCP host (Claude Desktop), including the required JSON configuration format (`mcpServers`). The document outlines how to start the server (`npm start`) and lists available functions exposed via the MCP protocol. This meets the criteria of being a deployable MCP Server implementation rather than just a template or component.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:54,169 - INFO - 123 Process file: data/dataset/js_ts_test/simplified_readme/969831374_powertools-mcp_README.md
+2026-03-17 22:17:57,682 - INFO - answer:
+Analysis: The README explicitly states that "The Powertools for AWS Model Context Protocol (MCP) is an MCP implementation" and describes its purpose as providing search functionality for LLM agents via the MCP protocol. It provides detailed deployment instructions showing how to configure this project as an MCP server in various clients (Cursor, VS Code, Amazon Q, etc.) using standard MCP configuration formats (e.g., `mcpServers` JSON structure). The project's primary function is to serve as a server that exposes tools/resources to MCP clients.
+
+Conclusion: @Yes@
+
+2026-03-17 22:17:57,683 - INFO - 124 Process file: data/dataset/js_ts_test/simplified_readme/965005858_onenote-mcp_README.md
+2026-03-17 22:18:01,631 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server implementation." It details how to install, configure, and run the server to enable AI assistants (like Claude Desktop or Cursor) to interact with Microsoft OneNote. The document provides specific instructions for registering the server in MCP-compatible hosts, lists available MCP tools, and explains the authentication flow within the MCP context. This clearly qualifies it as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:01,631 - INFO - 125 Process file: data/dataset/js_ts_test/simplified_readme/913168471_mcp-server-redmine_README.md
+2026-03-17 22:18:05,176 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server implementation for Redmine." It details how to configure and deploy it as an MCP server (e.g., providing JSON configuration for Claude, environment variables like REDMINE_HOST and REDMINE_API_KEY), lists available tools (Issues, Projects, Time Entries), and includes instructions for testing using the MCP Inspector. The project's primary purpose is to serve as an MCP server connecting LLMs to Redmine data.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:05,176 - INFO - 126 Process file: data/dataset/js_ts_test/simplified_readme/981824555_cyber-fortune-telling_README.md
+2026-03-17 22:18:11,717 - INFO - answer:
+Analysis: The project "玄乎儿分光镜" (Cyber Fortune Telling) is primarily a web application built on Next.js and Strapi that provides AI-based fortune-telling, health advice, and desktop ornament features. While the README does contain a section titled "支持 MCP 调用" (Supports MCP Call), which includes instructions for building a Docker image specifically for an MCP server (`cd mcp-server`, `npm run docker:build`) and a configuration snippet for connecting to it via ChatBox as an MCP client, this appears to be an additional feature or integration rather than the project's primary purpose. The main functionality described revolves around a full-stack web application with user registration, management backends, and desktop display modes. The MCP support seems to be a specific module allowing external clients to access its capabilities, but the project itself is a comprehensive fortune-telling system first. However, according to the task description: "If the README states that the entire project can be deployed and used as an MCP Server, then the project is an MCP Server." In this case, there is a specific subdirectory `mcp-server` and instructions to build/run it *as* an MCP server. But looking closely at the structure, the main project is the web app ("本项目难点不在于代码，而在于产品思路，工程基于 Strapi + Next.js 构建"). The MCP part is a separate deployment option within the repo (`cd mcp-server`). The core identity is a fortune-telling web app. Is it *an* MCP Server? It has an MCP Server component. The prompt says: "Some projects are complex systems that incorporate an MCP Server as one of their components, rather than offering the MCP Server functionality as their primary purpose. Such projects are not MCP Servers." Since the primary purpose is a fortune-telling web app with multiple features (web UI, PWA, backend CMS), and the MCP server is just one way to expose some functionality (likely the API endpoints), this fits the "complex system incorporating an MCP Server" category better than being a dedicated MCP Server project. The main README focuses heavily on the web app features, deployment via Docker Compose for the full stack, etc. The MCP section is a subsection. Therefore, it is not primarily an MCP Server project.
+
+Conclusion: @No@
+
+2026-03-17 22:18:11,717 - INFO - 127 Process file: data/dataset/js_ts_test/simplified_readme/603085008_chat-ui_README.md
+2026-03-17 22:18:15,346 - INFO - answer:
+Analysis: The project "Chat UI" is described as a chat interface (SvelteKit app) for LLMs, specifically powering the HuggingChat app. While the README mentions that it can *call tools exposed by Model Context Protocol (MCP) servers* and allows users to configure MCP servers within the application, the project itself functions as an MCP Client or Host (a UI layer), not an MCP Server. It does not provide tools or resources for other clients; instead, it consumes them. Therefore, it is not an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:18:15,346 - INFO - 128 Process file: data/dataset/js_ts_test/simplified_readme/977551122_conductor-tasks_README.md
+2026-03-17 22:18:18,738 - INFO - answer:
+Analysis: The README explicitly describes "Conductor Tasks" as an intelligent assistant that integrates into editors via MCP. It provides specific configuration instructions for setting up the project as an MCP server (Option 1: Editor Integration), including a JSON configuration example for `mcpServers` and a command-line argument (`--serve-mcp`) to run it in MCP mode. The documentation confirms the project can be deployed and used directly as an MCP Server to provide tools like task generation, planning, and visualization to AI hosts.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:18,738 - INFO - 129 Process file: data/dataset/js_ts_test/simplified_readme/981256595_obsidian-mcp-plugin_README.md
+2026-03-17 22:18:21,924 - INFO - answer:
+Analysis: The README explicitly states that the project provides a "self-contained server" for the Model Context Protocol (MCP) within Obsidian. It details how to install the plugin, configure authentication tokens, and connect to the MCP endpoint it hosts. The functionality described involves providing tools and resources (file management, vault search, integrations) specifically for AI assistants via the MCP protocol, fulfilling the definition of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:21,924 - INFO - 130 Process file: data/dataset/js_ts_test/simplified_readme/982711664_evo-ai_README.md
+2026-03-17 22:18:25,934 - INFO - answer:
+Analysis: The project "Evo AI" is described as an "AI Agents Platform" designed for creating and managing AI agents, integrating with various models, and supporting frameworks like Google ADK and CrewAI. While the README mentions "Client management and MCP server configuration" and instructs users to "Configure MCP Server" as a step in getting started, the platform itself is a comprehensive system (backend + frontend) that *manages* or *configures* MCP servers rather than being an MCP server itself. It aggregates capabilities and provides a UI for agent orchestration, making it a complex system that incorporates MCP functionality as one of its components, not a dedicated MCP Server implementation.
+
+Conclusion: @No@
+
+2026-03-17 22:18:25,934 - INFO - 131 Process file: data/dataset/js_ts_test/simplified_readme/948578409_Sketch-Context-MCP_README.md
+2026-03-17 22:18:29,944 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A Model Context Protocol (MCP) server for integrating Sketch designs with IDEs". It details the components, specifically highlighting an "MCP Server" that implements the Model Context Protocol. The documentation provides clear installation and deployment instructions (e.g., `npm install -g sketch-context-mcp`, running with `--local-file` or `--sketch-api-key`), and explains how to connect it to MCP hosts like Cursor IDE. The primary purpose of the project is to function as an MCP Server providing tools for AI models to interact with Sketch files.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:29,944 - INFO - 132 Process file: data/dataset/js_ts_test/simplified_readme/997747552_ticktick-mcp-server_README.md
+2026-03-17 22:18:33,918 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "TickTick MCP (Model Context Protocol) Server" in both the title and the overview section. It describes its purpose as enabling integration with the TickTick task management platform from Claude Desktop, which aligns with the definition of an MCP Server providing tools for AI systems. The document includes detailed setup instructions, authentication flows, available MCP tools, and specific configuration examples for integrating with an MCP host (Claude Desktop). Therefore, it qualifies as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:33,918 - INFO - 133 Process file: data/dataset/js_ts_test/simplified_readme/1014064322_firefox-mcp-server_README.md
+2026-03-17 22:18:38,032 - INFO - answer:
+Analysis: This README explicitly identifies the project as a "Firefox MCP Server" in both the title and description. It clearly states it is "A powerful Model Context Protocol (MCP) server that provides sophisticated Firefox browser automation through 28 specialized tools." The document includes complete installation instructions (`npm install firefox-mcp-server`), MCP client configuration examples showing the standard `mcpServers` JSON format, detailed tool reference listing all available MCP tools, and integration guidance for MCP clients like Claude Code. The project's primary purpose is to serve as an MCP server providing browser automation capabilities to AI assistants.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:38,032 - INFO - 134 Process file: data/dataset/js_ts_test/simplified_readme/968361803_mcp-server_README.md
+2026-03-17 22:18:41,617 - INFO - answer:
+Analysis: The README explicitly identifies the project as "ThoughtSpot MCP Server" in the title and description. It details how to connect to it using various MCP clients (Claude Desktop, Cursor, etc.) via specific configuration formats (JSON with `mcpServers`). It lists MCP-specific features such as tools (`ping`, `getAnswer`), resources (`datasources`), and supported transports (SSE, Streamed HTTP). The documentation provides clear instructions on deployment (hosted on Cloudflare) and usage for LLM integration, confirming its primary purpose is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:41,617 - INFO - 135 Process file: data/dataset/js_ts_test/simplified_readme/1054619062_miduconf-mcp_README.md
+2026-03-17 22:18:45,965 - INFO - answer:
+Analysis: The README describes a repository containing demonstration code for creating MCP (Model Context Protocol) servers, specifically focusing on a TypeScript implementation that integrates with YouTube APIs. It provides instructions on how to build and run the server (`npm run build`, `node ./dist/index.js`), configure it in Visual Studio Code/GitHub Copilot, and test it using the MCP Inspector. However, the project is explicitly framed as "demos" from a conference talk ("Mi demos de la Miduconf 2025") intended to teach developers how to program their own MCPs. It serves as a teaching example or development template rather than a standalone production-ready MCP Server offering specific tools as its primary purpose. According to the task guidelines, projects intended to demonstrate a solution, serve as a teaching example, or act as a development template are not considered MCP Servers.
+
+Conclusion: @No@
+
+2026-03-17 22:18:45,965 - INFO - 136 Process file: data/dataset/js_ts_test/simplified_readme/973532881_json2video-mcp-server_README.md
+2026-03-17 22:18:49,467 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server implementation" designed to expose video generation tools for LLMs and MCP-compatible clients. It provides clear installation instructions (via npx or npm), configuration examples for MCP hosts like Cursor, and details on the specific tools it exposes (e.g., `generate_video`, `get_video_status`). The documentation confirms the project's primary purpose is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:49,468 - INFO - 137 Process file: data/dataset/js_ts_test/simplified_readme/1073326703_note-post-mcp_README.md
+2026-03-17 22:18:53,210 - INFO - answer:
+Analysis: The README explicitly identifies the project as "The Universal MCP Server" and describes its purpose as exposing tools for automated posting to note.com via the Model Context Protocol. It provides detailed installation instructions, configuration examples for various MCP clients (Claude Code, Cursor, VS Code, etc.), and lists specific MCP tools (`publish_note`, `save_draft`). The documentation includes setup steps specifically for integrating this project as an MCP server into AI hosts, confirming it is a standalone MCP Server implementation rather than just a component or template.
+
+Conclusion: @Yes@
+
+2026-03-17 22:18:53,210 - INFO - 138 Process file: data/dataset/js_ts_test/simplified_readme/1000015801_elysia-mcp_README.md
+2026-03-17 22:18:57,317 - INFO - answer:
+Analysis: The project "Elysia MCP Plugin" is described as a plugin for ElysiaJS to implement Model Context Protocol (MCP) servers. It provides tools and configuration options (like `setupServer`, `capabilities`) to help developers build their own MCP servers within an Elysia application. While it includes examples of how to create an MCP server, the project itself is a library/plugin framework rather than a standalone, pre-configured MCP Server that provides specific tools or resources directly to users. It is a development tool for creating MCP servers, not an MCP Server implementation itself.
+
+Conclusion: @No@
+
+2026-03-17 22:18:57,317 - INFO - 139 Process file: data/dataset/js_ts_test/simplified_readme/1051907582_Language-Server-MCP-Bridge_README.md
+2026-03-17 22:19:02,258 - INFO - answer:
+Analysis: The project is a Visual Studio Code extension designed to bridge Language Server Protocol (LSP) capabilities with GitHub Copilot and MCP clients. While it exposes tools via the Model Context Protocol (MCP), its primary function is that of an extension/plugin for VS Code rather than a standalone MCP Server application. The README describes installation as a VS Code extension (via Marketplace or .vsix file) and emphasizes automatic integration with VS Code's built-in MCP system and GitHub Copilot, rather than deployment as an independent server process. It acts as a component within the VS Code ecosystem to enhance Copilot, not as a deployable MCP Server service itself.
+
+Conclusion: @No@
+
+2026-03-17 22:19:02,258 - INFO - 140 Process file: data/dataset/js_ts_test/simplified_readme/944917188_mcp-brain-tools_README.md
+2026-03-17 22:19:05,831 - INFO - answer:
+Analysis: The README explicitly states that "MCP Memory is a robust, Elasticsearch-backed knowledge graph system... Built for the Model Context Protocol (MCP)". It describes how to install and configure it specifically as an MCP server component for Claude Desktop (via the `launch.sh` script added in the Commands section of Claude Desktop Settings). The project's primary purpose is to provide persistent memory tools/resources for AI models via the MCP protocol.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:05,831 - INFO - 141 Process file: data/dataset/js_ts_test/simplified_readme/946282110_db2i-agents_README.md
+2026-03-17 22:19:10,165 - INFO - answer:
+Analysis: The project is titled "Db2 for i AI Agents Cookbook" and describes itself as a repository to help users explore and implement AI agents. While it mentions MCP (Model Context Protocol) in the context of frameworks and includes a section on "MCP Server in Continue," the primary purpose of this project is educational ("Cookbook", "examples", "frameworks"). It provides examples using various agent frameworks like LangChain, Agno, and MCP, rather than being a standalone MCP Server implementation itself. The README instructs users to navigate to specific framework directories or run example scripts, indicating it is a collection of resources and templates rather than a deployable MCP Server application.
+
+Conclusion: @No@
+
+2026-03-17 22:19:10,165 - INFO - 142 Process file: data/dataset/js_ts_test/simplified_readme/970954309_awesome-remote-mcp-servers_README.md
+2026-03-17 22:19:13,808 - INFO - answer:
+Analysis: The README describes a curated list ("Awesome Remote MCP Servers") of existing Model Context Protocol servers. It functions as a directory or repository aggregating links and descriptions for various third-party MCP services (e.g., Zapier, Sentry, Linear) rather than being an MCP Server itself. The project's purpose is to showcase other servers, not to provide tools or resources directly via the MCP protocol.
+
+Conclusion: @No@
+
+2026-03-17 22:19:13,808 - INFO - 143 Process file: data/dataset/js_ts_test/simplified_readme/974585658_think-strategies_README.md
+2026-03-17 22:19:17,705 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP server implementation" in the title and overview section. It details specific MCP tools (`think-strategies`, `think-tools`, `think-session-manager`) and provides comprehensive configuration instructions for integrating with MCP hosts like Claude Desktop and Cline, including JSON examples under the `mcpServers` key. The documentation covers installation via npx, Node.js, or Docker, and specifies transport types (stdio), confirming it is designed to function as a standalone MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:17,705 - INFO - 144 Process file: data/dataset/js_ts_test/simplified_readme/1106796723_ukrainian-stats-mcp-server_README.md
+2026-03-17 22:19:21,806 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server" in both the title and the introductory description. It details how to install and configure the software specifically for use with an MCP host (Claude Desktop), providing configuration examples for `claude_desktop_config.json` that define an MCP server entry (`ukrainian-stats`). Furthermore, it lists specific tools available through the server (e.g., `list_dataflows`, `get_data`) which are standard features of an MCP server implementation designed to provide context to AI models. The documentation covers installation methods, usage workflows, and troubleshooting, confirming it is a deployable MCP Server component rather than just a template or aggregator.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:21,806 - INFO - 145 Process file: data/dataset/js_ts_test/simplified_readme/1071310672_penpot-mcp_README.md
+2026-03-17 22:19:25,679 - INFO - answer:
+Analysis: The README explicitly identifies the project as "Penpots Official MCP Server" and describes it as a server that exposes tools to AI clients (LLMs) via the Model Context Protocol (MCP). It details the architecture where the server communicates with Penpot via a plugin, enabling LLMs to perform design operations. The document provides comprehensive deployment instructions, including prerequisites (Node.js), build commands (`npm run bootstrap`), configuration options (environment variables), and connection methods for MCP clients (Claude Desktop, Claude Code) using HTTP/SSE or stdio proxies. The core purpose of the repository is to provide this MCP server functionality.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:25,679 - INFO - 146 Process file: data/dataset/js_ts_test/simplified_readme/1086450135_local-skills-mcp_README.md
+2026-03-17 22:19:29,608 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "universal Model Context Protocol (MCP) server" in the first paragraph. It describes its purpose as enabling LLMs or AI agents to access expert skills from the local filesystem via the MCP protocol. The document provides clear installation instructions (e.g., `npm install -g local-skills-mcp`) and detailed configuration steps for various MCP clients (Claude Code, Cline, etc.) showing how to register this project as an MCP server using standard JSON configuration structures (`mcpServers`). It meets all criteria for being an MCP Server: it is a server-side implementation providing tools/resources for MCP clients, with clear deployment and usage instructions.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:29,608 - INFO - 147 Process file: data/dataset/js_ts_test/simplified_readme/1102522224_nanobanana-api-mcp_README.md
+2026-03-17 22:19:33,147 - INFO - answer:
+Analysis: The README explicitly states that "Nanobanana API MCP" is an "MCP (Model Context Protocol) server for generating and editing images using Google Gemini API." It provides detailed installation instructions, configuration examples for various MCP clients (Cursor, Claude Code, VS Code, etc.), and describes the specific tools (`generate_image`, `edit_image`) it exposes to LLMs via the MCP protocol. The project's primary purpose is to function as a server within the MCP architecture.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:33,147 - INFO - 148 Process file: data/dataset/js_ts_test/simplified_readme/991550250_AlphaFold-MCP-Server_README.md
+2026-03-17 22:19:37,162 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "AlphaFold MCP Server" and describes it as a "comprehensive Model Context Protocol (MCP) server." It details how to install, build, and configure the project specifically for use as an MCP server within an MCP configuration file (showing the `mcpServers` JSON structure). It lists available tools and resources that conform to MCP standards, providing functionality for protein structure analysis via the protocol. The primary purpose is clearly to serve as an MCP server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:37,162 - INFO - 149 Process file: data/dataset/js_ts_test/simplified_readme/950334178_agent-toolkit_README.md
+2026-03-17 22:19:41,030 - INFO - answer:
+Analysis: The README describes the "Maton Agent Toolkit" as a library that enables agent frameworks, including Model Context Protocol (MCP), to integrate with Maton APIs. It explicitly states it supports MCP and provides specific instructions on how to run the "Maton MCP server using npx" (`npx -y @maton/mcp hubspot ...`). Furthermore, it includes configuration examples for `claude_desktop_config.json` specifically designed to connect an MCP host to this toolkit as an MCP server. While it mentions being a toolkit/library, the documentation clearly positions a deployable component (`@maton/mcp`) that functions directly as an MCP Server providing tools (API actions) for LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:41,030 - INFO - 150 Process file: data/dataset/js_ts_test/simplified_readme/1002233196_mcp-sunsama_README.md
+2026-03-17 22:19:44,640 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server" in its title and description. It details how to install, configure, and use the server with MCP hosts like Claude Desktop and Claude Code. It describes specific MCP tools (e.g., `create-task`, `get-tasks-by-day`) and supports standard MCP transports (stdio and HTTP stream). The primary purpose of the project is to serve as an MCP Server providing task management capabilities via the Sunsama API.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:44,640 - INFO - 151 Process file: data/dataset/js_ts_test/simplified_readme/998829312_weblate-mcp_README.md
+2026-03-17 22:19:48,590 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server" in the title and introduction. It describes its purpose as providing seamless integration with the Weblate translation management platform for AI assistants. The document details how to deploy and use it as an MCP Server, including configuration examples for Claude Desktop and other MCP clients using both npx and local development setups. It lists specific tools available through the server (e.g., `listProjects`, `writeTranslation`) and explains the architecture where the server acts as a bridge between AI clients and the Weblate API. This meets all criteria for being classified as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:48,590 - INFO - 152 Process file: data/dataset/js_ts_test/simplified_readme/1055215914_GravityMCP_README.md
+2026-03-17 22:19:52,264 - INFO - answer:
+Analysis: The README explicitly states that the project is a "Model Context Protocol (MCP) server for Gravity Forms." It provides detailed instructions on how to install and configure it as an MCP server, including a specific configuration snippet for `claude_desktop_config.json` under the `mcpServers` section. The document lists available tools (e.g., `gf_list_forms`, `gf_create_entry`) that the server exposes to MCP clients. The primary purpose of the project is to serve as an MCP server enabling LLMs to interact with Gravity Forms via the MCP protocol.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:52,264 - INFO - 153 Process file: data/dataset/js_ts_test/simplified_readme/1003530246_clinicaltrialsgov-mcp-server_README.md
+2026-03-17 22:19:56,328 - INFO - answer:
+Analysis: The project is explicitly titled "clinicaltrialsgov-mcp-server" and described in the first line as an "MCP server for the ClinicalTrials.gov v2 API." The README details specific tools provided by the server (search, retrieve study details, compare studies, etc.) and provides clear instructions on how to deploy and use it as an MCP server via both stdio and HTTP transports. It includes configuration examples for connecting to an MCP client (e.g., `cline_mcp_settings.json`) and deployment options for Cloudflare Workers. The project's primary purpose is to serve as an MCP Server providing access to ClinicalTrials.gov data.
+
+Conclusion: @Yes@
+
+2026-03-17 22:19:56,328 - INFO - 154 Process file: data/dataset/js_ts_test/simplified_readme/28407613_ag-grid_README.md
+2026-03-17 22:20:00,595 - INFO - answer:
+Analysis: The README describes AG Grid as a "fully-featured and highly customizable JavaScript Data Grid" for web development, supporting frameworks like React, Angular, and Vue. While the features table lists "MCP Server" under the Enterprise column, this appears to be a feature *within* the grid software (likely referring to Model Context Protocol integration or a similar internal capability) rather than indicating that the project itself is an MCP Server implementation. The documentation focuses on installation via npm (`npm install --save ag-grid-community`), setup in HTML/JS, and customization of UI components. There are no instructions on how to deploy this project as an MCP Server to connect with AI hosts, nor does it describe the project's primary purpose as providing tools/resources for LLMs via the MCP protocol. It is a frontend data grid library, not an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:20:00,595 - INFO - 155 Process file: data/dataset/js_ts_test/simplified_readme/1028914932_mcp-mail-server_README.md
+2026-03-17 22:20:04,424 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A Model Context Protocol server for IMAP/SMTP email operations". It provides detailed installation instructions and configuration examples for various MCP clients (Claude Desktop, Cursor, Claude Code, OpenAI Codex), including the specific JSON structure required to register it as an MCP server. The documentation outlines available tools for email management that are accessible via the MCP protocol. There is no indication that this is merely a template, teaching example, or aggregator; rather, it is a functional implementation designed to be deployed as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:04,424 - INFO - 156 Process file: data/dataset/js_ts_test/simplified_readme/1103717180_CC-Switch-Web_README.md
+2026-03-17 22:20:08,423 - INFO - answer:
+Analysis: The project CC-Switch-Web is a configuration management tool for AI CLI providers (Claude Code, Codex, Gemini). While it includes functionality to manage and configure MCP servers ("Unified MCP server management", "Managing MCP Servers"), its primary purpose is not to act as an MCP Server itself. Instead, it serves as a client-side or orchestration interface that allows users to set up and switch between various tools, including MCP servers. It does not provide tools or resources directly to an LLM via the MCP protocol; rather, it helps configure other applications that might use MCP. Therefore, it is not an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:20:08,423 - INFO - 157 Process file: data/dataset/js_ts_test/simplified_readme/1067210400_rpgmaker-mz-mcp_README.md
+2026-03-17 22:20:13,030 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "RPG Maker MZ MCP Server" and describes it as a server-side implementation of the Model Context Protocol (MCP). It details how to install, configure, and use the project specifically as an MCP server for AI clients like Claude Desktop. The documentation includes setup instructions for MCP configuration (JSON format for mcpServers), lists available MCP tools (e.g., `create_project`, `generate_asset`), and explains how AI agents can interact with RPG Maker MZ through this server. The primary purpose is to provide MCP capabilities for game development, fitting the definition of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:13,030 - INFO - 158 Process file: data/dataset/js_ts_test/simplified_readme/998180063_camoufox-mcp_README.md
+2026-03-17 22:20:16,624 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP (Model Context Protocol) server" in the title and first sentence. It provides detailed configuration instructions for integrating with various MCP hosts (Claude Desktop, VS Code, Cursor, etc.) using standard MCP server JSON configurations. The documentation includes installation steps, usage examples for AI assistants, and tool parameters, all consistent with a functional MCP Server implementation designed to provide browser automation capabilities to LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:16,625 - INFO - 159 Process file: data/dataset/js_ts_test/simplified_readme/1047058755_drawio-mcp_README.md
+2026-03-17 22:20:20,579 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Draw.io MCP Server" in the title and description. It details its purpose as providing programmatic tools for creating and managing draw.io diagrams via the Model Context Protocol (MCP). The document includes specific configuration instructions for setting up an MCP client (e.g., Claude Desktop, Cursor) to connect to this server, along with a list of available tools (`add_nodes`, `link_nodes`, etc.) that function within the MCP framework. The primary functionality is to serve as an MCP server implementation rather than being a template or demo.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:20,579 - INFO - 160 Process file: data/dataset/js_ts_test/simplified_readme/1027937803_ClueoMCP_README.md
+2026-03-17 22:20:24,140 - INFO - answer:
+Analysis: The README explicitly identifies the project as "OpenClueo MCP Server" and describes it as a "Model Context Protocol (MCP) server for AI personality layer." It provides detailed installation instructions via npm (`npm install -g @openclueo/mcp`) and configuration examples for various MCP-compatible clients like Claude Desktop, Cursor, Windsurf, and VS Code. The document outlines specific tools provided by the server (e.g., `inject_personality`, `simulate_response`) that function within the MCP framework to provide capabilities to LLMs. The primary purpose of the project is to serve as an MCP server that injects personality traits into AI interactions.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:24,141 - INFO - 161 Process file: data/dataset/js_ts_test/simplified_readme/967530387_voltagent_README.md
+2026-03-17 22:20:27,753 - INFO - answer:
+Analysis: The project described in the README is "VoltAgent," which is an end-to-end AI Agent Engineering Platform. Its primary purpose is to provide a TypeScript framework for building intelligent agents with features like memory, RAG, workflows, and tools, along with a VoltOps Console for observability and deployment. While the README mentions a specific component called `@voltagent/mcp-docs-server` that functions as an MCP server to help LLMs access documentation, this is just one part of a larger platform. The main project itself is an agent development framework/platform, not an MCP Server designed primarily to serve tools or data to LLMs via the MCP protocol. It incorporates MCP capabilities but is not an MCP Server itself.
+
+Conclusion: @No@
+
+2026-03-17 22:20:27,753 - INFO - 162 Process file: data/dataset/js_ts_test/simplified_readme/1007402270_obsidian-semantic-mcp_README.md
+2026-03-17 22:20:31,206 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "Obsidian Semantic MCP Server" in the title and description. It provides detailed installation instructions (npm/npx) and specific configuration steps for connecting to an MCP host (Claude Desktop) via the standard `mcpServers` JSON configuration format. The documentation explains how the server provides tools/operations to AI agents through the Model Context Protocol, fulfilling all criteria for being classified as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:31,206 - INFO - 163 Process file: data/dataset/js_ts_test/simplified_readme/1068091251_codex-action_README.md
+2026-03-17 22:20:34,722 - INFO - answer:
+Analysis: The provided README describes "Codex GitHub Action," which is a GitHub Actions workflow integration designed to run the Codex CLI within CI/CD pipelines. It focuses on installing the Codex CLI, configuring API keys, and managing security strategies (sandboxing) for code review tasks in GitHub workflows. While it mentions MCP servers as an optional external tool that Codex can connect to ("consider running a local MCP server..."), the project itself is not an MCP Server implementation; rather, it is a CI/CD action wrapper for the Codex agent.
+
+Conclusion: @No@
+
+2026-03-17 22:20:34,722 - INFO - 164 Process file: data/dataset/js_ts_test/simplified_readme/979171876_gpt-image-1-mcp_README.md
+2026-03-17 22:20:38,519 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A Model Context Protocol (MCP) server" designed for generating and editing images using the OpenAI gpt-image-1 model. It provides clear deployment instructions, including running the server directly via NPX (`npx -y @cloudwerxlab/gpt-image-1-mcp`) and configuring it within various MCP clients (Roo, VS Code, Cursor, etc.) by adding specific JSON configurations to `mcp_settings.json`. The documentation details the tools provided (`create_image`, `create_image_edit`), environment variables required, and integration steps, confirming its primary purpose is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:38,519 - INFO - 165 Process file: data/dataset/js_ts_test/simplified_readme/1019234059_mcp-dual-cycle-reasoner_README.md
+2026-03-17 22:20:42,533 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A Model Context Protocol (MCP) server" in the title and first paragraph. It describes functionality designed to enhance AI agents through metacognitive reasoning, which aligns with the purpose of an MCP Server providing tools for LLMs. The document includes specific deployment instructions (cloning, installing dependencies, building) and usage examples showing how to configure it within Claude Desktop's MCP configuration JSON. It defines available tools like `start_monitoring`, `detect_loop`, and `store_experience` that are exposed via the MCP protocol. There is no indication that this is merely a template, teaching example, or a component of a larger system where MCP is not the primary function; rather, the entire project is presented as the server implementation itself.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:42,534 - INFO - 166 Process file: data/dataset/js_ts_test/simplified_readme/1057928469_api-lab-mcp_README.md
+2026-03-17 22:20:46,382 - INFO - answer:
+Analysis: The README explicitly identifies the project as "API Lab MCP" and states it is "MCP Compatible". It describes itself as a tool that integrates with Claude Desktop and Claude Code to allow API testing through natural language. The documentation provides specific installation instructions for both Claude Code and Claude Desktop, including configuration snippets for `claude_desktop_config.json` which defines an MCP server entry (`mcpServers`). The project's primary purpose is to function as an MCP Server that provides tools (like `test_http_endpoint`, `test_with_assertions`, etc.) to an MCP host (Claude). It is not merely a template or an aggregator of other servers; it implements its own MCP server functionality to provide API testing capabilities to LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:46,382 - INFO - 167 Process file: data/dataset/js_ts_test/simplified_readme/1020869527_things-mcpb_README.md
+2026-03-17 22:20:50,794 - INFO - answer:
+Analysis: The README describes "Things MCPB - Claude Desktop Extension," which is explicitly designed as an extension for the Model Context Protocol (MCP) ecosystem. It mentions using the "@modelcontextprotocol/sdk" and migrating to the "MCPB (MCP Bundle) format specification." The project structure includes a "server/index.js" labeled as the "Main MCP server" and "tool-definitions.js" for "MCP tool schemas." It provides instructions on how to package and install this extension into Claude Desktop, which acts as the MCP host. While it is packaged as an extension/bundle (MCPB), its core functionality is to serve as an MCP Server that connects Claude to Things 3 via JXA/AppleScript.
+
+Conclusion: @Yes@
+
+2026-03-17 22:20:50,794 - INFO - 168 Process file: data/dataset/js_ts_test/simplified_readme/1092013246_mcp-code-wrapper_README.md
+2026-03-17 22:20:55,004 - INFO - answer:
+Analysis: The project "MCP Code Wrapper" is a tool designed to generate code wrappers for existing Model Context Protocol (MCP) servers. Its primary function is to transform MCP tool definitions into progressive discovery APIs (TypeScript files and Claude Code Skills) to reduce context token usage when interacting with LLMs like Claude Code. It scans `.mcp.json` configurations, generates wrapper code, and disables the original MCPs in favor of the generated skills. While it interacts heavily with MCP concepts and configurations, it does not provide tools or resources *as* an MCP Server itself; rather, it is a utility that helps manage and optimize how other MCP Servers are used within the Claude Code environment. Therefore, it is not an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:20:55,005 - INFO - 169 Process file: data/dataset/js_ts_test/simplified_readme/948425243_emceepee_README.md
+2026-03-17 22:20:59,029 - INFO - answer:
+Analysis: The project "emceepee" is described as a proxy that exposes the entire MCP protocol as tools. It sits between an MCP Client (like Claude Desktop) and backend MCP Servers, allowing dynamic connections to other servers. While it is configured within an MCP client's `.mcp.json` file like a server, its primary function is to act as a gateway or aggregator for *other* MCP servers rather than providing specific tools or resources itself. The README explicitly states it connects to "any MCP server" and manages them, making it an aggregation/proxy layer rather than a standalone MCP Server with its own native capabilities.
+
+Conclusion: @No@
+
+2026-03-17 22:20:59,029 - INFO - 170 Process file: data/dataset/js_ts_test/simplified_readme/954200084_mailtrap-mcp_README.md
+2026-03-17 22:21:02,693 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP Mailtrap Server" and describes it as a server providing tools for sending transactional emails via the Model Context Protocol (MCP). It includes detailed installation instructions for various MCP hosts (Claude Desktop, Cursor, VS Code), provides standard MCP configuration JSON snippets (`mcpServers`), explains how to use the Smithery CLI for MCP servers, and lists specific MCP tools available. The documentation clearly outlines deployment and usage as an MCP Server component.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:02,693 - INFO - 171 Process file: data/dataset/js_ts_test/simplified_readme/1047209888_postgresai_README.md
+2026-03-17 22:21:07,084 - INFO - answer:
+Analysis: The `postgresai` project is primarily a PostgreSQL observability and monitoring tool designed to provide health checks, metrics, and dashboards for database management. While the README explicitly mentions an "MCP Server" component that allows AI agents to work with issues from the console, this is presented as one of several features (alongside a Claude Code plugin and CLI piping) within a larger monitoring system. The core functionality is not providing MCP server capabilities itself but rather offering database diagnostics where MCP integration is a secondary feature for specific use cases. Therefore, it is a complex system incorporating an MCP Server as a component rather than being an MCP Server as its primary purpose.
+
+Conclusion: @No@
+
+2026-03-17 22:21:07,085 - INFO - 172 Process file: data/dataset/js_ts_test/simplified_readme/943483539_chrome-debug-mcp_README.md
+2026-03-17 22:21:11,941 - INFO - answer:
+Analysis: This README clearly describes a Model Context Protocol (MCP) server implementation. The project explicitly states it is "A Model Context Protocol (MCP) implementation for browser automation" and "A Model Context Protocol (MCP) server for controlling Chrome." Key indicators include:
+
+1. **Explicit MCP Server Identification**: The title and description directly identify this as an MCP server
+2. **MCP SDK Dependency**: Uses `@modelcontextprotocol/sdk` for MCP implementation
+3. **Configuration Instructions**: Provides specific instructions for configuring the MCP server in `cline_mcp_settings.json` with proper `mcpServers` structure
+4. **Tool Definitions**: Lists various tools (launch_browser, gm_setValue, intercept_requests, etc.) that are exposed through the MCP protocol
+5. **Deployment Instructions**: Clear steps for installation, building, and configuration as an MCP server
+
+The project meets all criteria for being classified as an MCP Server - it has clear project overview explaining what it is, deployment instructions showing how to set it up as an MCP server, and uses the MCP protocol infrastructure.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:11,941 - INFO - 173 Process file: data/dataset/js_ts_test/simplified_readme/927861815_bitcoin-mcp_README.md
+2026-03-17 22:21:15,771 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Bitcoin & Lightning Network MCP Server" in its title and overview. It describes the project's purpose as enabling AI models to interact with Bitcoin and the Lightning Network through the Model Context Protocol (MCP). The document provides detailed deployment and usage instructions for integrating this server with MCP clients like Claude Desktop and Goose, including specific configuration examples (JSON for Claude, command-line arguments for Goose). It lists available tools (key generation, address validation, blockchain queries, etc.) that the server exposes to AI hosts. The project is designed to be deployed and used directly as an MCP Server implementation.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:15,771 - INFO - 174 Process file: data/dataset/js_ts_test/simplified_readme/1087106485_mcp-local-rag_README.md
+2026-03-17 22:21:20,347 - INFO - answer:
+Analysis: The project is explicitly titled "MCP Local RAG" and describes itself as a "Local RAG for developers using MCP." The README provides detailed instructions on how to configure it as an MCP server within AI coding tools like Cursor, Codex, and Claude Code. It specifies the MCP configuration format (command, args, env) required to connect to the server. Furthermore, it lists specific MCP tools provided by the server (ingest file, search, etc.) and mentions that it was built with the Model Context Protocol. This clearly indicates the project's primary purpose is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:20,347 - INFO - 175 Process file: data/dataset/js_ts_test/simplified_readme/898779953_mcp-canvas-lms_README.md
+2026-03-17 22:21:24,245 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Canvas MCP Server" in the title and description. It details how to configure it for MCP clients like Claude Desktop (Option 1), via NPM (Option 2), or Docker (Option 3). It lists specific MCP tools available (e.g., `canvas_list_courses`, `canvas_create_course`) and explains transport modes (`stdio` and `streamable-http`) standard for MCP servers. The primary purpose of the project is to serve as an MCP server that provides Canvas LMS functionality to AI models.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:24,245 - INFO - 176 Process file: data/dataset/js_ts_test/simplified_readme/758975200_chat-ollama_README.md
+2026-03-17 22:21:28,845 - INFO - answer:
+Analysis: The project described in the README is "ChatOllama," which is an open-source chatbot platform built with Nuxt 3. While it explicitly supports and integrates with the Model Context Protocol (MCP), its primary function is to act as an MCP Host or Client application that manages connections to external MCP servers, rather than being an MCP Server itself. The README details how users can configure and manage external MCP servers (like `mcp-server-filesystem`, `mcp-server-git`) through ChatOllama's interface. It describes ChatOllama as a platform that *uses* MCP for tool integration, not as a server providing tools to other clients. Therefore, it does not qualify as an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:21:28,846 - INFO - 177 Process file: data/dataset/js_ts_test/simplified_readme/1025771511_mcp-neo4j-agent-memory_README.md
+2026-03-17 22:21:32,454 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Neo4j Agent Memory MCP Server" and describes it as a specialized server that bridges Neo4j with AI agents. It provides clear instructions on how to run the server directly using npx or add it to Claude Desktop configuration, which is standard for MCP servers. The document details specific tools (e.g., `search_memories`, `create_memory`) provided by the server for LLMs to use, along with environment variable configurations required for deployment. This confirms the project's primary purpose is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:32,454 - INFO - 178 Process file: data/dataset/js_ts_test/simplified_readme/1081173453_ai-dev-standards_README.md
+2026-03-17 22:21:36,669 - INFO - answer:
+Analysis: The project "AI Development Standards" is a comprehensive framework/repository that contains 51 individual MCP servers within its `mcp-servers/` directory, along with skills, tools, and documentation. However, the project itself is not a single MCP Server; rather, it is a collection or ecosystem of resources for AI-assisted development. The README describes it as a "shared knowledge base" and a "framework" that includes multiple components (Skills, MCPs, Tools, Components). While it *contains* MCP Servers, the repository's primary purpose is to serve as a standards repository, template, or aggregation point for various development resources, not to function as a single deployable MCP Server itself. It aggregates other MCP Servers rather than being one specific server implementation intended to be deployed as an MCP Server in isolation.
+
+Conclusion: @No@
+
+2026-03-17 22:21:36,670 - INFO - 179 Process file: data/dataset/js_ts_test/simplified_readme/1021033732_midudev-lemoncode_README.md
+2026-03-17 22:21:40,360 - INFO - answer:
+Analysis: The README describes a repository containing demos and tutorials for Docker, containers, and AI integration presented during a Twitch stream by Midudev. While it mentions MCP Servers in the context of integrating with Docker's "Ask Gordon" AI assistant (specifically referencing a YouTube MCP Server example hosted elsewhere), the project itself is an educational collection of Docker demos, not an MCP Server implementation. It serves as a teaching resource rather than a server providing tools to LLMs.
+
+Conclusion: @No@
+
+2026-03-17 22:21:40,360 - INFO - 180 Process file: data/dataset/js_ts_test/simplified_readme/956213347_mcp-odbc-server_README.md
+2026-03-17 22:21:44,269 - INFO - answer:
+Analysis: The README explicitly identifies the project as an "MCP Server for ODBC" designed to provide Large Language Models with access to ODBC data sources. It details the server implementation, installation steps (including prerequisites like Node.js and MCP SDK), configuration for various MCP hosts (Claude Desktop, Cline, Cursor), and lists specific tools available to MCP clients (e.g., `query_database`, `get_schemas`). The document clearly describes how to deploy and use the project as an MCP Server component within the Model Context Protocol architecture.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:44,269 - INFO - 181 Process file: data/dataset/js_ts_test/simplified_readme/967104186_backlog-mcp-server_README.md
+2026-03-17 22:21:48,185 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Model Context Protocol (MCP) server" in both the title and the description. It details how to configure it for use with AI agents like Claude Desktop, Cline, and Cursor via standard MCP configuration formats (Docker, npx, or Node.js). The documentation provides specific instructions on deployment, environment variables, and toolset management consistent with an MCP Server implementation designed to provide tools for LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:21:48,185 - INFO - 182 Process file: data/dataset/js_ts_test/simplified_readme/310833131_examples_README.md
+2026-03-17 22:21:52,029 - INFO - answer:
+Analysis: The README describes a repository of templates for building backend applications using the Encore framework. It categorizes content into "Starters" (runnable applications) and "Bits" (reusable code snippets). While it lists one specific template named `ts/mcp-example` described as an "MCP Server Starter," the repository itself is a collection of development templates, not a deployed MCP Server implementation. The project serves as a resource for developers to create their own applications rather than functioning as an MCP Server that provides tools or resources to AI models directly. Therefore, it does not qualify as an MCP Server based on its primary purpose as a template repository.
+
+Conclusion: @No@
+
+2026-03-17 22:21:52,029 - INFO - 183 Process file: data/dataset/js_ts_test/simplified_readme/960405090_mcp-server-tester_README.md
+2026-03-17 22:21:55,865 - INFO - answer:
+Analysis: The project described in the README is "MCP Server Tester". Its primary purpose is to serve as a testing and validation tool for Model Context Protocol (MCP) servers, not to function as an MCP server itself. The documentation explicitly states it is a "testing tool for Model Context Protocol (MCP) servers" designed to "automate tests for all tools exposed by an MCP server." It connects to existing MCP servers to validate their functionality, generate test cases, and produce reports. Therefore, it acts as a client or utility that interacts with MCP servers rather than providing MCP server capabilities to AI models.
+
+Conclusion: @No@
+
+2026-03-17 22:21:55,865 - INFO - 184 Process file: data/dataset/js_ts_test/simplified_readme/1016349220_typescript-utcp_README.md
+2026-03-17 22:22:00,239 - INFO - answer:
+Analysis: The project described in the README is the "Universal Tool Calling Protocol (UTCP) for TypeScript," which is a software development kit (SDK) and protocol standard. While it includes an MCP plugin (`@utcp/mcp`) that allows UTCP clients to connect to MCP servers, the project itself is not an MCP Server. Instead, it is a client-side framework or aggregator designed to integrate with various protocols, including MCP, HTTP, File, etc. The README explicitly states it provides a toolkit for developers to leverage the UTCP standard and shows how to configure UTCP to *connect* to MCP servers, rather than functioning as one itself.
+
+Conclusion: @No@
+
+2026-03-17 22:22:00,239 - INFO - 185 Process file: data/dataset/js_ts_test/simplified_readme/1007963309_cclsp_README.md
+2026-03-17 22:22:04,181 - INFO - answer:
+Analysis: The README explicitly states that "cclsp is a Model Context Protocol (MCP) server that seamlessly integrates LLM-based coding agents with Language Server Protocol (LSP) servers." It provides detailed setup instructions for configuring it as an MCP server within clients like Claude Code, including JSON configuration examples under the "As MCP Server" section. The project exposes specific MCP tools (e.g., `find_definition`, `rename_symbol`) designed for AI assistants to use. Therefore, the primary purpose of this project is to function as an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:04,181 - INFO - 186 Process file: data/dataset/js_ts_test/simplified_readme/978736571_ai-engine_README.md
+2026-03-17 22:22:07,997 - INFO - answer:
+Analysis: The project "AI Engine" is primarily a WordPress plugin designed to integrate AI models into WordPress sites. However, the README explicitly states that it "turns your WordPress site into an intelligent MCP server." It details specific MCP capabilities (tools for creating posts, managing media, running SQL queries, etc.), setup guides for connecting via MCP (Claude Code, ChatGPT), and mentions implementing the Model Context Protocol with Streamable HTTP transport. While it is a broader framework, its documentation clearly positions itself as providing MCP Server functionality to allow AI agents to interact with the WordPress environment.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:07,997 - INFO - 187 Process file: data/dataset/js_ts_test/simplified_readme/908971783_next-dnd-starter-kit_README.md
+2026-03-17 22:22:11,215 - INFO - answer:
+Analysis: This project is primarily a Next.js Kanban board portfolio demonstrating AI-assisted engineering practices. While the README mentions using MCP (Model Context Protocol) servers as part of its AI workflow to enable AI tools to interact with development infrastructure, the project itself is not an MCP Server. Instead, it is a web application that *consumes* or *utilizes* MCP servers for its own development process. The core functionality is a task management system, not providing tools/resources for LLMs via the MCP protocol.
+
+Conclusion: @No@
+
+2026-03-17 22:22:11,215 - INFO - 188 Process file: data/dataset/js_ts_test/simplified_readme/865464401_GenAIApp_README.md
+2026-03-17 22:22:15,516 - INFO - answer:
+Analysis: The GenAIApp project is a Google Apps Script library designed to help developers create and manage AI chat applications using LLMs like Gemini and OpenAI. While the README explicitly mentions support for "MCP Connectors" (allowing users to attach MCP servers to their chats), the project itself functions as a client-side framework or SDK that consumes MCP capabilities rather than serving them. It enables Google Apps Script projects to interact with external MCP servers, but it does not act as an MCP Server itself providing tools or resources to an MCP host. Therefore, it is not an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:22:15,516 - INFO - 189 Process file: data/dataset/js_ts_test/simplified_readme/791622368_witsy_README.md
+2026-03-17 22:22:19,758 - INFO - answer:
+Analysis: The README explicitly identifies Witsy as a "Universal MCP Client" rather than an MCP Server. It describes the project as a desktop AI application that allows users to run and connect to various MCP servers with different LLM providers, but its primary function is to act as the client/host side of the architecture. While it mentions support for MCP repositories and authorization, it does not present itself as a server providing tools or resources to other clients; instead, it consumes those capabilities. Therefore, it does not qualify as an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:22:19,758 - INFO - 190 Process file: data/dataset/js_ts_test/simplified_readme/971357826_dynatrace-mcp_README.md
+2026-03-17 22:22:23,809 - INFO - answer:
+Analysis: The project is explicitly titled "Dynatrace MCP Server" and describes itself as a server that allows AI Assistants to interact with the Dynatrace observability platform using the Model Context Protocol (MCP). The README provides detailed instructions on how to deploy and use it as an MCP server, including configuration examples for various MCP clients (VS Code, Claude Desktop, etc.) and support for both STDIO and HTTP transport modes. It clearly functions as a server providing tools/resources for MCP clients, fitting the definition of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:23,810 - INFO - 191 Process file: data/dataset/js_ts_test/simplified_readme/997689751_SSH-MCP_README.md
+2026-03-17 22:22:28,066 - INFO - answer:
+Analysis: The README explicitly identifies the project as "A Model Context Protocol (MCP) server" in both the title and the opening description. It details how to install, build, and configure the project specifically for use with MCP-compatible hosts like Claude Desktop and VS Code, providing example JSON configurations under the `mcpServers` key. The documentation outlines specific tools and resources provided by the server for AI interaction, fitting the definition of an MCP Server.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:28,067 - INFO - 192 Process file: data/dataset/js_ts_test/simplified_readme/955501958_mcp-server-circleci_README.md
+2026-03-17 22:22:32,071 - INFO - answer:
+Analysis: The project is explicitly titled "CircleCI MCP Server" and the description states, "In this repository, we provide an MCP Server for CircleCI." It details how to install and configure the server using various methods (NPX, Docker) across multiple MCP-compatible hosts like Cursor, VS Code, and Claude Desktop. The README provides comprehensive deployment instructions, including environment variables and configuration JSON examples, confirming it functions as a standalone MCP Server implementation rather than a client or template.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:32,071 - INFO - 193 Process file: data/dataset/js_ts_test/simplified_readme/1066366105_workshop-mcp-servers_README.md
+2026-03-17 22:22:36,334 - INFO - answer:
+Analysis: The README document describes a "workshop" repository designed to teach users how to build MCP servers. It contains multiple folders with example code for creating different types of MCP servers (Hello World, GitHub integration) using various technologies like Node.js, Spring AI, and Quarkus. While it includes instructions on how to deploy and run these example servers, the primary purpose of the project is educational (a workshop template/demonstration) rather than being a single functional MCP Server itself intended for production use or as a standalone service. The documentation explicitly states it is a "Workshop about MCP Servers" and provides solutions for activities within that workshop context.
+
+Conclusion: @No@
+
+2026-03-17 22:22:36,334 - INFO - 194 Process file: data/dataset/js_ts_test/simplified_readme/1112357775_Kiro-account-manager_README.md
+2026-03-17 22:22:40,071 - INFO - answer:
+Analysis: The project "Kiro Account Manager" is a desktop application built with Electron + React designed for managing multiple Kiro IDE accounts. While the README mentions that it can "edit MCP servers" within its settings, this indicates it is a management tool *for* an IDE that supports MCP, rather than being an MCP Server itself. The primary functionality focuses on account switching, token refresh, machine ID management, and providing an API proxy service for Kiro/Claude compatible endpoints. It does not implement the Model Context Protocol to serve tools or resources to an LLM host; instead, it manages credentials for a specific IDE ecosystem.
+
+Conclusion: @No@
+
+2026-03-17 22:22:40,071 - INFO - 195 Process file: data/dataset/js_ts_test/simplified_readme/1084252268_dynatrace-managed-mcp_README.md
+2026-03-17 22:22:42,860 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Dynatrace Managed MCP Server" in the title and introduction. It describes its purpose as allowing AI Assistants to interact with Dynatrace Managed deployments via the Model Context Protocol (MCP). The document provides detailed configuration instructions for integrating this server into various MCP clients (VS Code, Claude Desktop, Kiro, etc.) using standard MCP configuration formats (e.g., `mcpServers` JSON structure). It also explains deployment modes (Local/Remote) and how to run the server directly. This clearly indicates the project is an implementation of an MCP Server designed to provide observability tools to LLMs.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:42,861 - INFO - 196 Process file: data/dataset/js_ts_test/simplified_readme/996056821_bitbucket-mcp-server_README.md
+2026-03-17 22:22:45,861 - INFO - answer:
+Analysis: The README explicitly identifies the project as a "Bitbucket MCP Server" in the title and description. It details how to install and configure it using the standard Model Context Protocol (MCP) configuration format (specifically showing `mcpServers` JSON structure for clients like VS Code or Claude). The documentation explains that it provides tools for interacting with the Bitbucket API, which aligns with the definition of an MCP Server providing capabilities to AI systems.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:45,862 - INFO - 197 Process file: data/dataset/js_ts_test/simplified_readme/828119367_repomix_README.md
+2026-03-17 22:22:49,174 - INFO - answer:
+Analysis: The README describes Repomix primarily as a CLI tool that packs codebases into AI-friendly formats (XML, Markdown, JSON). However, it explicitly includes a section titled "MCP Server Integration" which details how to run Repomix as an MCP server using the `--mcp` flag. It provides configuration instructions for various MCP hosts (VS Code, Cline, Cursor, Claude Desktop) and lists specific MCP tools provided by this mode (e.g., `pack_codebase`, `grep_repomix_output`). While the project has broader functionality as a general packing tool, it clearly supports deployment and usage specifically as an MCP Server component.
+
+Conclusion: @Yes@
+
+2026-03-17 22:22:49,174 - INFO - 198 Process file: data/dataset/js_ts_test/simplified_readme/939034936_stars_README.md
+2026-03-17 22:22:57,656 - INFO - answer:
+Analysis: The README describes a project called "GitHub Stars" which is designed to fetch a user's starred GitHub repositories, save their README files in Markdown format, and generate an index. It functions as a personal backup or cataloging tool for starred repositories using GitHub Actions or local scripts. While the list of starred repositories contains many entries that *are* MCP servers (e.g., `wonderwhy-er/DesktopCommanderMCP`, `netlify/netlify-mcp`), this specific repository itself is merely a collection/index of those stars. It does not implement the Model Context Protocol server functionality itself; rather, it aggregates information about other projects. Therefore, it is not an MCP Server.
+
+Conclusion: @No@
+
+2026-03-17 22:22:57,656 - INFO - 199 Process file: data/dataset/js_ts_test/simplified_readme/1118057453_defi-agents_README.md
+2026-03-17 22:23:03,930 - INFO - answer:
+Analysis: The project is primarily a repository of AI agent definitions (JSON schemas) and a RESTful API for discovering these agents. While the README mentions "MCP Streamable HTTP transport" in the context of how to connect to it from an MCP client, the core functionality described is serving static JSON agent data via a standard HTTP endpoint rather than implementing the full MCP protocol server-side logic (such as handling MCP-specific initialization, tool calling protocols, or resource subscriptions). It acts more as a data source or index that *can be accessed* by MCP clients, but the project itself is defined as an "API" and "Agent Definitions" library rather than a dedicated MCP Server implementation. The deployment instructions focus on GitHub Pages hosting for the JSON API, not configuring an MCP server runtime.
+
+Conclusion: @No@
+
+2026-03-17 22:23:03,930 - INFO - Done!
