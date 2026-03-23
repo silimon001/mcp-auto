@@ -110,7 +110,7 @@ export const FixConfigArgsSchema = z.object({
 // Execute command schema
 export const ExecuteCommandArgsSchema = z.object({
   command: z.string(),
-  timeout_ms: z.number(),
+  timeout_ms: z.number().optional().default(30000),
   shell: z.string().optional()
 });
 

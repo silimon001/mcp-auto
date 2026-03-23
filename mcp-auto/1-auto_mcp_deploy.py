@@ -54,7 +54,7 @@ class MCPHub:
                 level=logging.INFO,
                 format='%(asctime)s - %(levelname)s - %(message)s',
                 filemode='w',
-                force=True   # 👈 关键
+                force=True
             )
             logging.info("mcp-auto is running!")
 
@@ -138,7 +138,7 @@ class MCPHub:
                 messages=self.messages,
                 tools=self.selected_tool_message,
                 stream=self.is_streaming,
-                temperature=0,
+                temperature=0.1, # [0,2)
                 tool_choice="auto",
                 extra_body={"enable_thinking": self.enable_thinking}
             )
@@ -196,12 +196,12 @@ class MCPHub:
                         server_name = "MCP-Auto"
                         tool_name = tool_call.get('function').get('name')
                         tool_args = json.loads(tool_call.get('function').get('arguments'))
-                        self.log(f"[准备调用工具] Server: {server_name}, Tool: {tool_name}, Args: {tool_args}")                    
+                        self.log(f"[Call Tool] Server: {server_name}, Tool: {tool_name}, Args: {tool_args}")                    
 
                         if self.auto_deploy:
                             call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
                         else:
-                            if input("是否调用？(y/n): ").strip().lower() == 'y':
+                            if input("(Y/N): ").strip().lower() == 'y':
                                 call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
                             else:
                                 call_tool_result = "The user has refused to use this tool. Please check for errors in the task execution."
@@ -256,7 +256,7 @@ class MCPHub:
                     from pathlib import Path
 
                     def git_fix_prompt(template: str) -> str:
-                        workspace = Path.cwd()  # 当前运行目录
+                        workspace = Path.cwd()
                         return template.replace("{WORKSPACE}", str(workspace))
                     prompt = git_fix_prompt(prompt)
 
@@ -281,22 +281,22 @@ class MCPHub:
         return selected_tool_message
 
     def simplify_context(self, text: str, tool_args) -> str:
-        if "uv pip install" in tool_args['command']:
-            text = simplify.uv_simplify(text)
-        elif "pip install" in tool_args['command']:
-            text = simplify.pip_simplify(text)
-            text = simplify.pip_summary(text)
-        elif "npm install" in tool_args['command']:
-            pass
-        elif "uv sync" in tool_args['command']:
-            text = simplify.uv_simplify(text)
-        else:
-            pass
+        # if "uv pip install" in tool_args['command']:
+        #     text = simplify.uv_simplify(text)
+        # elif "pip install" in tool_args['command']:
+        #     text = simplify.pip_simplify(text)
+        #     text = simplify.pip_summary(text)
+        # elif "npm install" in tool_args['command']:
+        #     pass
+        # elif "uv sync" in tool_args['command']:
+        #     text = simplify.uv_simplify(text)
+        # else:
+        #     pass
         return text
 
-def add_extra_info(dataset_name, id=None, flag_repo_info=False):
+def add_extra_info(dataset_name = None, id = None):
         final_text = ''
-        if flag_repo_info == True:
+        if dataset_name:
             with open(f"data/dataset/{dataset_name}/repo_info.json", 'r', encoding='utf-8') as f:
                 repo_infos = json.load(f)
             for repo_info in repo_infos:
@@ -311,7 +311,7 @@ def add_extra_info(dataset_name, id=None, flag_repo_info=False):
 
 async def main():
     pos = 0
-    count = 20
+    count = 40
 
     hub = MCPHub(pos, count, enable_logging=True)
 
@@ -331,7 +331,7 @@ async def main():
         key=os.path.getsize,
         # reverse=True
     )
-    hub.auto_deploy = True
+    hub.auto_deploy = False
 
 
     with open("mcp-auto/prompt/prompt_init.md", "r", encoding="utf-8") as f:
@@ -346,7 +346,7 @@ async def main():
 
         prompt = init_prompt
         
-        extra_info = add_extra_info(dataset_name, id, flag_repo_info=True)
+        extra_info = add_extra_info(dataset_name, id)
 
         query = f'''=== README.md START ===\n{readme_content}\n=== README.md END ===\n{extra_info}'''
         await hub.chat_loop(prompt, query, id, readme_path)

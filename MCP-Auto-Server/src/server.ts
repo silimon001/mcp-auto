@@ -156,7 +156,7 @@ The parameters of fix_config and add_config have the same argument type.
                     description: 
 `This tool will start a new terminal process to execute the CLI command.
 
-You must provide timeout_ms. The default timeout_ms is 60000ms.
+The default timeout_ms is 30000ms.
                         
 ${OS_GUIDANCE}
 ${PATH_GUIDANCE}`,

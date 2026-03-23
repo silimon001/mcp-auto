@@ -115,10 +115,7 @@ FAIL_KEYWORD_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-NOISE = re.compile(
-    r'^\s*(Downloading|Downloaded|Building|Built|\+\s+).*$',
-    re.MULTILINE
-)
+
 
 def uv_success(output: str) -> bool:
 
@@ -133,12 +130,18 @@ def uv_success(output: str) -> bool:
 
     return False
 
+
+UV_PATTERN = re.compile(
+    r'^\s*(Downloading|Downloaded|Building|Built|\+\s+).*$',
+    re.MULTILINE
+)
+
 def uv_simplify(output: str) -> str:
 
     if not uv_success(output):
         return output
     
-    compressed = NOISE.sub("", output)
+    compressed = UV_PATTERN.sub("", output)
     
     compressed = re.sub(r"\n{3,}", "\n\n", compressed).strip()
 
@@ -146,10 +149,10 @@ def uv_simplify(output: str) -> str:
 
 
 if __name__ == "__main__":
-    with open("log_file/auto_mcp_server_deploy_XXXXXX.log", 'r', encoding='utf-8') as f:
+    with open("log_file/test.log", 'r', encoding='utf-8') as f:
         text = f.read().strip()
 
     simplified_text = pip_simplify(text)
     simplified_text = uv_simplify(simplified_text)
-    with open('log_file/tmp.log', 'w', encoding='utf-8') as f:
+    with open('log_file/test_result.log', 'w', encoding='utf-8') as f:
         f.write(simplified_text)

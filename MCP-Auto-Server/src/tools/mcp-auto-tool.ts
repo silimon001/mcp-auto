@@ -218,10 +218,6 @@ export async function ExecuteCommand(args: unknown): Promise<ServerResult> {
     }
   }
 
-  if (parsed.data.command.includes('git clone') || parsed.data.command.includes('npm install') || parsed.data.command.includes('pip install') || parsed.data.command.includes('uv sync') || parsed.data.command.includes('uvx')) {
-      parsed.data.timeout_ms = 5 * 60 * 1000;
-  }
-
   const result = await terminalManager.executeCommand(
     parsed.data.command,
     parsed.data.timeout_ms,
@@ -240,7 +236,7 @@ export async function ExecuteCommand(args: unknown): Promise<ServerResult> {
   let output = terminalManager.getNewOutput(result.pid);
 
   if (output !== null && !output.includes("Process completed with exit code")) {
-      output += `\nThe process timed out and has been forcibly closed.\nPlease check the output.\nRuntime: ${Math.round(parsed.data.timeout_ms / 1000)} s"`
+      output += `\nOperation timed out. The process has been forcibly terminated. Please try a different command or increase the timeout period and retry.\nRuntime: ${Math.round(parsed.data.timeout_ms / 1000)} s"`
   }
 
   return {

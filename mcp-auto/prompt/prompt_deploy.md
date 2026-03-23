@@ -1,17 +1,16 @@
-# Step 4: Deploy the MCP Server
+# Step 3: Deploy the MCP Server
 
-4.1 Determine whether the optimal deployment plan includes the process of starting and verifying the MCP server. If it does, avoid starting the MCP server in Step 4; instead, start and verify the MCP server in Step 6.
+3.1 Determine whether the optimal deployment plan includes starting and verifying the MCP server. If it does, avoid starting the MCP server in Step 3; instead, start and verify the MCP server in Step 5.
+3.2 Follow the optimal deployment plan to perform the deployment. If the deployment is successful, proceed to Step 4; if it fails, terminate the task and strictly output “❌ @@Task Failed@@”.
 
-4.2 Follow the optimal deployment plan to perform the deployment operation. If the deployment succeeds, proceed to Step 5; if the deployment fails, terminate the task and strictly output “❌ @@Task Failed@@”.
+# Step 4: Add Configuration
 
-# Step 5: Add Configuration
+4.1 Use the `add_config` tool to add the MCP server’s configuration information to the configuration file. Then proceed to Step 5.
 
-5.1 Use the `add_config` tool to add the configuration information for the MCP server to the configuration file. Then proceed to Step 6.
-
-# Notes
+# Instructions
 
 - Name the server `{id}_{owner}_{name}`.
-- When executing any commands, use absolute paths and avoid using relative paths.
+- When executing any commands, use absolute paths and avoid relative paths.
 - The standard structure for MCP server configuration is as follows:
 
 ```json
@@ -53,5 +52,5 @@
 }
 ```
 
-* If `type` is `stdio`, then `url` and `headers` do not need to be provided.
-* If `type` is `sse` or `streamable_http`, then `url` must be provided. If the MCP server is also deployed locally, then `command`, `args`, `env`, and `cwd` are additionally required to run the MCP server locally. In addition, `args` must specify the same port as `url`.
+* If `type` is `stdio`, there is no need to provide `url` or `headers`.
+* If `type` is `sse` or `streamable_http`, `url` must be provided. If the MCP server is also deployed locally, you must additionally provide `command`, `args`, `env`, and `cwd` to run the MCP server on the local machine. Furthermore, the port specified in `args` must match the port used in the `url`.
