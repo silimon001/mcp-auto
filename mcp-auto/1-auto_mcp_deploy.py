@@ -17,7 +17,9 @@ from mcp import Tool
 import simplify
 from dataset_setting import dataset_name
 
-load_dotenv()
+load_dotenv('.mcp-auto_env')
+
+os.makedirs(f"{os.getcwd()}/mcp_server", exist_ok=True)
 
 class MCPHub:
     def __init__(self, pos, count, enable_logging: bool = False):
@@ -252,7 +254,7 @@ class MCPHub:
                 with open(f"mcp-auto/prompt/prompt_{name}.md", "r", encoding="utf-8") as f:
                     prompt += f.read()
                 self.log(f"add the prompt of {name}")
-                if name == 'git':
+                if name == 'git' or name == 'deploy':
                     from pathlib import Path
 
                     def git_fix_prompt(template: str) -> str:
@@ -310,8 +312,8 @@ def add_extra_info(dataset_name = None, id = None):
         return final_text
 
 async def main():
-    pos = 0
-    count = 40
+    pos = 3
+    count = 5
 
     hub = MCPHub(pos, count, enable_logging=True)
 
@@ -331,7 +333,7 @@ async def main():
         key=os.path.getsize,
         # reverse=True
     )
-    hub.auto_deploy = False
+    hub.auto_deploy = True
 
 
     with open("mcp-auto/prompt/prompt_init.md", "r", encoding="utf-8") as f:

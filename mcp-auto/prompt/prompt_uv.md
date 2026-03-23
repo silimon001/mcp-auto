@@ -10,54 +10,6 @@ uv is an extremely fast Python package and project manager.
 
 ## uv Usage Guide
 
-### Running Scripts
-
-Use `uv run <scripts>.py` instead of `python <script>.py`.
-
-* Script without dependencies
-
-```example.py
-print("Hello world")
-```
-
-```bash
-$ uv run example.py
-Hello world
-```
-
-* Passing arguments to a script
-
-```example.py
-import sys
-
-print(" ".join(sys.argv[1:]))
-```
-
-```bash
-$ uv run example.py test
-test
-
-$ uv run example.py hello world!
-hello world!
-```
-
-* Script with dependencies
-
-```example.py
-import time
-from rich.progress import track
-
-for i in track(range(20), description="For example:"):
-    time.sleep(0.05)
-```
-
-Use `--with` to install dependencies and `--python` to specify the Python version.
-
-```bash
-$ uv run --with rich --python 3.12 example.py
-For example: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:01
-```
-
 ### Running Tools
 
 * `uvx` is used to run command-line tools; when used, the tool is installed into a temporary isolated environment.
@@ -66,92 +18,27 @@ For example: ━━━━━━━━━━━━━━━━━━━━━━�
 $ uvx --python 3.10 ruff
 ```
 
-**Note**: When you run `uvx <package>`, a server starts and waits for communication, blocking the process. Therefore, during **Step 4: Execute the Deployment Plan**, do not use this command to directly start the server, as it will cause the process to remain blocked indefinitely. The correct approach is to place the configuration information directly into the configuration file and then proceed to **Step 6: Verify the Server**.
+**Note**: When you execute `uvx <package>`, a server will start and wait for communication, blocking the process. Therefore, during **Step 4: Execute the Deployment Plan**, do not use this command to directly start the server, as it will cause the process to remain blocked indefinitely. The correct approach is to place the configuration information in the configuration file and then proceed to **Step 6: Verify the Server**.
 
-### Project Management
-
-* The `uv init` command initializes a new project.
+## Two Methods for Setting Up a uv Project
 
 ```bash
-$ mkdir hello-world
-$ cd hello-world
-$ uv init
+$ uv init # Initialize the project
+$ uv add <package> # Add a dependency package
+$ uv sync # Create a virtual environment and install dependencies
 ```
 
-uv will create the following files:
+Alternatively:
 
 ```bash
-├── .gitignore
-├── .python-version
-├── README.md
-├── main.py
-└── pyproject.toml
-```
-
-The `pyproject.toml` file contains the project's metadata:
-
-```toml
-[project]
-name = "hello-world"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-dependencies = []
-```
-
-The `.python-version` file specifies the Python version to be used for the project.
-
-* Managing dependencies: Use `uv add` and `uv remove` to add or remove dependencies.
-
-```bash
-$ # Specify a version constraint
-$ uv add 'requests==2.31.0'
-
-$ # Add a git dependency
-$ uv add git+https://github.com/psf/requests
-
-$ # Add all dependencies from `requirements.txt`.
-$ uv add -r requirements.txt -c constraints.txt
-
-$ uv remove requests
-```
-
-* Synchronizing the project environment:
-
-```bash
-$ uv sync
-```
-
-### pip Interface
-
-* Create a virtual environment (.venv); you can specify the Python version.
-
-```bash
-$ uv venv --python 3.xx
-
-$ # Forcefully switch the Python version
-$ uv venv --python 3.xx --clear
-```
-
-* Manage dependencies:
-
-```bash
-$ uv pip install <package>
-
-$ # for example
-$ uv pip install flask[dotenv] ruff
-
-$ uv pip install -e .
-$ uv pip install -r requirements.txt
-$ uv pip install -r pyproject.toml
-
-$ # uninstall
-$ uv pip uninstall flash ruff
+$ uv init # Initialize the project
+$ uv venv # Create a virtual environment
+$ uv pip install <package> # Install dependencies in the virtual environment
 ```
 
 ## Environment Setup (Guarantees)
 
-- uv has already been deployed in the user’s development environment, so there is no need to install or verify it again.
+- uv has already been deployed in the user’s development environment, so there is no need to reinstall or verify it again.
 - The paths for the uv tools are as follows; please use them directly:
 
 ```bash
@@ -162,32 +49,34 @@ $ which uvx
 {HOME}/.local/bin/uvx
 ```
 
-* Any uv command should first change to the corresponding project directory before being executed.
+* Before executing any uv command, first navigate to the corresponding project directory:
 
-```bash
+ ```bash 
 $ cd /path/to/project/dir && uv xxx
-```
+ ```
 
-**Important: Use `uv` to manage your Python environment and dependencies.**
-Once you have initialized or are managing your project with `uv`, **do not use the native `python` or `pip` commands**, as they can bypass `uv`’s environment management and lead to execution failures.
+## Notes
 
-Always use the commands provided by `uv`:
+* You must create a separate virtual environment for each project using `uv venv` or `uv sync`.
+* **Important: Use `uv` to manage your Python environment and dependencies.** Once you have initialized or are managing a project with `uv`, **do not use native `python` or `pip` commands**, as these commands may bypass uv’s environment management and lead to execution failures.
+* Always use the commands provided by uv:
 
-- To run a Python script: `uv run <script>.py`
-- To install dependencies: `uv pip install <package>`
+  - To run a Python script: `uv run <script>.py`
 
-**Incorrect examples (do not use):**
+  - To install dependencies: `uv pip install <package>`
+
+**Incorrect Examples (Prohibited):**
 
 ```bash
-$ python main.py # Don't do this.
+$ python main.py
 $ pip install requests
 ```
 
-**Correct examples:**
+**Correct Examples:**
 
 ```bash
-$ uv run main.py
-$ uv pip install requests
+uv run main.py
+uv pip install requests
 ```
 
-In all command examples, script instructions, and documentation, **you must use the `uv` command set instead of `python` or `pip`.**
+In all command examples, script explanations, and documentation, **you must use the `uv` command system instead of `python` or `pip`.**

@@ -54,3 +54,4 @@
 
 * If `type` is `stdio`, there is no need to provide `url` or `headers`.
 * If `type` is `sse` or `streamable_http`, `url` must be provided. If the MCP server is also deployed locally, you must additionally provide `command`, `args`, `env`, and `cwd` to run the MCP server on the local machine. Furthermore, the port specified in `args` must match the port used in the `url`.
+* If it’s not a local project, you must set the `cwd` to `{WORKSPACE}/mcp_server/` by default.

@@ -132,7 +132,7 @@ def uv_success(output: str) -> bool:
 
 
 UV_PATTERN = re.compile(
-    r'^\s*(Downloading|Downloaded|Building|Built|\+\s+).*$',
+    r'^\s*(Downloading|Downloaded|Building|Built|\+\s+|\-\s+).*$',
     re.MULTILINE
 )
 
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     with open("log_file/test.log", 'r', encoding='utf-8') as f:
         text = f.read().strip()
 
-    simplified_text = pip_simplify(text)
-    simplified_text = uv_simplify(simplified_text)
+    # text = pip_simplify(text)
+    text = uv_simplify(text)
     with open('log_file/test_result.log', 'w', encoding='utf-8') as f:
-        f.write(simplified_text)
+        f.write(text)
