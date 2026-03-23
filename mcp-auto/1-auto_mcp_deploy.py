@@ -283,17 +283,7 @@ class MCPHub:
         return selected_tool_message
 
     def simplify_context(self, text: str, tool_args) -> str:
-        # if "uv pip install" in tool_args['command']:
-        #     text = simplify.uv_simplify(text)
-        # elif "pip install" in tool_args['command']:
-        #     text = simplify.pip_simplify(text)
-        #     text = simplify.pip_summary(text)
-        # elif "npm install" in tool_args['command']:
-        #     pass
-        # elif "uv sync" in tool_args['command']:
-        #     text = simplify.uv_simplify(text)
-        # else:
-        #     pass
+        text = simplify.simplify_log(text)
         return text
 
 def add_extra_info(dataset_name = None, id = None):
@@ -312,8 +302,8 @@ def add_extra_info(dataset_name = None, id = None):
         return final_text
 
 async def main():
-    pos = 3
-    count = 5
+    pos = 20
+    count = 10
 
     hub = MCPHub(pos, count, enable_logging=True)
 
@@ -329,7 +319,7 @@ async def main():
     await hub.connect_servers(configs)
 
     readme_repos = sorted(
-        glob(os.path.join(f"data/dataset/{dataset_name}/validated_readme", "*.md")),
+        glob(os.path.join(f"data/dataset/{dataset_name}/sampled_validated_readme", "*.md")),
         key=os.path.getsize,
         # reverse=True
     )

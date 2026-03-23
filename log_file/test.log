@@ -12,7 +12,7 @@ Installed 31 packages in 9ms
 
 [OK] server 953134420_algonacci_mcp-wikipedia is OK, tools: search, summary, page, random, set_lang
 
-Process completed with exit code 0
+
 Runtime: 4.723s
 
 
@@ -59,5 +59,383 @@ Installed 21 packages in 27ms
  + uvicorn==0.27.0
  + yarl==1.23.0
 
-Process completed with exit code 0
+
 Runtime: 19.086s
+
+
+Process started with PID 10651 (shell: /bin/bash)
+Initial output:
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting scmcp
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/7a/de/7779d68fdb8091190bf1fdd86c87cff868691160f4e60774df76ada89e38/scmcp-0.5.0-py3-none-any.whl (6.5 kB)
+Collecting agno (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/d6/8b/df66cab1b74ea915f847e081abf21a498323580b34312cca6226895aff7f/agno-2.5.10-py3-none-any.whl (2.1 MB)
+Collecting cellrank-mcp (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/87/fd/3aa3308fc1e1d1d263f95d53ce0606b84d4dec01a1bcc605a5b0a5c14d24/cellrank_mcp-0.4.0-py3-none-any.whl (16 kB)
+Collecting decoupler-mcp (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/13/68/5d836e3d39689c9ebb2270b11ce8272caf6f16003967f13721d589faff2d/decoupler_mcp-0.4.0-py3-none-any.whl (6.4 kB)
+Requirement already satisfied: fastmcp>=2.10.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scmcp) (3.1.1)
+Collecting infercnv-mcp (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/66/1f/3b63b508e8c6fb155bb6adcc91ef808168336603c17b18f33138931181fa/infercnv_mcp-0.2.0-py3-none-any.whl (9.5 kB)
+Collecting lancedb (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/c4/f0/04895c6dc7b9fb797fb9243aa9e9aede54d1eef307bdf9562bbc0b4be5d7/lancedb-0.30.1-cp39-abi3-manylinux_2_28_x86_64.whl (46.9 MB)
+Collecting liana-mcp (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/32/eb/12f56cac4b41c250a6af4b688ba2c066504f7989a0533adfd50cd06c8a27/liana_mcp-0.4.0-py3-none-any.whl (8.6 kB)
+Requirement already satisfied: mcp>=1.8.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scmcp) (1.25.0)
+Requirement already satisfied: nest-asyncio in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scmcp) (1.6.0)
+Collecting scanpy-mcp (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/95/1d/826f5e7bab5bfbc55d36f84b15e3b329c7443523b1796c9ace979296cce5/scanpy_mcp-0.5.0-py3-none-any.whl (6.0 kB)
+Collecting scmcp-shared>=0.6.0 (from scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/b9/5a/474eaadb4466bfc8ef9dabe8d7cec7e45c8d4734bfa69609391299434fc1/scmcp_shared-0.6.7-py3-none-any.whl (95 kB)
+Requirement already satisfied: authlib>=1.6.5 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (1.6.9)
+Requirement already satisfied: cyclopts>=4.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (4.10.0)
+Requirement already satisfied: exceptiongroup>=1.2.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (1.3.1)
+Requirement already satisfied: httpx<1.0,>=0.28.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (0.28.1)
+Requirement already satisfied: jsonref>=1.1.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (1.1.0)
+Requirement already satisfied: jsonschema-path>=0.3.4 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (0.4.5)
+Requirement already satisfied: openapi-pydantic>=0.5.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (0.5.1)
+Requirement already satisfied: opentelemetry-api>=1.20.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (1.40.0)
+Requirement already satisfied: packaging>=24.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (26.0)
+Requirement already satisfied: platformdirs>=4.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (4.9.4)
+Requirement already satisfied: py-key-value-aio<0.5.0,>=0.4.4 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (0.4.4)
+Requirement already satisfied: pydantic>=2.11.7 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pydantic[email]>=2.11.7->fastmcp>=2.10.0->scmcp) (2.12.5)
+Requirement already satisfied: pyperclip>=1.9.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (1.11.0)
+Requirement already satisfied: python-dotenv>=1.1.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (1.2.2)
+Requirement already satisfied: pyyaml<7.0,>=6.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (6.0.3)
+Requirement already satisfied: rich>=13.9.4 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (14.3.3)
+Requirement already satisfied: uncalled-for>=0.2.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (0.2.0)
+Requirement already satisfied: uvicorn>=0.35 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (0.41.0)
+Requirement already satisfied: watchfiles>=1.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (1.1.1)
+Requirement already satisfied: websockets>=15.0.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from fastmcp>=2.10.0->scmcp) (16.0)
+Requirement already satisfied: anyio in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from httpx<1.0,>=0.28.1->fastmcp>=2.10.0->scmcp) (4.12.1)
+Requirement already satisfied: certifi in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from httpx<1.0,>=0.28.1->fastmcp>=2.10.0->scmcp) (2026.2.25)
+Requirement already satisfied: httpcore==1.* in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from httpx<1.0,>=0.28.1->fastmcp>=2.10.0->scmcp) (1.0.9)
+Requirement already satisfied: idna in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from httpx<1.0,>=0.28.1->fastmcp>=2.10.0->scmcp) (3.11)
+Requirement already satisfied: h11>=0.16 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from httpcore==1.*->httpx<1.0,>=0.28.1->fastmcp>=2.10.0->scmcp) (0.16.0)
+Requirement already satisfied: httpx-sse>=0.4 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (0.4.3)
+Requirement already satisfied: jsonschema>=4.20.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (4.26.0)
+Requirement already satisfied: pydantic-settings>=2.5.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (2.13.1)
+Requirement already satisfied: pyjwt>=2.10.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pyjwt[crypto]>=2.10.1->mcp>=1.8.0->scmcp) (2.11.0)
+Requirement already satisfied: python-multipart>=0.0.9 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (0.0.22)
+Requirement already satisfied: sse-starlette>=1.6.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (3.3.2)
+Requirement already satisfied: starlette>=0.27 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (0.52.1)
+Requirement already satisfied: typing-extensions>=4.9.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (4.15.0)
+Requirement already satisfied: typing-inspection>=0.4.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from mcp>=1.8.0->scmcp) (0.4.2)
+Requirement already satisfied: beartype>=0.20.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from py-key-value-aio<0.5.0,>=0.4.4->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (0.22.9)
+Requirement already satisfied: aiofile>=3.5.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (3.9.0)
+Requirement already satisfied: keyring>=25.6.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (25.7.0)
+Requirement already satisfied: cachetools>=5.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (7.0.5)
+Requirement already satisfied: annotated-types>=0.6.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pydantic>=2.11.7->pydantic[email]>=2.11.7->fastmcp>=2.10.0->scmcp) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pydantic>=2.11.7->pydantic[email]>=2.11.7->fastmcp>=2.10.0->scmcp) (2.41.5)
+Requirement already satisfied: caio<0.10.0,>=0.9.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from aiofile>=3.5.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (0.9.25)
+Requirement already satisfied: cryptography in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from authlib>=1.6.5->fastmcp>=2.10.0->scmcp) (46.0.5)
+Requirement already satisfied: attrs>=23.1.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cyclopts>=4.0.0->fastmcp>=2.10.0->scmcp) (25.4.0)
+Requirement already satisfied: docstring-parser<4.0,>=0.15 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cyclopts>=4.0.0->fastmcp>=2.10.0->scmcp) (0.17.0)
+Requirement already satisfied: rich-rst<2.0.0,>=1.3.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cyclopts>=4.0.0->fastmcp>=2.10.0->scmcp) (1.3.2)
+Requirement already satisfied: docutils in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from rich-rst<2.0.0,>=1.3.1->cyclopts>=4.0.0->fastmcp>=2.10.0->scmcp) (0.22.4)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from jsonschema>=4.20.0->mcp>=1.8.0->scmcp) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from jsonschema>=4.20.0->mcp>=1.8.0->scmcp) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from jsonschema>=4.20.0->mcp>=1.8.0->scmcp) (0.30.0)
+Requirement already satisfied: pathable<0.6.0,>=0.5.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from jsonschema-path>=0.3.4->fastmcp>=2.10.0->scmcp) (0.5.0)
+Requirement already satisfied: SecretStorage>=3.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (3.5.0)
+Requirement already satisfied: jeepney>=0.4.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (0.9.0)
+Requirement already satisfied: jaraco.classes in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (3.4.0)
+Requirement already satisfied: jaraco.functools in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (4.4.0)
+Requirement already satisfied: jaraco.context in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (6.1.2)
+Requirement already satisfied: importlib-metadata<8.8.0,>=6.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from opentelemetry-api>=1.20.0->fastmcp>=2.10.0->scmcp) (8.7.1)
+Requirement already satisfied: zipp>=3.20 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from importlib-metadata<8.8.0,>=6.0->opentelemetry-api>=1.20.0->fastmcp>=2.10.0->scmcp) (3.23.0)
+Requirement already satisfied: email-validator>=2.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pydantic[email]>=2.11.7->fastmcp>=2.10.0->scmcp) (2.3.0)
+Requirement already satisfied: dnspython>=2.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from email-validator>=2.0.0->pydantic[email]>=2.11.7->fastmcp>=2.10.0->scmcp) (2.8.0)
+Requirement already satisfied: cffi>=2.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cryptography->authlib>=1.6.5->fastmcp>=2.10.0->scmcp) (2.0.0)
+Requirement already satisfied: pycparser in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cffi>=2.0.0->cryptography->authlib>=1.6.5->fastmcp>=2.10.0->scmcp) (3.0)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from rich>=13.9.4->fastmcp>=2.10.0->scmcp) (4.0.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from rich>=13.9.4->fastmcp>=2.10.0->scmcp) (2.19.2)
+Requirement already satisfied: mdurl~=0.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from markdown-it-py>=2.2.0->rich>=13.9.4->fastmcp>=2.10.0->scmcp) (0.1.2)
+Collecting abcoder (from scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/aa/c1/7c658f02e6be1394ffeb0a17d40d0d94bf086bfe793fce395f49fea9059d/abcoder-0.3.1-py3-none-any.whl (17 kB)
+Collecting igraph (from scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/7d/da/dd2867c25adbb41563720f14b5fc895c98bf88be682a3faff4f7b3118d2a/igraph-1.0.0-cp39-abi3-manylinux_2_28_x86_64.whl (5.7 MB)
+Collecting leidenalg (from scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/b0/a4/a89e2ce16a580f7bea066ed49364f0b3e04a6412f0c3692975bee8515141/leidenalg-0.11.0-cp38-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (2.7 MB)
+Requirement already satisfied: openai in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scmcp-shared>=0.6.0->scmcp) (2.14.0)
+Requirement already satisfied: requests in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scmcp-shared>=0.6.0->scmcp) (2.32.5)
+Collecting scanpy (from scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/44/f0/000ac705a3d5b8744c6eabfce6b413b131829542ffec05020b1e931ffed4/scanpy-1.12-py3-none-any.whl (2.1 MB)
+Requirement already satisfied: click>=7.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from uvicorn>=0.35->fastmcp>=2.10.0->scmcp) (8.3.1)
+Requirement already satisfied: ipykernel in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from abcoder->scmcp-shared>=0.6.0->scmcp) (7.2.0)
+Requirement already satisfied: jupyter-client in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from abcoder->scmcp-shared>=0.6.0->scmcp) (8.8.0)
+Collecting gitpython (from agno->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/6a/09/e21df6aef1e1ffc0c816f0522ddc3f6dcded766c3261813131c78a704470/gitpython-3.1.46-py3-none-any.whl (208 kB)
+Requirement already satisfied: typer in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from agno->scmcp) (0.24.1)
+Collecting cellrank>=2.0.0 (from cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/1c/ba/657160cb29b0d66583e8a52da2856ecc79e1387dd28aab208da16bc7f64d/cellrank-2.2.0-py3-none-any.whl (230 kB)
+Collecting anndata>=0.11 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/4c/f4/4d0193dc5bab3af74e9560a8b45830d88ac707467d15ceff7e3df17adc41/anndata-0.12.10-py3-none-any.whl (176 kB)
+Collecting docrep>=0.3 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached docrep-0.3.2-py3-none-any.whl
+Collecting joblib>=1.4 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/7b/91/984aca2ec129e2757d1e4e3c81c3fcda9d0f85b74670a094cc443d9ee949/joblib-1.5.3-py3-none-any.whl (309 kB)
+Requirement already satisfied: matplotlib>=3.9 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (3.10.8)
+Requirement already satisfied: networkx>=3.4 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (3.6.1)
+Collecting numba>=0.60 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/9b/89/1a74ea99b180b7a5587b0301ed1b183a2937c4b4b67f7994689b5d36fc34/numba-0.64.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (3.8 MB)
+Requirement already satisfied: numpy>=2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (2.4.2)
+Requirement already satisfied: pandas>=2.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (3.0.1)
+Collecting pygam>=0.10 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/35/2d/cb0cd5865a8dac8869cdd01df17c2c0c94d9aa22b167e1bbfa01559dd3a9/pygam-0.12.0-py3-none-any.whl (84 kB)
+Collecting pygpcca>=1.0.4 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/82/a6/c415c9faa7c4c8749fbac0c54523def0cf9efb94d70f09188370c0da74c8/pygpcca-1.0.4-py3-none-any.whl (68 kB)
+Collecting scikit-learn>=1.6 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/97/74/b7a304feb2b49df9fafa9382d4d09061a96ee9a9449a7cbea7988dda0828/scikit_learn-1.8.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (8.9 MB)
+Requirement already satisfied: scipy>=1.14 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (1.16.3)
+Requirement already satisfied: seaborn>=0.13 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (0.13.2)
+Requirement already satisfied: session-info2>=0.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (0.4)
+Requirement already satisfied: wrapt>=1.16 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from cellrank>=2.0.0->cellrank-mcp->scmcp) (2.1.2)
+Collecting array-api-compat>=1.7.1 (from anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/a0/d3/54cd560804a8c2b898824778e86c13c2a14600bc83532a9c4f69f2f469c3/array_api_compat-1.14.0-py3-none-any.whl (60 kB)
+Collecting h5py>=3.8 (from anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/9e/e9/1a19e42cd43cc1365e127db6aae85e1c671da1d9a5d746f4d34a50edb577/h5py-3.16.0-cp312-cp312-manylinux_2_28_x86_64.whl (5.4 MB)
+Collecting legacy-api-wrap (from anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/41/5b/058db09c45ba58a7321bdf2294cae651b37d6fec68117265af90cde043b0/legacy_api_wrap-1.5-py3-none-any.whl (10 kB)
+Collecting natsort (from anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/ef/82/7a9d0550484a62c6da82858ee9419f3dd1ccc9aa1c26a1e43da3ecd20b0d/natsort-8.4.0-py3-none-any.whl (38 kB)
+Collecting pandas>=2.2 (from cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/e5/63/cd7d615331b328e287d8233ba9fdf191a9c2d11b6af0c7a59cfcec23de68/pandas-2.3.3-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.4 MB)
+Collecting zarr!=3.0.*,>=2.18.7 (from anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/44/15/bb13b4913ef95ad5448490821eee4671d0e67673342e4d4070854e5fe081/zarr-3.1.5-py3-none-any.whl (284 kB)
+Requirement already satisfied: python-dateutil>=2.8.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pandas>=2.2->cellrank>=2.0.0->cellrank-mcp->scmcp) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pandas>=2.2->cellrank>=2.0.0->cellrank-mcp->scmcp) (2026.1.post1)
+Requirement already satisfied: tzdata>=2022.7 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pandas>=2.2->cellrank>=2.0.0->cellrank-mcp->scmcp) (2025.3)
+Requirement already satisfied: six in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from docrep>=0.3->cellrank>=2.0.0->cellrank-mcp->scmcp) (1.17.0)
+Requirement already satisfied: contourpy>=1.0.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from matplotlib>=3.9->cellrank>=2.0.0->cellrank-mcp->scmcp) (1.3.3)
+Requirement already satisfied: cycler>=0.10 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from matplotlib>=3.9->cellrank>=2.0.0->cellrank-mcp->scmcp) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from matplotlib>=3.9->cellrank>=2.0.0->cellrank-mcp->scmcp) (4.61.1)
+Requirement already satisfied: kiwisolver>=1.3.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from matplotlib>=3.9->cellrank>=2.0.0->cellrank-mcp->scmcp) (1.4.9)
+Requirement already satisfied: pillow>=8 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from matplotlib>=3.9->cellrank>=2.0.0->cellrank-mcp->scmcp) (12.1.1)
+Requirement already satisfied: pyparsing>=3 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from matplotlib>=3.9->cellrank>=2.0.0->cellrank-mcp->scmcp) (3.3.2)
+Collecting llvmlite<0.47,>=0.46.0dev0 (from numba>=0.60->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/aa/85/4890a7c14b4fa54400945cb52ac3cd88545bbdb973c440f98ca41591cdc5/llvmlite-0.46.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (56.3 MB)
+Collecting progressbar2<5,>=4.2.0 (from pygam>=0.10->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/ee/94/448f037fb0ffd0e8a63b625cf9f5b13494b88d15573a987be8aaa735579d/progressbar2-4.5.0-py3-none-any.whl (57 kB)
+Requirement already satisfied: python-utils>=3.8.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from progressbar2<5,>=4.2.0->pygam>=0.10->cellrank>=2.0.0->cellrank-mcp->scmcp) (3.9.1)
+Collecting jinja2==3.0.3 (from pygpcca>=1.0.4->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/20/9a/e5d9ec41927401e41aea8af6d16e78b5e612bca4699d417f646a9610a076/Jinja2-3.0.3-py3-none-any.whl (133 kB)
+Collecting MarkupSafe>=2.0 (from jinja2==3.0.3->pygpcca>=1.0.4->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/3c/2e/8d0c2ab90a8c1d9a24f0399058ab8519a3279d1bd4289511d74e909f060e/markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Collecting fast-array-utils>=1.2.1 (from fast-array-utils[accel,sparse]>=1.2.1->scanpy->scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/5f/cb/ddcf4ad63ba88df95025837e35faf6ea6862bab1327f836801ba02140a22/fast_array_utils-1.3.1-py3-none-any.whl (36 kB)
+Requirement already satisfied: patsy in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scanpy->scmcp-shared>=0.6.0->scmcp) (1.0.2)
+Collecting pynndescent>=0.5.13 (from scanpy->scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/b2/e6/94145d714402fd5ade00b5661f2d0ab981219e07f7db9bfa16786cdb9c04/pynndescent-0.6.0-py3-none-any.whl (73 kB)
+Collecting statsmodels>=0.14.5 (from scanpy->scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/81/68/dddd76117df2ef14c943c6bbb6618be5c9401280046f4ddfc9fb4596a1b8/statsmodels-0.14.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (10.3 MB)
+Requirement already satisfied: tqdm in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scanpy->scmcp-shared>=0.6.0->scmcp) (4.67.3)
+Collecting umap-learn>=0.5.7 (from scanpy->scmcp-shared>=0.6.0->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/43/d2/fcf7192dd1cd8c090b6cfd53fa223c4fb2887a17c47e06bc356d44f40dfb/umap_learn-0.5.11-py3-none-any.whl (90 kB)
+Requirement already satisfied: threadpoolctl>=3.2.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from scikit-learn>=1.6->cellrank>=2.0.0->cellrank-mcp->scmcp) (3.6.0)
+Collecting donfig>=0.8 (from zarr!=3.0.*,>=2.18.7->anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/0c/d5/c5db1ea3394c6e1732fb3286b3bd878b59507a8f77d32a2cebda7d7b7cd4/donfig-0.8.1.post1-py3-none-any.whl (21 kB)
+Collecting google-crc32c>=1.5 (from zarr!=3.0.*,>=2.18.7->anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/ce/a9/a780cc66f86335a6019f557a8aaca8fbb970728f0efd2430d15ff1beae0e/google_crc32c-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (33 kB)
+Requirement already satisfied: numcodecs>=0.14 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from zarr!=3.0.*,>=2.18.7->anndata>=0.11->cellrank>=2.0.0->cellrank-mcp->scmcp) (0.16.5)
+Collecting dcor (from decoupler-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/a4/70/d82c194d53d684b6e75a228170a36f414cc86f5824693f6b0e443032461d/dcor-0.7-py3-none-any.whl (44 kB)
+Collecting decoupler>=2.0.1 (from decoupler-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/b9/08/6862cad708effcf16baabbb9e6dae1d469858764dd38ec09677f9f2b0755/decoupler-2.1.4-py3-none-any.whl (121 kB)
+Collecting adjusttext (from decoupler>=2.0.1->decoupler-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/53/1c/8feedd607cc14c5df9aef74fe3af9a99bf660743b842a9b5b1865326b4aa/adjustText-1.3.0-py3-none-any.whl (13 kB)
+Collecting marsilea (from decoupler>=2.0.1->decoupler-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/a0/e5/66b20fa7ce569b27c9de4974f5d3c2ffbfbfdd0330d0203d92feafd028d0/marsilea-0.5.8-py3-none-any.whl (84 kB)
+Collecting gitdb<5,>=4.0.1 (from gitpython->agno->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/a0/61/5c78b91c3143ed5c14207f463aecfc8f9dbb5092fb2869baf37c273b2705/gitdb-4.0.12-py3-none-any.whl (62 kB)
+Requirement already satisfied: smmap<6,>=3.0.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from gitdb<5,>=4.0.1->gitpython->agno->scmcp) (5.0.3)
+Collecting h2<5,>=3 (from httpx[http2]->agno->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/69/b2/119f6e6dcbd96f9069ce9a2665e0146588dc9f88f29549711853645e736a/h2-4.3.0-py3-none-any.whl (61 kB)
+Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]->agno->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/48/30/47d0bf6072f7252e6521f3447ccfa40b421b6824517f82854703d0f5a98b/hyperframe-6.1.0-py3-none-any.whl (13 kB)
+Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]->agno->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/07/c6/80c95b1b2b94682a72cbdbfb85b81ae2daffa4291fbfa1b1464502ede10d/hpack-4.1.0-py3-none-any.whl (34 kB)
+Requirement already satisfied: texttable>=1.6.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from igraph->scmcp-shared>=0.6.0->scmcp) (1.7.0)
+Collecting infercnvpy (from infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/c7/98/a7e59473efa091ef812a20470e38350ae6c113bc90a8b80e8c127830bcdb/infercnvpy-0.6.1-py3-none-any.whl (3.8 MB)
+Collecting pybiomart>=0.2.0 (from infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/4a/6d/23cf5ae8b0a549a60164c49836c8e8eb393747b5fd00a7b5d9445886e0d8/pybiomart-0.2.0-py3-none-any.whl (10 kB)
+Collecting pyreadr (from infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/6d/2e/6277d370feebbe99f992ee3e409480e86715f34e52b5eb0383eddd1e5e7f/pyreadr-0.5.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (776 kB)
+Collecting pytest-benchmark (from infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/33/29/e756e715a48959f1c0045342088d7ca9762a2f509b945f362a316e9412b7/pytest_benchmark-5.2.3-py3-none-any.whl (45 kB)
+Requirement already satisfied: pytoml in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from infercnvpy->infercnv-mcp->scmcp) (0.1.21)
+Collecting session-info (from infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/c5/c4/f6b7c0ec5241a2bde90c7ba1eca6ba44f8488bcedafe9072c79593015ec0/session_info-1.0.1-py3-none-any.whl (9.1 kB)
+Collecting future (from pybiomart>=0.2.0->infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/da/71/ae30dadffc90b9006d77af76b393cb9dfbfc9629f339fc1574a1c52e6806/future-1.0.0-py3-none-any.whl (491 kB)
+Collecting requests-cache (from pybiomart>=0.2.0->infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/5a/08/48fa499c5c4667d5ceda6bd658dabf327b49997a99ac8674c61f4ba557a2/requests_cache-1.3.1-py3-none-any.whl (70 kB)
+Requirement already satisfied: comm>=0.1.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.2.3)
+Requirement already satisfied: debugpy>=1.6.5 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (1.8.20)
+Requirement already satisfied: ipython>=7.23.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (9.11.0)
+Requirement already satisfied: jupyter-core!=6.0.*,>=5.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (5.9.1)
+Requirement already satisfied: matplotlib-inline>=0.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.2.1)
+Requirement already satisfied: psutil>=5.7 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (7.2.2)
+Requirement already satisfied: pyzmq>=25 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (27.1.0)
+Requirement already satisfied: tornado>=6.4.1 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (6.5.5)
+Requirement already satisfied: traitlets>=5.4.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (5.14.3)
+Requirement already satisfied: decorator>=5.1.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (5.2.1)
+Requirement already satisfied: ipython-pygments-lexers>=1.0.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (1.1.1)
+Requirement already satisfied: jedi>=0.18.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.19.2)
+Requirement already satisfied: pexpect>4.6 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (4.9.0)
+Requirement already satisfied: prompt_toolkit<3.1.0,>=3.0.41 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (3.0.52)
+Requirement already satisfied: stack_data>=0.6.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.6.3)
+Requirement already satisfied: wcwidth in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from prompt_toolkit<3.1.0,>=3.0.41->ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.6.0)
+Requirement already satisfied: parso<0.9.0,>=0.8.4 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from jedi>=0.18.2->ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.8.6)
+Requirement already satisfied: ptyprocess>=0.5 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pexpect>4.6->ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.7.0)
+Requirement already satisfied: executing>=1.2.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from stack_data>=0.6.0->ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (2.2.1)
+Requirement already satisfied: asttokens>=2.1.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from stack_data>=0.6.0->ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (3.0.1)
+Requirement already satisfied: pure-eval in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from stack_data>=0.6.0->ipython>=7.23.1->ipykernel->abcoder->scmcp-shared>=0.6.0->scmcp) (0.2.3)
+Requirement already satisfied: more-itertools in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from jaraco.classes->keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4->fastmcp>=2.10.0->scmcp) (10.8.0)
+Collecting deprecation>=2.1.0 (from lancedb->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/02/c3/253a89ee03fc9b9682f1541728eb66db7db22148cd94f89ab22528cd1e1b/deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+Requirement already satisfied: pyarrow>=16 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from lancedb->scmcp) (23.0.1)
+Collecting lance-namespace>=0.3.2 (from lancedb->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/d1/91/aee1c0a04d17f2810173bd304bd444eb78332045df1b0c1b07cebd01f530/lance_namespace-0.6.1-py3-none-any.whl (12 kB)
+Collecting lance-namespace-urllib3-client==0.6.1 (from lance-namespace>=0.3.2->lancedb->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/cd/c7/cb9580602dec25f0fdd6005c1c9ba1d4c8c0c3dc8d543107e5a9f248bba8/lance_namespace_urllib3_client-0.6.1-py3-none-any.whl (317 kB)
+Requirement already satisfied: urllib3<3.0.0,>=1.25.3 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from lance-namespace-urllib3-client==0.6.1->lance-namespace>=0.3.2->lancedb->scmcp) (2.6.3)
+Collecting liana>=0.1.9 (from liana-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/11/35/24bcb5134ad91fb9787c85c0c1ef5f81b1b87adf9dfb29e8edb5e0050ca2/liana-1.7.1-py3-none-any.whl (558 kB)
+Collecting mudata (from liana>=0.1.9->liana-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/04/0e/1420cdc45771800e36fee8f3ff347c247e9d2a7eec7fb3c8e1d6d8b11c50/mudata-0.3.3-py3-none-any.whl (43 kB)
+Collecting plotnine>=0.10.1 (from liana>=0.1.9->liana-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/d8/79/eb59d10e13b151a514a8af3b1dcefb5e998b6c8c26bf0cf82d2b98f02c23/plotnine-0.15.3-py3-none-any.whl (1.3 MB)
+Collecting mizani~=0.14.0 (from plotnine>=0.10.1->liana>=0.1.9->liana-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/bd/30/b6617c74a8234ff60265373ef730eb6378ccdda74042f51f9ac936191664/mizani-0.14.4-py3-none-any.whl (133 kB)
+Collecting legendkit (from marsilea->decoupler>=2.0.1->decoupler-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/86/92/bd62fb14acf1f74ed021b3e2f105466a6b47b0ebedc5daddada4b88b47b4/legendkit-0.3.6-py3-none-any.whl (24 kB)
+Requirement already satisfied: distro<2,>=1.7.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from openai->scmcp-shared>=0.6.0->scmcp) (1.9.0)
+Requirement already satisfied: jiter<1,>=0.10.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from openai->scmcp-shared>=0.6.0->scmcp) (0.13.0)
+Requirement already satisfied: sniffio in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from openai->scmcp-shared>=0.6.0->scmcp) (1.3.1)
+Collecting pytest>=8.1 (from pytest-benchmark->infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/3b/ab/b3226f0bd7cdcf710fbede2b3548584366da3b19b5021e74f5bde2a8fa3f/pytest-9.0.2-py3-none-any.whl (374 kB)
+Requirement already satisfied: py-cpuinfo in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pytest-benchmark->infercnvpy->infercnv-mcp->scmcp) (9.0.0)
+Collecting iniconfig>=1.0.1 (from pytest>=8.1->pytest-benchmark->infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/cb/b1/3846dd7f199d53cb17f49cba7e651e9ce294d8497c8c150530ed11865bb8/iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+Requirement already satisfied: pluggy<2,>=1.5 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from pytest>=8.1->pytest-benchmark->infercnvpy->infercnv-mcp->scmcp) (1.6.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from requests->scmcp-shared>=0.6.0->scmcp) (3.4.4)
+Collecting cattrs>=22.2 (from requests-cache->pybiomart>=0.2.0->infercnvpy->infercnv-mcp->scmcp)
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/80/56/60547f7801b97c67e97491dc3d9ade9fbccbd0325058fd3dfcb2f5d98d90/cattrs-26.1.0-py3-none-any.whl (73 kB)
+Requirement already satisfied: url-normalize>=2.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from requests-cache->pybiomart>=0.2.0->infercnvpy->infercnv-mcp->scmcp) (2.2.1)
+Requirement already satisfied: stdlib_list in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from session-info->infercnvpy->infercnv-mcp->scmcp) (0.12.0)
+Requirement already satisfied: shellingham>=1.3.0 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from typer->agno->scmcp) (1.5.4)
+Requirement already satisfied: annotated-doc>=0.0.2 in /home/silimon/mcp-auto/.venv/lib/python3.12/site-packages (from typer->agno->scmcp) (0.0.4)
+Installing collected packages: session-info, natsort, MarkupSafe, llvmlite, legacy-api-wrap, joblib, iniconfig, igraph, hyperframe, hpack, h5py, google-crc32c, gitdb, future, fast-array-utils, donfig, docrep, deprecation, cattrs, array-api-compat, zarr, scikit-learn, requests-cache, pytest, progressbar2, pandas, numba, leidenalg, jinja2, h2, gitpython, statsmodels, pytest-benchmark, pyreadr, pynndescent, pygpcca, pygam, pybiomart, mizani, legendkit, lance-namespace-urllib3-client, dcor, anndata, adjusttext, umap-learn, plotnine, mudata, marsilea, lance-namespace, agno, scanpy, lancedb, decoupler, liana, infercnvpy, cellrank, abcoder, scmcp-shared, scanpy-mcp, liana-mcp, infercnv-mcp, decoupler-mcp, cellrank-mcp, scmcp
+  Attempting uninstall: pandas
+    Found existing installation: pandas 2.3.3
+    Uninstalling pandas-2.3.3:
+      Successfully uninstalled pandas-2.3.3
+
+Successfully installed MarkupSafe-3.0.3 abcoder-0.3.1 adjusttext-1.3.0 agno-2.5.10 anndata-0.12.10 array-api-compat-1.14.0 cattrs-26.1.0 cellrank-2.2.0 cellrank-mcp-0.4.0 dcor-0.7 decoupler-2.1.4 decoupler-mcp-0.4.0 deprecation-2.1.0 docrep-0.3.2 donfig-0.8.1.post1 fast-array-utils-1.3.1 future-1.0.0 gitdb-4.0.12 gitpython-3.1.46 google-crc32c-1.8.0 h2-4.3.0 h5py-3.16.0 hpack-4.1.0 hyperframe-6.1.0 igraph-1.0.0 infercnv-mcp-0.2.0 infercnvpy-0.6.1 iniconfig-2.3.0 jinja2-3.0.3 joblib-1.5.3 lance-namespace-0.6.1 lance-namespace-urllib3-client-0.6.1 lancedb-0.30.1 legacy-api-wrap-1.5 legendkit-0.3.6 leidenalg-0.11.0 liana-1.7.1 liana-mcp-0.4.0 llvmlite-0.46.0 marsilea-0.5.8 mizani-0.14.4 mudata-0.3.3 natsort-8.4.0 numba-0.64.0 pandas-2.3.3 plotnine-0.15.3 progressbar2-4.5.0 pybiomart-0.2.0 pygam-0.12.0 pygpcca-1.0.4 pynndescent-0.6.0 pyreadr-0.5.4 pytest-9.0.2 pytest-benchmark-5.2.3 requests-cache-1.3.1 scanpy-1.12 scanpy-mcp-0.5.0 scikit-learn-1.8.0 scmcp-0.5.0 scmcp-shared-0.6.7 session-info-1.0.1 statsmodels-0.14.6 umap-learn-0.5.11 zarr-3.1.5
+
+
+Runtime: 21.242s
+
+
+Process started with PID 8830 (shell: /bin/bash)
+Initial output:
+Resolved 30 packages in 24ms
+   Building intruder-mcp @ file:///home/silimon/mcp-auto/mcp_server/983502173_intruder-io_intruder-mcp
+      Built intruder-mcp @ file:///home/silimon/mcp-auto/mcp_server/983502173_intruder-io_intruder-mcp
+Prepared 1 package in 461ms
+Installed 30 packages in 28ms
+ + annotated-types==0.7.0
+ + anyio==4.12.1
+ + attrs==26.1.0
+ + certifi==2026.2.25
+ + cffi==2.0.0
+ + click==8.3.1
+ + cryptography==46.0.5
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + httpx-sse==0.4.3
+ + idna==3.11
+ + intruder-mcp==0.1.0 (from file:///home/silimon/mcp-auto/mcp_server/983502173_intruder-io_intruder-mcp)
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + mcp==1.26.0
+ + pycparser==3.0
+ + pydantic==2.12.5
+ + pydantic-core==2.41.5
+ + pydantic-settings==2.13.1
+ + pyjwt==2.12.1
+ + python-dotenv==1.2.2
+ + python-multipart==0.0.22
+ + referencing==0.37.0
+ + rpds-py==0.30.0
+ + sse-starlette==3.3.3
+ + starlette==1.0.0
+ + typing-extensions==4.15.0
+ + typing-inspection==0.4.2
+ + uvicorn==0.42.0
+
+
+Runtime: 0.599s
+
+
+Process started with PID 11834 (shell: /bin/bash)
+Initial output:
+Updating https://github.com/Zulelee/stock-images-mcp (HEAD)
+    Updated https://github.com/Zulelee/stock-images-mcp (9a043b37f0de70f569f541735e9f9a807765dd89)
+   Building stock-images-mcp @ git+https://github.com/Zulelee/stock-images-mcp@9a043b37f0de70f569f541735e9f9a807765dd89
+      Built stock-images-mcp @ git+https://github.com/Zulelee/stock-images-mcp@9a043b37f0de70f569f541735e9f9a807765dd89
+Installed 29 packages in 18ms
+--- Stock Images MCP Server Starting ---
+--- Script reached end (should not happen if running as server) ---
+Processing request of type ListToolsRequest
+
+[OK] server 1038765422_Zulelee_stock-images-mcp is OK, tools: search_stock_images
+
+--- mcp.run() finished (should not happen if running as server) ---
+
+
+Runtime: 26.152s
+
+
+Process started with PID 13716 (shell: /bin/bash)
+Initial output:
+Waiting for server localhost:8000 to be ready...
+Timeout waiting for server to start
+=== STDOUT ===
+[1mGenerating docker-compose.yml from templates...[0m
+Ensuring docker-compose.yml is up-to-date...
+[0;33mdocker-compose.yml not found. Generating...[0m
+Generating docker-compose.yml...
+Warning: YAML file not found or is not a file: /home/silimon/mcp-auto/mcp_server/958849921_rawr-ai_mcp-graphiti/mcp-projects.yaml
+Warning: Project registry file '/home/silimon/mcp-auto/mcp_server/958849921_rawr-ai_mcp-graphiti/mcp-projects.yaml' not found or failed to parse. No custom services will be added.
+Successfully generated '/home/silimon/mcp-auto/mcp_server/958849921_rawr-ai_mcp-graphiti/docker-compose.yml'.
+Generating docker-compose.yml...
+Warning: YAML file not found or is not a file: /home/silimon/mcp-auto/mcp_server/958849921_rawr-ai_mcp-graphiti/mcp-projects.yaml
+Warning: Project registry file '/home/silimon/mcp-auto/mcp_server/958849921_rawr-ai_mcp-graphiti/mcp-projects.yaml' not found or failed to parse. No custom services will be added.
+Successfully generated '/home/silimon/mcp-auto/mcp_server/958849921_rawr-ai_mcp-graphiti/docker-compose.yml'.
+unhandled errors in a TaskGroup (1 sub-exception)
+
+
+Runtime: 30.461s
+
+Process started with PID 11139 (shell: /bin/bash)
+Initial output:
+total 204
+drwxrwxr-x 4 silimon silimon   4096 Mar 24 00:14 .
+drwxrwxr-x 3 silimon silimon   4096 Mar 24 00:14 ..
+-rw-rw-r-- 1 silimon silimon    215 Mar 24 00:14 .env.example
+drwxrwxr-x 8 silimon silimon   4096 Mar 24 00:14 .git
+-rw-rw-r-- 1 silimon silimon    109 Mar 24 00:14 .gitignore
+-rw-rw-r-- 1 silimon silimon      5 Mar 24 00:14 .python-version
+drwxrwxr-x 4 silimon silimon   4096 Mar 24 00:14 .venv
+-rw-rw-r-- 1 silimon silimon   1073 Mar 24 00:14 LICENSE
+-rw-rw-r-- 1 silimon silimon   2533 Mar 24 00:14 README.md
+-rw-rw-r-- 1 silimon silimon    293 Mar 24 00:14 pyproject.toml
+-rw-rw-r-- 1 silimon silimon   5572 Mar 24 00:14 server.py
+-rw-rw-r-- 1 silimon silimon 156442 Mar 24 00:14 uv.lock
+
+Process completed with exit code 0
+Runtime: 0.006s

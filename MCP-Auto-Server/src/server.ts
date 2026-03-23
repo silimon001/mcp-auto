@@ -168,6 +168,7 @@ ${PATH_GUIDANCE}`,
 `Validate whether the config is right.
 
 Simply provide the name of the server to be verified, and the tool will automatically verify it.
+The default timeout_ms is 60000ms.
 `,
                     inputSchema: zodToJsonSchema(ValidateConfigArgsSchema),
                 },

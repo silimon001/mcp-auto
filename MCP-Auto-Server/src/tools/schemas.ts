@@ -116,7 +116,8 @@ export const ExecuteCommandArgsSchema = z.object({
 
 // Validate config schema
 export const ValidateConfigArgsSchema = z.object({
-  name: z.string()
+  name: z.string(),
+  timeout_ms: z.number().optional().default(60000)
 });
 
 export const NeedUseTheseToolsSchema = z.object({

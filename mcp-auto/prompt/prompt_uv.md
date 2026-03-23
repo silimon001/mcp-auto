@@ -57,8 +57,9 @@ $ cd /path/to/project/dir && uv xxx
 
 ## Notes
 
-* You must create a separate virtual environment for each project using `uv venv` or `uv sync`.
+* You must create a separate virtual environment for each local project using `uv venv` or `uv sync`.
 * **Important: Use `uv` to manage your Python environment and dependencies.** Once you have initialized or are managing a project with `uv`, **do not use native `python` or `pip` commands**, as these commands may bypass uv’s environment management and lead to execution failures.
+* Do not use the command `uvx <package> --help`, because most servers cannot obtain help information in this manner.
 * Always use the commands provided by uv:
 
   - To run a Python script: `uv run <script>.py`

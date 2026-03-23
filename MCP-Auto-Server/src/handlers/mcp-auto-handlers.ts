@@ -37,7 +37,7 @@ export async function handleExecuteCommand(args: unknown): Promise<ServerResult>
 export async function handleValidateConfig(args: unknown): Promise<ServerResult> {
     const parsed = ValidateConfigArgsSchema.parse(args);
 
-    return ValidateConfig(parsed.name);
+    return ValidateConfig(parsed.name, parsed.timeout_ms);
 }
 
 export async function handleNeedTools(args: unknown) {

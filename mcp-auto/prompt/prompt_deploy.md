@@ -9,6 +9,7 @@
 
 # Instructions
 
+- If you encounter a timeout error during deployment, it may be due to a slow internet connection. Please increase the timeout duration and try again several times. For example, if a dependency download times out, you can consider increasing the timeout to 5–10 minutes.
 - Name the server `{id}_{owner}_{name}`.
 - When executing any commands, use absolute paths and avoid relative paths.
 - The standard structure for MCP server configuration is as follows:

@@ -42,6 +42,6 @@ if __name__ == "__main__":
     #     sys.exit(1)
 
     config_path = 'mcp_server_config/1.json'
-    name = "1054419133_sveltejs_mcp"
+    name = "957770789_abhiemj_manim-mcp-server"
 
     anyio.run(lambda: main(config_path, name))

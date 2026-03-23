@@ -11,6 +11,8 @@ import { configManager } from '../config-manager.js';
 import { killProcess } from './process.js';
 import { readProcessOutput } from './improved-process-tools.js';
 import { parseDateDef } from 'zod-to-json-schema';
+import { tmpdir } from 'node:os';
+import { time } from 'node:console';
 
 async function getConfigFile(configDir: string, name: string): Promise<{ fileName: string; configs: any }> {
   if (name in global.configIndex) {
@@ -247,7 +249,7 @@ export async function ExecuteCommand(args: unknown): Promise<ServerResult> {
   };
 }
 
-export async function ValidateConfig(name: string): Promise<ServerResult> {
+export async function ValidateConfig(name: string, timeout_ms: number): Promise<ServerResult> {
 
   const configfile = global.configIndex[name];
   if (!configfile) {
@@ -266,9 +268,9 @@ export async function ValidateConfig(name: string): Promise<ServerResult> {
 
   let python = global.pythonPath;
   let workdir = global.cwd;
-  let command = `${python} ${workdir}/dist/config_validation.py ${filePath} ${name}`
+  let command = `${python} ${workdir}/dist/config_validation.py ${filePath} ${name}`;
 
-  return ExecuteCommand({command, timeout_ms: 60000});
+  return ExecuteCommand({command, timeout_ms});
 }
 
 export async function NeedTools(names: Array<string>) {
