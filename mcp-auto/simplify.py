@@ -56,7 +56,12 @@ def simplify_log(text: str) -> str:
         ),
         # 9. 其他下载 / 构建 / 进度噪声
         (
-            r'^\s*(Downloading|Downloaded|Building|Built|Using cached|Installing|Getting|Preparing|Looking in|Collecting|Requirement already satisfied|Attempting uninstall|Found existing installation|Uninstalling|Successfully uninstalled|Updating|Updated).*$',
+            r'^\s*(Downloading|Downloaded|Building|Built|Using cached|Installing|Getting|Preparing|Looking in|Collecting|Requirement already satisfied|Attempting uninstall|Found existing installation|Uninstalling|Successfully uninstalled|Updating|Updated|npm warn).*$',
+            r""
+        ),
+
+        (
+            r'^.*gzip:.*$',
             r""
         ),
     ]
