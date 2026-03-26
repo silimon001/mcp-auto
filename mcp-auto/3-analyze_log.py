@@ -356,7 +356,7 @@ def analyze_all_mcp_logs(log_dir: list[str], dataset: str) -> Optional[str]:
     analyzer.print_summary()
     
     # 生成CSV
-    output_name = f"{log_dir}/mcp_analysis_{dataset}.csv"
+    output_name = f"log_file/mcp_analysis_{dataset}.csv"
     csv_path = analyzer.generate_csv(output_name)
     
     return csv_path
