@@ -368,7 +368,7 @@ if __name__ == "__main__":
 
     import os
     log_file = sorted(
-        glob(os.path.join(log_dir, f"AMSD_*.log")),
+        glob(os.path.join(log_dir, f"AMSD_py_*.log")),
         # reverse=True
     )
 
