@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv('.mcp-auto_env')
 
 import os
 import glob

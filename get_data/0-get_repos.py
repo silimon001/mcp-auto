@@ -7,7 +7,7 @@ import logging
 from dotenv import load_dotenv
 
 # load .env file
-load_dotenv()
+load_dotenv('.mcp-auto_env')
 
 # set logfile
 os.makedirs("log_file", exist_ok=True)

@@ -306,7 +306,7 @@ def add_extra_info(dataset_name = None, id = None):
         return final_text
 
 async def main():
-    pos = 0
+    pos = 20
     count = 20
 
     hub = MCPHub(pos, count, enable_logging=True)

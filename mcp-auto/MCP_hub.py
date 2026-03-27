@@ -10,7 +10,7 @@ import sys
 
 from MCP_Client import Client
 
-load_dotenv()
+load_dotenv('.mcp-auto_env')
 
 class Colors:
     OK = "\033[92m"      # 绿色

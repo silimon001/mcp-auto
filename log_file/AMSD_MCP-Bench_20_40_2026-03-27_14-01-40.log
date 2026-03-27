@@ -1,0 +1,4771 @@
+2026-03-27 14:01:40,102 - INFO - mcp-auto is running!
+2026-03-27 14:01:40,351 - INFO - Client MCP-Auto initialized with tools: ['add_config', 'fix_config', 'execute_command', 'validate_config', 'need_use_these_tools']
+2026-03-27 14:01:40,352 - INFO - dealing with 946575068 data/dataset/MCP-Bench/sampled_validated_readme/946575068_coinpaprika_dexpaprika-mcp_README.md ...
+2026-03-27 14:01:40,352 - INFO - 
+=========
+=== README.md START ===
+# DexPaprika MCP Server
+
+A Model Context Protocol (MCP) server that provides on-demand access to DexPaprika's cryptocurrency and DEX data API. Built specifically for AI assistants like Claude to programmatically fetch real-time token, pool, and DEX data with zero configuration.
+
+## TL;DR
+
+```bash
+# Install globally
+npm install -g dexpaprika-mcp
+
+# Start the server
+dexpaprika-mcp
+
+# Or run directly without installation
+npx dexpaprika-mcp
+```
+
+DexPaprika MCP connects Claude to live DEX data across multiple blockchains. No API keys required. [Installation](#installation) | [Configuration](#claude-desktop-integration) | [API Reference](https://docs.dexpaprika.com/introduction)
+
+> **Prefer zero setup?** Use the hosted MCP server at [mcp.dexpaprika.com](https://mcp.dexpaprika.com) — no installation, no API key, same 14 tools. See [Hosted Alternative](#hosted-alternative-no-installation) for transport endpoints.
+
+## Version 1.3.0 Update Highlights
+
+**New tools**: `getCapabilities` (agent onboarding with workflows, synonyms, best practices) and `getNetworkPoolsFilter` (server-side pool filtering by volume, transactions, creation time).
+
+**Breaking**: Parameters renamed to snake_case (`poolAddress` → `pool_address`, `tokenAddress` → `token_address`, `orderBy` → `order_by`). Pagination is now 1-indexed. See [CHANGELOG.md](CHANGELOG.md) for full migration guide.
+
+## What Can You Build?
+
+- **Token Analysis Tools**: Track price movements, liquidity depth changes, and volume patterns
+- **DEX Comparisons**: Analyze fee structures, volume, and available pools across different DEXes
+- **Liquidity Pool Analytics**: Monitor TVL changes, impermanent loss calculations, and price impact assessments
+- **Market Analysis**: Cross-chain token comparisons, volume trends, and trading activity metrics
+- **Portfolio Trackers**: Real-time value tracking, historical performance analysis, yield opportunities
+- **Technical Analysis**: Perform advanced technical analysis using historical OHLCV data, including trend identification, pattern recognition, and indicator calculations
+
+## Installation
+
+### Installing via Smithery
+
+To install DexPaprika for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@coinpaprika/dexpaprika-mcp):
+
+```bash
+npx -y @smithery/cli install @coinpaprika/dexpaprika-mcp --client claude
+```
+
+### Manual Installation
+```bash
+# Install globally (recommended for regular use)
+npm install -g dexpaprika-mcp
+
+# Verify installation
+dexpaprika-mcp --version
+
+# Start the server
+dexpaprika-mcp
+```
+
+The server runs on port 8010 by default. You'll see `MCP server is running at http://localhost:8010` when successfully started.
+
+## Video Tutorial
+
+Watch our step-by-step tutorial on setting up and using the DexPaprika MCP server:
+
+[![DexPaprika MCP Tutorial](https://img.youtube.com/vi/rIxFn2PhtvI/0.jpg)](https://www.youtube.com/watch?v=rIxFn2PhtvI)
+
+## Claude Desktop Integration
+
+Add the following to your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
+**Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "dexpaprika": {
+      "command": "npx",
+      "args": ["dexpaprika-mcp"]
+    }
+  }
+}
+```
+
+After restarting Claude Desktop, the DexPaprika tools will be available to Claude automatically.
+
+### Hosted Alternative (No Installation)
+
+If you prefer zero setup, point any MCP-compatible client directly at the hosted server at [mcp.dexpaprika.com](https://mcp.dexpaprika.com). The landing page provides setup instructions and documentation. The following transport endpoints are available:
+
+| Transport | Endpoint | Use Case |
+|-----------|----------|----------|
+| Streamable HTTP | `https://mcp.dexpaprika.com/streamable-http` | Recommended for most clients |
+| SSE | `https://mcp.dexpaprika.com/sse` | Legacy SSE transport |
+| JSON-RPC | `https://mcp.dexpaprika.com/mcp` | Direct JSON-RPC |
+
+> **Note**: These are MCP protocol endpoints — they won't display anything in a browser. Visit [mcp.dexpaprika.com](https://mcp.dexpaprika.com) for the landing page.
+
+```json
+{
+  "mcpServers": {
+    "dexpaprika": {
+      "type": "streamable-http",
+      "url": "https://mcp.dexpaprika.com/streamable-http"
+    }
+  }
+}
+```
+
+## Available Tools (14)
+
+### Discovery
+
+| Tool | Description |
+|------|-------------|
+| `getCapabilities` | Server capabilities, workflow patterns, network synonyms, and best practices. **Start here.** |
+| `getNetworks` | List all 33 supported blockchain networks |
+| `getStats` | High-level ecosystem stats (total networks, DEXes, pools, tokens) |
+| `search` | Search tokens, pools, and DEXes across ALL networks by name, symbol, or address |
+
+### DEX Operations
+
+| Tool | Description | Required Parameters |
+|------|-------------|---------------------|
+| `getNetworkDexes` | List DEXes on a specific network | `network` |
+
+### Pool Operations
+
+| Tool | Description | Required Parameters |
+|------|-------------|---------------------|
+| `getNetworkPools` | **PRIMARY** — Get top liquidity pools on a network | `network` |
+| `getDexPools` | Get pools from a specific DEX | `network`, `dex` |
+| `getNetworkPoolsFilter` | Filter pools by volume, transactions, creation time | `network` |
+| `getPoolDetails` | Detailed pool info (price, volume, TVL, tokens) | `network`, `pool_address` |
+| `getPoolOHLCV` | Historical OHLCV candle data | `network`, `pool_address`, `start` |
+| `getPoolTransactions` | Recent transactions/trades for a pool | `network`, `pool_address` |
+
+### Token Operations
+
+| Tool | Description | Required Parameters |
+|------|-------------|---------------------|
+| `getTokenDetails` | Detailed token information | `network`, `token_address` |
+| `getTokenPools` | Liquidity pools containing a token | `network`, `token_address` |
+| `getTokenMultiPrices` | Batched prices for up to 10 tokens | `network`, `tokens[]` |
+
+### Example Usage
+
+```javascript
+// Start by getting capabilities for workflow guidance:
+const caps = await getCapabilities();
+
+// Get details about a specific token:
+const solanaJupToken = await getTokenDetails({
+  network: "solana",
+  token_address: "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN"
+});
+
+// Find all pools for a specific token with volume sorting:
+const jupiterPools = await getTokenPools({
+  network: "solana",
+  token_address: "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+  order_by: "volume_usd",
+  limit: 5
+});
+
+// Get top pools on Ethereum:
+const ethereumPools = await getNetworkPools({
+  network: "ethereum",
+  order_by: "volume_usd",
+  limit: 10
+});
+
+// Filter pools by volume and creation time:
+const filteredPools = await getNetworkPoolsFilter({
+  network: "ethereum",
+  volume_24h_min: 100000,
+  created_after: 1710806400,
+  sort_by: "volume_24h",
+  limit: 20
+});
+
+// Get historical price data:
+const ohlcvData = await getPoolOHLCV({
+  network: "ethereum",
+  pool_address: "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+  start: "2023-01-01",
+  interval: "24h",
+  limit: 30
+});
+
+// Batch prices for multiple tokens (max 10):
+const prices = await getTokenMultiPrices({
+  network: "ethereum",
+  tokens: [
+    "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "0xdac17f958d2ee523a2206206994597c13d831ec7"
+  ]
+});
+```
+
+## Sample Prompts for Claude
+
+- "Analyze the JUP token on Solana. Fetch price, volume, and top liquidity pools."
+- "Compare trading volume between Uniswap V3 and SushiSwap on Ethereum."
+- "Get the 7-day OHLCV data for SOL/USDC on Raydium and plot a price chart."
+- "Find the top 5 pools by liquidity on Fantom network and analyze their fee structures."
+- "Get recent transactions for the ETH/USDT pool on Uniswap and analyze buy vs sell pressure."
+- "Show me the top 10 pools on Ethereum by 24h volume."
+- "Search for all pools containing the ARB token and rank them by volume."
+- "Filter Ethereum pools with >$100K 24h volume created in the last week."
+- "First get all available networks, then show me the top pools on each major network."
+
+## Rate Limits & Performance
+
+- **Free Tier Limits**: 10,000 requests per day
+- **Response Time**: 100-500ms for most endpoints (network dependent)
+- **Data Freshness**: Pool and token data updated every 15-30s
+- **Error Handling**: Structured errors with codes, suggestions, and retry guidance
+- **OHLCV Data Availability**: Historical data typically available from token/pool creation date
+
+## Troubleshooting
+
+**Common Issues:**
+
+- **Rate limiting**: If receiving `DP429_RATE_LIMIT` errors, implement exponential backoff
+- **Missing data**: Some newer tokens/pools may have incomplete historical data
+- **Timeout errors**: Large data requests may take longer, consider pagination
+- **Network errors**: Check network connectivity, the service requires internet access
+- **OHLCV limitations**: Maximum range between start and end dates is 1 year; use pagination for longer timeframes
+- **Empty OHLCV**: Pool may be too new — use `getPoolTransactions` instead
+
+## Development
+
+```bash
+# Clone the repository
+git clone https://github.com/coinpaprika/dexpaprika-mcp.git
+cd dexpaprika-mcp
+
+# Install dependencies
+npm install
+
+# Run with auto-restart on code changes
+npm run watch
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed release notes and migration guides.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Additional Resources
+
+- [DexPaprika API Documentation](https://docs.dexpaprika.com/introduction)
+- [Hosted MCP Server](https://mcp.dexpaprika.com) — Zero-setup alternative
+- [Model Context Protocol Specification](https://github.com/anthropics/anthropic-cookbook/blob/main/mcp/README.md)
+- [DexPaprika](https://dexpaprika.com) - Comprehensive onchain analytics market data
+- [CoinPaprika](https://coinpaprika.com) - Comprehensive cryptocurrency market data
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 946575068, 'description': 'DexPaprika MCP server allows access real-time and historical data on crypto tokens, DEX trading activity, and liquidity across multiple blockchains. It enables natural language queries for exploring market trends, token performance, and DeFi analytics through a standardized interface.', 'language': 'JavaScript', 'size': 139, 'topic': None, 'html_url': 'https://github.com/coinpaprika/dexpaprika-mcp', 'owner': 'coinpaprika', 'name': 'dexpaprika-mcp'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:01:40,352 - INFO - add the prompt of analyze
+2026-03-27 14:01:40,353 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:01:47,127 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:01:47,137 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:01:47,137 - INFO - Token Usage: {"completion_tokens": 255, "prompt_tokens": 3566, "total_tokens": 3821, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:01:47,137 - INFO - Response: # Step 1: List Deployment Options
+
+Based on the README document, I can identify the following deployment options:
+
+1. Global npm installation: `npm install -g dexpaprika-mcp` followed by `dexpaprika-mcp`
+2. Direct execution without installation: `npx dexpaprika-mcp`
+3. Smithery automatic installation: `npx -y @smithery/cli install @coinpaprika/dexpaprika-mcp --client claude`
+4. Hosted server (no installation): Pointing to `https://mcp.dexpaprika.com/streamable-http` or other endpoints
+5. Development setup: Clone the repo and run with `npm install` and `npm run watch`
+
+# Step 2: Select the Optimal Deployment Option
+
+2.1 The optimal deployment method is the direct execution without installation using `npx dexpaprika-mcp`. This is categorized as an install-free deployment using stdio communication method (as it's the default transport for locally executed MCP servers).
+
+2.2 I will be using the Node.js environment for this deployment.
+
+
+2026-03-27 14:01:47,137 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['node']}
+2026-03-27 14:01:47,140 - INFO - 
+["node"]
+----------------------------------------------------
+
+2026-03-27 14:01:47,140 - INFO - add the tool message of add_config
+2026-03-27 14:01:47,141 - INFO - add the tool message of execute_command
+2026-03-27 14:01:47,141 - INFO - add the prompt of deploy
+2026-03-27 14:01:47,141 - INFO - add the prompt of node
+2026-03-27 14:01:53,357 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:01:53,357 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:01:53,358 - INFO - Token Usage: {"completion_tokens": 179, "prompt_tokens": 5122, "total_tokens": 5301, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:01:53,358 - INFO - Response: # Step 3: Deploy the MCP Server
+
+The optimal deployment plan involves using `npx dexpaprika-mcp` which starts the server directly. However, since this would block the process, I'll skip starting the server in this step and proceed to configuration, then start the server later for verification.
+
+# Step 4: Add Configuration
+
+I'll add the configuration for the DexPaprika MCP server using the stdio type since we're planning to run it locally with npx.
+
+
+2026-03-27 14:01:53,358 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '946575068_coinpaprika_dexpaprika-mcp', 'type': 'stdio', 'command': 'npx', 'args': ['-y', 'dexpaprika-mcp']}
+2026-03-27 14:01:53,361 - INFO - 
+Successfully added 946575068_coinpaprika_dexpaprika-mcp config.
+----------------------------------------------------
+
+2026-03-27 14:01:53,361 - INFO - add the tool message of validate_config
+2026-03-27 14:01:53,361 - INFO - add the prompt of validate
+2026-03-27 14:01:55,108 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:01:55,109 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:01:55,109 - INFO - Token Usage: {"completion_tokens": 69, "prompt_tokens": 5013, "total_tokens": 5082, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:01:55,109 - INFO - Response: # Step 5: Verify the Server
+
+I'll use the validate_config tool to check if the server can start properly and expose the relevant APIs.
+
+
+2026-03-27 14:01:55,109 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '946575068_coinpaprika_dexpaprika-mcp'}
+2026-03-27 14:01:58,340 - INFO - 
+Process started with PID 31514 (shell: /bin/bash)
+Initial output:
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+DexPaprika MCP server is running...
+
+[OK] server 946575068_coinpaprika_dexpaprika-mcp is OK, tools: getNetworks, getCapabilities, getNetworkDexes, getNetworkPools, getDexPools, getNetworkPoolsFilter, getPoolDetails, getPoolOHLCV, getPoolTransactions, getTokenDetails, getTokenPools, getTokenMultiPrices, search, getStats
+
+Process completed with exit code 0
+Runtime: 3.226s
+----------------------------------------------------
+
+2026-03-27 14:01:58,340 - INFO - add the tool message of fix_config
+2026-03-27 14:01:58,340 - INFO - add the tool message of execute_command
+2026-03-27 14:01:58,340 - INFO - add the tool message of validate_config
+2026-03-27 14:02:01,314 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:01,315 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:02:01,315 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 5863, "total_tokens": 5868, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:01,315 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:02:01,316 - INFO - dealing with 951693330 data/dataset/MCP-Bench/sampled_validated_readme/951693330_utensils_mcp-nixos_README.md ...
+2026-03-27 14:02:01,316 - INFO - 
+=========
+=== README.md START ===
+# MCP-NixOS - Because Your AI Shouldn't Hallucinate Package Names
+
+[![CI](https://github.com/utensils/mcp-nixos/actions/workflows/ci.yml/badge.svg)](https://github.com/utensils/mcp-nixos/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/utensils/mcp-nixos/graph/badge.svg?token=kdcbgvq4Bh)](https://codecov.io/gh/utensils/mcp-nixos)
+[![PyPI](https://img.shields.io/pypi/v/mcp-nixos.svg)](https://pypi.org/project/mcp-nixos/)
+[![FlakeHub](https://img.shields.io/endpoint?url=https://flakehub.com/f/utensils/mcp-nixos/badge)](https://flakehub.com/flake/utensils/mcp-nixos)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/utensils/mcp-nixos?utm_source=oss&utm_medium=github&utm_campaign=utensils%2Fmcp-nixos&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+[![Built with Claude](https://img.shields.io/badge/Built%20with-Claude-D97757?logo=claude&logoColor=white)](https://claude.ai)
+
+## Quick Start
+
+**🚨 No Nix/NixOS Required!** Works on any system - Windows, macOS, Linux. You're just querying APIs.
+
+### Option 1: uvx (Recommended)
+
+[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=nixos&config=eyJjb21tYW5kIjoidXZ4IG1jcC1uaXhvcyJ9)
+
+```json
+{
+  "mcpServers": {
+    "nixos": {
+      "command": "uvx",
+      "args": ["mcp-nixos"]
+    }
+  }
+}
+```
+
+### Option 2: Nix
+
+[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=nixos&config=eyJjb21tYW5kIjoibml4IHJ1biBnaXRodWI6dXRlbnNpbHMvbWNwLW5peG9zIC0tIn0%3D)
+
+```json
+{
+  "mcpServers": {
+    "nixos": {
+      "command": "nix",
+      "args": ["run", "github:utensils/mcp-nixos", "--"]
+    }
+  }
+}
+```
+
+### Option 3: Docker
+
+[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=nixos&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItLXJtIiwiLWkiLCJnaGNyLmlvL3V0ZW5zaWxzL21jcC1uaXhvcyJdfQ%3D%3D)
+
+```json
+{
+  "mcpServers": {
+    "nixos": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "ghcr.io/utensils/mcp-nixos"]
+    }
+  }
+}
+```
+
+Your AI now has access to real NixOS data instead of making things up. You're welcome.
+
+### Option 4: HTTP (Remote MCP)
+
+FastMCP supports running this server over HTTP at a URL (the MCP endpoint defaults to `/mcp`).
+
+```bash
+# Run an HTTP MCP server at http://127.0.0.1:8000/mcp
+MCP_NIXOS_TRANSPORT=http MCP_NIXOS_HOST=127.0.0.1 MCP_NIXOS_PORT=8000 mcp-nixos
+```
+
+STDIO (default):
+
+```bash
+MCP_NIXOS_TRANSPORT=stdio mcp-nixos
+```
+
+Custom path:
+
+```bash
+MCP_NIXOS_TRANSPORT=http MCP_NIXOS_PATH=/api/mcp mcp-nixos
+```
+
+Stateless HTTP (disables per-client session state):
+
+```bash
+MCP_NIXOS_TRANSPORT=http MCP_NIXOS_STATELESS_HTTP=1 mcp-nixos
+```
+
+## What Is This?
+
+An MCP server providing accurate, real-time information about:
+
+- **NixOS packages** - 130K+ packages that actually exist
+- **NixOS options** - 23K+ ways to configure your system
+- **Home Manager** - 5K+ options for dotfile enthusiasts
+- **nix-darwin** - 1K+ macOS settings Apple doesn't document
+- **Nixvim** - 5K+ options for Neovim configuration via [NuschtOS search](https://github.com/NuschtOS/search)
+- **FlakeHub** - 600+ flakes from [FlakeHub.com](https://flakehub.com) registry
+- **Noogle** - 2K+ Nix functions with type signatures via [noogle.dev](https://noogle.dev)
+- **NixOS Wiki** - Community documentation and guides from [wiki.nixos.org](https://wiki.nixos.org)
+- **nix.dev** - Official Nix tutorials and guides from [nix.dev](https://nix.dev)
+- **Package versions** - Historical versions with commit hashes via [NixHub.io](https://www.nixhub.io)
+- **Binary cache status** - Check if packages are cached on cache.nixos.org with download sizes
+- **Local flake inputs** - Explore your pinned flake dependencies directly from the Nix store (requires Nix)
+
+## The Tools
+
+Just two. We consolidated 17 tools into 2 because your AI's context window isn't infinite.
+
+**~1,030 tokens total.** That's it. While other MCP servers are hogging your context like it's Black Friday, we're sipping minimalist tea in the corner. Your AI gets NixOS superpowers without the bloat.
+
+### `nix` - Unified Query Tool
+
+One tool to rule them all:
+
+```text
+nix(action, query, source, type, channel, limit)
+```
+
+| Action | What it does |
+|--------|-------------|
+| `search` | Search packages, options, programs, or flakes |
+| `info` | Get detailed info about a package or option |
+| `stats` | Get counts and categories |
+| `options` | Browse Home Manager/Darwin options by prefix |
+| `channels` | List available NixOS channels |
+| `flake-inputs` | Explore local flake inputs from Nix store |
+| `cache` | Check binary cache status for packages |
+
+| Source | What it queries |
+|--------|----------------|
+| `nixos` | Packages, options, programs |
+| `home-manager` | Home Manager options |
+| `darwin` | nix-darwin options |
+| `flakes` | Community flakes (search.nixos.org) |
+| `flakehub` | FlakeHub registry (flakehub.com) |
+| `nixvim` | Nixvim Neovim configuration options |
+| `noogle` | Nix function signatures and docs (noogle.dev) |
+| `wiki` | NixOS Wiki articles (wiki.nixos.org) |
+| `nix-dev` | Official Nix documentation (nix.dev) |
+| `nixhub` | Package metadata and store paths (nixhub.io) |
+
+**Examples:**
+
+```python
+# Search NixOS packages
+nix(action="search", query="firefox", source="nixos", type="packages")
+
+# Get package info
+nix(action="info", query="firefox", source="nixos", type="package")
+
+# Search Home Manager options
+nix(action="search", query="git", source="home-manager")
+
+# Browse darwin options
+nix(action="options", source="darwin", query="system.defaults")
+
+# Search Nixvim options
+nix(action="search", query="telescope", source="nixvim")
+
+# Get Nixvim option info
+nix(action="info", query="plugins.telescope.enable", source="nixvim")
+
+# Search FlakeHub
+nix(action="search", query="nixpkgs", source="flakehub")
+
+# Get FlakeHub flake info
+nix(action="info", query="NixOS/nixpkgs", source="flakehub")
+
+# Search Noogle for Nix functions
+nix(action="search", query="mapAttrs", source="noogle")
+
+# Get Noogle function info
+nix(action="info", query="lib.attrsets.mapAttrs", source="noogle")
+
+# Browse Noogle function categories
+nix(action="options", source="noogle", query="lib.strings")
+
+# Search NixOS Wiki
+nix(action="search", query="nvidia", source="wiki")
+
+# Get Wiki page info
+nix(action="info", query="Flakes", source="wiki")
+
+# Search nix.dev documentation
+nix(action="search", query="packaging tutorial", source="nix-dev")
+
+# Search NixHub for package metadata
+nix(action="search", query="nodejs", source="nixhub")
+
+# Get detailed package info from NixHub (license, homepage, store paths)
+nix(action="info", query="python", source="nixhub")
+
+# Check binary cache status
+nix(action="cache", query="hello")
+
+# Check cache for specific version
+nix(action="cache", query="python", version="3.12.0")
+
+# Check cache for specific system
+nix(action="cache", query="firefox", system="x86_64-linux")
+
+# Get stats
+nix(action="stats", source="nixos", channel="stable")
+
+# List local flake inputs (requires Nix)
+nix(action="flake-inputs", type="list")
+
+# Browse files in a flake input
+nix(action="flake-inputs", type="ls", query="nixpkgs:pkgs/by-name")
+
+# Read a file from a flake input
+nix(action="flake-inputs", type="read", query="nixpkgs:flake.nix")
+```
+
+### `nix_versions` - Package Version History
+
+Find historical versions with nixpkgs commit hashes. Output includes:
+- Package metadata (license, homepage, programs) when available
+- Platform availability per version (Linux/macOS)
+- Nixpkgs commit hash for reproducible builds
+- Attribute path for Nix expressions
+
+```python
+nix_versions(package, version, limit)
+```
+
+**Examples:**
+
+```python
+# List recent versions with metadata
+nix_versions(package="python", limit=5)
+
+# Find specific version
+nix_versions(package="nodejs", version="20.0.0")
+```
+
+## Installation
+
+**You DON'T need Nix installed.** This runs anywhere Python runs.
+
+```bash
+# Run directly (no install)
+uvx mcp-nixos
+
+# Or install
+pip install mcp-nixos
+```
+
+For Nix users:
+
+```bash
+nix run github:utensils/mcp-nixos
+nix profile install github:utensils/mcp-nixos
+```
+
+### Declarative Installation (NixOS / Home Manager / nix-darwin)
+
+mcp-nixos is available in [nixpkgs](https://search.nixos.org/packages?channel=unstable&show=mcp-nixos&query=mcp-nixos):
+
+```nix
+# NixOS (configuration.nix)
+environment.systemPackages = [ pkgs.mcp-nixos ];
+
+# Home Manager (home.nix)
+home.packages = [ pkgs.mcp-nixos ];
+
+# nix-darwin (darwin-configuration.nix)
+environment.systemPackages = [ pkgs.mcp-nixos ];
+```
+
+Or use the flake directly with the provided overlay:
+
+```nix
+# flake.nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    mcp-nixos.url = "github:utensils/mcp-nixos";
+  };
+
+  outputs = { self, nixpkgs, mcp-nixos, ... }: {
+    # Example: NixOS configuration
+    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [{
+        nixpkgs.overlays = [ mcp-nixos.overlays.default ];
+        environment.systemPackages = [ pkgs.mcp-nixos ];
+      }];
+    };
+
+    # Example: Home Manager standalone
+    homeConfigurations.myuser = home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [ mcp-nixos.overlays.default ];
+      };
+      modules = [{
+        home.packages = [ pkgs.mcp-nixos ];
+      }];
+    };
+  };
+}
+```
+
+## Development
+
+```bash
+nix develop          # Enter dev shell
+nix build            # Build package
+pytest tests/        # Run tests
+ruff check .         # Lint
+ruff format .        # Format
+mypy mcp_nixos/      # Type check
+```
+
+## Acknowledgments
+
+- **[NixHub.io](https://www.nixhub.io)** - Package version history
+- **[search.nixos.org](https://search.nixos.org)** - Official NixOS search
+- **[FlakeHub](https://flakehub.com)** - Flake registry by Determinate Systems
+- **[Jetify](https://www.jetify.com)** - Creators of Devbox and NixHub
+- **[Noogle](https://noogle.dev)** - Nix function search engine
+- **[NuschtOS](https://github.com/NuschtOS/search)** - Static option search infrastructure powering Nixvim support
+- **[Nixvim](https://github.com/nix-community/nixvim)** - Neovim configuration framework for Nix
+
+## License
+
+MIT - Because sharing is caring.
+
+---
+
+*Created by James Brink. Maintained by mass̶o̶c̶h̶i̶s̶t̶s̶ enthusiasts who enjoy Nix.*
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 951693330, 'description': 'MCP-NixOS - Model Context Protocol Server for NixOS resources', 'language': 'Python', 'size': 2945, 'topic': None, 'html_url': 'https://github.com/utensils/mcp-nixos', 'owner': 'utensils', 'name': 'mcp-nixos'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:02:01,316 - INFO - add the prompt of analyze
+2026-03-27 14:02:01,316 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:02:05,842 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:05,843 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:02:05,844 - INFO - Token Usage: {"completion_tokens": 230, "prompt_tokens": 4146, "total_tokens": 4376, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:05,844 - INFO - Response: # Step 1: List Deployment Options
+
+The README provides several deployment options:
+
+1. **Option 1: uvx (Recommended)** - Uses `uvx mcp-nixos` command
+2. **Option 2: Nix** - Uses `nix run github:utensils/mcp-nixos` command
+3. **Option 3: Docker** - Uses Docker container execution
+4. **HTTP (Remote MCP)** - Running server over HTTP with various configurations
+5. **Installation via pip** - Installing with `pip install mcp-nixos`
+
+# Step 2: Select the Optimal Deployment Option
+
+2.1 The optimal deployment method is Option 1: uvx (Recommended), which uses `uvx mcp-nixos`. This is install-free deployment using uvx that runs with stdio communication method (default).
+
+2.2 Using the tool `need_use_these_tools`, I'll specify that I will be using the uv environment.
+
+
+2026-03-27 14:02:05,844 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['uv']}
+2026-03-27 14:02:05,846 - INFO - 
+["uv"]
+----------------------------------------------------
+
+2026-03-27 14:02:05,846 - INFO - add the tool message of add_config
+2026-03-27 14:02:05,846 - INFO - add the tool message of execute_command
+2026-03-27 14:02:05,846 - INFO - add the prompt of deploy
+2026-03-27 14:02:05,846 - INFO - add the prompt of uv
+2026-03-27 14:02:08,732 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:08,734 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:02:08,734 - INFO - Token Usage: {"completion_tokens": 101, "prompt_tokens": 6123, "total_tokens": 6224, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:08,734 - INFO - Response: I need to deploy the MCP server using the optimal option identified earlier: `uvx mcp-nixos`. However, as noted in the guidelines, I should not directly run `uvx <package>` as it will block the process. Instead, I'll prepare the configuration for the server.
+
+First, let me check if the required package can be run with uvx:
+
+
+2026-03-27 14:02:08,734 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'uvx --version'}
+2026-03-27 14:02:08,758 - INFO - 
+Process started with PID 31604 (shell: /bin/bash)
+Initial output:
+uvx 0.9.24
+
+Process completed with exit code 0
+Runtime: 0.019s
+----------------------------------------------------
+
+2026-03-27 14:02:11,087 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:11,088 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:02:11,089 - INFO - Token Usage: {"completion_tokens": 114, "prompt_tokens": 6286, "total_tokens": 6400, "prompt_tokens_details": {"cached_tokens": 6016}}
+2026-03-27 14:02:11,090 - INFO - Response: Great! Now I'll add the configuration for the MCP server using the `add_config` tool. Based on the README, the optimal deployment uses `uvx mcp-nixos` with stdio communication:
+
+
+2026-03-27 14:02:11,090 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '951693330_utensils_mcp-nixos', 'type': 'stdio', 'command': 'uvx', 'args': ['mcp-nixos']}
+2026-03-27 14:02:11,095 - INFO - 
+Successfully added 951693330_utensils_mcp-nixos config.
+----------------------------------------------------
+
+2026-03-27 14:02:11,095 - INFO - add the tool message of validate_config
+2026-03-27 14:02:11,095 - INFO - add the prompt of validate
+2026-03-27 14:02:12,643 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:12,644 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:02:12,645 - INFO - Token Usage: {"completion_tokens": 50, "prompt_tokens": 6110, "total_tokens": 6160, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:12,645 - INFO - Response: Now I'll verify the server configuration using the validate_config tool:
+
+
+2026-03-27 14:02:12,645 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '951693330_utensils_mcp-nixos'}
+2026-03-27 14:02:18,410 - INFO - 
+Process started with PID 31634 (shell: /bin/bash)
+Initial output:
+Installed 74 packages in 25ms
+
+
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│                                                                              │
+│                         ▄▀▀ ▄▀█ █▀▀ ▀█▀ █▀▄▀█ █▀▀ █▀█                        │
+│                         █▀  █▀█ ▄▄█  █  █ ▀ █ █▄▄ █▀▀                        │
+│                                                                              │
+│                                                                              │
+│                                FastMCP 3.1.1                                 │
+│                            https://gofastmcp.com                             │
+│                                                                              │
+│                    🖥  Server:      mcp-nixos, 2.3.0                          │
+│                    🚀 Deploy free: https://fastmcp.cloud                     │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+[03/27/26 14:02:18] INFO     Starting MCP server 'mcp-nixos'    transport.py:183
+                             with transport 'stdio'                             
+
+[OK] server 951693330_utensils_mcp-nixos is OK, tools: nix, nix_versions
+
+Process completed with exit code 0
+Runtime: 5.761s
+----------------------------------------------------
+
+2026-03-27 14:02:18,410 - INFO - add the tool message of fix_config
+2026-03-27 14:02:18,410 - INFO - add the tool message of execute_command
+2026-03-27 14:02:18,410 - INFO - add the tool message of validate_config
+2026-03-27 14:02:20,697 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:20,698 - INFO - --- Communicate Count: 5 ---
+2026-03-27 14:02:20,698 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 7091, "total_tokens": 7096, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:20,698 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:02:20,699 - INFO - dealing with 964126632 data/dataset/MCP-Bench/sampled_validated_readme/964126632_mikechao_metmuseum-mcp_README.md ...
+2026-03-27 14:02:20,699 - INFO - 
+=========
+=== README.md START ===
+[![themet logo](https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/The_Metropolitan_Museum_of_Art_Logo.svg/250px-The_Metropolitan_Museum_of_Art_Logo.svg.png)](https://www.metmuseum.org/)
+
+# Met Museum MCP Server
+
+A Model Context Protocol (MCP) server that provides access to the Metropolitan Museum of Art Collection through natural language interactions. This server allows AI models to search The Met's art collection and retrieve artwork details (including images) via tool results.
+
+<a href="https://glama.ai/mcp/servers/@mikechao/metmuseum-mcp"><img width="380" height="200" src="https://glama.ai/mcp/servers/@mikechao/metmuseum-mcp/badge" alt="Met Museum MCP Server" /></a>
+
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/mikechao-metmuseum-mcp-badge.png)](https://mseep.ai/app/mikechao-metmuseum-mcp)
+
+[![Verified on MseeP](https://mseep.ai/badge.svg)](https://mseep.ai/app/ccc75a48-9b33-4a9a-8ef7-8dc3848db263)
+
+## Table of Contents
+
+- [Features](#features)
+  - [List Departments](#1-list-departments-list-departments)
+  - [Search Museum Objects](#2-search-museum-objects-search-museum-objects)
+  - [Get Museum Object](#3-get-museum-object-get-museum-object)
+  - [Open Met Explorer App](#4-open-met-explorer-app-open-met-explorer)
+- [MCP Apps](#mcp-apps)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
+- [Transports](#transports)
+  - [Streamable HTTP Transport](#streamable-http-transport)
+- [Usage with ChatGPT](#usage-with-chatgpt)
+- [Usage with Claude Desktop](#usage-with-claude-desktop)
+- [Usage with LibreChat](#usage-with-librechat)
+- [Example Queries](#example-queries)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+- [Disclaimer](#disclaimer)
+
+## Features
+
+This server provides AI models the following tools to interact with the art collection of The Met:
+
+### 1. List Departments (list-departments)
+
+Lists all the valid departments at The Met
+
+- Inputs:
+  - None
+- Output:
+  ```
+  Department ID: 1, Display Name: American Decorative Arts
+  Department ID: 3, Display Name: Ancient Near Eastern Art
+  ...
+  ```
+
+### 2. Search Museum Objects (search-museum-objects)
+
+Search for various objects in The Met based on the inputs.
+
+- Inputs:
+  - `q` (string): The search term e.g. sunflowers
+  - `hasImages` (boolean, optional, default: false): Only search for objects with images
+  - `title` (boolean, optional, default: false): Returns objects that match the query, specifically searching against the title field for objects.
+  - `departmentId` (number, optional): Returns objects that are a part of a specific department.
+  - `page` (number, optional, default: 1): 1-based page number for results.
+  - `pageSize` (number, optional, default: 24): Number of Object IDs per page (max 100).
+- Outputs:
+
+  ```
+  Total objects found: 54
+  Page: 1/3
+  Object IDs: 436532, 789578, 436840, 438722,...
+  ```
+
+### 3. Get Museum Object (get-museum-object)
+
+Get a specific object from The Met containing all open access data about that object, including its image (if the image is available under Open Access).
+
+If there is an image and `returnImage` is true, it is returned as an image content block in the tool result (base64-encoded JPEG).
+
+Use this tool when the user asks for deeper details on a specific artwork and you already have an `objectId`.
+
+- Inputs:
+  - `objectId` (number): The id of the object to retrieve
+  - `returnImage` (boolean, optional, default: true): Whether to include the object's image (if available) in the tool result
+- Outputs:
+  ```
+  Title: Self-Portrait with a Straw Hat (obverse: The Potato Peeler)
+  Artist: Vincent van Gogh
+  Artist Bio: Dutch, Zundert 1853–1890 Auvers-sur-Oise
+  Department: European Paintings
+  Credit Line: Bequest of Miss Adelaide Milton de Groot (1876-1967), 1967
+  Medium: Oil on canvas
+  Dimensions: 16 x 12 1/2 in. (40.6 x 31.8 cm)
+  Primary Image URL: https://images.metmuseum.org/CRDImages/ep/original/DT1502_cropped2.jpg
+  Tags: Men, Self-portraits
+  ```
+  If returnImage is true
+  ```
+  **base64 encoding of jpeg image**
+  ```
+
+### 4. Open Met Explorer App (open-met-explorer)
+
+Launches an interactive MCP App (`ui://met/explorer.html`) that can search, filter, and inspect objects from within MCP clients that support Apps.
+
+Recommended flow:
+
+- Use `open-met-explorer` to launch and browse live search results (pass `q` to start searching immediately).
+- After creating a curated list from current results, use `get-museum-object` only for items the user wants to explore in depth.
+
+- Inputs (all optional):
+  - `q` (string): Initial search term.
+  - `hasImages` (boolean, default: true): Prefer objects with images.
+  - `title` (boolean, default: false): Search titles only.
+  - `departmentId` (number): Pre-select a department filter.
+- Output:
+  ```
+  Opens the Met Explorer app in the client UI.
+  ```
+
+## MCP Apps
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=kFxVjg-TYhM">
+    <img src="https://img.youtube.com/vi/kFxVjg-TYhM/maxresdefault.jpg" alt="Watch the demo" width="80%">
+  </a>
+  <br>
+  <a href="https://www.youtube.com/watch?v=kFxVjg-TYhM"><em>▶️ Click to watch the demo video</em></a>
+</p>
+
+There are now [MCP Apps](https://modelcontextprotocol.io/docs/extensions/apps) in this MCP Server. There is a UI component for the [Open Met Explorer App](#4-open-met-explorer-app-open-met-explorer) tool and the [Get Museum Object](#3-get-museum-object-get-museum-object) tool.
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or later
+
+## Quick Start
+
+Run the server directly with `npx` — no install required:
+
+```bash
+npx -y metmuseum-mcp
+```
+
+This starts the server using **stdio transport**, which is what most MCP desktop clients expect.
+
+For client-specific setup, see:
+
+- [Usage with Claude Desktop](#usage-with-claude-desktop)
+- [Usage with ChatGPT](#usage-with-chatgpt) (requires [Streamable HTTP transport](#streamable-http-transport))
+- [Usage with LibreChat](#usage-with-librechat)
+
+## Configuration
+
+The following environment variable applies to **all transports**:
+
+| Variable             | Default | Description                                                                                                          |
+| -------------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| `MET_API_TIMEOUT_MS` | `10000` | Timeout in milliseconds for outbound requests to the Met Collection API.                                             |
+| `MET_API_DEBUG`      | `false` | Enables debug logging to `stderr` for schema validation failures (accepted truthy values: `1`, `true`, `yes`, `on`). |
+
+## Transports
+
+This server supports two transports:
+
+- **Stdio transport (default):** Used by MCP desktop clients (Claude Desktop, LibreChat MCP, etc.).
+- **Streamable HTTP transport:** Run with `--http` to expose an MCP endpoint at `/mcp`.
+
+### Streamable HTTP Transport
+
+Run with `npx` (recommended for end users):
+
+```bash
+npx -y metmuseum-mcp --http
+```
+
+Or run from a local clone:
+
+```bash
+pnpm run build
+node dist/index.js --http
+```
+
+The server listens on:
+
+```text
+http://localhost:3001/mcp
+```
+
+You can control HTTP server behavior with environment variables:
+
+| Variable        | Default               | Description                                                                                               |
+| --------------- | --------------------- | --------------------------------------------------------------------------------------------------------- |
+| `PORT`          | `3001`                | HTTP port used by the Streamable HTTP server.                                                             |
+| `HOST`          | `127.0.0.1`           | Network interface the HTTP server binds to.                                                               |
+| `ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated host allowlist for host header validation (example: `localhost,127.0.0.1,my-domain.com`). |
+
+Example:
+
+```bash
+HOST=127.0.0.1 PORT=8080 ALLOWED_HOSTS=localhost,127.0.0.1 npx -y metmuseum-mcp --http
+```
+
+## Usage with ChatGPT
+
+The following steps allow you to use Met Museum MCP with the web UI of ChatGPT
+
+### 1. Enable Developer Mode in ChatGPT
+
+Settings → Apps → Advanced settings → Developer mode
+
+Additional instructions [here](https://platform.openai.com/docs/guides/developer-mode)
+
+### 2. Run the Met Museum MCP Server with Streamable HTTP Transport
+
+```bash
+npx -y metmuseum-mcp --http
+```
+
+By default the server will be listening on
+http://127.0.0.1:3001/mcp
+
+### 3. Create a local tunnel to expose the MCP Server to ChatGPT
+
+Sign up and configure [ngrok](https://ngrok.com/), the free plan works.
+
+```bash
+ngrok http http://127.0.0.1:3001 --host-header=rewrite
+```
+
+Take note of the forwarding URL.
+
+```bash
+...
+Forwarding                    https://john-joe-asdf.ngrok-free.dev -> http://localhost:3001
+...
+```
+
+### 4. Add Met Museum MCP as a Connector to ChatGPT
+
+Open [ChatGPT Apps settings](https://chatgpt.com/#settings/Connectors)
+
+Click Apps
+
+Click Create Apps
+
+Fill out the form using the URL from step 3 as the MCP Server URL, but add `/mcp`.
+
+```
+https://john-joe-asdf.ngrok-free.dev/mcp
+```
+
+For Authentication, select 'No Auth'
+
+Tick the checkbox for 'I understand and want to continue'
+
+Then click Create.
+
+### 5. Using the Met Museum MCP Server
+
+In the prompt input field you can use @name-of-server-from-step3 or
+In the ChatGPT UI, click the '+' button, scroll to '...more', select the newly created Met app, and enter your query.
+
+## Usage with Claude Desktop
+
+### Via MCP Bundle (MCPB)
+
+1. Download the `mcpb` file from the [Releases](https://github.com/mikechao/metmuseum-mcp/releases)
+2. Open it with Claude Desktop
+   or
+   Go to File -> Settings -> Extensions and drag the .mcpb file to the window to install it
+
+### Via npx
+
+Add this to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "met-museum": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "metmuseum-mcp"
+      ]
+    }
+  }
+}
+```
+
+## Usage with LibreChat
+
+Add the following in your `librechat.yaml`
+
+```yaml
+mcpServers:
+  metmuseum:
+    command: npx
+    args:
+      - -y
+      - metmuseum-mcp
+```
+
+## Example Queries
+
+Here are some questions you can ask the AI model when this server is connected:
+
+```
+Can you help me explore the works of Vincent Van Gogh?
+Can you help me explore the Met?
+Can you show me a few paintings from the Asian Art department?
+Can you find the painting titled "Corridor in the Asylum"?
+Can you find any art that has "cat" in the title or features "cats"?
+```
+
+## Development
+
+This project uses `pnpm` for local development and CI.
+
+```bash
+corepack enable
+pnpm install
+pnpm run build
+pnpm run check
+```
+
+For non-interactive shells/CI runners, use `CI=true pnpm install --frozen-lockfile`.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
+
+## Disclaimer
+
+This library is not officially associated with The Metropolitan Museum of Art in New York. It is a third-party implementation of the [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) with a MCP Server.
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 964126632, 'description': 'Met Museum MCP integration to discover the art collection at The Metropolitan Museum of Art in New York', 'language': 'TypeScript', 'size': 436, 'topic': None, 'html_url': 'https://github.com/mikechao/metmuseum-mcp', 'owner': 'mikechao', 'name': 'metmuseum-mcp'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:02:20,700 - INFO - add the prompt of analyze
+2026-03-27 14:02:20,700 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:02:26,917 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:26,919 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:02:26,919 - INFO - Token Usage: {"completion_tokens": 269, "prompt_tokens": 3901, "total_tokens": 4170, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:26,920 - INFO - Response: # Step 1: List Deployment Options
+
+The README document provides several concrete, actionable deployment options:
+
+1. **Direct execution with npx (install-free)**: `npx -y metmuseum-mcp` - runs the server using stdio transport
+2. **HTTP transport with npx (install-free)**: `npx -y metmuseum-mcp --http` - runs with streamable HTTP transport
+3. **Local clone and build**: Clone the repo, use `pnpm run build`, then `node dist/index.js --http`
+4. **Claude Desktop integration**: Adding to claude_desktop_config.json with npx command
+5. **LibreChat integration**: Adding configuration to librechat.yaml with npx command
+
+# Step 2: Select the Optimal Deployment Option
+
+The optimal deployment option is the first one: running directly with `npx -y metmuseum-mcp`. This option:
+- Uses stdio transport (preferred over other methods)
+- Is install-free (preferred over installation-based)
+- Works well with MCP desktop clients
+- Requires minimal setup
+
+This falls under the category of: **stdio communication method with install-free deployment**
+
+
+2026-03-27 14:02:26,920 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['node']}
+2026-03-27 14:02:26,922 - INFO - 
+["node"]
+----------------------------------------------------
+
+2026-03-27 14:02:26,922 - INFO - add the tool message of add_config
+2026-03-27 14:02:26,922 - INFO - add the tool message of execute_command
+2026-03-27 14:02:26,922 - INFO - add the prompt of deploy
+2026-03-27 14:02:26,922 - INFO - add the prompt of node
+2026-03-27 14:02:30,952 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:30,954 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:02:30,954 - INFO - Token Usage: {"completion_tokens": 179, "prompt_tokens": 5471, "total_tokens": 5650, "prompt_tokens_details": {"cached_tokens": 64}}
+2026-03-27 14:02:30,954 - INFO - Response: # Step 3: Deploy the MCP Server
+
+The optimal deployment plan involves running `npx -y metmuseum-mcp` which would start the server directly. However, since this would block the process and we need to configure the server properly, I'll skip direct deployment in this step and proceed to configuration, then start the server in a later step with proper configuration.
+
+# Step 4: Add Configuration
+
+
+2026-03-27 14:02:30,954 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '964126632_mikechao_metmuseum-mcp', 'type': 'stdio', 'command': 'npx', 'args': ['-y', 'metmuseum-mcp'], 'cwd': '/home/silimon/mcp-auto/mcp_server/'}
+2026-03-27 14:02:30,957 - INFO - 
+Successfully added 964126632_mikechao_metmuseum-mcp config.
+----------------------------------------------------
+
+2026-03-27 14:02:30,957 - INFO - add the tool message of validate_config
+2026-03-27 14:02:30,957 - INFO - add the prompt of validate
+2026-03-27 14:02:32,363 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:32,363 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:02:32,364 - INFO - Token Usage: {"completion_tokens": 47, "prompt_tokens": 5361, "total_tokens": 5408, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:32,364 - INFO - Response: # Step 5: Verify the Server
+
+
+2026-03-27 14:02:32,364 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '964126632_mikechao_metmuseum-mcp'}
+2026-03-27 14:02:35,980 - INFO - 
+Process started with PID 31778 (shell: /bin/bash)
+Initial output:
+Met Museum MCP server running on stdio
+
+[OK] server 964126632_mikechao_metmuseum-mcp is OK, tools: list-departments, search-museum-objects, get-museum-object, open-met-explorer
+
+Process completed with exit code 0
+Runtime: 3.613s
+----------------------------------------------------
+
+2026-03-27 14:02:35,980 - INFO - add the tool message of fix_config
+2026-03-27 14:02:35,980 - INFO - add the tool message of execute_command
+2026-03-27 14:02:35,980 - INFO - add the tool message of validate_config
+2026-03-27 14:02:36,993 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:36,994 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:02:36,994 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 6127, "total_tokens": 6132, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:36,995 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:02:36,996 - INFO - dealing with 958852531 data/dataset/MCP-Bench/sampled_validated_readme/958852531_genomoncology_biomcp_README.md ...
+2026-03-27 14:02:36,996 - INFO - 
+=========
+=== README.md START ===
+# BioMCP
+
+One binary. One grammar. Evidence from the biomedical sources you already trust.
+
+## Description
+
+BioMCP cuts through the usual biomedical data maze: one query reaches the
+sources that normally live behind different APIs, identifiers, and search
+habits. Researchers, clinicians, and agents use the same command grammar to
+search, focus, and pivot without rebuilding the workflow for each source. You
+get compact, evidence-oriented results across live public data plus local study analytics.
+
+## Features
+
+- **Search the literature:** `search article` fans out across PubTator3 and
+  Europe PMC, can add a Semantic Scholar leg when filters allow it, merges
+  PMID/PMCID/DOI identifiers, and ranks the most direct evidence first.
+- **Pivot without rework:** move from a gene, variant, drug, disease, pathway,
+  protein, or article straight into the next built-in view instead of
+  rebuilding filters by hand.
+- **Analyze studies locally:** `study` commands cover query, cohort, survival,
+  compare, and co-occurrence workflows with native terminal or SVG charts on
+  downloaded cBioPortal datasets.
+- **Follow the paper trail:** `article citations`, `article references`,
+  `article recommendations`, and `article entities` turn one known paper into a
+  broader evidence map.
+- **Enrich and batch:** use `biomcp enrich` for top-level g:Profiler
+  enrichment and `biomcp batch` for up to 10 focused `get` calls in one
+  command.
+
+## Installation
+
+### PyPI tool install
+
+```bash
+uv tool install biomcp-cli
+# or: pip install biomcp-cli
+```
+
+This installs the `biomcp` binary on your PATH.
+
+### Binary install
+
+```bash
+curl -fsSL https://biomcp.org/install.sh | bash
+```
+
+### Claude Desktop extension (.mcpb)
+
+Before Anthropic directory approval, install the generated `.mcpb` package
+directly in Claude Desktop for reviewer or local verification. After approval,
+install BioMCP from the Anthropic Directory instead of handling the bundle
+manually.
+
+### Install skills
+
+Install guided investigation workflows into your agent directory:
+
+```bash
+biomcp skill install ~/.claude --force
+```
+
+### MCP clients
+
+```json
+{
+  "mcpServers": {
+    "biomcp": {
+      "command": "biomcp",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+### Remote HTTP server
+
+For shared or remote deployments:
+
+```bash
+biomcp serve-http --host 127.0.0.1 --port 8080
+```
+
+Remote clients connect to `http://127.0.0.1:8080/mcp`. Probe routes are
+`GET /health`, `GET /readyz`, and `GET /`.
+
+Runnable demo:
+
+```bash
+uv run --script demo/streamable_http_client.py
+```
+
+See [Remote HTTP Server](https://biomcp.org/getting-started/remote-http/) for
+the newcomer guide.
+
+### From source
+
+```bash
+make install
+"$HOME/.local/bin/biomcp" --version
+```
+
+## Quick start
+
+First useful query in under 30 seconds:
+
+```bash
+uv tool install biomcp-cli
+biomcp health --apis-only
+biomcp list gene
+biomcp search all --gene BRAF --disease melanoma  # unified cross-entity discovery
+biomcp get gene BRAF pathways hpa
+```
+
+## Command grammar
+
+```text
+search <entity> [filters]    → discovery
+get <entity> <id> [sections] → focused detail
+<entity> <helper> <id>       → cross-entity pivots
+enrich <GENE1,GENE2,...>     → gene-set enrichment
+batch <entity> <id1,id2,...> → parallel gets
+search all [slot filters]    → counts-first cross-entity orientation
+```
+
+## Entities and sources
+
+| Entity | Upstream providers used by BioMCP | Example |
+|--------|-----------------------------------|---------|
+| gene | MyGene.info, UniProt, Reactome, QuickGO, STRING, GTEx, Human Protein Atlas, DGIdb, ClinGen | `biomcp get gene BRAF pathways hpa` |
+| variant | MyVariant.info, ClinVar, gnomAD fields via MyVariant, CIViC, Cancer Genome Interpreter, OncoKB, cBioPortal, GWAS Catalog, AlphaGenome | `biomcp get variant "BRAF V600E" clinvar` |
+| article | PubMed, PubTator3, Europe PMC, PMC OA, NCBI ID Converter, Semantic Scholar (optional auth; `S2_API_KEY` recommended) | `biomcp search article -g BRAF --limit 5` |
+| trial | ClinicalTrials.gov API v2, NCI CTS API | `biomcp search trial -c melanoma -s recruiting` |
+| drug | MyChem.info, EMA local batch, ChEMBL, OpenTargets, Drugs@FDA, OpenFDA, CIViC | `biomcp get drug Keytruda regulatory --region eu` |
+| disease | MyDisease.info, Monarch Initiative, MONDO, OpenTargets, Reactome, CIViC | `biomcp get disease "Lynch syndrome" genes` |
+| pathway | Reactome, KEGG, g:Profiler, Enrichr-backed enrichment sections | `biomcp get pathway hsa05200 genes` |
+| protein | UniProt, InterPro, STRING, ComplexPortal, PDB, AlphaFold | `biomcp get protein P15056 complexes` |
+| adverse-event | OpenFDA FAERS, MAUDE, Recalls | `biomcp search adverse-event --drug pembrolizumab` |
+| pgx | CPIC, PharmGKB | `biomcp get pgx CYP2D6 recommendations` |
+| gwas | GWAS Catalog | `biomcp search gwas --trait "type 2 diabetes"` |
+| phenotype | Monarch Initiative (HPO semantic similarity) | `biomcp search phenotype "HP:0001250"` |
+
+## Cross-entity helpers
+
+Pivot between related entities without rebuilding filters.
+
+See the [cross-entity pivot guide](docs/how-to/cross-entity-pivots.md) for when
+to use a helper versus a fresh search.
+
+```bash
+biomcp variant trials "BRAF V600E" --limit 5
+biomcp variant articles "BRAF V600E"
+biomcp drug adverse-events pembrolizumab
+biomcp drug trials pembrolizumab
+biomcp disease trials melanoma
+biomcp disease drugs melanoma
+biomcp disease articles "Lynch syndrome"
+biomcp gene trials BRAF
+biomcp gene drugs BRAF
+biomcp gene articles BRCA1
+biomcp gene pathways BRAF
+biomcp pathway drugs R-HSA-5673001
+biomcp pathway drugs hsa05200
+biomcp pathway articles R-HSA-5673001
+biomcp pathway trials R-HSA-5673001
+biomcp protein structures P15056
+biomcp article entities 22663011
+biomcp article citations 22663011 --limit 3
+biomcp article references 22663011 --limit 3
+biomcp article recommendations 22663011 --limit 3
+```
+
+## Gene-set enrichment
+
+```bash
+biomcp enrich BRAF,KRAS,NRAS --limit 10
+```
+
+Top-level `biomcp enrich` uses **g:Profiler**. Gene enrichment sections inside
+other entity views still reference **Enrichr** where that is the backing
+source.
+
+## Sections and progressive disclosure
+
+Every `get` command supports selectable sections for focused output:
+
+```bash
+biomcp get gene BRAF                    # summary card
+biomcp get gene BRAF pathways           # add pathway section
+biomcp get gene BRAF hpa                # protein tissue expression + localization
+biomcp get gene BRAF civic interactions # multiple sections
+biomcp get gene BRAF all                # everything
+
+biomcp get variant "BRAF V600E" clinvar population conservation
+biomcp get article 22663011 tldr
+biomcp get drug pembrolizumab label targets civic approvals
+biomcp get drug Keytruda regulatory --region eu
+biomcp get disease "Lynch syndrome" genes phenotypes variants
+biomcp get trial NCT02576665 eligibility locations outcomes
+```
+
+In JSON mode, `get` responses expose `_meta.next_commands` for the next likely
+follow-ups and `_meta.section_sources` for section-level provenance. `batch ...
+--json` returns per-entity objects with the same metadata shape.
+
+## API keys
+
+Most commands work without credentials. Optional keys improve rate limits or
+unlock optional enrichments:
+
+```bash
+export NCBI_API_KEY="..."        # PubTator, PMC OA, NCBI ID converter
+export S2_API_KEY="..."          # Optional Semantic Scholar auth; dedicated quota at 1 req/sec
+export OPENFDA_API_KEY="..."     # OpenFDA rate limits
+export NCI_API_KEY="..."         # NCI CTS trial search (--source nci)
+export ONCOKB_TOKEN="..."        # OncoKB variant helper
+export ALPHAGENOME_API_KEY="..." # AlphaGenome variant effect prediction
+```
+
+`search article`, `get article`, `article batch`, `get article ... tldr`, and
+the explicit Semantic Scholar helpers all work without `S2_API_KEY`. With the
+key, BioMCP sends authenticated requests and uses a dedicated rate limit at
+1 req/sec. Without it, BioMCP uses the shared unauthenticated pool at 1 req/2sec.
+`--source` still remains `all|pubtator|europepmc` in v1, so the S2 leg is
+automatic rather than directly selectable. References and recommendations can
+be empty for paywalled papers because of publisher elision in Semantic Scholar
+upstream coverage.
+
+## Configuration
+
+### Claude Desktop extension settings
+
+The directory bundle exposes only the optional settings needed for the first
+reviewer-facing build:
+
+| Claude Desktop field | Runtime env var | Purpose |
+|----------------------|-----------------|---------|
+| OncoKB Token | `ONCOKB_TOKEN` | Enables `biomcp variant oncokb "<gene> <variant>"` therapy and level evidence |
+| DisGeNET API Key | `DISGENET_API_KEY` | Enables scored DisGeNET sections on gene and disease lookups |
+| Semantic Scholar API Key | `S2_API_KEY` | Improves reliability for article TLDR, citation, reference, and recommendation helpers |
+
+The first directory build exposes only those three optional settings. Advanced
+CLI-only env vars remain documented in
+[API Keys](docs/getting-started/api-keys.md) for the general BioMCP CLI path.
+
+## Usage Examples
+
+### Public cross-entity overview
+
+**User prompt:** Give me a low-noise overview of BRAF in melanoma.
+
+**Expected tool call:** `biomcp search all --gene BRAF --disease melanoma --counts-only`
+
+**Expected behavior:** Returns a cross-entity counts summary that orients the
+next command instead of dumping long detail tables.
+
+**Expected output:** Counts-first summary with suggested next commands for the
+highest-yield entity follow-ups.
+
+### Public variant evidence
+
+**User prompt:** Summarize ClinVar significance and population frequency for BRAF V600E.
+
+**Expected tool call:** `biomcp get variant "BRAF V600E" clinvar population`
+
+**Expected behavior:** Retrieves the focused variant card, ClinVar section, and
+population-frequency data in one read-only call.
+
+**Expected output:** Variant summary, ClinVar significance details, and gnomAD
+population frequencies.
+
+### Credentialed OncoKB example
+
+**User prompt:** Show OncoKB therapy evidence for BRAF V600E.
+
+**Expected tool call:** `biomcp variant oncokb "BRAF V600E"`
+
+**Expected behavior:** Uses `ONCOKB_TOKEN` when configured and otherwise
+returns helpful guidance about the missing credential.
+
+**Expected output:** Therapy and level evidence when `ONCOKB_TOKEN` is set, or
+a clear setup hint when it is not.
+
+### Credentialed DisGeNET example
+
+**User prompt:** Show scored DisGeNET associations for TP53.
+
+**Expected tool call:** `biomcp get gene TP53 disgenet`
+
+**Expected behavior:** Uses `DISGENET_API_KEY` to retrieve the scored
+gene-disease association section.
+
+**Expected output:** Ranked disease-association table with evidence counts and
+scores when `DISGENET_API_KEY` is configured.
+
+## Privacy Policy
+
+BioMCP does not add telemetry, analytics, or remote log upload. Review the
+full privacy statement at <https://biomcp.org/policies/>.
+
+## Multi-worker deployment
+
+BioMCP rate limiting is process-local. For many concurrent workers, run one shared
+Streamable HTTP `biomcp serve-http` endpoint so all workers share a single
+limiter budget:
+
+```bash
+biomcp serve-http --host 0.0.0.0 --port 8080
+```
+
+Remote clients should connect to `http://<host>:8080/mcp`. Lightweight process
+probes are available at `GET /health`, `GET /readyz`, and `GET /`.
+
+## Skills
+
+BioMCP ships an embedded agent guide instead of a browsable in-binary catalog.
+Use `biomcp skill` to read the embedded BioMCP guide, then install it into
+your agent directory when you want local copies of the workflow references:
+
+```bash
+biomcp skill
+biomcp skill install ~/.claude --force
+```
+
+See [Skills](docs/getting-started/skills.md) for supported install targets,
+installed files, and legacy compatibility notes.
+
+## Local study analytics
+
+`study` is BioMCP's local analysis family for downloaded cBioPortal-style datasets.
+The 12 remote entity commands query upstream APIs for discovery and detail; `study`
+commands work on local datasets when you need per-study query, cohort, survival,
+comparison, or co-occurrence workflows.
+
+Use `study download` to fetch a dataset into your local study root. Set
+`BIOMCP_STUDY_DIR` when you want an explicit dataset location for reproducible
+scripts and demos; if it is unset, BioMCP falls back to its default study root.
+
+```bash
+export BIOMCP_STUDY_DIR="$HOME/.local/share/biomcp/studies"
+biomcp study download msk_impact_2017
+biomcp study query --study msk_impact_2017 --gene TP53 --type mutations --chart bar --theme dark --palette wong -o docs/blog/images/tp53-mutation-bar.svg
+```
+
+See the [CLI reference](docs/user-guide/cli-reference.md#local-study-analytics)
+for the full `study` command family and dataset prerequisites.
+
+## Ops
+
+```bash
+biomcp version          # show version and build info
+biomcp health           # inspect API connectivity plus local EMA/cache readiness
+biomcp update           # self-update to latest release
+biomcp update --check   # check for updates without installing
+biomcp uninstall        # remove biomcp from ~/.local/bin
+```
+
+## Support
+
+- GitHub issues: <https://github.com/genomoncology/biomcp/issues>
+- Troubleshooting: [docs/troubleshooting.md](docs/troubleshooting.md)
+- Full documentation: <https://biomcp.org/>
+
+## Documentation
+
+- [Getting Started](docs/getting-started/installation.md)
+- [Search All Workflow](docs/how-to/search-all-workflow.md)
+- [BioASQ Benchmark](docs/reference/bioasq-benchmark.md)
+- [Cross-Entity Pivot Guide](docs/how-to/cross-entity-pivots.md)
+- [Privacy Policy](docs/policies.md)
+- [Source Licensing and Terms](docs/reference/source-licensing.md)
+- [Data Sources](docs/reference/data-sources.md)
+- [Quick Reference](docs/reference/quick-reference.md)
+- [Troubleshooting](docs/troubleshooting.md)
+
+## Citation
+
+If you use BioMCP in research, cite it via [`CITATION.cff`](CITATION.cff).
+GitHub also exposes `Cite this repository` in the repository sidebar when that file is present.
+
+## Data Sources and Licensing
+
+BioMCP is MIT-licensed. It performs on-demand queries against upstream providers instead of vendoring or mirroring their datasets, but upstream terms govern reuse of retrieved results.
+
+Some providers are fully open, some BioMCP features require registration or API keys, and some queryable sources still impose notable reuse limits. The two biggest cautions are KEGG, which distinguishes academic and non-academic use, and COSMIC, which BioMCP keeps indirect-only because its licensing model is incompatible with a direct open integration.
+
+Use [Source Licensing and Terms](docs/reference/source-licensing.md) for the per-source breakdown and [API Keys](docs/getting-started/api-keys.md) for setup steps and registration links.
+
+## License
+
+MIT
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 958852531, 'description': 'BioMCP: Biomedical Model Context Protocol', 'language': 'Rust', 'size': 12800, 'topic': None, 'html_url': 'https://github.com/genomoncology/biomcp', 'owner': 'genomoncology', 'name': 'biomcp'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:02:36,996 - INFO - add the prompt of analyze
+2026-03-27 14:02:36,996 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:02:41,546 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:41,547 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:02:41,547 - INFO - Token Usage: {"completion_tokens": 242, "prompt_tokens": 4643, "total_tokens": 4885, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:41,547 - INFO - Response: # Step 1: List Deployment Options
+
+Based on the README document, here are the deployment options available:
+
+1. **PyPI tool install**: `uv tool install biomcp-cli`
+2. **Binary install**: `curl -fsSL https://biomcp.org/install.sh | bash`
+3. **MCP clients configuration**: Using `biomcp` command with `serve` argument
+4. **Remote HTTP server**: `biomcp serve-http --host 127.0.0.1 --port 8080`
+5. **From source**: Using `make install`
+
+# Step 2: Select the Optimal Deployment Option
+
+2.1 The optimal deployment method is the MCP client configuration using `biomcp serve` since:
+- It uses stdio communication method (implied by the MCP client configuration)
+- It's a local deployment option
+- It requires installation but provides the most direct way to run the server
+
+2.2 I will use the `uv` tool for installation as specified in the README.
+
+
+2026-03-27 14:02:41,547 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['uv']}
+2026-03-27 14:02:41,548 - INFO - 
+["uv"]
+----------------------------------------------------
+
+2026-03-27 14:02:41,548 - INFO - add the tool message of add_config
+2026-03-27 14:02:41,548 - INFO - add the tool message of execute_command
+2026-03-27 14:02:41,549 - INFO - add the prompt of deploy
+2026-03-27 14:02:41,549 - INFO - add the prompt of uv
+2026-03-27 14:02:43,584 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:43,591 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:02:43,591 - INFO - Token Usage: {"completion_tokens": 62, "prompt_tokens": 6632, "total_tokens": 6694, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:43,591 - INFO - Response: I'll deploy the BioMCP server using the optimal method identified. First, I'll install the biomcp CLI using uv tool, then configure it as an MCP server.
+
+
+2026-03-27 14:02:43,591 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'uv tool install biomcp-cli'}
+2026-03-27 14:02:46,778 - INFO - 
+Process started with PID 31852 (shell: /bin/bash)
+Initial output:
+Resolved 1 package in 872ms
+
+Prepared 1 package in 2.26s
+Installed 1 package in 1ms
+
+Installed 2 executables: biomcp, biomcp-cli
+
+Process completed with exit code 0
+Runtime: 3.183s
+----------------------------------------------------
+
+2026-03-27 14:02:48,553 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:48,555 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:02:48,555 - INFO - Token Usage: {"completion_tokens": 53, "prompt_tokens": 6792, "total_tokens": 6845, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:48,556 - INFO - Response: Great! The biomcp CLI has been successfully installed. Now I'll verify that the installation worked correctly by checking the biomcp version.
+
+
+2026-03-27 14:02:48,556 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'biomcp --version'}
+2026-03-27 14:02:48,574 - INFO - 
+Process started with PID 31899 (shell: /bin/bash)
+Initial output:
+biomcp 0.8.19
+
+Process completed with exit code 0
+Runtime: 0.014s
+----------------------------------------------------
+
+2026-03-27 14:02:51,107 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:51,108 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:02:51,108 - INFO - Token Usage: {"completion_tokens": 101, "prompt_tokens": 6908, "total_tokens": 7009, "prompt_tokens_details": {"cached_tokens": 6528}}
+2026-03-27 14:02:51,108 - INFO - Response: Perfect! The biomcp CLI is installed and working correctly. Now I'll add the configuration for the MCP server using the biomcp serve command as specified in the README.
+
+
+2026-03-27 14:02:51,109 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '958852531_genomoncology_biomcp', 'type': 'stdio', 'command': 'biomcp', 'args': ['serve']}
+2026-03-27 14:02:51,111 - INFO - 
+Successfully added 958852531_genomoncology_biomcp config.
+----------------------------------------------------
+
+2026-03-27 14:02:51,111 - INFO - add the tool message of validate_config
+2026-03-27 14:02:51,111 - INFO - add the prompt of validate
+2026-03-27 14:02:52,741 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:52,742 - INFO - --- Communicate Count: 5 ---
+2026-03-27 14:02:52,742 - INFO - Token Usage: {"completion_tokens": 52, "prompt_tokens": 6718, "total_tokens": 6770, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:52,742 - INFO - Response: Now I'll verify that the server configuration is working properly by validating the configuration.
+
+
+2026-03-27 14:02:52,742 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '958852531_genomoncology_biomcp'}
+2026-03-27 14:02:53,237 - INFO - 
+Process started with PID 31935 (shell: /bin/bash)
+Initial output:
+[OK] server 958852531_genomoncology_biomcp is OK, tools: biomcp
+
+Process completed with exit code 0
+Runtime: 0.492s
+----------------------------------------------------
+
+2026-03-27 14:02:53,238 - INFO - add the tool message of fix_config
+2026-03-27 14:02:53,238 - INFO - add the tool message of execute_command
+2026-03-27 14:02:53,238 - INFO - add the tool message of validate_config
+2026-03-27 14:02:54,247 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:02:54,248 - INFO - --- Communicate Count: 6 ---
+2026-03-27 14:02:54,248 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 7459, "total_tokens": 7464, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:02:54,248 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:02:54,249 - INFO - dealing with 1021171204 data/dataset/MCP-Bench/sampled_validated_readme/1021171204_zazencodes_unit-converter-mcp_README.md ...
+2026-03-27 14:02:54,250 - INFO - 
+=========
+=== README.md START ===
+# Unit Converter MCP
+
+Unit conversion utilities that provide precise conversions between different units of measurement.
+
+## 🔧 Tools
+
+| Tool                    | Purpose                                    | Supported Units |
+| ----------------------- | ------------------------------------------ | --------------- |
+| `list_supported_units`  | List all supported units for each type    | All conversion types |
+| `convert_temperature`   | Convert temperature between units          | Celsius, Fahrenheit, Kelvin |
+| `convert_angle`         | Convert angle between units                | Degrees, Radians, Arcmin, Arcsec, Turns, Gons |
+| `convert_length`        | Convert length/distance between units      | Meter, Kilometer, Foot, Inch, Mile, etc. |
+| `convert_area`          | Convert area between units                 | Square Meter, Acre, Hectare, Square Foot, etc. |
+| `convert_mass`          | Convert mass between units                 | Kilogram, Gram, Pound, Ounce, Ton |
+| `convert_volume`        | Convert volume between units               | Liter, Gallon, Cup, Fluid Ounce, etc. |
+| `convert_time`          | Convert time between units                 | Seconds, Minutes, Hours, Days, Years, etc. |
+| `convert_energy`        | Convert energy between units               | Joule, Kilowatt Hour, Calorie, BTU, etc. |
+| `convert_force`         | Convert force between units                | Newton, Pound Force, Kilogram Force, etc. |
+| `convert_pressure`      | Convert pressure between units             | Pascal, Bar, PSI, Atmosphere, etc. |
+| `convert_power`         | Convert power between units                | Watt, Horsepower, BTU per hour, etc. |
+| `convert_speed`         | Convert speed between units                | m/s, mph, km/h, knots, Mach, etc. |
+| `convert_computer_data` | Convert computer storage between units     | Bytes, KB, MB, GB, TB, etc. |
+| `convert_density`       | Convert density between units              | kg/L, g/cm³, lb/gal, g/L, etc. |
+
+## 🔧 Examples
+
+Here are some example prompts to get you started:
+
+```text
+convert 0 celsius to fahrenheit
+
+what's my weight in kg? I'm 205lbs
+
+convert 3.14159 radians to degrees
+
+convert the speed of a snail to Mach
+
+how many floppy disks do you need to store 1TB?
+
+how much area would 1,000 mattresses take up in acres
+
+how many non-stop days would it take to watch Game of Thrones?
+```
+
+
+## 🔧 Setup
+
+### Claude Desktop
+
+Add this to your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`   
+**Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "unit-converter": {
+      "command": "uvx",
+      "args": ["unit-converter-mcp"]
+    }
+  }
+}
+```
+
+## 📋 Tool Reference
+
+### `convert_temperature`
+
+Convert temperature between Celsius, Fahrenheit, and Kelvin.
+
+**Parameters:**
+- `value` (float): Temperature value to convert
+- `from_unit` (str): Source unit (celsius, fahrenheit, kelvin)
+- `to_unit` (str): Target unit (celsius, fahrenheit, kelvin)
+
+**Example:**
+```json
+{
+  "name": "convert_temperature",
+  "arguments": {
+    "value": 100,
+    "from_unit": "celsius",
+    "to_unit": "fahrenheit"
+  }
+}
+```
+
+### `convert_length`
+
+Convert length between various units including metric and imperial systems.
+
+**Parameters:**
+- `value` (float): Length value to convert
+- `from_unit` (str): Source unit (meter, kilometer, centimeter, millimeter, inch, foot, yard, mile)
+- `to_unit` (str): Target unit (meter, kilometer, centimeter, millimeter, inch, foot, yard, mile)
+
+**Example:**
+```json
+{
+  "name": "convert_length",
+  "arguments": {
+    "value": 1,
+    "from_unit": "meter",
+    "to_unit": "foot"
+  }
+}
+```
+
+### `convert_mass`
+
+Convert mass between various units including metric, imperial, and specialized units.
+
+**Parameters:**
+- `value` (float): Mass value to convert
+- `from_unit` (str): Source unit (kilogram, gram, pound, ounce, tonne, carat, stone, etc.)
+- `to_unit` (str): Target unit (kilogram, gram, pound, ounce, tonne, carat, stone, etc.)
+
+**Supported Units:**
+- Metric: kilogram, gram, milligram, microgram, nanogram, picogram, femtogram, decagram, hectogram, tonne, kilotonne, megatonne
+- Imperial: pound, ounce, stone, short ton (US), long ton (UK)
+- Precious metals: troy ounce, carat
+- Historical: grain
+
+**Example:**
+```json
+{
+  "name": "convert_mass",
+  "arguments": {
+    "value": 1,
+    "from_unit": "kilogram",
+    "to_unit": "pound"
+  }
+}
+```
+
+### `convert_volume`
+
+Convert volume between various units including metric and imperial systems.
+
+**Parameters:**
+- `value` (float): Volume value to convert
+- `from_unit` (str): Source unit (liter, milliliter, gallon, quart, pint, cup, fluid_ounce)
+- `to_unit` (str): Target unit (liter, milliliter, gallon, quart, pint, cup, fluid_ounce)
+
+**Example:**
+```json
+{
+  "name": "convert_volume",
+  "arguments": {
+    "value": 1,
+    "from_unit": "liter",
+    "to_unit": "gallon"
+  }
+}
+```
+
+### `convert_time`
+
+Convert time between various units from sub-seconds to millennia.
+
+**Parameters:**
+- `value` (float): Time value to convert
+- `from_unit` (str): Source unit (seconds, minutes, hours, days, weeks, months, years, etc.)
+- `to_unit` (str): Target unit (seconds, minutes, hours, days, weeks, months, years, etc.)
+
+**Example:**
+```json
+{
+  "name": "convert_time",
+  "arguments": {
+    "value": 1,
+    "from_unit": "hours",
+    "to_unit": "minutes"
+  }
+}
+```
+
+### `convert_energy`
+
+Convert energy between various units including metric, electrical, heat, nutrition, and particle physics systems.
+
+**Parameters:**
+- `value` (float): Energy value to convert
+- `from_unit` (str): Source unit (joule, kilowatt hour, calorie, Btu, etc.)
+- `to_unit` (str): Target unit (joule, kilowatt hour, calorie, Btu, etc.)
+
+**Supported Units:**
+- SI and metric prefixes: joule, kilojoule, megajoule, gigajoule, terajoule, petajoule, exajoule
+- Electrical-energy units: watt hour, kilowatt hour, megawatt hour, gigawatt hour, terawatt hour
+- Heat / nutrition: Btu, calorie, kilocalorie, therm
+- Mechanical & particle-physics units: foot‑pound force, inch‑pound force, erg, electron volt
+
+**Example:**
+```json
+{
+  "name": "convert_energy",
+  "arguments": {
+    "value": 1,
+    "from_unit": "kilowatt hour",
+    "to_unit": "joule"
+  }
+}
+```
+
+### `convert_force`
+
+Convert force between various units including metric and imperial systems.
+
+**Parameters:**
+- `value` (float): Force value to convert
+- `from_unit` (str): Source unit (newtons, pounds force, kilograms force, dynes, kilonewtons, kips, etc.)
+- `to_unit` (str): Target unit (newtons, pounds force, kilograms force, dynes, kilonewtons, kips, etc.)
+
+**Supported Units:**
+- Metric: newtons, kilonewtons, meganewtons, dynes
+- Imperial: pounds force, kips
+- Other: kilograms force, tonnes force, long tons force, short tons force
+
+**Example:**
+```json
+{
+  "name": "convert_force",
+  "arguments": {
+    "value": 100,
+    "from_unit": "newtons",
+    "to_unit": "pounds force"
+  }
+}
+```
+
+### `convert_density`
+
+Convert density between various units including metric, imperial, and specialized systems.
+
+**Parameters:**
+- `value` (float): Density value to convert
+- `from_unit` (str): Source unit (kilograms per liter, grams per cubic centimeter, pounds per gallon, etc.)
+- `to_unit` (str): Target unit (kilograms per liter, grams per cubic centimeter, pounds per gallon, etc.)
+
+**Supported Units:**
+- Grain-based hardness units: grains per gallon (UK), grains per gallon (US), grains per gallon
+- Metric staples: grams per cubic centimeter, grams per liter, kilograms per liter, kilograms per cubic meter, milligrams per liter
+- Fluid-ounce units: ounces per gallon (UK), ounces per gallon (US), ounces per gallon
+- Pound-based units: pounds per cubic foot, pounds per gallon (UK), pounds per gallon (US), pounds per gallon
+- Tonne/ton bulk-density units: tonnes per cubic meter, tons per cubic yard (UK), tons per cubic yard (US), tons per cubic yard
+
+**Example:**
+```json
+{
+  "name": "convert_density",
+  "arguments": {
+    "value": 1,
+    "from_unit": "kilograms per liter",
+    "to_unit": "grams per cubic centimeter"
+  }
+}
+```
+
+### `list_supported_units`
+
+List all supported units for each conversion type.
+
+**Parameters:** None
+
+**Example:**
+```json
+{
+  "name": "list_supported_units",
+  "arguments": {}
+}
+```
+
+### `convert_angle`
+
+Convert angle between degrees, radians, and other angular units.
+
+**Parameters:**
+- `value` (float): Angle value to convert
+- `from_unit` (str): Source unit (degrees, radians, arcmin, arcsec, turns, gons)
+- `to_unit` (str): Target unit (degrees, radians, arcmin, arcsec, turns, gons)
+
+**Example:**
+```json
+{
+  "name": "convert_angle",
+  "arguments": {
+    "value": 3.14159,
+    "from_unit": "radians",
+    "to_unit": "degrees"
+  }
+}
+```
+
+### `convert_area`
+
+Convert area between various units including metric and imperial systems.
+
+**Parameters:**
+- `value` (float): Area value to convert
+- `from_unit` (str): Source unit (acre, are, hectare, square centimeter, square foot, square inch, square kilometer, square meter, square mile, square millimeter, square yard)
+- `to_unit` (str): Target unit (acre, are, hectare, square centimeter, square foot, square inch, square kilometer, square meter, square mile, square millimeter, square yard)
+
+**Example:**
+```json
+{
+  "name": "convert_area",
+  "arguments": {
+    "value": 1,
+    "from_unit": "hectare",
+    "to_unit": "acre"
+  }
+}
+```
+
+### `convert_computer_data`
+
+Convert computer storage between various units from bits to exabytes.
+
+**Parameters:**
+- `value` (float): Computer storage value to convert
+- `from_unit` (str): Source unit (bits, bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes, exabytes)
+- `to_unit` (str): Target unit (bits, bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes, exabytes)
+
+**Example:**
+```json
+{
+  "name": "convert_computer_data",
+  "arguments": {
+    "value": 1,
+    "from_unit": "gigabytes",
+    "to_unit": "megabytes"
+  }
+}
+```
+
+### `convert_pressure`
+
+Convert pressure between various units including metric, imperial, and specialized systems.
+
+**Parameters:**
+- `value` (float): Pressure value to convert
+- `from_unit` (str): Source unit (pascal, hectopascal, kilopascal, megapascal, bar, atmosphere, centimeters of water, inches of water, feet of water, meters of water, millimeters of mercury, inches of mercury, kilogram force per square centimeter, newtons per square centimeter, newtons per square millimeter, psi, psf)
+- `to_unit` (str): Target unit (pascal, hectopascal, kilopascal, megapascal, bar, atmosphere, centimeters of water, inches of water, feet of water, meters of water, millimeters of mercury, inches of mercury, kilogram force per square centimeter, newtons per square centimeter, newtons per square millimeter, psi, psf)
+
+**Example:**
+```json
+{
+  "name": "convert_pressure",
+  "arguments": {
+    "value": 1,
+    "from_unit": "atmosphere",
+    "to_unit": "psi"
+  }
+}
+```
+
+### `convert_power`
+
+Convert power between various units including mechanical, electrical, and thermal systems.
+
+**Parameters:**
+- `value` (float): Power value to convert
+- `from_unit` (str): Source unit (Btu per hour, foot pound‑force per second, ton of refrigeration, calorie per hour, kilocalorie per hour, horsepower, horsepower (metric), kilogram‑force meter per second, watt, kilowatt, megawatt, gigawatt, terawatt, petawatt)
+- `to_unit` (str): Target unit (Btu per hour, foot pound‑force per second, ton of refrigeration, calorie per hour, kilocalorie per hour, horsepower, horsepower (metric), kilogram‑force meter per second, watt, kilowatt, megawatt, gigawatt, terawatt, petawatt)
+
+**Example:**
+```json
+{
+  "name": "convert_power",
+  "arguments": {
+    "value": 1,
+    "from_unit": "horsepower",
+    "to_unit": "kilowatt"
+  }
+}
+```
+
+### `convert_speed`
+
+Convert speed between various units including metric, imperial, and specialized systems.
+
+**Parameters:**
+- `value` (float): Speed value to convert
+- `from_unit` (str): Source unit (centimeters per minute, centimeters per second, feet per hour, feet per minute, feet per second, inches per minute, inches per second, kilometers per hour, kilometers per second, knots, Mach (ISA sea level), speed of sound, meters per hour, meters per minute, meters per second, miles per hour, miles per minute, miles per second, yards per hour, yards per minute, yards per second, speed of light)
+- `to_unit` (str): Target unit (centimeters per minute, centimeters per second, feet per hour, feet per minute, feet per second, inches per minute, inches per second, kilometers per hour, kilometers per second, knots, Mach (ISA sea level), speed of sound, meters per hour, meters per minute, meters per second, miles per hour, miles per minute, miles per second, yards per hour, yards per minute, yards per second, speed of light)
+
+**Example:**
+```json
+{
+  "name": "convert_speed",
+  "arguments": {
+    "value": 60,
+    "from_unit": "miles per hour",
+    "to_unit": "meters per second"
+  }
+}
+```
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Python 3.10+
+- [uv](https://docs.astral.sh/uv/) package manager
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/zazencodes/unit-converter-mcp
+cd unit-converter-mcp
+
+# Install dependencies
+uv sync --dev
+
+# Run tests
+uv run pytest
+
+# Run linting
+uv run ruff check --fix
+uv run ruff format
+
+# Type checking
+uv run mypy src/
+```
+
+### MCP Client Config
+
+```json
+{
+  "mcpServers": {
+    "unit-converter-dev": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "<path_to_your_repo>/unit-converter-mcp",
+        "run",
+        "unit-converter-mcp"
+      ]
+    }
+  }
+}
+```
+
+**Note:** Replace `<path_to_your_repo>/unit-converter-mcp` with the absolute path to your cloned repository.
+
+### Building
+
+```bash
+# Build package
+uv build
+
+# Test installation
+uv run --with dist/*.whl unit-converter-mcp
+```
+
+### Release Checklist
+
+1.  **Update Version:**
+    - Increment the `version` number in `pyproject.toml` and `src/__init__.py`.
+
+2.  **Update Changelog:**
+    - Add a new entry in `CHANGELOG.md` for the release.
+        - Draft notes with coding agent using `git diff` context.
+
+        ```
+        Update the @CHANGELOG.md for the latest release.
+        List all significant changes, bug fixes, and new features.
+        Here's the git diff:
+        [GIT_DIFF]
+        ```
+        
+    - Commit along with any other pending changes.
+
+3.  **Create GitHub Release:**
+    - Draft a new release on the GitHub UI.
+        - Tag release using UI.
+    - The GitHub workflow will automatically build and publish the package to PyPI.
+
+## Testing with MCP Inspector
+
+For exploring and/or developing this server, use the MCP Inspector npm utility:
+
+```bash
+# Install MCP Inspector
+npm install -g @modelcontextprotocol/inspector
+
+# Run local development server with the inspector
+npx @modelcontextprotocol/inspector uv run unit-converter-mcp
+
+# Run PyPI production server with the inspector
+npx @modelcontextprotocol/inspector uvx unit-converter-mcp
+```
+
+## 📝 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 1021171204, 'description': 'Unit conversion utilities that provide precise conversions between different units of measurement.', 'language': 'Python', 'size': 44, 'topic': None, 'html_url': 'https://github.com/zazencodes/unit-converter-mcp', 'owner': 'zazencodes', 'name': 'unit-converter-mcp'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:02:54,250 - INFO - add the prompt of analyze
+2026-03-27 14:02:54,250 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:03:00,390 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:00,391 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:03:00,391 - INFO - Token Usage: {"completion_tokens": 336, "prompt_tokens": 4910, "total_tokens": 5246, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:03:00,391 - INFO - Response: # Step 1: List Deployment Options
+
+Based on the README document, here are the deployment options available:
+
+1. **Production deployment via uvx**: 
+   ```json
+   {
+     "mcpServers": {
+       "unit-converter": {
+         "command": "uvx",
+         "args": ["unit-converter-mcp"]
+       }
+     }
+   }
+   ```
+
+2. **Development deployment via uv** (requires cloning the repo):
+   ```json
+   {
+     "mcpServers": {
+       "unit-converter-dev": {
+         "command": "uv",
+         "args": [
+           "--directory",
+           "<path_to_your_repo>/unit-converter-mcp",
+           "run",
+           "unit-converter-mcp"
+         ]
+       }
+     }
+   }
+   ```
+
+3. **Testing with MCP Inspector using uvx**:
+   ```bash
+   npx @modelcontextprotocol/inspector uvx unit-converter-mcp
+   ```
+
+4. **Development setup with cloning the repository**:
+   ```bash
+   git clone https://github.com/zazencodes/unit-converter-mcp
+   cd unit-converter-mcp
+   uv sync --dev
+   ```
+
+# Step 2: Select the Optimal Deployment Option
+
+The optimal deployment option is the production deployment using `uvx` (install-free deployment via stdio communication). This approach doesn't require cloning the repository or installing dependencies locally, making it the simplest and most straightforward method.
+
+
+2026-03-27 14:03:00,391 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['uv']}
+2026-03-27 14:03:00,392 - INFO - 
+["uv"]
+----------------------------------------------------
+
+2026-03-27 14:03:00,392 - INFO - add the tool message of add_config
+2026-03-27 14:03:00,392 - INFO - add the tool message of execute_command
+2026-03-27 14:03:00,393 - INFO - add the prompt of deploy
+2026-03-27 14:03:00,393 - INFO - add the prompt of uv
+2026-03-27 14:03:03,489 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:03,491 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:03:03,491 - INFO - Token Usage: {"completion_tokens": 76, "prompt_tokens": 6993, "total_tokens": 7069, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:03:03,491 - INFO - Response: I'll deploy the MCP server using the optimal option identified: the production deployment using `uvx`. This approach uses the stdio communication method and doesn't require cloning the repository.
+
+First, let me check if uvx is available and then prepare the configuration:
+
+
+2026-03-27 14:03:03,491 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'which uvx'}
+2026-03-27 14:03:03,511 - INFO - 
+Process started with PID 31997 (shell: /bin/bash)
+Initial output:
+/home/silimon/.local/bin/uvx
+
+Process completed with exit code 0
+Runtime: 0.015s
+----------------------------------------------------
+
+2026-03-27 14:03:05,810 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:05,812 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:03:05,812 - INFO - Token Usage: {"completion_tokens": 112, "prompt_tokens": 7132, "total_tokens": 7244, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:03:05,812 - INFO - Response: Great! uvx is available at `/home/silimon/.local/bin/uvx`. Now I'll add the configuration for the unit converter MCP server using the `add_config` tool.
+
+
+2026-03-27 14:03:05,812 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '1021171204_zazencodes_unit-converter-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['unit-converter-mcp']}
+2026-03-27 14:03:05,814 - INFO - 
+Successfully added 1021171204_zazencodes_unit-converter-mcp config.
+----------------------------------------------------
+
+2026-03-27 14:03:05,814 - INFO - add the tool message of validate_config
+2026-03-27 14:03:05,815 - INFO - add the prompt of validate
+2026-03-27 14:03:07,685 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:07,686 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:03:07,686 - INFO - Token Usage: {"completion_tokens": 64, "prompt_tokens": 6956, "total_tokens": 7020, "prompt_tokens_details": {"cached_tokens": 256}}
+2026-03-27 14:03:07,686 - INFO - Response: Now I'll verify the server configuration using the `validate_config` tool to ensure it starts properly and exposes the relevant APIs.
+
+
+2026-03-27 14:03:07,686 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '1021171204_zazencodes_unit-converter-mcp'}
+2026-03-27 14:03:20,561 - INFO - 
+Process started with PID 32027 (shell: /bin/bash)
+Initial output:
+Downloading lupa (2.0MiB)
+ Downloaded lupa
+Installed 81 packages in 23ms
+
+
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│                                                                              │
+│                         ▄▀▀ ▄▀█ █▀▀ ▀█▀ █▀▄▀█ █▀▀ █▀█                        │
+│                         █▀  █▀█ ▄▄█  █  █ ▀ █ █▄▄ █▀▀                        │
+│                                                                              │
+│                                                                              │
+│                                FastMCP 2.14.5                                │
+│                            https://gofastmcp.com                             │
+│                                                                              │
+│                  🖥  Server:      Unit Converter MCP Server                   │
+│                  🚀 Deploy free: https://fastmcp.cloud                       │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                          ✨ FastMCP 3.0 is coming!                           │
+│       Pin `fastmcp < 3` in production, then upgrade when you're ready.       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                          🎉 Update available: 3.1.1                          │
+│                      Run: pip install --upgrade fastmcp                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+[03/27/26 14:03:20] INFO     Starting MCP server 'Unit Converter  server.py:2506
+                             MCP Server' with transport 'stdio'                 
+
+[OK] server 1021171204_zazencodes_unit-converter-mcp is OK, tools: convert_temperature, convert_angle, convert_length, convert_energy, convert_force, convert_pressure, convert_power, convert_speed, convert_area, convert_mass, convert_volume, convert_computer_data, convert_density, convert_time, convert_batch, list_supported_units
+
+Process completed with exit code 0
+Runtime: 12.871s
+----------------------------------------------------
+
+2026-03-27 14:03:20,562 - INFO - add the tool message of fix_config
+2026-03-27 14:03:20,562 - INFO - add the tool message of execute_command
+2026-03-27 14:03:20,562 - INFO - add the tool message of validate_config
+2026-03-27 14:03:23,098 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:23,099 - INFO - --- Communicate Count: 5 ---
+2026-03-27 14:03:23,099 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 8134, "total_tokens": 8139, "prompt_tokens_details": {"cached_tokens": 64}}
+2026-03-27 14:03:23,099 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:03:23,100 - INFO - dealing with 937106681 data/dataset/MCP-Bench/sampled_validated_readme/937106681_cablate_mcp-google-map_README.md ...
+2026-03-27 14:03:23,100 - INFO - 
+=========
+=== README.md START ===
+<p align="center">
+  <a href="https://www.npmjs.com/package/@cablate/mcp-google-map"><img src="https://img.shields.io/npm/v/@cablate/mcp-google-map" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/@cablate/mcp-google-map"><img src="https://img.shields.io/npm/dm/@cablate/mcp-google-map" alt="npm downloads"></a>
+  <a href="https://github.com/cablate/mcp-google-map/stargazers"><img src="https://img.shields.io/github/stars/cablate/mcp-google-map?style=social" alt="GitHub stars"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/cablate/mcp-google-map" alt="license"></a>
+</p>
+
+<p align="center">
+  <img src="./assets/banner.webp" alt="MCP Google Maps — AI-Powered Geospatial Tools" width="800">
+</p>
+
+<h3 align="center"><b>Give your AI agent the ability to understand the physical world —<br>geocode, route, search, and reason about locations.</b></h3>
+
+<p align="center">
+  <b>English</b> | <a href="./README.zh-TW.md">繁體中文</a>
+</p>
+
+<p align="center">
+  <img src="./assets/demo-grid-en.png" alt="Travel planning demo — Kyoto 2-day, Tokyo outdoor, Japan 5-day, Bangkok budget" width="800">
+</p>
+
+- **18 tools** — 14 atomic + 4 composite (explore-area, plan-route, compare-places, local-rank-tracker)
+- **3 modes** — stdio, StreamableHTTP, standalone exec CLI
+- **Agent Skill** — built-in skill definition teaches AI how to chain geo tools ([`skills/google-maps/`](./skills/google-maps/))
+
+### vs Google Grounding Lite
+
+| | This project | [Grounding Lite](https://cloud.google.com/blog/products/ai-machine-learning/announcing-official-mcp-support-for-google-services) |
+|---|---|---|
+| Tools | **18** | 3 |
+| Geocoding | Yes | No |
+| Step-by-step directions | Yes | No |
+| Elevation | Yes | No |
+| Distance matrix | Yes | No |
+| Place details | Yes | No |
+| Timezone | Yes | No |
+| Weather | Yes | Yes |
+| Air quality | Yes | No |
+| Map images | Yes | No |
+| Composite tools (explore, plan, compare) | Yes | No |
+| Open source | MIT | No |
+| Self-hosted | Yes | Google-managed only |
+| Agent Skill | Yes | No |
+
+### Quick Start
+
+```bash
+# stdio (Claude Desktop, Cursor, etc.)
+npx @cablate/mcp-google-map --stdio
+
+# exec CLI — no server needed
+npx @cablate/mcp-google-map exec geocode '{"address":"Tokyo Tower"}'
+
+# HTTP server
+npx @cablate/mcp-google-map --port 3000 --apikey "YOUR_API_KEY"
+```
+
+## Special Thanks
+
+Special thanks to [@junyinnnn](https://github.com/junyinnnn) for helping add support for `streamablehttp`.
+
+## Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `maps_search_nearby` | Find places near a location by type (restaurant, cafe, hotel, etc.). Supports filtering by radius, rating, and open status. |
+| `maps_search_places` | Free-text place search (e.g., "sushi restaurants in Tokyo"). Supports location bias, rating, open-now filters. |
+| `maps_place_details` | Get full details for a place by its place_id — reviews, phone, website, hours. Optional `maxPhotos` param returns photo URLs. |
+| `maps_geocode` | Convert an address or landmark name into GPS coordinates. |
+| `maps_reverse_geocode` | Convert GPS coordinates into a street address. |
+| `maps_distance_matrix` | Calculate travel distances and times between multiple origins and destinations. |
+| `maps_directions` | Get step-by-step navigation between two points with route details. |
+| `maps_elevation` | Get elevation (meters above sea level) for geographic coordinates. |
+| `maps_timezone` | Get timezone ID, name, UTC/DST offsets, and local time for coordinates. |
+| `maps_weather` | Get current weather conditions or forecast — temperature, humidity, wind, UV, precipitation. |
+| `maps_air_quality` | Get air quality index, pollutant concentrations, and health recommendations by demographic group. |
+| `maps_static_map` | Generate a map image with markers, paths, or routes — returned inline for the user to see directly. |
+| `maps_batch_geocode` | Geocode up to 50 addresses in one call — returns coordinates for each. |
+| `maps_search_along_route` | Search for places along a route between two points — ranked by minimal detour time. |
+| **Composite Tools** | |
+| `maps_explore_area` | Explore what's around a location — searches multiple place types and gets details in one call. |
+| `maps_plan_route` | Plan an optimized multi-stop route — uses Routes API waypoint optimization (up to 25 stops) for efficient ordering. |
+| `maps_compare_places` | Compare places side-by-side — searches, gets details, and optionally calculates distances. |
+| `maps_local_rank_tracker` | Track a business's local search ranking across a geographic grid — like LocalFalcon. Supports up to 3 keywords for batch scanning. Returns rank at each point, top-3 competitors, and metrics (ARP, ATRP, SoLV). |
+
+All tools are annotated with `readOnlyHint: true` and `destructiveHint: false` — MCP clients can auto-approve these without user confirmation.
+
+> **Prerequisite**: Enable **Places API (New)** and **Routes API** in [Google Cloud Console](https://console.cloud.google.com) before using place-related and routing tools.
+
+## Installation
+
+### Method 1: stdio (Recommended for most clients)
+
+Works with Claude Desktop, Cursor, VS Code, and any MCP client that supports stdio:
+
+```json
+{
+  "mcpServers": {
+    "google-maps": {
+      "command": "npx",
+      "args": ["-y", "@cablate/mcp-google-map", "--stdio"],
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+**Reduce context usage** — If you only need a subset of tools, set `GOOGLE_MAPS_ENABLED_TOOLS` to limit which tools are registered:
+
+```json
+{
+  "env": {
+    "GOOGLE_MAPS_API_KEY": "YOUR_API_KEY",
+    "GOOGLE_MAPS_ENABLED_TOOLS": "maps_geocode,maps_directions,maps_search_places"
+  }
+}
+```
+
+Omit or set to `*` for all 18 tools (default).
+
+### Method 2: HTTP Server
+
+For multi-session deployments, per-request API key isolation, or remote access:
+
+```bash
+npx @cablate/mcp-google-map --port 3000 --apikey "YOUR_API_KEY"
+```
+
+Then configure your MCP client:
+
+```json
+{
+  "mcpServers": {
+    "google-maps": {
+      "type": "http",
+      "url": "http://localhost:3000/mcp"
+    }
+  }
+}
+```
+
+### Server Information
+
+- **Transport**: stdio (`--stdio`) or Streamable HTTP (default)
+- **Tools**: 18 Google Maps tools (14 atomic + 4 composite) — filterable via `GOOGLE_MAPS_ENABLED_TOOLS`
+
+### CLI Exec Mode (Agent Skill)
+
+Use tools directly without running the MCP server:
+
+```bash
+npx @cablate/mcp-google-map exec geocode '{"address":"Tokyo Tower"}'
+npx @cablate/mcp-google-map exec search-places '{"query":"ramen in Tokyo"}'
+```
+
+All 18 tools available: `geocode`, `reverse-geocode`, `search-nearby`, `search-places`, `place-details`, `directions`, `distance-matrix`, `elevation`, `timezone`, `weather`, `air-quality`, `static-map`, `batch-geocode-tool`, `search-along-route`, `explore-area`, `plan-route`, `compare-places`, `local-rank-tracker`. See [`skills/google-maps/`](./skills/google-maps/) for the agent skill definition and full parameter docs.
+
+### Batch Geocode
+
+Geocode hundreds of addresses from a file:
+
+```bash
+npx @cablate/mcp-google-map batch-geocode -i addresses.txt -o results.json
+cat addresses.txt | npx @cablate/mcp-google-map batch-geocode -i -
+```
+
+Input: one address per line. Output: JSON with `{ total, succeeded, failed, results[] }`. Default concurrency: 20 parallel requests.
+
+
+
+### API Key Configuration
+
+API keys can be provided in three ways (priority order):
+
+1. **HTTP Headers** (Highest priority)
+
+   ```json
+   {
+     "mcp-google-map": {
+       "transport": "streamableHttp",
+       "url": "http://localhost:3000/mcp",
+       "headers": {
+         "X-Google-Maps-API-Key": "YOUR_API_KEY"
+       }
+     }
+   }
+   ```
+
+2. **Command Line**
+
+   ```bash
+   mcp-google-map --apikey YOUR_API_KEY
+   ```
+
+3. **Environment Variable** (.env file or command line)
+   ```env
+   GOOGLE_MAPS_API_KEY=your_api_key_here
+   MCP_SERVER_PORT=3000
+   ```
+
+## Development
+
+### Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/cablate/mcp-google-map.git
+cd mcp-google-map
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your API key
+
+# Build the project
+npm run build
+
+# Start the server
+npm start
+
+# Or run in development mode
+npm run dev
+```
+
+### Testing
+
+```bash
+# Run smoke tests (no API key required for basic tests)
+npm test
+
+# Run full E2E tests (requires GOOGLE_MAPS_API_KEY)
+npm run test:e2e
+```
+
+### Project Structure
+
+```
+src/
+├── cli.ts                        # CLI entry point
+├── config.ts                     # Tool registration and server config
+├── index.ts                      # Package exports
+├── core/
+│   └── BaseMcpServer.ts          # MCP server with streamable HTTP transport
+├── services/
+│   ├── NewPlacesService.ts       # Google Places API (New) client
+│   ├── PlacesSearcher.ts         # Service facade layer
+│   ├── RoutesService.ts          # Google Routes API client (directions, distance matrix, waypoint optimization)
+│   └── toolclass.ts              # Google Maps API client (geocoding, timezone, elevation, static map)
+├── tools/
+│   └── maps/
+│       ├── searchNearby.ts       # maps_search_nearby tool
+│       ├── searchPlaces.ts       # maps_search_places tool
+│       ├── placeDetails.ts       # maps_place_details tool
+│       ├── geocode.ts            # maps_geocode tool
+│       ├── reverseGeocode.ts     # maps_reverse_geocode tool
+│       ├── distanceMatrix.ts     # maps_distance_matrix tool
+│       ├── directions.ts         # maps_directions tool
+│       ├── elevation.ts          # maps_elevation tool
+│       ├── timezone.ts           # maps_timezone tool
+│       ├── weather.ts            # maps_weather tool
+│       ├── airQuality.ts         # maps_air_quality tool
+│       ├── staticMap.ts          # maps_static_map tool
+│       ├── batchGeocode.ts       # maps_batch_geocode tool
+│       ├── searchAlongRoute.ts   # maps_search_along_route tool
+│       ├── exploreArea.ts        # maps_explore_area (composite)
+│       ├── planRoute.ts          # maps_plan_route (composite)
+│       ├── comparePlaces.ts      # maps_compare_places (composite)
+│       └── localRankTracker.ts   # maps_local_rank_tracker (composite)
+└── utils/
+    ├── apiKeyManager.ts          # API key management
+    └── requestContext.ts         # Per-request context (API key isolation)
+tests/
+└── smoke.test.ts                 # Smoke + E2E test suite
+skills/
+├── google-maps/                  # Agent Skill — how to USE the tools
+│   ├── SKILL.md                  # Tool map, recipes, invocation
+│   └── references/
+│       ├── tools-api.md          # Tool parameters + scenario recipes
+│       ├── travel-planning.md    # Travel planning methodology
+│       └── local-seo.md          # Local SEO / Google Business Profile ranking analysis
+└── project-docs/                 # Project Skill — how to DEVELOP/MAINTAIN
+    ├── SKILL.md                  # Architecture overview + onboarding
+    └── references/
+        ├── architecture.md       # System design, code map, 9-file checklist
+        ├── google-maps-api-guide.md  # API endpoints, pricing, gotchas
+        ├── geo-domain-knowledge.md   # GIS fundamentals, Japan context
+        └── decisions.md          # 10 ADRs (design decisions + rationale)
+```
+
+## Tech Stack
+
+- **TypeScript** - Type-safe development
+- **Node.js** - Runtime environment
+- **@googlemaps/places** - Google Places API (New) for place search and details
+- **Google Routes API** - Directions, distance matrix, and waypoint optimization via REST
+- **@googlemaps/google-maps-services-js** - Geocoding, timezone, elevation
+- **@modelcontextprotocol/sdk** - MCP protocol implementation (v1.27+)
+- **Express.js** - HTTP server framework
+- **Zod** - Schema validation
+
+## Security
+
+- API keys are handled server-side
+- Per-session API key isolation for multi-tenant deployments
+- DNS rebinding protection available for production
+- Input validation using Zod schemas
+
+For enterprise security reviews, see [Security Assessment Clarifications](./SECURITY_ASSESSMENT.md) — a 23-item checklist covering licensing, data protection, credential management, tool contamination, and AI agent execution environment verification.
+
+To report a vulnerability, see [SECURITY.md](SECURITY.md).
+
+## Roadmap
+
+### Recent Additions
+
+| Tool / Feature | What it unlocks | Status |
+|------|----------------|--------|
+| `maps_static_map` | Map images with pins/routes — multimodal AI can "see" the map | **Done** |
+| `maps_air_quality` | AQI, pollutants — health-aware travel, outdoor planning | **Done** |
+| `maps_batch_geocode` | Geocode up to 50 addresses in one call — data enrichment | **Done** |
+| `maps_search_along_route` | Find places along a route ranked by detour time — trip planning | **Done** |
+| `maps_explore_area` | One-call neighborhood overview (composite) | **Done** |
+| `maps_plan_route` | Optimized multi-stop itinerary (composite) | **Done** |
+| `maps_compare_places` | Side-by-side place comparison (composite) | **Done** |
+| `maps_local_rank_tracker` | Geographic grid rank tracking — local SEO analysis (composite) | **Done** |
+| `GOOGLE_MAPS_ENABLED_TOOLS` | Filter tools to reduce context usage | **Done** |
+
+### Planned
+
+| Feature | What it unlocks | Status |
+|---------|----------------|--------|
+| `maps_place_photo` | Place photos for multimodal AI — "see" the restaurant ambiance | Planned |
+| Language parameter | Multi-language responses (ISO 639-1) across all tools | Planned |
+| MCP Prompt Templates | `/travel-planner`, `/neighborhood-scout` slash commands in Claude Desktop | Planned |
+| Geo-Reasoning Benchmark | 10-scenario test suite measuring LLM geospatial reasoning accuracy | Research |
+
+### Use Cases We're Building Toward
+
+These are the real-world scenarios driving our tool decisions:
+
+- **Travel planning** — "Plan a day trip in Tokyo" (geocode → search → directions → weather)
+- **Real estate analysis** — "Analyze this neighborhood: schools, commute, flood risk" (search-nearby × N + elevation + distance-matrix)
+- **Logistics optimization** — "Route these 12 deliveries efficiently from the warehouse" (plan-route)
+- **Field sales** — "Visit 6 clients in Chicago, minimize drive time, find lunch spots" (plan-route + search-nearby)
+- **Disaster response** — "Nearest open hospitals? Am I in a flood zone?" (search-nearby + elevation)
+- **Content creation** — "Top 5 neighborhoods in Austin with restaurant density and airport distance" (explore-area + distance-matrix)
+- **Accessibility** — "Wheelchair-accessible restaurants, avoid steep routes" (search-nearby + place-details + elevation)
+- **Local SEO** — "Audit my restaurant's ranking vs competitors within 1km" (search-places + compare-places + explore-area)
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+## License
+
+MIT
+
+## Contributing
+
+Community participation and contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, coding guidelines, and the pull request process.
+
+- Submit Issues: Report bugs or provide suggestions
+- Create Pull Requests: Submit code improvements
+- Documentation: Help improve documentation
+
+## Contact
+
+- Email: [reahtuoo310109@gmail.com](mailto:reahtuoo310109@gmail.com)
+- GitHub: [CabLate](https://github.com/cablate/)
+
+## Star History
+
+<a href="https://glama.ai/mcp/servers/@cablate/mcp-google-map">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@cablate/mcp-google-map/badge" alt="Google Map Server MCP server" />
+</a>
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cablate/mcp-google-map&type=Date)](https://www.star-history.com/#cablate/mcp-google-map&Date)
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 937106681, 'description': 'A powerful Model Context Protocol (MCP) server providing comprehensive Google Maps API integration with LLM processing capabilities.', 'language': 'TypeScript', 'size': 26903, 'topic': None, 'html_url': 'https://github.com/cablate/mcp-google-map', 'owner': 'cablate', 'name': 'mcp-google-map'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:03:23,100 - INFO - add the prompt of analyze
+2026-03-27 14:03:23,100 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:03:29,037 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:29,038 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:03:29,038 - INFO - Token Usage: {"completion_tokens": 262, "prompt_tokens": 4870, "total_tokens": 5132, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:03:29,038 - INFO - Response: # Step 1: List Deployment Options
+
+Based on the README document, here are the deployment options available:
+
+1. **stdio method (Recommended for most clients)**: Works with Claude Desktop, Cursor, VS Code, and any MCP client that supports stdio using `npx @cablate/mcp-google-map --stdio`
+2. **HTTP Server method**: For multi-session deployments using `npx @cablate/mcp-google-map --port 3000 --apikey "YOUR_API_KEY"`
+3. **StreamableHTTP method**: Available as default transport option
+4. **Local Development method**: Cloning the repository and installing dependencies with npm
+
+# Step 2: Select the Optimal Deployment Option
+
+The optimal deployment option is the **stdio method**, which falls under the categories:
+- Server communication method: `stdio`
+- Server deployment location: local deployment
+- Deployment type: install-free deployment (using `npx`)
+
+This option is preferred because:
+- It uses the `stdio` communication method which is recommended in the documentation
+- It's an install-free deployment using `npx`
+- It doesn't require manual installation or complex setup
+
+
+2026-03-27 14:03:29,038 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['node']}
+2026-03-27 14:03:29,041 - INFO - 
+["node"]
+----------------------------------------------------
+
+2026-03-27 14:03:29,041 - INFO - add the tool message of add_config
+2026-03-27 14:03:29,041 - INFO - add the tool message of execute_command
+2026-03-27 14:03:29,041 - INFO - add the prompt of deploy
+2026-03-27 14:03:29,041 - INFO - add the prompt of node
+2026-03-27 14:03:33,196 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:33,197 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:03:33,197 - INFO - Token Usage: {"completion_tokens": 194, "prompt_tokens": 6433, "total_tokens": 6627, "prompt_tokens_details": {"cached_tokens": 64}}
+2026-03-27 14:03:33,197 - INFO - Response: # Step 3: Deploy the MCP Server
+
+The optimal deployment plan involves configuring the MCP server to run via stdio using npx. Since this is an install-free deployment method using npx, I'll proceed with adding the configuration directly without starting the server now (as running npx -y would block the process).
+
+# Step 4: Add Configuration
+
+I'll add the configuration for the MCP Google Map server using the stdio transport method.
+
+
+2026-03-27 14:03:33,197 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '937106681_cablate_mcp-google-map', 'type': 'stdio', 'command': 'npx', 'args': ['-y', '@cablate/mcp-google-map', '--stdio'], 'env': {'GOOGLE_MAPS_API_KEY': '${GOOGLE_MAPS_API_KEY}'}}
+2026-03-27 14:03:33,201 - INFO - 
+Successfully added 937106681_cablate_mcp-google-map config.
+----------------------------------------------------
+
+2026-03-27 14:03:33,201 - INFO - add the tool message of validate_config
+2026-03-27 14:03:33,201 - INFO - add the prompt of validate
+2026-03-27 14:03:35,077 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:35,078 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:03:35,078 - INFO - Token Usage: {"completion_tokens": 66, "prompt_tokens": 6336, "total_tokens": 6402, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:03:35,078 - INFO - Response: # Step 5: Verify the Server
+
+I'll use the validate_config tool to check whether the server can start properly and expose the relevant APIs.
+
+
+2026-03-27 14:03:35,079 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '937106681_cablate_mcp-google-map'}
+2026-03-27 14:03:41,858 - INFO - 
+Process started with PID 32168 (shell: /bin/bash)
+Initial output:
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+[INFO] MCP-Server connected and ready to process requests
+
+[OK] server 937106681_cablate_mcp-google-map is OK, tools: maps_search_nearby, maps_place_details, maps_geocode, maps_reverse_geocode, maps_distance_matrix, maps_directions, maps_elevation, maps_search_places, maps_timezone, maps_weather, maps_explore_area, maps_plan_route, maps_compare_places, maps_air_quality, maps_static_map, maps_batch_geocode, maps_search_along_route, maps_local_rank_tracker
+
+Process completed with exit code 0
+Runtime: 6.775s
+----------------------------------------------------
+
+2026-03-27 14:03:41,858 - INFO - add the tool message of fix_config
+2026-03-27 14:03:41,859 - INFO - add the tool message of execute_command
+2026-03-27 14:03:41,859 - INFO - add the tool message of validate_config
+2026-03-27 14:03:43,149 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:43,149 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:03:43,150 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 7200, "total_tokens": 7205, "prompt_tokens_details": {"cached_tokens": 512}}
+2026-03-27 14:03:43,150 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:03:43,150 - INFO - dealing with 961295208 data/dataset/MCP-Bench/sampled_validated_readme/961295208_openags_paper-search-mcp_README.md ...
+2026-03-27 14:03:43,151 - INFO - 
+=========
+=== README.md START ===
+# Paper Search MCP
+
+A Model Context Protocol (MCP) server for searching and downloading academic papers from multiple sources. The project follows a free-first strategy: prioritize open and public data sources, support optional API keys when they improve stability or coverage, and keep source-specific connectors extensible for advanced users.
+
+![PyPI](https://img.shields.io/pypi/v/paper-search-mcp.svg) ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+[![smithery badge](https://smithery.ai/badge/@openags/paper-search-mcp)](https://smithery.ai/server/@openags/paper-search-mcp)
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Project Principles](#project-principles)
+- [Features](#features)
+- [Source Strategy](#source-strategy)
+- [Sci-Hub Notice](#sci-hub-notice)
+- [Installation](#installation)
+  - [Method 1 — Smithery](#method-1--smithery-one-command-recommended-for-claude-desktop)
+  - [Method 2 — uvx](#method-2--uvx-no-install-always-latest)
+  - [Method 3 — uv](#method-3--uv-persistent-install)
+  - [Method 4 — pip](#method-4--pip-standard-python-install)
+  - [Method 5 — npx](#method-5--npx-via-smithery-cli-no-local-python-needed)
+  - [Method 6 — Docker](#method-6--docker)
+  - [Method 7 — Clone & run from source](#method-7--clone--run-from-source-development--recommended-for-macos-local)
+  - [Environment Variables](#environment-variables-env-file)
+- [Contributing](#contributing)
+- [Demo](#demo)
+- [Star History](#star-history)
+- [License](#license)
+- [TODO](#todo)
+
+---
+
+## Overview
+
+`paper-search-mcp` is a Python-based MCP server that enables users to search and download academic papers from various platforms. It provides tools for searching papers (e.g., `search_arxiv`) and downloading PDFs (e.g., `download_arxiv`), making it ideal for researchers and AI-driven workflows. Built with the MCP Python SDK, it integrates seamlessly with LLM clients like Claude Desktop.
+
+## Project Principles
+
+- **Free-First**: Public and open sources are the default roadmap. Paid or restricted sources are not the core direction of this project.
+- **Optional API Keys**: API keys are supported only when they improve stability, rate limits, or metadata quality. The MCP should still be usable without them whenever possible.
+- **LLM-Friendly Retrieval**: Search results should be standardized, deduplicated, and as complete as possible for downstream LLM workflows.
+- **Source Transparency**: Different sources have different strengths. The MCP should make those tradeoffs explicit instead of pretending every source supports full-text retrieval.
+
+---
+
+## Features
+
+- **Two-Layer Architecture**:
+  - **Layer 1 (Unified Tooling)**: High-level `search_papers` for multi-source concurrent search & deduplication, and `download_with_fallback` relying on publisher open access links with sequential fallbacks.
+  - **Layer 2 (Platform Connectors)**: Modular connectors for specific academic platforms (arXiv, PubMed, bioRxiv, Semantic Scholar, etc.) equipped with intelligent DOI extraction via regex text analysis or API fields.
+- **Multi-Source Support**: Search and download papers from arXiv, PubMed, bioRxiv, medRxiv, Google Scholar, IACR ePrint Archive, Semantic Scholar, Crossref, OpenAlex, PubMed Central (PMC), CORE, Europe PMC, dblp, OpenAIRE, CiteSeerX, DOAJ, BASE, Zenodo, HAL, SSRN, Unpaywall (DOI lookup), and optional Sci-Hub workflows.
+- **Standardized Output**: Papers are returned in a consistent dictionary format via the `Paper` class.
+- **Free-First Design**: Open and public sources are prioritized before any optional commercial or restricted integrations.
+- **Optional API-Key Enhancement**: Sources like Semantic Scholar can work better with a user-provided API key, but are not intended to force paid usage.
+- **Discovery + Retrieval Workflow**: Google Scholar and Crossref can be used for discovery and DOI backfilling, while open repositories and publisher links are used for lawful full-text resolution where available.
+- **OA-First Fallback Chain**: `download_with_fallback` now follows source-native download → OpenAIRE/CORE/Europe PMC/PMC discovery → Unpaywall DOI resolution → optional Sci-Hub.
+- **MCP Integration**: Compatible with MCP clients for LLM context enhancement.
+- **Extensible Design**: Easily add new academic platforms by extending the `academic_platforms` module.
+
+## Source Strategy
+
+The long-term goal is not to depend on a single search engine, but to combine multiple free and public sources with clear roles:
+
+- **Open metadata backbone**: Crossref, OpenAlex, Semantic Scholar, dblp, CiteSeerX, SSRN, Unpaywall (DOI-centric OA metadata).
+- **Discipline-specific sources**: arXiv, PubMed, PubMed Central, Europe PMC, IACR.
+- **Open-access full-text sources**: arXiv, PMC, CORE, OpenAIRE, DOAJ, BASE, Zenodo, HAL, publisher open-access links.
+- **Discovery and DOI recovery**: Google Scholar can be useful for finding titles, versions, and DOI clues when other public metadata sources are incomplete.
+
+Recommended free-first roadmap:
+
+1. Keep current public sources stable.
+2. Add OpenAlex as a broad free metadata source.
+3. Add PubMed Central and Europe PMC for stronger biomedical full-text access.
+4. Add CORE and OpenAIRE for repository-based open-access retrieval.
+5. Use Google Scholar mainly as a discovery fallback, not as the primary canonical source.
+
+## Platform Capability Matrix
+
+This matrix reflects **verified live-integration results** from functional and end-to-end regression tests in this repository. Columns show the highest capability level observed under normal conditions.
+
+| Platform | Search | Download | Read | Notes |
+|---|---|---|---|---|
+| arXiv | ✅ | ✅ | ✅ | Open API; reliable |
+| PubMed | ✅ | ❌ | ⚠️ info-only | Open API; reliable |
+| bioRxiv | ✅ | ✅ | ✅ | Open API; reliable |
+| medRxiv | ✅ | ✅ | ✅ | Open API; reliable |
+| Google Scholar | ⚠️ | ❌ | ❌ | Bot-detection active; set `PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL` |
+| IACR | ✅ | ✅ | ✅ | Open API; reliable |
+| Semantic Scholar | ✅ | ✅ (OA) | ✅ (OA) | Works without key (rate-limited); key improves limits; key rejection (403) retried automatically without key |
+| Crossref | ✅ | ❌ | ⚠️ info-only | Open API; reliable |
+| OpenAlex | ✅ | ❌ | ⚠️ info-only | Open API; reliable |
+| PMC | ✅ | ✅ (OA only) | ✅ (OA only) | OA PDFs only; direct download may be blocked by some proxy environments |
+| CORE | ✅ | ✅ (record-dependent) | ✅ (record-dependent) | Free key recommended; connector retries with backoff and falls back to key-less on 401/403 |
+| Europe PMC | ✅ | ✅ (OA) | ✅ (OA) | OA PDFs only; direct download may be blocked by some proxy environments |
+| dblp | ✅ | ❌ | ⚠️ info-only | Open API; reliable |
+| OpenAIRE | ✅ | ❌ | ❌ | Open API; retries 3× with escalating request profiles on transient 403 |
+| CiteSeerX | ⚠️ | ✅ (record-dependent) | ⚠️ | API endpoint intermittently unavailable / redirects to web archive |
+| DOAJ | ✅ | ⚠️ (URL-dependent) | ⚠️ (URL-dependent) | PDF availability varies by article; free key raises rate limits |
+| BASE | ⚠️ | ✅ (record-dependent) | ✅ (record-dependent) | OAI-PMH endpoint requires institutional IP registration; returns empty gracefully otherwise |
+| Zenodo | ✅ | ✅ (record-dependent) | ✅ (record-dependent) | Open API; reliable |
+| HAL | ✅ | ✅ (record-dependent) | ✅ (record-dependent) | Open API; reliable |
+| SSRN | ⚠️ | ⚠️ best-effort | ⚠️ best-effort | 403 bot-detection active; public PDF only |
+| Unpaywall | ✅ (DOI lookup) | ❌ | ❌ | **Requires** `PAPER_SEARCH_MCP_UNPAYWALL_EMAIL` |
+| Sci-Hub (optional) | ⚠️ fallback-only | ✅ | ❌ | Optional; unstable mirrors; user responsibility |
+| **IEEE Xplore** 🔑 | 🚧 skeleton | 🚧 skeleton | 🚧 skeleton | Requires `PAPER_SEARCH_MCP_IEEE_API_KEY` to activate |
+| **ACM DL** 🔑 | 🚧 skeleton | 🚧 skeleton | 🚧 skeleton | Requires `PAPER_SEARCH_MCP_ACM_API_KEY` to activate |
+
+> ✅ = reliable in live tests.  ⚠️ = works but subject to upstream instability or access restrictions.  ❌ = not supported.  🔑 = key required.  🚧 = skeleton only.
+
+---
+
+## Credential & API Key Requirements
+
+All keys are **optional** unless noted. Configure them in `.env` (preferred) or as shell exports.
+
+| Environment Variable | Provider | Required? | How to obtain |
+|---|---|---|---|
+| `PAPER_SEARCH_MCP_UNPAYWALL_EMAIL` | Unpaywall | **Yes** (Unpaywall disabled without it) | Any valid email; register at [unpaywall.org](https://unpaywall.org/products/api) |
+| `PAPER_SEARCH_MCP_CORE_API_KEY` | CORE | Recommended | Free at [core.ac.uk/services/api](https://core.ac.uk/services/api) |
+| `PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY` | Semantic Scholar | Optional | Free at [semanticscholar.org](https://www.semanticscholar.org/product/api) — improves rate limits |
+| `PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL` | Google Scholar | Optional | Your HTTP/HTTPS proxy URL — bypasses bot-detection |
+| `PAPER_SEARCH_MCP_DOAJ_API_KEY` | DOAJ | Optional | Free at [doaj.org](https://doaj.org/apply-for-api-key/) — raises hourly rate limit |
+| `PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN` | Zenodo | Optional | Free at [zenodo.org](https://zenodo.org/account/settings/applications/) — required for private records |
+| `PAPER_SEARCH_MCP_IEEE_API_KEY` | IEEE Xplore | **Required to activate** | Free at [developer.ieee.org](https://developer.ieee.org/) |
+| `PAPER_SEARCH_MCP_ACM_API_KEY` | ACM DL | **Required to activate** | See [libraries.acm.org/digital-library/acm-open](https://libraries.acm.org/digital-library/acm-open) |
+
+All variables follow the `PAPER_SEARCH_MCP_<NAME>` prefix scheme. Legacy names without the prefix (e.g. `CORE_API_KEY`, `UNPAYWALL_EMAIL`) are still supported for backward compatibility.
+
+---
+
+## Known Upstream Limitations
+
+Some search failures are caused by external provider instability, not by bugs in this project:
+
+| Source | Symptom | Cause | Workaround |
+|---|---|---|---|
+| Google Scholar | Returns 0 results / empty HTML | Bot-detection (CAPTCHA) | Set `PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL` to a proxy |
+| Semantic Scholar | 429 rate-limited responses | Anonymous access rate limit | Set `PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY`; if key is rejected (403) connector automatically retries without key |
+| CORE | 500 / timeout errors | Unauthenticated rate limiting | Set `PAPER_SEARCH_MCP_CORE_API_KEY` (free); connector retries with exponential backoff and falls back to key-less on 401/403 |
+| OpenAIRE | Transient 403 responses | IP-based session rate limiting | Connector retries 3× per profile, escalating: plain session → XML Accept header → raw `requests.get` with Mozilla UA |
+| CiteSeerX | 404 via web archive redirect | PSU endpoint intermittently redirects to archive | No workaround; connector returns empty gracefully |
+| BASE | Search returns 0 results | OAI-PMH endpoint requires institutional IP registration | Register at [base-search.net](https://www.base-search.net/about/en/) for API access; connector returns empty gracefully otherwise |
+| SSRN | HTTP 403 | Bot-detection (Cloudflare) | No workaround; connector tries two endpoints and returns a clear message on failure |
+| PMC / Europe PMC | PDF download ProxyError | Local proxy blocking direct HTTPS PDF download | Disable proxy or use `download_with_fallback` instead |
+| Unpaywall | Skipped entirely | `UNPAYWALL_EMAIL` env var not set | Set `PAPER_SEARCH_MCP_UNPAYWALL_EMAIL` in `.env` |
+
+## Optional Paid Platform Connectors (Phase 3)
+
+IEEE Xplore and ACM Digital Library connectors are included as **opt-in skeletons**.
+They are **disabled by default** — no API calls are made unless you explicitly configure the corresponding keys.
+
+| Platform | Env Var | Status |
+|---|---|---|
+| IEEE Xplore | `PAPER_SEARCH_MCP_IEEE_API_KEY` | 🚧 skeleton — search registered, download/read raise `NotImplementedError` |
+| ACM Digital Library | `PAPER_SEARCH_MCP_ACM_API_KEY` | 🚧 skeleton — search registered, download/read raise `NotImplementedError` |
+
+**How to enable:**
+
+```bash
+export PAPER_SEARCH_MCP_IEEE_API_KEY=<your_ieee_key>       # free key at https://developer.ieee.org/
+export PAPER_SEARCH_MCP_ACM_API_KEY=<your_acm_key>         # see https://libraries.acm.org/digital-library
+```
+
+Once a key is set, the corresponding source is automatically added to `ALL_SOURCES` and its MCP tools (`search_ieee` / `search_acm`, `download_ieee` / `download_acm`, `read_ieee_paper` / `read_acm_paper`) are registered at server startup.
+
+Without a key the connectors log a startup warning only — the rest of the server is unaffected.
+
+## Free Source Expansion (Phase 4)
+
+Three additional free-source connectors are now integrated into the MCP server:
+
+- `zenodo`: Official Zenodo REST API connector (search + record-dependent PDF/read support).
+- `hal`: HAL public API connector (search + record-dependent PDF/read support).
+- `ssrn`: Discovery-first connector with hardened parser and best-effort download/read when a direct public PDF link is available.
+- `unpaywall`: DOI-centric OA metadata source for standalone lookup (`search_unpaywall`) and fallback URL resolution.
+
+SSRN integration remains compliance-first: it only attempts direct public PDF links exposed by SSRN pages. If login/restricted delivery is required, the connector returns a clear message instead of bypassing access controls.
+
+## Sci-Hub Notice
+
+Sci-Hub support can remain available as an optional connector for users who explicitly choose to enable it, but it should not be treated as the default or recommended full-text path.
+
+- Availability is unstable and mirrors change frequently.
+- Legal and policy risks vary by jurisdiction.
+- README and tool descriptions should clearly state that users are responsible for enabling and using it.
+- Open-access and publisher-permitted sources should be tried first whenever possible.
+
+---
+
+## Installation
+
+Choose the method that best fits your workflow. All methods support the same [optional API keys](#credential--api-key-requirements).
+
+> **Config file locations**
+> - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+> - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+> - **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+---
+
+### Method 1 — Smithery (one-command, recommended for Claude Desktop)
+
+```bash
+npx -y @smithery/cli install @openags/paper-search-mcp --client claude
+```
+
+Smithery automatically writes the correct config block for you. No manual JSON editing needed.
+
+---
+
+### Method 2 — `uvx` (no install, always latest)
+
+`uvx` runs the package directly from PyPI without a permanent install. Requires [uv](https://docs.astral.sh/uv/getting-started/installation/).
+
+```bash
+# Install uv (skip if already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+> ⚠️ **macOS note**: `uvx` generated wrapper scripts rely on `realpath`, which is not included in macOS by default. If you see a `realpath: command not found` error, either install GNU coreutils (`brew install coreutils`) or use **Method 3 (`uv run`)** instead — it does not have this limitation.
+
+**Claude Desktop config:**
+
+```json
+{
+  "mcpServers": {
+    "paper-search-mcp": {
+      "command": "uvx",
+      "args": ["paper-search-mcp"],
+      "env": {
+        "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com",
+        "PAPER_SEARCH_MCP_CORE_API_KEY": "",
+        "PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY": "",
+        "PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN": "",
+        "PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL": "",
+        "PAPER_SEARCH_MCP_IEEE_API_KEY": "",
+        "PAPER_SEARCH_MCP_ACM_API_KEY": ""
+      }
+    }
+  }
+}
+```
+
+---
+
+### Method 3 — `uv` (persistent install)
+
+```bash
+uv tool install paper-search-mcp
+```
+
+**Claude Desktop config:**
+
+```json
+{
+  "mcpServers": {
+    "paper-search-mcp": {
+      "command": "uv",
+      "args": ["tool", "run", "paper-search-mcp"],
+      "env": {
+        "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com",
+        "PAPER_SEARCH_MCP_CORE_API_KEY": "",
+        "PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY": "",
+        "PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN": "",
+        "PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL": "",
+        "PAPER_SEARCH_MCP_IEEE_API_KEY": "",
+        "PAPER_SEARCH_MCP_ACM_API_KEY": ""
+      }
+    }
+  }
+}
+```
+
+---
+
+### Method 4 — `pip` (standard Python install)
+
+```bash
+pip install paper-search-mcp
+```
+
+**Claude Desktop config:**
+
+```json
+{
+  "mcpServers": {
+    "paper-search-mcp": {
+      "command": "python",
+      "args": ["-m", "paper_search_mcp.server"],
+      "env": {
+        "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com",
+        "PAPER_SEARCH_MCP_CORE_API_KEY": "",
+        "PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY": "",
+        "PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN": "",
+        "PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL": "",
+        "PAPER_SEARCH_MCP_IEEE_API_KEY": "",
+        "PAPER_SEARCH_MCP_ACM_API_KEY": ""
+      }
+    }
+  }
+}
+```
+
+> If `python` is not on your PATH, replace it with the full path (e.g. `/usr/bin/python3` or `C:\Python311\python.exe`). Run `which python3` / `where python` to find it.
+
+---
+
+### Method 5 — `npx` (via Smithery CLI, no local Python needed)
+
+```bash
+npx -y @smithery/cli run @openags/paper-search-mcp
+```
+
+**Claude Desktop config:**
+
+```json
+{
+  "mcpServers": {
+    "paper-search-mcp": {
+      "command": "npx",
+      "args": ["-y", "@smithery/cli", "run", "@openags/paper-search-mcp"],
+      "env": {
+        "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com",
+        "PAPER_SEARCH_MCP_CORE_API_KEY": "",
+        "PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY": ""
+      }
+    }
+  }
+}
+```
+
+---
+
+### Method 6 — Docker
+
+```bash
+docker build -t paper-search-mcp .
+docker run --rm -i \
+  -e PAPER_SEARCH_MCP_UNPAYWALL_EMAIL=your@email.com \
+  -e PAPER_SEARCH_MCP_CORE_API_KEY=your_core_key \
+  paper-search-mcp
+```
+
+**Claude Desktop config:**
+
+```json
+{
+  "mcpServers": {
+    "paper-search-mcp": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "paper-search-mcp"],
+      "env": {
+        "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com",
+        "PAPER_SEARCH_MCP_CORE_API_KEY": "",
+        "PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY": "",
+        "PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN": "",
+        "PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL": "",
+        "PAPER_SEARCH_MCP_IEEE_API_KEY": "",
+        "PAPER_SEARCH_MCP_ACM_API_KEY": ""
+      }
+    }
+  }
+}
+```
+
+---
+
+### Method 7 — Clone & run from source (development / recommended for macOS local)
+
+This is the most reliable method on macOS — no wrapper scripts, no `realpath` issues.
+
+```bash
+# 1. Install uv (skip if already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. Clone repo
+git clone https://github.com/openags/paper-search-mcp.git
+cd paper-search-mcp
+
+# 3. Verify it runs (uv auto-resolves dependencies, no manual install needed)
+uv run -m paper_search_mcp.server
+```
+
+**Claude Desktop config** (replace the directory path with your actual clone location):
+
+```json
+{
+  "mcpServers": {
+    "paper-search-mcp": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory", "/path/to/paper-search-mcp",
+        "-m", "paper_search_mcp.server"
+      ],
+      "env": {
+        "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com",
+        "PAPER_SEARCH_MCP_CORE_API_KEY": "",
+        "PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY": "",
+        "PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN": "",
+        "PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL": "",
+        "PAPER_SEARCH_MCP_IEEE_API_KEY": "",
+        "PAPER_SEARCH_MCP_ACM_API_KEY": ""
+      }
+    }
+  }
+}
+```
+
+For example, if you cloned to `/Users/mac/Pengsong/paper-search-mcp`:
+
+```json
+"args": ["run", "--directory", "/Users/mac/Pengsong/paper-search-mcp", "-m", "paper_search_mcp.server"]
+```
+
+> `uv run` automatically installs dependencies into an isolated environment on first run — no `pip install` or `venv` needed.
+
+For active development, optionally install an editable copy:
+
+```bash
+uv venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+uv pip install -e ".[dev]"
+```
+
+---
+
+### Environment Variables (`.env` file)
+
+Instead of putting keys directly in the JSON config you can store them in a `.env` file in the project root (auto-loaded on startup):
+
+```bash
+cp .env.example .env   # if running from source
+# or create ~/.paper-search-mcp.env for global use
+```
+
+```dotenv
+PAPER_SEARCH_MCP_UNPAYWALL_EMAIL=your@email.com
+PAPER_SEARCH_MCP_CORE_API_KEY=
+PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY=
+PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN=
+PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL=
+PAPER_SEARCH_MCP_IEEE_API_KEY=
+PAPER_SEARCH_MCP_ACM_API_KEY=
+```
+
+To use a custom path: `export PAPER_SEARCH_MCP_ENV_FILE=/absolute/path/to/.env`
+
+> Legacy variable names without the `PAPER_SEARCH_MCP_` prefix (e.g. `CORE_API_KEY`, `UNPAYWALL_EMAIL`) are still supported for backward compatibility.
+
+---
+
+## Contributing
+
+We welcome contributions! Here's how to get started:
+
+1. **Fork the Repository**:
+   Click "Fork" on GitHub.
+
+2. **Clone and Set Up**:
+
+   ```bash
+   git clone https://github.com/yourusername/paper-search-mcp.git
+   cd paper-search-mcp
+   uv venv && source .venv/bin/activate
+   uv pip install -e ".[dev]"
+   ```
+
+3. **Make Changes**:
+
+   - Add new platforms in `academic_platforms/`.
+   - Update tests in `tests/`.
+
+4. **Submit a Pull Request**:
+   Push changes and create a PR on GitHub.
+
+---
+
+## Demo
+
+<img src="docs\images\demo.png" alt="Demo" width="800">
+
+## TODO
+
+### Planned Academic Platforms
+
+- [√] arXiv
+- [√] PubMed
+- [√] bioRxiv
+- [√] medRxiv
+- [√] Google Scholar
+- [√] IACR ePrint Archive
+- [√] Semantic Scholar
+- [√] Crossref
+- [√] PubMed Central (PMC)
+- [√] CORE
+- [√] Europe PMC
+- [√] Sci-Hub warning and enablement docs
+
+### Development Tasks
+- [√] Fix Async search bugs and ensure reliable fast MCP events
+- [√] End-to-End full pipeline testing script (search, parse, download)
+- [√] Establish two-layer federated architecture (Layer 1 tool: `search_papers`)
+- [√] Ensure pervasive DOI extraction across metadata fields & abstract fallbacks
+- [ ] Citation graph & Paper relation context feature
+- [√] Expand full-stack OpenAlex provider
+
+### Priority Free and Open Sources
+
+- [√] PubMed Central (PMC)
+- [√] CORE
+- [√] OpenAlex
+- [√] Europe PMC
+- [√] OpenAIRE
+- [√] dblp
+- [√] CiteSeerX
+- [√] DOAJ
+- [√] BASE
+- [√] Zenodo
+- [√] HAL
+- [√] SSRN (discovery + best-effort full-text)
+- [√] Unpaywall (standalone DOI search source)
+
+### Optional and Non-Core Integrations
+
+- [ ] ResearchGate
+- [ ] JSTOR
+- [ ] ScienceDirect
+- [ ] Springer Link
+- [√] IEEE Xplore (optional skeleton — activate with `IEEE_API_KEY`)
+- [√] ACM Digital Library (optional skeleton — activate with `ACM_API_KEY`)
+- [ ] Web of Science
+- [ ] Scopus
+
+---
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=openags/paper-search-mcp&type=Date)](https://star-history.com/#openags/paper-search-mcp&Date)
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+Happy researching with `paper-search-mcp`! If you encounter issues, open a GitHub issue.
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 961295208, 'description': 'A MCP for searching and downloading academic papers from multiple sources like arXiv, PubMed, bioRxiv, etc.', 'language': 'Python', 'size': 429, 'topic': None, 'html_url': 'https://github.com/openags/paper-search-mcp', 'owner': 'openags', 'name': 'paper-search-mcp'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:03:43,151 - INFO - add the prompt of analyze
+2026-03-27 14:03:43,151 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:03:47,953 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:47,953 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:03:47,954 - INFO - Token Usage: {"completion_tokens": 235, "prompt_tokens": 7053, "total_tokens": 7288, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:03:47,954 - INFO - Response: # Step 1: List Deployment Options
+
+I have analyzed the README document and identified the following deployment options:
+
+1. Method 1 — Smithery (one-command, recommended for Claude Desktop)
+2. Method 2 — `uvx` (no install, always latest)
+3. Method 3 — `uv` (persistent install)
+4. Method 4 — `pip` (standard Python install)
+5. Method 5 — `npx` (via Smithery CLI, no local Python needed)
+6. Method 6 — Docker
+7. Method 7 — Clone & run from source (development / recommended for macOS local)
+
+# Step 2: Select the Optimal Deployment Option
+
+Based on the criteria provided, I'll select the optimal deployment method:
+
+2.1 The optimal deployment option is Method 2 — `uvx` (no install, always latest). This option is categorized as an install-free deployment using stdio communication method with local deployment.
+
+2.2 I will use the following development environments:
+
+
+2026-03-27 14:03:47,954 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['uv']}
+2026-03-27 14:03:47,955 - INFO - 
+["uv"]
+----------------------------------------------------
+
+2026-03-27 14:03:47,955 - INFO - add the tool message of add_config
+2026-03-27 14:03:47,955 - INFO - add the tool message of execute_command
+2026-03-27 14:03:47,955 - INFO - add the prompt of deploy
+2026-03-27 14:03:47,956 - INFO - add the prompt of uv
+2026-03-27 14:03:51,122 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:51,123 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:03:51,123 - INFO - Token Usage: {"completion_tokens": 76, "prompt_tokens": 9035, "total_tokens": 9111, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:03:51,123 - INFO - Response: # Step 3: Deploy the MCP Server
+
+I'll follow the optimal deployment plan using `uvx` which is an install-free deployment method.
+
+First, I need to install uv if it's not already available (though the instructions indicate it's already deployed):
+
+
+2026-03-27 14:03:51,123 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'which uv'}
+2026-03-27 14:03:51,140 - INFO - 
+Process started with PID 32277 (shell: /bin/bash)
+Initial output:
+/home/silimon/.local/bin/uv
+
+Process completed with exit code 0
+Runtime: 0.014s
+----------------------------------------------------
+
+2026-03-27 14:03:52,659 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:52,661 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:03:52,661 - INFO - Token Usage: {"completion_tokens": 41, "prompt_tokens": 9173, "total_tokens": 9214, "prompt_tokens_details": {"cached_tokens": 9024}}
+2026-03-27 14:03:52,661 - INFO - Response: Great, uv is already installed. Now I'll check if uvx is available:
+
+
+2026-03-27 14:03:52,661 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'which uvx'}
+2026-03-27 14:03:52,680 - INFO - 
+Process started with PID 32284 (shell: /bin/bash)
+Initial output:
+/home/silimon/.local/bin/uvx
+
+Process completed with exit code 0
+Runtime: 0.015s
+----------------------------------------------------
+
+2026-03-27 14:03:55,025 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:55,026 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:03:55,027 - INFO - Token Usage: {"completion_tokens": 57, "prompt_tokens": 9277, "total_tokens": 9334, "prompt_tokens_details": {"cached_tokens": 9152}}
+2026-03-27 14:03:55,027 - INFO - Response: Perfect, both uv and uvx are available. Now I'll test if the paper-search-mcp package can be run with uvx:
+
+
+2026-03-27 14:03:55,027 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'uvx --version paper-search-mcp'}
+2026-03-27 14:03:55,052 - INFO - 
+Process started with PID 32314 (shell: /bin/bash)
+Initial output:
+uvx 0.9.24
+
+Process completed with exit code 0
+Runtime: 0.021s
+----------------------------------------------------
+
+2026-03-27 14:03:56,606 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:03:56,607 - INFO - --- Communicate Count: 5 ---
+2026-03-27 14:03:56,607 - INFO - Token Usage: {"completion_tokens": 54, "prompt_tokens": 9396, "total_tokens": 9450, "prompt_tokens_details": {"cached_tokens": 9216}}
+2026-03-27 14:03:56,607 - INFO - Response: Let me try to run the paper-search-mcp server with uvx to make sure it works:
+
+
+2026-03-27 14:03:56,607 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'timeout 10s uvx paper-search-mcp --help'}
+2026-03-27 14:04:00,684 - INFO - 
+Process started with PID 32321 (shell: /bin/bash)
+Initial output:
+Building sgmllib3k==1.0.0
+      Built sgmllib3k==1.0.0
+Installed 81 packages in 23ms
+Package `paper-search-mcp` does not provide any executables.
+
+Process completed with exit code 1
+Runtime: 4.073s
+----------------------------------------------------
+
+2026-03-27 14:04:04,266 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:04,267 - INFO - --- Communicate Count: 6 ---
+2026-03-27 14:04:04,267 - INFO - Token Usage: {"completion_tokens": 57, "prompt_tokens": 9554, "total_tokens": 9611, "prompt_tokens_details": {"cached_tokens": 9344}}
+2026-03-27 14:04:04,268 - INFO - Response: It seems the package doesn't provide a direct executable. Let me try running it as a module:
+
+
+2026-03-27 14:04:04,268 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'timeout 10s uvx -m paper_search_mcp.server --help'}
+2026-03-27 14:04:04,289 - INFO - 
+Process started with PID 32422 (shell: /bin/bash)
+Initial output:
+error: unexpected argument '-m' found
+
+Usage: uvx [OPTIONS] [COMMAND]
+
+For more information, try '--help'.
+
+Process completed with exit code 2
+Runtime: 0.018s
+----------------------------------------------------
+
+2026-03-27 14:04:05,746 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:05,746 - INFO - --- Communicate Count: 7 ---
+2026-03-27 14:04:05,747 - INFO - Token Usage: {"completion_tokens": 41, "prompt_tokens": 9690, "total_tokens": 9731, "prompt_tokens_details": {"cached_tokens": 9536}}
+2026-03-27 14:04:05,747 - INFO - Response: Let me try installing the package using uv and then running it:
+
+
+2026-03-27 14:04:05,747 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'uv tool install paper-search-mcp'}
+2026-03-27 14:04:05,880 - INFO - 
+Process started with PID 32430 (shell: /bin/bash)
+Initial output:
+Resolved 81 packages in 24ms
+Installed 81 packages in 23ms
+ + aiofile==3.9.0
+ + annotated-doc==0.0.4
+ + annotated-types==0.7.0
+ + anyio==4.13.0
+ + attrs==26.1.0
+ + authlib==1.6.9
+ + beartype==0.22.9
+ + beautifulsoup4==4.14.3
+ + cachetools==7.0.5
+ + caio==0.9.25
+ + certifi==2026.2.25
+ + cffi==2.0.0
+ + charset-normalizer==3.4.6
+ + click==8.3.1
+ + cryptography==46.0.6
+ + cyclopts==4.10.1
+ + dnspython==2.8.0
+ + docstring-parser==0.17.0
+ + docutils==0.22.4
+ + email-validator==2.3.0
+ + exceptiongroup==1.3.1
+ + fastmcp==3.1.1
+ + feedparser==6.0.12
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + httpx-sse==0.4.3
+ + idna==3.11
+ + importlib-metadata==8.7.1
+ + jaraco-classes==3.4.0
+ + jaraco-context==6.1.2
+ + jaraco-functools==4.4.0
+ + jeepney==0.9.0
+ + jsonref==1.1.0
+ + jsonschema==4.26.0
+ + jsonschema-path==0.4.5
+ + jsonschema-specifications==2025.9.1
+ + keyring==25.7.0
+ + lxml==6.0.2
+ + markdown-it-py==4.0.0
+ + mcp==1.26.0
+ + mdurl==0.1.2
+ + more-itertools==10.8.0
+ + openapi-pydantic==0.5.1
+ + opentelemetry-api==1.40.0
+ + packaging==26.0
+ + paper-search-mcp==0.1.3
+ + pathable==0.5.0
+ + platformdirs==4.9.4
+ + py-key-value-aio==0.4.4
+ + pycparser==3.0
+ + pydantic==2.12.5
+ + pydantic-core==2.41.5
+ + pydantic-settings==2.13.1
+ + pygments==2.19.2
+ + pyjwt==2.12.1
+ + pypdf2==3.0.1
+ + pyperclip==1.11.0
+ + python-dotenv==1.2.2
+ + python-multipart==0.0.22
+ + pyyaml==6.0.3
+ + referencing==0.37.0
+ + requests==2.33.0
+ + rich==14.3.3
+ + rich-rst==1.3.2
+ + rpds-py==0.30.0
+ + secretstorage==3.5.0
+ + sgmllib3k==1.0.0
+ + shellingham==1.5.4
+ + soupsieve==2.8.3
+ + sse-starlette==3.3.3
+ + starlette==1.0.0
+ + typer==0.24.1
+ + typing-extensions==4.15.0
+ + typing-inspection==0.4.2
+ + uncalled-for==0.2.0
+ + urllib3==2.6.3
+ + uvicorn==0.42.0
+ + watchfiles==1.1.1
+ + websockets==16.0
+ + zipp==3.23.0
+No executables are provided by package `paper-search-mcp`; removing tool
+error: Failed to install entrypoints for `paper-search-mcp`
+
+Process completed with exit code 2
+Runtime: 0.13s
+----------------------------------------------------
+
+2026-03-27 14:04:07,725 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:07,726 - INFO - --- Communicate Count: 8 ---
+2026-03-27 14:04:07,726 - INFO - Token Usage: {"completion_tokens": 59, "prompt_tokens": 10728, "total_tokens": 10787, "prompt_tokens_details": {"cached_tokens": 9664}}
+2026-03-27 14:04:07,726 - INFO - Response: It seems the package doesn't provide an executable. Let me try to run it directly using Python module approach with uv:
+
+
+2026-03-27 14:04:07,726 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server'}
+2026-03-27 14:04:07,746 - INFO - 
+Process started with PID 32464 (shell: /bin/bash)
+Initial output:
+Process completed with exit code 0
+Runtime: 0.016s
+(No output produced)
+----------------------------------------------------
+
+2026-03-27 14:04:10,054 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:10,055 - INFO - --- Communicate Count: 9 ---
+2026-03-27 14:04:10,056 - INFO - Token Usage: {"completion_tokens": 73, "prompt_tokens": 10844, "total_tokens": 10917, "prompt_tokens_details": {"cached_tokens": 10688}}
+2026-03-27 14:04:10,056 - INFO - Response: Now let me try to run the server using uv run with the proper module:
+
+
+2026-03-27 14:04:10,056 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'cd /home/silimon/mcp-auto/mcp_server && uv run --with paper-search-mcp -c "import paper_search_mcp.server; print(\'Module imported successfully\')"'}
+2026-03-27 14:04:10,078 - INFO - 
+Process started with PID 32494 (shell: /bin/bash)
+Initial output:
+error: unexpected argument '-c' found
+
+Usage: uv run [OPTIONS] [COMMAND]
+
+For more information, try '--help'.
+
+Process completed with exit code 2
+Runtime: 0.018s
+----------------------------------------------------
+
+2026-03-27 14:04:11,767 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:11,770 - INFO - --- Communicate Count: 10 ---
+2026-03-27 14:04:11,770 - INFO - Token Usage: {"completion_tokens": 69, "prompt_tokens": 10996, "total_tokens": 11065, "prompt_tokens_details": {"cached_tokens": 10816}}
+2026-03-27 14:04:11,770 - INFO - Response: Let me try a different approach to test the installation:
+
+
+2026-03-27 14:04:11,770 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'cd /home/silimon/mcp-auto/mcp_server && uv run --with paper-search-mcp python -c "import paper_search_mcp.server; print(\'Module imported successfully\')"'}
+2026-03-27 14:04:17,058 - INFO - 
+Process started with PID 32501 (shell: /bin/bash)
+Initial output:
+
+Installed 81 packages in 25ms
+Module imported successfully
+
+Process completed with exit code 0
+Runtime: 5.284s
+----------------------------------------------------
+
+2026-03-27 14:04:19,526 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:19,527 - INFO - --- Communicate Count: 11 ---
+2026-03-27 14:04:19,527 - INFO - Token Usage: {"completion_tokens": 77, "prompt_tokens": 11132, "total_tokens": 11209, "prompt_tokens_details": {"cached_tokens": 512}}
+2026-03-27 14:04:19,527 - INFO - Response: Great! The module is available. Now I'll create a simple Python script to run the server and then configure it properly:
+
+
+2026-03-27 14:04:19,527 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'cd /home/silimon/mcp-auto/mcp_server && uv run --with paper-search-mcp python -m paper_search_mcp.server --help'}
+2026-03-27 14:04:49,533 - INFO - 
+Process started with PID 32594 (shell: /bin/bash)
+Initial output:
+
+Operation timed out. The process has been forcibly terminated. Please try a different command or increase the timeout period and retry.
+Runtime: 30 s"
+----------------------------------------------------
+
+2026-03-27 14:04:54,657 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:54,658 - INFO - --- Communicate Count: 12 ---
+2026-03-27 14:04:54,658 - INFO - Token Usage: {"completion_tokens": 244, "prompt_tokens": 11274, "total_tokens": 11518, "prompt_tokens_details": {"cached_tokens": 11072}}
+2026-03-27 14:04:54,658 - INFO - Response: The server appears to start but waits for connections, which is expected behavior. Let me proceed with adding the configuration for the MCP server:
+
+# Step 4: Add Configuration
+
+
+2026-03-27 14:04:54,658 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '961295208_openags_paper-search-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', '--with', 'paper-search-mcp', '-m', 'paper_search_mcp.server'], 'env': {'PAPER_SEARCH_MCP_UNPAYWALL_EMAIL': 'your@email.com', 'PAPER_SEARCH_MCP_CORE_API_KEY': '', 'PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY': '', 'PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN': '', 'PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL': '', 'PAPER_SEARCH_MCP_IEEE_API_KEY': '', 'PAPER_SEARCH_MCP_ACM_API_KEY': ''}, 'cwd': '/home/silimon/mcp-auto/mcp_server'}
+2026-03-27 14:04:54,661 - INFO - 
+Successfully added 961295208_openags_paper-search-mcp config.
+----------------------------------------------------
+
+2026-03-27 14:04:54,661 - INFO - add the tool message of validate_config
+2026-03-27 14:04:54,661 - INFO - add the prompt of validate
+2026-03-27 14:04:56,938 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:04:56,940 - INFO - --- Communicate Count: 13 ---
+2026-03-27 14:04:56,940 - INFO - Token Usage: {"completion_tokens": 65, "prompt_tokens": 11226, "total_tokens": 11291, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:04:56,940 - INFO - Response: # Step 5: Verify the Server
+
+I'll use the validate_config tool to check if the server can start properly and expose the relevant APIs:
+
+
+2026-03-27 14:04:56,940 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '961295208_openags_paper-search-mcp'}
+2026-03-27 14:04:58,122 - INFO - 
+Process started with PID 32711 (shell: /bin/bash)
+Initial output:
+[03/27/26 14:04:57] INFO     Processing request of type            server.py:713
+                             ListToolsRequest                                   
+
+[OK] server 961295208_openags_paper-search-mcp is OK, tools: search_arxiv, search_pubmed, search_biorxiv, search_medrxiv, search_google_scholar, download_arxiv, download_pubmed, download_biorxiv, download_medrxiv, read_arxiv_paper, read_pubmed_paper, read_biorxiv_paper, read_medrxiv_paper
+
+Process completed with exit code 0
+Runtime: 1.178s
+----------------------------------------------------
+
+2026-03-27 14:04:58,122 - INFO - add the tool message of fix_config
+2026-03-27 14:04:58,122 - INFO - add the tool message of execute_command
+2026-03-27 14:04:58,122 - INFO - add the tool message of validate_config
+2026-03-27 14:05:00,446 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:00,447 - INFO - --- Communicate Count: 14 ---
+2026-03-27 14:05:00,448 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 12079, "total_tokens": 12084, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:05:00,448 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:05:00,449 - INFO - dealing with 944950963 data/dataset/MCP-Bench/sampled_validated_readme/944950963_Rudra-ravi_wikipedia-mcp_README.md ...
+2026-03-27 14:05:00,450 - INFO - 
+=========
+=== README.md START ===
+# Wikipedia MCP Server
+
+[![smithery badge](https://smithery.ai/badge/@Rudra-ravi/wikipedia-mcp)](https://smithery.ai/server/@Rudra-ravi/wikipedia-mcp)
+
+A Model Context Protocol (MCP) server that retrieves information from Wikipedia to provide context to Large Language Models (LLMs). This tool helps AI assistants access factual information from Wikipedia to ground their responses in reliable sources.
+
+<a href="https://glama.ai/mcp/servers/@Rudra-ravi/wikipedia-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@Rudra-ravi/wikipedia-mcp/badge" alt="Wikipedia Server MCP server" />
+</a>
+
+![image](https://github.com/user-attachments/assets/e41382f7-111a-4105-97f3-7851c906843e)
+
+## Overview
+
+The Wikipedia MCP server provides real-time access to Wikipedia information through a standardized Model Context Protocol interface. This allows LLMs to retrieve accurate and up-to-date information directly from Wikipedia to enhance their responses.
+
+## Verified By
+
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/rudra-ravi-wikipedia-mcp-badge.png)](https://mseep.ai/app/rudra-ravi-wikipedia-mcp)
+
+## Features
+
+- **Search Wikipedia**: Find articles matching specific queries with enhanced diagnostics
+- **Retrieve Article Content**: Get full article text with all information
+- **Article Summaries**: Get concise summaries of articles
+- **Section Extraction**: Retrieve specific sections from articles
+- **Link Discovery**: Find links within articles to related topics
+- **Related Topics**: Discover topics related to a specific article
+- **Multi-language Support**: Access Wikipedia in different languages by specifying the `--language` or `-l` argument when running the server (e.g., `wikipedia-mcp --language ta` for Tamil).
+- **Country/Locale Support**: Use intuitive country codes like `--country US`, `--country China`, or `--country TW` instead of language codes. Automatically maps to appropriate Wikipedia language variants.
+- **Language Variant Support**: Support for language variants such as Chinese traditional/simplified (e.g., `zh-hans` for Simplified Chinese, `zh-tw` for Traditional Chinese), Serbian scripts (`sr-latn`, `sr-cyrl`), and other regional variants.
+- **Optional caching**: Cache API responses for improved performance using --enable-cache
+- **Modern MCP Transport Support**: Supports `stdio`, `http`, and `streamable-http` (with legacy `sse` compatibility).
+- **Optional MCP Transport Auth**: Secure network transports with `--auth-mode static` or `--auth-mode jwt`.
+- **Google ADK Compatibility**: Fully compatible with Google ADK agents and other AI frameworks that use strict function calling schemas
+
+## Installation
+
+### Using pipx (Recommended for Claude Desktop)
+
+The best way to install for Claude Desktop usage is with pipx, which installs the command globally:
+
+```bash
+# Install pipx if you don't have it
+pip install pipx
+pipx ensurepath
+
+# Install the Wikipedia MCP server
+pipx install wikipedia-mcp
+```
+
+This ensures the `wikipedia-mcp` command is available in Claude Desktop's PATH.
+
+### Installing via Smithery
+
+To install wikipedia-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@Rudra-ravi/wikipedia-mcp):
+
+```bash
+npx -y @smithery/cli install @Rudra-ravi/wikipedia-mcp --client claude
+```
+
+### From PyPI (Alternative)
+
+You can also install directly from PyPI:
+
+```bash
+pip install wikipedia-mcp
+```
+
+**Note**: If you use this method and encounter connection issues with Claude Desktop, you may need to use the full path to the command in your configuration. See the [Configuration](#configuration-for-claude-desktop) section for details.
+
+### Using a virtual environment
+
+```bash
+# Create a virtual environment
+python3 -m venv venv
+
+# Activate the virtual environment
+source venv/bin/activate
+
+# Install the package
+pip install git+https://github.com/rudra-ravi/wikipedia-mcp.git
+```
+
+### From source
+
+```bash
+# Clone the repository
+git clone https://github.com/rudra-ravi/wikipedia-mcp.git
+cd wikipedia-mcp
+
+# Create a virtual environment
+python3 -m venv wikipedia-mcp-env
+source wikipedia-mcp-env/bin/activate
+
+# Install in development mode
+pip install -e .
+```
+
+## Usage
+
+### Running the server
+
+```bash
+# If installed with pipx
+wikipedia-mcp
+
+# If installed in a virtual environment
+source venv/bin/activate
+wikipedia-mcp
+
+# Specify transport protocol (default: stdio)
+wikipedia-mcp --transport stdio  # For Claude Desktop
+wikipedia-mcp --transport http --host 0.0.0.0 --port 8080 --path /mcp
+wikipedia-mcp --transport streamable-http --host 0.0.0.0 --port 8080 --path /mcp
+wikipedia-mcp --transport sse    # Legacy compatibility transport
+
+# Specify language (default: en for English)
+wikipedia-mcp --language ja  # Example for Japanese
+wikipedia-mcp --language zh-hans  # Example for Simplified Chinese
+wikipedia-mcp --language zh-tw    # Example for Traditional Chinese (Taiwan)
+wikipedia-mcp --language sr-latn  # Example for Serbian Latin script
+
+# Specify country/locale (alternative to language codes)
+wikipedia-mcp --country US        # English (United States)
+wikipedia-mcp --country China     # Chinese Simplified
+wikipedia-mcp --country Taiwan    # Chinese Traditional (Taiwan)  
+wikipedia-mcp --country Japan     # Japanese
+wikipedia-mcp --country Germany   # German
+wikipedia-mcp --country france    # French (case insensitive)
+
+# List all supported countries
+wikipedia-mcp --list-countries
+
+# Optional: Specify host/port/path for network transport (use 0.0.0.0 for containers)
+wikipedia-mcp --transport http --host 0.0.0.0 --port 8080 --path /mcp
+
+# Optional: Enable caching
+wikipedia-mcp --enable-cache
+
+# Optional: Use Personal Access Token to avoid rate limiting (403 errors)
+wikipedia-mcp --access-token your_wikipedia_token_here
+
+# Or set via environment variable
+export WIKIPEDIA_ACCESS_TOKEN=your_wikipedia_token_here
+wikipedia-mcp
+
+# Optional: Secure incoming MCP network requests with static bearer token
+wikipedia-mcp --transport http --auth-mode static --auth-token your_mcp_token --host 0.0.0.0 --port 8080
+
+# Optional: Secure incoming MCP network requests with JWT validation
+wikipedia-mcp --transport http --auth-mode jwt --auth-jwks-uri https://issuer/.well-known/jwks.json --auth-issuer https://issuer
+
+# Security note: prefer http/streamable-http + auth-mode for exposed network transport.
+
+# Combine options
+wikipedia-mcp --country Taiwan --enable-cache --access-token your_wikipedia_token --transport http --path /mcp --port 8080
+
+### Docker/Kubernetes
+
+When running inside containers, bind the HTTP MCP server to all interfaces and map
+the container port to the host or service:
+
+```bash
+# Build and run with Docker
+docker build -t wikipedia-mcp .
+docker run --rm -p 8080:8080 wikipedia-mcp --transport http --host 0.0.0.0 --port 8080 --path /mcp
+```
+
+Kubernetes example (minimal):
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wikipedia-mcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wikipedia-mcp
+  template:
+    metadata:
+      labels:
+        app: wikipedia-mcp
+    spec:
+      containers:
+        - name: server
+          image: your-repo/wikipedia-mcp:latest
+          args: ["--transport", "http", "--host", "0.0.0.0", "--port", "8080", "--path", "/mcp"]
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wikipedia-mcp
+spec:
+  selector:
+    app: wikipedia-mcp
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+```
+```
+
+### Configuration for Claude Desktop
+
+Add the following to your Claude Desktop configuration file:
+
+**Option 1: Using command name (requires `wikipedia-mcp` to be in PATH)**
+```json
+{
+  "mcpServers": {
+    "wikipedia": {
+      "command": "wikipedia-mcp"
+    }
+  }
+}
+```
+
+**Option 2: Using full path (recommended if you get connection errors)**
+```json
+{
+  "mcpServers": {
+    "wikipedia": {
+      "command": "/full/path/to/wikipedia-mcp"
+    }
+  }
+}
+```
+
+**Option 3: With country/language specification**
+```json
+{
+  "mcpServers": {
+    "wikipedia-us": {
+      "command": "wikipedia-mcp",
+      "args": ["--country", "US"]
+    },
+    "wikipedia-taiwan": {
+      "command": "wikipedia-mcp", 
+      "args": ["--country", "TW"]
+    },
+    "wikipedia-japan": {
+      "command": "wikipedia-mcp",
+      "args": ["--country", "Japan"]
+    }
+  }
+}
+```
+
+To find the full path, run: `which wikipedia-mcp`
+
+**Configuration file locations:**
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
+
+> **Note**: If you encounter connection errors, see the [Troubleshooting](#common-issues) section for solutions.
+
+## Documentation Index
+
+- CLI usage and options: see [`docs/CLI.md`](docs/CLI.md)
+- API and MCP tools/resources: see [`docs/API.md`](docs/API.md)
+- Architecture overview: see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- User guide and troubleshooting: see [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md)
+- Development guide: see [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)
+- Testing guide: see [`docs/TESTING.md`](docs/TESTING.md)
+
+## Available MCP Tools
+
+The Wikipedia MCP server provides the following tools for LLMs to interact with Wikipedia:
+
+Each tool is also exposed with a `wikipedia_`-prefixed alias (for example, `wikipedia_get_article`) for improved cross-server discoverability.
+
+### `search_wikipedia`
+
+Search Wikipedia for articles matching a query.
+
+**Parameters:**
+- `query` (string): The search term
+- `limit` (integer, optional): Maximum number of results to return (default: 10)
+
+**Returns:**
+- A list of search results with titles, snippets, and metadata
+
+### `get_article`
+
+Get the full content of a Wikipedia article.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+
+**Returns:**
+- Article content including text, summary, sections, links, and categories
+
+### `get_summary`
+
+Get a concise summary of a Wikipedia article.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+
+**Returns:**
+- A text summary of the article
+
+### `get_sections`
+
+Get the sections of a Wikipedia article.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+
+**Returns:**
+- A structured list of article sections with their content
+
+### `get_links`
+
+Get the links contained within a Wikipedia article.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+
+**Returns:**
+- A list of links to other Wikipedia articles
+
+### `get_coordinates`
+
+Get the coordinates of a Wikipedia article.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+
+**Returns:**
+- A dictionary containing coordinate information including:
+  - `title`: The article title
+  - `pageid`: The page ID
+  - `coordinates`: List of coordinate objects with latitude, longitude, and metadata
+  - `exists`: Whether the article exists
+  - `error`: Any error message if retrieval failed
+
+### `get_related_topics`
+
+Get topics related to a Wikipedia article based on links and categories.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+- `limit` (integer, optional): Maximum number of related topics (default: 10)
+
+**Returns:**
+- A list of related topics with relevance information
+
+### `summarize_article_for_query`
+
+Get a summary of a Wikipedia article tailored to a specific query.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+- `query` (string): The query to focus the summary on
+- `max_length` (integer, optional): Maximum length of the summary (default: 250)
+
+**Returns:**
+- A dictionary containing the title, query, and the focused summary
+
+### `summarize_article_section`
+
+Get a summary of a specific section of a Wikipedia article.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+- `section_title` (string): The title of the section to summarize
+- `max_length` (integer, optional): Maximum length of the summary (default: 150)
+
+**Returns:**
+- A dictionary containing the title, section title, and the section summary
+
+### `extract_key_facts`
+
+Extract key facts from a Wikipedia article, optionally focused on a specific topic within the article.
+
+**Parameters:**
+- `title` (string): The title of the Wikipedia article
+- `topic_within_article` (string, optional): A specific topic within the article to focus fact extraction
+- `count` (integer, optional): Number of key facts to extract (default: 5)
+
+**Returns:**
+- A dictionary containing the title, topic, and a list of extracted facts
+
+## Country/Locale Support
+
+The Wikipedia MCP server supports intuitive country and region codes as an alternative to language codes. This makes it easier to access region-specific Wikipedia content without needing to know language codes.
+
+### Supported Countries and Regions
+
+Use `--list-countries` to see all supported countries:
+
+```bash
+wikipedia-mcp --list-countries
+```
+
+This will display countries organized by language, for example:
+
+```
+Supported Country/Locale Codes:
+========================================
+    en: US, USA, United States, UK, GB, Canada, Australia, ...
+    zh-hans: CN, China
+    zh-tw: TW, Taiwan  
+    ja: JP, Japan
+    de: DE, Germany
+    fr: FR, France
+    es: ES, Spain, MX, Mexico, AR, Argentina, ...
+    pt: PT, Portugal, BR, Brazil
+    ru: RU, Russia
+    ar: SA, Saudi Arabia, AE, UAE, EG, Egypt, ...
+```
+
+### Usage Examples
+
+```bash
+# Major countries by code
+wikipedia-mcp --country US       # United States (English)
+wikipedia-mcp --country CN       # China (Simplified Chinese)
+wikipedia-mcp --country TW       # Taiwan (Traditional Chinese)
+wikipedia-mcp --country JP       # Japan (Japanese)
+wikipedia-mcp --country DE       # Germany (German)
+wikipedia-mcp --country FR       # France (French)
+wikipedia-mcp --country BR       # Brazil (Portuguese)
+wikipedia-mcp --country RU       # Russia (Russian)
+
+# Countries by full name (case insensitive)
+wikipedia-mcp --country "United States"
+wikipedia-mcp --country China
+wikipedia-mcp --country Taiwan  
+wikipedia-mcp --country Japan
+wikipedia-mcp --country Germany
+wikipedia-mcp --country france    # Case insensitive
+
+# Regional variants
+wikipedia-mcp --country HK       # Hong Kong (Traditional Chinese)
+wikipedia-mcp --country SG       # Singapore (Simplified Chinese)
+wikipedia-mcp --country "Saudi Arabia"  # Arabic
+wikipedia-mcp --country Mexico   # Spanish
+```
+
+### Country-to-Language Mapping
+
+The server automatically maps country codes to appropriate Wikipedia language editions:
+
+- **English-speaking**: US, UK, Canada, Australia, New Zealand, Ireland, South Africa → `en`
+- **Chinese regions**: 
+  - CN, China → `zh-hans` (Simplified Chinese)
+  - TW, Taiwan → `zh-tw` (Traditional Chinese - Taiwan)
+  - HK, Hong Kong → `zh-hk` (Traditional Chinese - Hong Kong)
+  - SG, Singapore → `zh-sg` (Simplified Chinese - Singapore)
+- **Major languages**: JP→`ja`, DE→`de`, FR→`fr`, ES→`es`, IT→`it`, RU→`ru`, etc.
+- **Regional variants**: Supports 140+ countries and regions
+
+### Error Handling
+
+If you specify an unsupported country, you'll get a helpful error message:
+
+```bash
+$ wikipedia-mcp --country INVALID
+Error: Unsupported country/locale: 'INVALID'. 
+Supported country codes include: US, USA, UK, GB, CA, AU, NZ, IE, ZA, CN. 
+Use --language parameter for direct language codes instead.
+
+Use --list-countries to see supported country codes.
+```
+
+## Language Variants
+
+The Wikipedia MCP server supports language variants for languages that have multiple writing systems or regional variations. This feature is particularly useful for Chinese, Serbian, Kurdish, and other languages with multiple scripts or regional differences.
+
+### Supported Language Variants
+
+#### Chinese Language Variants
+- `zh-hans` - Simplified Chinese
+- `zh-hant` - Traditional Chinese  
+- `zh-tw` - Traditional Chinese (Taiwan)
+- `zh-hk` - Traditional Chinese (Hong Kong)
+- `zh-mo` - Traditional Chinese (Macau)
+- `zh-cn` - Simplified Chinese (China)
+- `zh-sg` - Simplified Chinese (Singapore)
+- `zh-my` - Simplified Chinese (Malaysia)
+
+#### Serbian Language Variants
+- `sr-latn` - Serbian Latin script
+- `sr-cyrl` - Serbian Cyrillic script
+
+#### Kurdish Language Variants
+- `ku-latn` - Kurdish Latin script
+- `ku-arab` - Kurdish Arabic script
+
+#### Norwegian Language Variants
+- `no` - Norwegian (automatically mapped to Bokmål)
+
+### Usage Examples
+
+```bash
+# Access Simplified Chinese Wikipedia
+wikipedia-mcp --language zh-hans
+
+# Access Traditional Chinese Wikipedia (Taiwan)
+wikipedia-mcp --language zh-tw
+
+# Access Serbian Wikipedia in Latin script
+wikipedia-mcp --language sr-latn
+
+# Access Serbian Wikipedia in Cyrillic script
+wikipedia-mcp --language sr-cyrl
+```
+
+### How Language Variants Work
+
+When you specify a language variant like `zh-hans`, the server:
+1. Maps the variant to the base Wikipedia language (e.g., `zh` for Chinese variants)
+2. Uses the base language for API connections to the Wikipedia servers
+3. Includes the variant parameter in API requests to get content in the specific variant
+4. Returns content formatted according to the specified variant's conventions
+
+This approach ensures optimal compatibility with Wikipedia's API while providing access to variant-specific content and formatting.
+
+## Example Prompts
+
+Once the server is running and configured with Claude Desktop, you can use prompts like:
+
+### General Wikipedia queries:
+- "Tell me about quantum computing using the Wikipedia information."
+- "Summarize the history of artificial intelligence based on Wikipedia."
+- "What does Wikipedia say about climate change?"
+- "Find Wikipedia articles related to machine learning."
+- "Get me the introduction section of the article on neural networks from Wikipedia."
+- "What are the coordinates of the Eiffel Tower?"
+- "Find the latitude and longitude of Mount Everest from Wikipedia."
+- "Get coordinate information for famous landmarks in Paris."
+
+### Using country-specific Wikipedia:
+- "Search Wikipedia China for information about the Great Wall." (uses Chinese Wikipedia)
+- "Tell me about Tokyo from Japanese Wikipedia sources."
+- "What does German Wikipedia say about the Berlin Wall?"
+- "Find information about the Eiffel Tower from French Wikipedia."
+- "Get Taiwan Wikipedia's article about Taiwanese cuisine."
+
+### Language variant examples:
+- "Search Traditional Chinese Wikipedia for information about Taiwan."
+- "Find Simplified Chinese articles about modern China."
+- "Get information from Serbian Latin Wikipedia about Belgrade."
+
+## MCP Resources
+
+The server also provides MCP resources (similar to HTTP endpoints but for MCP):
+
+- `search/{query}`: Search Wikipedia for articles matching the query
+- `article/{title}`: Get the full content of a Wikipedia article
+- `summary/{title}`: Get a summary of a Wikipedia article
+- `sections/{title}`: Get the sections of a Wikipedia article
+- `links/{title}`: Get the links in a Wikipedia article
+- `coordinates/{title}`: Get the coordinates of a Wikipedia article
+- `summary/{title}/query/{query}/length/{max_length}`: Get a query-focused summary of an article
+- `summary/{title}/section/{section_title}/length/{max_length}`: Get a summary of a specific article section
+- `facts/{title}/topic/{topic_within_article}/count/{count}`: Extract key facts from an article
+
+## Development
+
+### Local Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/rudra-ravi/wikipedia-mcp.git
+cd wikipedia-mcp
+
+# Create a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install the package in development mode
+pip install -e .
+
+# Install development and test dependencies
+pip install -r requirements-dev.txt
+
+# Run the server
+wikipedia-mcp
+```
+
+### Project Structure
+
+- `wikipedia_mcp/`: Main package
+  - `__main__.py`: Entry point for the package
+  - `server.py`: MCP server implementation
+  - `wikipedia_client.py`: Wikipedia API client
+  - `api/`: API implementation
+  - `core/`: Core functionality
+  - `utils/`: Utility functions
+- `tests/`: Test suite
+  - `test_basic.py`: Basic package tests
+  - `test_cli.py`: Command-line interface tests
+  - `test_server_tools.py`: Comprehensive server and tool tests
+
+## Testing
+
+The project includes a comprehensive test suite to ensure reliability and functionality.
+
+### Test Structure
+
+The test suite is organized in the `tests/` directory with the following test files:
+
+- **`test_basic.py`**: Basic package functionality tests
+- **`test_cli.py`**: Command-line interface and transport tests
+- **`test_server_tools.py`**: Comprehensive tests for all MCP tools and Wikipedia client functionality
+
+### Running Tests
+
+#### Run All Tests
+```bash
+# Install test dependencies
+pip install -r requirements-dev.txt
+
+# Run all tests
+python -m pytest tests/ -v
+
+# Run tests with coverage
+python -m pytest tests/ --cov=wikipedia_mcp --cov-report=html
+```
+
+#### Run Specific Test Categories
+```bash
+# Run only unit tests (excludes integration tests)
+python -m pytest tests/ -v -m "not integration"
+
+# Run only integration tests (requires internet connection)
+python -m pytest tests/ -v -m "integration"
+
+# Run specific test file
+python -m pytest tests/test_server_tools.py -v
+```
+
+### Test Categories
+
+#### Unit Tests
+- **WikipediaClient Tests**: Mock-based tests for all client methods
+  - Search functionality
+  - Article retrieval
+  - Summary extraction
+  - Section parsing
+  - Link extraction
+  - Related topics discovery
+- **Server Tests**: MCP server creation and tool registration
+- **CLI Tests**: Command-line interface functionality
+
+#### Integration Tests
+- **Real API Tests**: Tests that make actual calls to Wikipedia API
+- **End-to-End Tests**: Complete workflow testing
+
+### Test Configuration
+
+The project uses `pytest.ini` for test configuration:
+
+```ini
+[pytest]
+markers =
+    integration: marks tests as integration tests (may require network access)
+    slow: marks tests as slow running
+
+testpaths = tests
+addopts = -v --tb=short
+```
+
+### Continuous Integration
+
+All tests are designed to:
+- Run reliably in CI/CD environments
+- Handle network failures gracefully
+- Provide clear error messages
+- Cover edge cases and error conditions
+
+### Adding New Tests
+
+When contributing new features:
+
+1. Add unit tests for new functionality
+2. Include both success and failure scenarios
+3. Mock external dependencies (Wikipedia API)
+4. Add integration tests for end-to-end validation
+5. Follow existing test patterns and naming conventions
+
+## Troubleshooting
+
+### Common Issues
+
+#### Claude Desktop Connection Issues
+
+**Problem**: Claude Desktop shows errors like `spawn wikipedia-mcp ENOENT` or cannot find the command.
+
+**Cause**: This occurs when the `wikipedia-mcp` command is installed in a user-specific location (like `~/.local/bin/`) that's not in Claude Desktop's PATH.
+
+**Solutions**:
+
+1. **Use full path to the command** (Recommended):
+   ```json
+   {
+     "mcpServers": {
+       "wikipedia": {
+         "command": "/home/username/.local/bin/wikipedia-mcp"
+       }
+     }
+   }
+   ```
+   
+   To find your exact path, run: `which wikipedia-mcp`
+
+2. **Install with pipx for global access**:
+   ```bash
+   pipx install wikipedia-mcp
+   ```
+   Then use the standard configuration:
+   ```json
+   {
+     "mcpServers": {
+       "wikipedia": {
+         "command": "wikipedia-mcp"
+       }
+     }
+   }
+   ```
+
+3. **Create a symlink to a global location**:
+   ```bash
+   sudo ln -s ~/.local/bin/wikipedia-mcp /usr/local/bin/wikipedia-mcp
+   ```
+
+#### Other Issues
+
+- **Article Not Found**: Check the exact spelling of article titles
+- **Rate Limiting**: Wikipedia API has rate limits; consider adding delays between requests
+- **Large Articles**: Some Wikipedia articles are very large and may exceed token limits
+
+## Troubleshooting Search Issues
+
+If you're experiencing empty search results, use the new diagnostic tools:
+
+### 1. Test Connectivity
+
+Use the `test_wikipedia_connectivity` tool to check if you can reach Wikipedia's API:
+
+```json
+{
+  "tool": "test_wikipedia_connectivity"
+}
+```
+
+This returns diagnostics including:
+- Connection status (`success` or `failed`)
+- Response time in milliseconds
+- Site/host information when successful
+- Error details when connectivity fails
+
+### 2. Enhanced Search Error Information
+
+The `search_wikipedia` tool now returns detailed metadata:
+
+```json
+{
+  "tool": "search_wikipedia",
+  "arguments": {
+    "query": "Ada Lovelace",
+    "limit": 10
+  }
+}
+```
+
+Example response:
+
+```json
+{
+  "query": "Ada Lovelace",
+  "results": [...],
+  "count": 5,
+  "status": "success",
+  "language": "en"
+}
+```
+
+When no results are found, you receive:
+
+```json
+{
+  "query": "nonexistent",
+  "results": [],
+  "status": "no_results",
+  "count": 0,
+  "language": "en",
+  "message": "No search results found. This could indicate connectivity issues, API errors, or simply no matching articles."
+}
+```
+
+### 3. Common Search Issues and Solutions
+
+- **Empty results**: Run the connectivity test, verify query spelling, try broader terms.
+- **Connection errors**: Check firewall or proxy settings, ensure `*.wikipedia.org` is reachable.
+- **API limits**: Requests with `limit > 500` are automatically capped; negative values reset to the default (10).
+
+### 4. Debugging with Verbose Logging
+
+Launch the server with debug logging for deeper insight:
+
+```bash
+wikipedia-mcp --log-level DEBUG
+```
+
+This emits the request parameters, response status codes, and any warnings returned by the API.
+
+## Understanding the Model Context Protocol (MCP)
+
+The Model Context Protocol (MCP) is not a traditional HTTP API but a specialized protocol for communication between LLMs and external tools. Key characteristics:
+
+- Uses stdio for local integrations and streamable HTTP for network integrations (`sse` retained for legacy compatibility)
+- Designed specifically for AI model interaction
+- Provides standardized formats for tools, resources, and prompts
+- Integrates directly with Claude and other MCP-compatible AI systems
+
+Claude Desktop acts as the MCP client, while this server provides the tools and resources that Claude can use to access Wikipedia information.
+
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Connect with the Author
+
+- 🌐 Portfolio: [ravikumar-dev.me](https://ravikumar-dev.me)
+- 📝 Blog: [Medium](https://medium.com/@Ravikumar-e)
+- 💼 LinkedIn: [in/ravi-kumar-e](https://linkedin.com/in/ravi-kumar-e)
+- 🐦 Twitter: [@Ravikumar_d3v](https://twitter.com/Ravikumar_d3v) 
+
+=== README.md END ===
+
+=== REPO INFO START ===
+{'id': 944950963, 'description': 'A Model Context Protocol (MCP) server that retrieves information from Wikipedia to provide context to LLMs.', 'language': 'Python', 'size': 285, 'topic': None, 'html_url': 'https://github.com/Rudra-ravi/wikipedia-mcp', 'owner': 'Rudra-ravi', 'name': 'wikipedia-mcp'}
+=== REPO INFO END ===
+
+==========
+
+2026-03-27 14:05:00,450 - INFO - add the prompt of analyze
+2026-03-27 14:05:00,450 - INFO - add the tool message of need_use_these_tools
+2026-03-27 14:05:05,323 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:05,324 - INFO - --- Communicate Count: 1 ---
+2026-03-27 14:05:05,324 - INFO - Token Usage: {"completion_tokens": 225, "prompt_tokens": 7309, "total_tokens": 7534, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:05:05,324 - INFO - Response: # Step 1: List Deployment Options
+
+Based on the README document, here are the deployment options available:
+
+1. Using pipx (installation-based): `pipx install wikipedia-mcp`
+2. From PyPI (installation-based): `pip install wikipedia-mcp`
+3. Using a virtual environment (installation-based): `pip install git+https://github.com/rudra-ravi/wikipedia-mcp.git`
+4. From source (installation-based): Clone repo and `pip install -e .`
+5. Using uv/uvx (install-free): Not explicitly mentioned but possible since it's a Python package
+
+# Step 2: Select the Optimal Deployment Option
+
+2.1 The optimal deployment option is to use `uv` to install the package, which falls under the category of "installation-based deployment". This approach follows the recommended installation method while using the modern uv package manager instead of pip/pipx.
+
+2.2 I will use the following development environment:
+
+
+2026-03-27 14:05:05,324 - INFO - [Call Tool] Server: MCP-Auto, Tool: need_use_these_tools, Args: {'names': ['uv']}
+2026-03-27 14:05:05,326 - INFO - 
+["uv"]
+----------------------------------------------------
+
+2026-03-27 14:05:05,326 - INFO - add the tool message of add_config
+2026-03-27 14:05:05,326 - INFO - add the tool message of execute_command
+2026-03-27 14:05:05,326 - INFO - add the prompt of deploy
+2026-03-27 14:05:05,327 - INFO - add the prompt of uv
+2026-03-27 14:05:07,341 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:07,343 - INFO - --- Communicate Count: 2 ---
+2026-03-27 14:05:07,343 - INFO - Token Usage: {"completion_tokens": 51, "prompt_tokens": 9281, "total_tokens": 9332, "prompt_tokens_details": {"cached_tokens": 0}}
+2026-03-27 14:05:07,343 - INFO - Response: I'll deploy the Wikipedia MCP server using uv. Let me follow the steps:
+
+
+2026-03-27 14:05:07,343 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server'}
+2026-03-27 14:05:07,362 - INFO - 
+Process started with PID 32804 (shell: /bin/bash)
+Initial output:
+Process completed with exit code 0
+Runtime: 0.015s
+(No output produced)
+----------------------------------------------------
+
+2026-03-27 14:05:09,252 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:09,253 - INFO - --- Communicate Count: 3 ---
+2026-03-27 14:05:09,254 - INFO - Token Usage: {"completion_tokens": 79, "prompt_tokens": 9389, "total_tokens": 9468, "prompt_tokens_details": {"cached_tokens": 9216}}
+2026-03-27 14:05:09,254 - INFO - Response: Now I'll create a project directory for the Wikipedia MCP server and set up the environment using uv:
+
+
+2026-03-27 14:05:09,254 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/wikipedia-mcp && cd /home/silimon/mcp-auto/mcp_server/wikipedia-mcp && uv init'}
+2026-03-27 14:05:09,308 - INFO - 
+Process started with PID 32811 (shell: /bin/bash)
+Initial output:
+Initialized project `wikipedia-mcp`
+
+Process completed with exit code 0
+Runtime: 0.051s
+----------------------------------------------------
+
+2026-03-27 14:05:11,550 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:11,551 - INFO - --- Communicate Count: 4 ---
+2026-03-27 14:05:11,551 - INFO - Token Usage: {"completion_tokens": 60, "prompt_tokens": 9528, "total_tokens": 9588, "prompt_tokens_details": {"cached_tokens": 9344}}
+2026-03-27 14:05:11,551 - INFO - Response: Now I'll install the wikipedia-mcp package using uv in the project directory:
+
+
+2026-03-27 14:05:11,551 - INFO - [Call Tool] Server: MCP-Auto, Tool: execute_command, Args: {'command': 'cd /home/silimon/mcp-auto/mcp_server/wikipedia-mcp && uv pip install wikipedia-mcp'}
+2026-03-27 14:05:16,631 - INFO - 
+Process started with PID 32841 (shell: /bin/bash)
+Initial output:
+Using Python 3.12.3 environment at: /home/silimon/mcp-auto/.venv
+Resolved 74 packages in 4.06s
+Prepared 3 packages in 942ms
+Installed 37 packages in 39ms
+
+Process completed with exit code 0
+Runtime: 5.075s
+----------------------------------------------------
+
+2026-03-27 14:05:18,982 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:18,983 - INFO - --- Communicate Count: 5 ---
+2026-03-27 14:05:18,983 - INFO - Token Usage: {"completion_tokens": 97, "prompt_tokens": 9700, "total_tokens": 9797, "prompt_tokens_details": {"cached_tokens": 9472}}
+2026-03-27 14:05:18,983 - INFO - Response: Great! Now I'll add the configuration for the Wikipedia MCP server:
+
+
+2026-03-27 14:05:18,983 - INFO - [Call Tool] Server: MCP-Auto, Tool: add_config, Args: {'name': '944950963_Rudra-ravi_wikipedia-mcp', 'type': 'stdio', 'command': 'wikipedia-mcp', 'cwd': '/home/silimon/mcp-auto/mcp_server/wikipedia-mcp'}
+2026-03-27 14:05:18,986 - INFO - 
+Successfully added 944950963_Rudra-ravi_wikipedia-mcp config.
+----------------------------------------------------
+
+2026-03-27 14:05:18,986 - INFO - add the tool message of validate_config
+2026-03-27 14:05:18,986 - INFO - add the prompt of validate
+2026-03-27 14:05:21,079 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:21,080 - INFO - --- Communicate Count: 6 ---
+2026-03-27 14:05:21,080 - INFO - Token Usage: {"completion_tokens": 56, "prompt_tokens": 9508, "total_tokens": 9564, "prompt_tokens_details": {"cached_tokens": 128}}
+2026-03-27 14:05:21,080 - INFO - Response: Let me validate the configuration to ensure the server can start properly and expose the relevant APIs:
+
+
+2026-03-27 14:05:21,080 - INFO - [Call Tool] Server: MCP-Auto, Tool: validate_config, Args: {'name': '944950963_Rudra-ravi_wikipedia-mcp'}
+2026-03-27 14:05:23,196 - INFO - 
+Process started with PID 32930 (shell: /bin/bash)
+Initial output:
+2026-03-27 14:05:22,821 - wikipediaapi._http_client - INFO - Wikipedia: language=en, user_agent: WikipediaMCPServer/2.0.0 (https://github.com/rudra-ravi/wikipedia-mcp) (Wikipedia-API/0.12.0; https://github.com/martin-majlis/Wikipedia-API/), extract_format=1
+2026-03-27 14:05:22,879 - wikipedia_mcp.__main__ - INFO - Starting Wikipedia MCP server with stdio transport for language: en
+2026-03-27 14:05:22,879 - wikipedia_mcp.__main__ - INFO - Using stdio transport - suppressing direct stdout messages for MCP communication.
+2026-03-27 14:05:22,879 - wikipedia_mcp.__main__ - INFO - To use with Claude Desktop, ensure 'wikipedia-mcp' command is in your claude_desktop_config.json.
+[03/27/26 14:05:22] INFO     Starting MCP server 'Wikipedia'    transport.py:183
+                             with transport 'stdio'                             
+2026-03-27 14:05:22,924 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+
+[OK] server 944950963_Rudra-ravi_wikipedia-mcp is OK, tools: search_wikipedia, wikipedia_search_wikipedia, test_wikipedia_connectivity, wikipedia_test_wikipedia_connectivity, get_article, wikipedia_get_article, get_summary, wikipedia_get_summary, summarize_article_for_query, wikipedia_summarize_article_for_query, summarize_article_section, wikipedia_summarize_article_section, extract_key_facts, wikipedia_extract_key_facts, get_related_topics, wikipedia_get_related_topics, get_sections, wikipedia_get_sections, get_links, wikipedia_get_links, get_coordinates, wikipedia_get_coordinates
+
+Process completed with exit code 0
+Runtime: 2.112s
+----------------------------------------------------
+
+2026-03-27 14:05:23,196 - INFO - add the tool message of fix_config
+2026-03-27 14:05:23,196 - INFO - add the tool message of execute_command
+2026-03-27 14:05:23,196 - INFO - add the tool message of validate_config
+2026-03-27 14:05:24,610 - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-27 14:05:24,611 - INFO - --- Communicate Count: 7 ---
+2026-03-27 14:05:24,611 - INFO - Token Usage: {"completion_tokens": 5, "prompt_tokens": 10682, "total_tokens": 10687, "prompt_tokens_details": {"cached_tokens": 512}}
+2026-03-27 14:05:24,611 - INFO - Response: ✅ @@Task Done@@
+2026-03-27 14:05:24,611 - INFO - Shutting down client-server connect: MCP-Auto
