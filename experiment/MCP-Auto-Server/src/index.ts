@@ -1,0 +1,179 @@
+#!/usr/bin/env node
+
+// silimon
+
+import { FilteredStdioServerTransport } from './custom-stdio.js';
+import { server, flushDeferredMessages } from './server.js';
+import { configManager } from './config-manager.js';
+import { logger } from './utils/logger.js';
+
+import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
+import { parseArgs } from "node:util";
+import { globalAgent } from 'node:http';
+
+import fs from "fs";
+import path from "path";
+
+const { values } = parseArgs({
+  options: {
+    mcpServerConfigDir: { type: "string" },
+    serverPath: {type: "string"},
+    pythonPath: {type: "string"}
+  }
+});
+
+if (!values.mcpServerConfigDir || !values.serverPath || !values.pythonPath) {
+  console.error("ERROR: Missing some required arguments. --mcpServerConfigDir --serverPath --pythonPath");
+  process.exit(1);
+}
+
+
+try {
+  global.cwd = values.serverPath;
+  global.pythonPath = values.pythonPath;
+  global.configDir = values.mcpServerConfigDir;
+  if (!existsSync(values.mcpServerConfigDir)) {
+    await mkdir(values.mcpServerConfigDir, { recursive: true });
+  }
+  global.configIndex = {};
+  const files = fs.readdirSync(global.configDir);
+
+  for (const file of files) {
+    if (!file.endsWith(".json")) continue;
+
+    const filePath = path.join(global.configDir, file);
+    const raw = fs.readFileSync(filePath, "utf-8").trim();
+
+    let json: any;
+    if (raw === "") continue;
+    try {
+        json = JSON.parse(raw);
+    } catch (e) {
+        console.error(`Invalid JSON: ${filePath}`, e);
+        continue;
+    }
+
+    const servers = json.Servers;
+    if (!servers || typeof servers !== "object") continue;
+
+    for (const name of Object.keys(servers)) {
+        // key = server name, value = file name
+        global.configIndex[name] = file;
+    }
+  }
+
+} catch (error) {
+  console.error(error);
+  process.exit(1);
+}
+
+// Store messages to defer until after initialization
+const deferredMessages: Array<{level: string, message: string}> = [];
+function deferLog(level: string, message: string) {
+    deferredMessages.push({level, message});
+}
+
+async function runServer(configDir: string) {
+  try {
+      try {
+          deferLog('info', 'Loading configuration...');
+          await configManager.loadConfig();
+          deferLog('info', 'Configuration loaded successfully');
+      } catch (configError) {
+          deferLog('error', `Failed to load configuration: ${configError instanceof Error ? configError.message : String(configError)}`);
+          if (configError instanceof Error && configError.stack) {
+              deferLog('debug', `Stack trace: ${configError.stack}`);
+          }
+          deferLog('warning', 'Continuing with in-memory configuration only');
+          // Continue anyway - we'll use an in-memory config
+      }
+
+    const transport = new FilteredStdioServerTransport();
+    
+    // Export transport for use throughout the application
+    global.mcpTransport = transport;
+    // Handle uncaught exceptions
+    process.on('uncaughtException', async (error) => {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+
+      // If this is a JSON parsing error, log it to stderr but don't crash
+      if (errorMessage.includes('JSON') && errorMessage.includes('Unexpected token')) {
+        logger.error(`JSON parsing error: ${errorMessage}`);
+        return; // Don't exit on JSON parsing errors
+      }
+
+      logger.error(`Uncaught exception: ${errorMessage}`);
+      process.exit(1);
+    });
+
+    // Handle unhandled rejections
+    process.on('unhandledRejection', async (reason) => {
+      const errorMessage = reason instanceof Error ? reason.message : String(reason);
+
+      // If this is a JSON parsing error, log it to stderr but don't crash
+      if (errorMessage.includes('JSON') && errorMessage.includes('Unexpected token')) {
+        logger.error(`JSON parsing rejection: ${errorMessage}`);
+        return; // Don't exit on JSON parsing errors
+      }
+
+      logger.error(`Unhandled rejection: ${errorMessage}`);
+      process.exit(1);
+    });
+
+    deferLog('info', 'Connecting server...');
+
+    // Set up event-driven initialization completion handler
+    server.oninitialized = () => {
+      // This callback is triggered after the client sends the "initialized" notification
+      // At this point, the MCP protocol handshake is fully complete
+      transport.enableNotifications();
+      
+      // Flush all deferred messages from both index.ts and server.ts
+      while (deferredMessages.length > 0) {
+        const msg = deferredMessages.shift()!;
+        transport.sendLog('info', msg.message);
+      }
+      flushDeferredMessages();
+      
+      // Now we can send regular logging messages
+      transport.sendLog('info', 'Server connected successfully');
+      transport.sendLog('info', 'MCP fully initialized, all startup messages sent');
+    };
+
+    await server.connect(transport);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logger.error(`FATAL ERROR: ${errorMessage}`);
+    if (error instanceof Error && error.stack) {
+      logger.debug(error.stack);
+    }
+    
+    // Send a structured error notification
+    const errorNotification = {
+      jsonrpc: "2.0" as const,
+      method: "notifications/message",
+      params: {
+        level: "error",
+        logger: "mcp-auto",
+        data: `Failed to start server: ${errorMessage} (${new Date().toISOString()})`
+      }
+    };
+    process.stdout.write(JSON.stringify(errorNotification) + '\n');
+
+    process.exit(1);
+  }
+}
+
+runServer(values.mcpServerConfigDir).catch(async (error) => {
+  const errorMessage = error instanceof Error ? error.message : String(error);
+  console.error(`RUNTIME ERROR: ${errorMessage}`);
+  console.error(error instanceof Error && error.stack ? error.stack : 'No stack trace available');
+  process.stderr.write(JSON.stringify({
+    type: 'error',
+    timestamp: new Date().toISOString(),
+    message: `Fatal error running server: ${errorMessage}`
+  }) + '\n');
+
+  process.exit(1);
+});
