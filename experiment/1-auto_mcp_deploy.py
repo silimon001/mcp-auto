@@ -320,22 +320,22 @@ async def main():
     api_key = os.getenv('QWEN_API_KEY')  # siliconflow_api_key DEEPSEEK_API_KEY QWEN_API_KEY
     hub.select_model(model, base_url, headers, api_key, is_streaming=False, enable_thinking=True)
 
-    config_path = os.path.join(os.getcwd(), "MCP-Auto-Server/mcp_server_config.json")
+    config_path = os.path.join(os.getcwd(), "experiment/MCP-Auto-Server/mcp_server_config.json")
     with open(config_path, "r", encoding="utf-8") as f:
         configs = json.load(f)
     await hub.connect_servers(configs)
 
-    config_path = os.path.join(os.getcwd(), "server-filesystem/mcp_server_config.json")
+    config_path = os.path.join(os.getcwd(), "experiment/filesystem/mcp_server_config.json")
     with open(config_path, "r", encoding="utf-8") as f:
         configs = json.load(f)
     await hub.connect_servers(configs)
 
     readme_repos = sorted(
-        glob(os.path.join(f"data/dataset/{dataset_name}/cline", "*.md")),
+        glob(os.path.join(f"data/dataset/{dataset_name}/sampled_validated_readme", "*.md")),
         key=os.path.getsize,
         # reverse=True
     )
-    hub.auto_deploy = False
+    hub.auto_deploy = True
 
     with open("experiment/prompt.md", "r", encoding="utf-8") as f:
         init_prompt = f.read()
