@@ -6,7 +6,7 @@
 
 # Step 4: Add Configuration
 
-4.1 Use the `add_config` tool to add the MCP server’s configuration information to the configuration file. The configuration must strictly comply with the "Configuration Information Guidelines."
+4.1 Use the `add_config` tool to add the MCP server’s configuration information to the configuration file. The configuration must strictly comply with the "Configuration Information Guidelines". Then proceed to step 5.
 
 # Additional Tips
 

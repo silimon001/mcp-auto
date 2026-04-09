@@ -10,7 +10,7 @@
 
 2.1 Based on the “Criteria for Determining the Optimal Deployment Option,” select what you consider to be the best deployment option to proceed with.
 
-2.2 Use the tool `need_use_these_tools` to accurately inform the user which development environments you will be using.
+2.2 Use the tool `need_use_these_tools` to accurately inform the user which development environments you will be using. Then proceed to step 3.
 
 # Additional Tips
 
