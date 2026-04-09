@@ -4,7 +4,14 @@
 
 uv is an extremely fast Python package and project manager.
 
-**Task Requirement**: For any Python project, deployment must be performed using uv.
+## Mandatory Requirements (Must Follow)
+
+* For any Python-based project, you must use uv for deployment.
+* You must create a separate virtual development environment for each MCP server project using the `uv venv` or `uv sync` command.
+* You must manage Python environments and dependencies exclusively with `uv`. Do not use the native `python` or `pip` commands, as they bypass the isolated virtual environment and can corrupt the user’s local development setup.
+* Replace all Python and pip commands in deployment tutorials with the following:
+  - To run a Python script: Use `uv run <script>.py`; do not use `python <script>.py`.
+  - To install dependencies: Use `uv pip install <package>`; do not use `pip install <package>`.
 
 ---
 
@@ -12,15 +19,17 @@ uv is an extremely fast Python package and project manager.
 
 ### Running Tools
 
-* `uvx` is used to run command-line tools; when used, the tool is installed into a temporary isolated environment.
+* `uvx` is used to run command-line tools. When used, the tool is installed into a temporary, isolated environment.
 
 ```bash
 $ uvx --python 3.10 ruff
 ```
 
-**Note**: When you execute `uvx <package>`, a server will start and wait for communication, blocking the process. Therefore, during **Step 4: Execute the Deployment Plan**, do not use this command to directly start the server, as it will cause the process to remain blocked indefinitely. The correct approach is to place the configuration information in the configuration file and then proceed to **Step 6: Verify the Server**.
+**Note**: When you execute `uvx <package>`, it starts a server and waits for communication, blocking the process. Therefore, during **Step 4: Execute the Deployment Plan**, do not use this command to directly start the server, as it will cause the process to remain blocked indefinitely. Instead, configure the settings in the configuration file and then proceed to **Step 6: Verify the Server**.
 
 ## Two Methods for Setting Up a uv Project
+
+For any project, follow the steps carefully and manage the project using uv.
 
 ```bash
 $ uv init # Initialize the project
@@ -38,8 +47,7 @@ $ uv pip install <package> # Install dependencies in the virtual environment
 
 ## Environment Setup (Guarantees)
 
-- uv has already been deployed in the user’s development environment, so there is no need to reinstall or verify it again.
-- The paths for the uv tools are as follows; please use them directly:
+- uv has already been deployed to the user’s development environment; simply use it directly.
 
 ```bash
 $ which uv
@@ -49,35 +57,8 @@ $ which uvx
 {HOME}/.local/bin/uvx
 ```
 
-* Before executing any uv command, first navigate to the corresponding project directory:
+* Always navigate to the project directory before running any uv commands.
 
- ```bash 
+```bash
 $ cd /path/to/project/dir && uv xxx
- ```
-
-## Notes
-
-* You must create a separate virtual environment for each local project using `uv venv` or `uv sync`.
-* **Important: Use `uv` to manage your Python environment and dependencies.** Once you have initialized or are managing a project with `uv`, **do not use native `python` or `pip` commands**, as these commands may bypass uv’s environment management and lead to execution failures.
-* Do not use the command `uvx <package> --help`, because most servers cannot obtain help information in this manner.
-* Always use the commands provided by uv:
-
-  - To run a Python script: `uv run <script>.py`
-
-  - To install dependencies: `uv pip install <package>`
-
-**Incorrect Examples (Prohibited):**
-
-```bash
-$ python main.py
-$ pip install requests
 ```
-
-**Correct Examples:**
-
-```bash
-uv run main.py
-uv pip install requests
-```
-
-In all command examples, script explanations, and documentation, **you must use the `uv` command system instead of `python` or `pip`.**

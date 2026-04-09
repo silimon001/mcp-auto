@@ -117,20 +117,7 @@ class MCPHub:
 
     def communicate(self) -> dict:
         response = None
-        if self.base_url == 'https://api.deepseek.com':
-            # need fix
-            session = OpenAI(api_key=self.api_key, base_url=self.base_url)
-            response = session.chat.completions.create(
-                model=self.model,
-                messages=self.messages,
-                tools=self.selected_tool_message,
-                stream=self.is_streaming,
-                temperature=0,
-                tool_choice="auto",
-            )
-            usage = response.usage.to_dict()
-            choices = response.choices[0].message.to_dict()
-        elif self.base_url == 'https://dashscope.aliyuncs.com/compatible-mode/v1':
+        if self.base_url == 'https://dashscope.aliyuncs.com/compatible-mode/v1':
             session = OpenAI(
                 api_key=self.api_key,
                 base_url=self.base_url,
@@ -169,7 +156,7 @@ class MCPHub:
 
         return response
 
-    async def chat_loop(self, prompt, query, id, readme_path):
+    async def chat_loop(self, prompt, query, id, readme_path, max_chat_loop):
         self.communicate_count = 0
         self.log(f'dealing with {id} {readme_path} ...')
         self.log(f'\n=========\n{query}\n==========\n')
@@ -182,7 +169,7 @@ class MCPHub:
                     analyze_prompt = self.dynamic_prompt(['analyze',])
                     self.messages.append({"role": "system", "content": analyze_prompt})
                     self.selected_tool_message = self.dynamic_tool(['need_use_these_tools'])
-                elif self.communicate_count >= 15:
+                elif self.communicate_count >= max_chat_loop:
                     break
                 
                 all_response = self.communicate()
@@ -206,7 +193,7 @@ class MCPHub:
                             if input("(Y/N): ").strip().lower() == 'y':
                                 call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
                             else:
-                                call_tool_result = "The user has refused to use this tool. Please check for errors in the task execution."
+                                call_tool_result = "Users refuse to use this tool; please reflect on this and choose the right tool."
                     
                         self.messages.append({
                             "role": "tool",
@@ -247,9 +234,6 @@ class MCPHub:
                     self.messages.append({"role": "user", "content": query})
         except Exception as e:
             self.log(f"Error: {str(e)}", is_error = True)        
-
-    def statistical_analysis():
-        pass
 
     def dynamic_prompt(self, names: list[str]):
         prompt = ''
@@ -306,8 +290,8 @@ def add_extra_info(dataset_name = None, id = None):
         return final_text
 
 async def main():
-    pos = 20
-    count = 20
+    pos = 0
+    count = 200
 
     hub = MCPHub(pos, count, enable_logging=True)
 
@@ -328,6 +312,8 @@ async def main():
         # reverse=True
     )
     hub.auto_deploy = True
+
+    print(readme_repos)
 
     with open("mcp-auto/prompt/prompt_init.md", "r", encoding="utf-8") as f:
         init_prompt = f.read()

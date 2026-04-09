@@ -1,9 +1,11 @@
-# Step 5: Verify the Server
+# Step 5: Validate the Server
 
-5.1 Use the `validate_config` tool to check whether the server can **start properly** and **expose the relevant APIs**.
+5.1 Use the `validate_config` tool to check whether the server can **start properly** and **expose the corresponding tools**. During validation, strictly follow the requirements of the "Validation Guidelines".
 
-* If the server passes validation and a list of specific APIs is retrieved, strictly output “✅ @@Task Done@@”;
-* If the server fails validation due to missing sensitive information such as **API keys, tokens, or URLs**, this is not considered a fixable issue. In this case, strictly output “⚠️ @@Task Alert@@”, end the task, and prompt the user to manually configure these sensitive settings.
+# Additional Tips
 
-5.2 If the server fails validation because of an error during deployment, fix the issue, restart the server, and perform the validation again.
-5.3 If the server fails validation three times and cannot be repaired, strictly output “❌ @@Task Failed@@”.
+## Validation Guidelines
+
+* If the server starts correctly and retrieves a valid list of tools, the task is successful. Output exactly: "✅ @@Task Done@@".
+* If an error occurs, carefully review the log messages and retrace each step to identify the cause of the issue. Once resolved, use the `validate_config` tool again to perform the validation.
+* For unrecoverable errors, such as API key verification failure requiring a valid API key, output exactly: "❌ @@Task Failed@@".

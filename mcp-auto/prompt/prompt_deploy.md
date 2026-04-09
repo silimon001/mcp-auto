@@ -1,18 +1,28 @@
 # Step 3: Deploy the MCP Server
 
-3.1 Determine whether the optimal deployment plan includes starting and verifying the MCP server. If it does, avoid starting the MCP server in Step 3; instead, start and verify the MCP server in Step 5.
-3.2 Follow the optimal deployment plan to perform the deployment. If the deployment is successful, proceed to Step 4; if it fails, terminate the task and strictly output “❌ @@Task Failed@@”.
+3.1 Follow the optimal deployment plan to perform the deployment. During the deployment process, strictly adhere to the requirements outlined in the "Deployment Guidelines."
+
+3.2 If the deployment is successful, proceed to Step 4; if it fails, terminate the task and output exactly "❌ @@Task Failed@@".
 
 # Step 4: Add Configuration
 
-4.1 Use the `add_config` tool to add the MCP server’s configuration information to the configuration file. Then proceed to Step 5.
+4.1 Use the `add_config` tool to add the MCP server’s configuration information to the configuration file. The configuration must strictly comply with the "Configuration Information Guidelines."
 
-# Instructions
+# Additional Tips
 
-- If you encounter a timeout error during deployment, it may be due to a slow internet connection. Please increase the timeout duration and try again several times. For example, if a dependency download times out, you can consider increasing the timeout to 5–10 minutes.
+## Deployment Guidelines
+
+- Distinguish between the deployment operation and the server startup operation. Do not start the server during deployment—only execute deployment-related commands. Starting the server often causes it to remain in a waiting state for input, thereby blocking the process.
+
+- If you encounter timeout issues during deployment, the cause may be a slow internet connection. Try increasing the timeout period and retrying. For example, when installing dependencies times out, consider extending the timeout to 5–10 minutes.
 - Name the server `{id}_{owner}_{name}`.
-- When executing any commands, use absolute paths and avoid relative paths.
-- The standard structure for MCP server configuration is as follows:
+- Regardless of the deployment method used, create a dedicated project folder for this MCP server at the path `{WORKSPACE}/mcp_server/{id}_{owner}_{name}`, and set this folder as the "cwd."
+- When executing any command, use absolute paths instead of relative paths.
+- For servers that need to be deployed locally, be sure to set up a separate virtual development environment for this MCP server to ensure that it does not contaminate the user’s development environment.
+
+## Configuration Information Guidelines
+
+- The standard structure for MCP server configurations is as follows:
 
 ```json
 "{id1}_{owner1}_{name1}": {
@@ -23,7 +33,7 @@
         "ENV_VAR1": "value1",
         "ENV_VAR2": "value2"
     },
-    "cwd": "/your/path"
+    "cwd": "{WORKSPACE}/mcp_server/{id1}_{owner1}_{name1}"
 },
 "{id2}_{owner2}_{name2}": {
     "type": "sse",
@@ -36,7 +46,7 @@
     "env": {
         "ENV_VAR1": "value1"
     },
-    "cwd": "/your/path"
+    "cwd": "{WORKSPACE}/mcp_server/{id2}_{owner2}_{name2}"
 },
 "{id3}_{owner3}_{name3}": {
     "type": "streamable_http",
@@ -49,10 +59,13 @@
     "env": {
         "ENV_VAR1": "value1"
     },
-    "cwd": "/your/path"
+    "cwd": "{WORKSPACE}/mcp_server/{id3}_{owner3}_{name3}"
 }
 ```
 
-* If `type` is `stdio`, there is no need to provide `url` or `headers`.
-* If `type` is `sse` or `streamable_http`, `url` must be provided. If the MCP server is also deployed locally, you must additionally provide `command`, `args`, `env`, and `cwd` to run the MCP server on the local machine. Furthermore, the port specified in `args` must match the port used in the `url`.
-* If it’s not a local project, you must set the `cwd` to `{WORKSPACE}/mcp_server/` by default.
+* The `type` can be one of three options: `stdio`, `sse`, or `streamable_http`.
+* If a remote deployment method is used, the `url` must be provided.
+* The `url` must include the host, port, and endpoint.
+* If local installation is combined with a remote transmission protocol for deployment, in addition to the `url`, you must also provide `command`, `args`, `env`, and `cwd` to run the MCP server locally.
+* The `cwd` must be set to `{WORKSPACE}/mcp_server/{id}_{owner}_{name}`.
+
