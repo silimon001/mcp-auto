@@ -155,9 +155,7 @@ The parameters of fix_config and add_config have the same argument type.
                     name: "execute_command",
                     description: 
 `This tool will start a new terminal process to execute the CLI command.
-
-The default timeout_ms is 30000ms.
-                        
+             
 ${OS_GUIDANCE}
 ${PATH_GUIDANCE}`,
                     inputSchema: zodToJsonSchema(ExecuteCommandArgsSchema),
@@ -168,7 +166,6 @@ ${PATH_GUIDANCE}`,
 `Validate whether the config is right.
 
 Simply provide the name of the server to be verified, and the tool will automatically verify it.
-The default timeout_ms is 60000ms.
 `,
                     inputSchema: zodToJsonSchema(ValidateConfigArgsSchema),
                 },
@@ -183,9 +180,10 @@ Please select from the following tools:
 - git
 - None
 
-For all python items, please use uv/uvx to manage them.
-For all local-installation item, please use git to pull it.
-For installation-free and remote item, no need use any tool, please choose None.
+For all python items, please choose uv to manage them.
+For all local-installation items, please choose git to pull them.
+For all Node.js items, please choose node to manage them.
+For remote deployment, please choose None.
 `,
                     inputSchema: zodToJsonSchema(NeedUseTheseToolsSchema),
                 }

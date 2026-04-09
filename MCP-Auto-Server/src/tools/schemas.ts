@@ -92,7 +92,7 @@ export const AddConfigArgsSchema = z.object({
   command: z.string().optional().default(''),
   args: z.array(z.string()).optional().default([]),
   env: z.record(z.string(), z.string()).optional().default({}),
-  cwd: z.string().optional().default(''),
+  cwd: z.string(),
 });
 
 // Fix config schema
@@ -104,7 +104,7 @@ export const FixConfigArgsSchema = z.object({
   command: z.string().optional().default(''),
   args: z.array(z.string()).optional().default([]),
   env: z.record(z.string(), z.string()).optional().default({}),
-  cwd: z.string().optional().default(''),
+  cwd: z.string(),
 });
 
 // Execute command schema
