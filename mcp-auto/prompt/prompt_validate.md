@@ -9,3 +9,10 @@
 * If the server starts correctly and retrieves a valid list of tools, the task is successful. Output exactly: "✅ @@Task Done@@".
 * If an error occurs, carefully review the log messages and retrace each step to identify the cause of the issue. Once resolved, use the `validate_config` tool again to perform the validation.
 * For unrecoverable errors, such as API key verification failure requiring a valid API key, output exactly: "❌ @@Task Failed@@".
+* If you encounter an issue like this during the task:
+
+```txt
+TypeError: FastMCP.__init__() got an unexpected keyword argument
+```
+
+it indicates a problem with the version of the MCP SDK. Please try downgrading or upgrading the MCP SDK to a compatible version.

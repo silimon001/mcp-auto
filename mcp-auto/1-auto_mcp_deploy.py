@@ -49,7 +49,7 @@ class MCPHub:
             # ---------------- 初始化日志 ---------------- #
             os.makedirs(f"{os.getcwd()}/log_file", exist_ok=True)
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            log_filename = f"{os.getcwd()}/log_file/AMSD_{dataset_name}_{pos}_{pos+count}_{timestamp}.log"
+            log_filename = f"{os.getcwd()}/log_file/EXP_{dataset_name}_{pos}_{pos+count}_{timestamp}.log"
             print(log_filename)
             logging.basicConfig(
                 filename=log_filename,
@@ -188,7 +188,10 @@ class MCPHub:
                         self.log(f"[Call Tool] Server: {server_name}, Tool: {tool_name}, Args: {tool_args}")                    
 
                         if self.auto_deploy:
-                            call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
+                            if 'python' in tool_args.get('command', '') and 'uv' not in tool_args.get('command', ''):
+                                call_tool_result = "Users refuse to use this tool; please reflect on this and choose the right tool."
+                            else:
+                                call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
                         else:
                             if input("(Y/N): ").strip().lower() == 'y':
                                 call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
@@ -202,29 +205,30 @@ class MCPHub:
                         })
                         self.log('\n' + call_tool_result + '\n----------------------------------------------------\n')
 
-                        if tool_name == 'need_use_these_tools':
-                            # message = self.messages.pop(2) # delete analyze_prompt
-                            # message = message.get('content', '')
-                            # self.log("Delete analyze_prompt. First line: " + message.split('\n')[0])
+                        if call_tool_result != "Users refuse to use this tool; please reflect on this and choose the right tool.":
+                            if tool_name == 'need_use_these_tools':
+                                # message = self.messages.pop(2) # delete analyze_prompt
+                                # message = message.get('content', '')
+                                # self.log("Delete analyze_prompt. First line: " + message.split('\n')[0])
 
-                            self.selected_tool_message = self.dynamic_tool(['add_config', 'execute_command'])
-                            deploy_prompt = self.dynamic_prompt(['deploy'])
-                            self.messages.append({"role": "system", "content": deploy_prompt})
+                                self.selected_tool_message = self.dynamic_tool(['add_config', 'execute_command'])
+                                deploy_prompt = self.dynamic_prompt(['deploy'])
+                                self.messages.append({"role": "system", "content": deploy_prompt})
 
-                            tools_prompt = self.dynamic_prompt(json.loads(call_tool_result))
-                            self.messages.append({"role": "system", "content": tools_prompt})
+                                tools_prompt = self.dynamic_prompt(json.loads(call_tool_result))
+                                self.messages.append({"role": "system", "content": tools_prompt})
 
-                        elif tool_name == 'add_config':
-                            # message = self.messages.pop(4) # delete deploy_prompt
-                            # message = message.get('content', '')
-                            # self.log("Delete deploy_prompt. First line: " + message.split('\n')[0])
+                            elif tool_name == 'add_config':
+                                # message = self.messages.pop(4) # delete deploy_prompt
+                                # message = message.get('content', '')
+                                # self.log("Delete deploy_prompt. First line: " + message.split('\n')[0])
 
-                            self.selected_tool_message = self.dynamic_tool(['validate_config'])
-                            validate_prompt = self.dynamic_prompt(['validate'])
-                            self.messages.append({"role": "system", "content": validate_prompt})
+                                self.selected_tool_message = self.dynamic_tool(['validate_config'])
+                                validate_prompt = self.dynamic_prompt(['validate'])
+                                self.messages.append({"role": "system", "content": validate_prompt})
 
-                        elif tool_name == 'validate_config':
-                            self.selected_tool_message = self.dynamic_tool(['fix_config', 'execute_command', 'validate_config'])
+                            elif tool_name == 'validate_config':
+                                self.selected_tool_message = self.dynamic_tool(['fix_config', 'execute_command', 'validate_config'])
                         
                 else:
                     if content.find("✅ @@Task Done@@") != -1 or content.find("❌ @@Task Failed@@") != -1 or content.find("⚠️ @@Task Alert@@") != -1:

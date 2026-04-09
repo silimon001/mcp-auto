@@ -1,144 +1,227 @@
+#!/usr/bin/env python3
+"""
+Batch fetch GitHub repository information and README files.
+
+Usage:
+    python fetch_github_repos.py --input repos.txt --output repos_info.json --readme-dir ./readmes
+
+Input file format (one URL per line):
+    https://github.com/owner/repo
+    https://github.com/owner/repo.git
+    github.com/owner/repo
+"""
+
+import argparse
+import json
 import os
+import re
+import sys
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
 import requests
-from urllib.parse import urlparse
-from dotenv import load_dotenv
-
-load_dotenv()
-
-INPUT_FILE = "data/dataset/MCP-Bench/link.log"
-OUTPUT_DIR = "data/dataset/MCP-Bench/readme"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-HEADERS = {
-    "Accept": "application/vnd.github.raw",
-    "Authorization": f"Bearer {os.getenv('GITHUB_TOKEN')}"
-}
 
 
-def parse_github_url(url):
+def parse_github_url(url: str) -> Tuple[str, str]:
     """
-    返回: owner, repo, branch, path
+    Extract owner and repository name from a GitHub URL.
+
+    Supports formats:
+        https://github.com/owner/repo
+        https://github.com/owner/repo.git
+        github.com/owner/repo
+        git@github.com:owner/repo.git
     """
-    path = urlparse(url).path.strip("/")
-    parts = path.split("/")
+    # Remove trailing .git if present
+    url = url.rstrip("/")
+    if url.endswith(".git"):
+        url = url[:-4]
 
-    if len(parts) < 2:
-        return None, None, None, None
+    # Extract pattern: owner/repo
+    patterns = [
+        r"github\.com[:/]([^/]+)/([^/]+)",  # https or ssh
+        r"github\.com/([^/]+)/([^/]+)",     # plain
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, url)
+        if match:
+            owner = match.group(1)
+            repo = match.group(2)
+            return owner, repo
 
-    owner = parts[0]
-    repo = parts[1]
-
-    branch = None
-    sub_path = ""
-
-    # 处理 tree URL
-    if len(parts) > 2 and parts[2] == "tree":
-        if len(parts) >= 4:
-            branch = parts[3]
-        if len(parts) > 4:
-            sub_path = "/".join(parts[4:])
-
-    return owner, repo, branch, sub_path
+    raise ValueError(f"Could not parse GitHub URL: {url}")
 
 
-def fetch_readme_from_dir(owner, repo, path, branch):
+def github_request(
+    endpoint: str, token: Optional[str] = None, accept_raw: bool = False
+) -> Optional[requests.Response]:
+    """Make a request to GitHub API with optional authentication."""
+    url = f"https://api.github.com/{endpoint.lstrip('/')}"
+    headers = {}
+    if token:
+        headers["Authorization"] = f"token {token}"
+    if accept_raw:
+        headers["Accept"] = "application/vnd.github.raw+json"
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return response
+    elif response.status_code == 404:
+        # Repository or README not found
+        return None
+    else:
+        print(f"  API error {response.status_code}: {response.text[:200]}")
+        response.raise_for_status()
+        return None  # unreachable if raise
+
+
+def get_repo_info(owner: str, repo: str, token: Optional[str] = None) -> Optional[Dict]:
+    """Fetch repository information from GitHub API."""
+    resp = github_request(f"repos/{owner}/{repo}", token=token)
+    if resp is None:
+        print(f"  Repository {owner}/{repo} not found or inaccessible")
+        return None
+    data = resp.json()
+
+    # Extract desired fields
+    info = {
+        "id": data.get("id"),
+        "name": data.get("name"),
+        "full_name": data.get("full_name"),
+        "owner": data.get("owner", {}).get("login"),
+        "description": data.get("description"),
+        "html_url": data.get("html_url"),
+        "stars": data.get("stargazers_count"),
+        "forks": data.get("forks_count"),
+        "open_issues": data.get("open_issues_count"),
+        "license": data.get("license", {}).get("name") if data.get("license") else None,
+        "created_at": data.get("created_at"),
+        "updated_at": data.get("updated_at"),
+        "language": data.get("language"),
+    }
+    return info
+
+
+def get_readme(
+    owner: str, repo: str, token: Optional[str] = None
+) -> Tuple[Optional[str], Optional[str]]:
     """
-    从指定目录查找 README
+    Fetch README content and its file extension.
+
+    Returns:
+        (content, extension) where extension is like '.md', '.rst', '.txt' or None.
+        content is None if README not found.
     """
-    api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
+    # First get metadata to know the file name (for extension)
+    resp_meta = github_request(f"repos/{owner}/{repo}/readme", token=token)
+    if resp_meta is None:
+        return None, None
 
-    params = {}
-    if branch:
-        params["ref"] = branch
+    meta = resp_meta.json()
+    # Get download URL or use raw content via Accept header
+    download_url = meta.get("download_url")
+    if download_url:
+        # Download raw content
+        try:
+            resp_raw = requests.get(download_url)
+            if resp_raw.status_code == 200:
+                content = resp_raw.text
+                # Determine extension from file name
+                name = meta.get("name", "README")
+                ext = os.path.splitext(name)[1]
+                return content, ext
+        except Exception as e:
+            print(f"  Failed to download README from {download_url}: {e}")
 
-    try:
-        res = requests.get(api_url, headers=HEADERS, params=params, timeout=10)
-        if res.status_code != 200:
-            return None
+    # Fallback: use API with raw Accept header
+    resp_raw = github_request(
+        f"repos/{owner}/{repo}/readme", token=token, accept_raw=True
+    )
+    if resp_raw is not None:
+        content = resp_raw.text
+        # Try to infer extension from content-type? default to .md
+        ext = ".md"  # assume markdown
+        return content, ext
 
-        files = res.json()
-
-        for f in files:
-            name = f["name"].lower()
-            if name.startswith("readme"):
-                # 直接用 download_url
-                download_url = f["download_url"]
-                r = requests.get(download_url, timeout=10)
-                if r.status_code == 200:
-                    return r.text
-
-    except Exception as e:
-        print(f"[!] Dir fetch error: {owner}/{repo}/{path} -> {e}")
-
-    return None
-
-
-def fetch_root_readme(owner, repo):
-    """
-    获取根目录 README
-    """
-    url = f"https://api.github.com/repos/{owner}/{repo}/readme"
-
-    try:
-        res = requests.get(url, headers=HEADERS, timeout=10)
-        if res.status_code == 200:
-            return res.text
-    except Exception as e:
-        print(f"[!] Root fetch error: {owner}/{repo} -> {e}")
-
-    return None
-
-
-def fetch_readme(owner, repo, branch, sub_path):
-    """
-    总调度逻辑
-    """
-    # 优先子目录
-    if sub_path:
-        content = fetch_readme_from_dir(owner, repo, sub_path, branch)
-        if content:
-            return content
-
-    # fallback 到 root
-    return fetch_root_readme(owner, repo)
-
-
-def save_readme(owner, repo, sub_path, content):
-    """
-    文件命名：包含 path 防冲突
-    """
-    path_tag = sub_path.replace("/", "_") if sub_path else "root"
-    filename = f"{owner}_{repo}_{path_tag}_README.md"
-
-    filepath = os.path.join(OUTPUT_DIR, filename)
-
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(content)
-
-    print(f"[+] Saved: {filepath}")
+    return None, None
 
 
 def main():
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    from dotenv import load_dotenv
+    load_dotenv('.mcp-auto_env')
+    parser = argparse.ArgumentParser(
+        description="Fetch GitHub repository info and README files."
+    )
+    parser.add_argument(
+        "--input", "-i", default="/home/silimon/mcp-auto/data/dataset/MCP-Bench/link.log", help="File containing list of repository URLs"
+    )
+    parser.add_argument(
+        "--output", "-o", default="/home/silimon/mcp-auto/data/dataset/MCP-Bench/repo_info.json", help="Output JSON file"
+    )
+    parser.add_argument(
+        "--readme-dir",
+        "-d",
+        default="/home/silimon/mcp-auto/data/dataset/MCP-Bench/readme",
+        help="Directory to save README files (created if not exists)",
+    )
+    parser.add_argument(
+        "--token", "-t", default=os.getenv('GITHUB_TOKEN'), help="GitHub personal access token (optional, increases rate limit)"
+    )
+    args = parser.parse_args()
 
-    with open(INPUT_FILE, "r", encoding="utf-8") as f:
+    # Read input file
+    input_path = Path(args.input)
+    if not input_path.exists():
+        print(f"Input file not found: {input_path}")
+        sys.exit(1)
+
+    with open(input_path, "r") as f:
         urls = [line.strip() for line in f if line.strip()]
 
-    for url in urls:
-        print(f"\nProcessing: {url}")
+    print(f"Found {len(urls)} repository URLs")
 
-        owner, repo, branch, sub_path = parse_github_url(url)
+    # Prepare output directory for READMEs
+    readme_dir = Path(args.readme_dir)
+    readme_dir.mkdir(parents=True, exist_ok=True)
 
-        if not owner or not repo:
-            print(f"[!] Invalid URL: {url}")
+    all_repos = []
+    for idx, url in enumerate(urls, 1):
+        print(f"\n[{idx}/{len(urls)}] Processing: {url}")
+        try:
+            owner, repo = parse_github_url(url)
+        except ValueError as e:
+            print(f"  Error: {e}")
             continue
 
-        content = fetch_readme(owner, repo, branch, sub_path)
+        # Fetch basic info
+        info = get_repo_info(owner, repo, token=args.token)
+        if info is None:
+            continue
 
-        if content:
-            save_readme(owner, repo, sub_path, content)
+        # Fetch README
+        readme_content, _ = get_readme(owner, repo, token=args.token)  # ignore original extension
+        readme_filename = None
+        readme_path = None
+        if readme_content:
+            # New naming convention: {id}_{owner}_{name}_README.md
+            readme_filename = f"{info['id']}_{info['owner']}_{info['name']}_README.md"
+            readme_path = readme_dir / readme_filename
+            with open(readme_path, "w", encoding="utf-8") as rf:
+                rf.write(readme_content)
+            print(f"  Saved README -> {readme_path}")
         else:
-            print(f"[!] No README found: {owner}/{repo}/{sub_path}")
+            print("  No README found")
+
+        # Add README file reference to info
+        info["readme_file"] = str(readme_path) if readme_path else None
+        all_repos.append(info)
+
+    # Write all info to JSON
+    with open(args.output, "w", encoding="utf-8") as jf:
+        json.dump(all_repos, jf, indent=2, ensure_ascii=False)
+
+    print(f"\nDone! Saved {len(all_repos)} repositories' info to {args.output}")
+    print(f"README files saved in {readme_dir}")
 
 
 if __name__ == "__main__":

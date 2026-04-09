@@ -6,12 +6,14 @@ uv is an extremely fast Python package and project manager.
 
 ## Mandatory Requirements (Must Follow)
 
-* For any Python-based project, you must use uv for deployment.
-* You must create a separate virtual development environment for each MCP server project using the `uv venv` or `uv sync` command.
-* You must manage Python environments and dependencies exclusively with `uv`. Do not use the native `python` or `pip` commands, as they bypass the isolated virtual environment and can corrupt the user’s local development setup.
-* Replace all Python and pip commands in deployment tutorials with the following:
-  - To run a Python script: Use `uv run <script>.py`; do not use `python <script>.py`.
-  - To install dependencies: Use `uv pip install <package>`; do not use `pip install <package>`.
+* For any Python project, deployment using `uv` is mandatory.
+* You must create a separate virtual development environment for each MCP server project using the commands `uv venv` or `uv sync`.
+* You must use `uv` to manage Python environments and dependencies. The commands `python` or `pip` are prohibited because they bypass the separate virtual development environment and disrupt the user's local development environment.
+* Replace the Python and pip commands in the deployment tutorial with the following:
+  - Running Python scripts: Use `uv run <script>.py`, do not use `python <script>.py`
+  - Installing dependencies: `uv pip install <package>`, do not use `pip install <package>`
+* Do not use the `python` or `pip` commands.
+* Do not use the `python` or `pip` commands.
 
 ---
 

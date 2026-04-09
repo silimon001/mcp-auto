@@ -180,10 +180,11 @@ Please select from the following tools:
 - git
 - None
 
-For all python items, please choose uv to manage them.
-For all local-installation items, please choose git to pull them.
-For all Node.js items, please choose node to manage them.
-For remote deployment, please choose None.
+For the python item, please choose uv to manage it.
+For the Node.js item, please choose node to manage it.
+For the remote deployment, please choose None.
+For the python local-installation item, you need choose uv and git.
+For the Node.js local-installation item, you need choose node and git.
 `,
                     inputSchema: zodToJsonSchema(NeedUseTheseToolsSchema),
                 }
