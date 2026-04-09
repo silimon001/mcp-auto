@@ -83,18 +83,18 @@ def simplify_log(text: str) -> str:
     # ------------------------
     simplified = re.sub(r"\n{3,}", "\n\n", simplified).strip()
 
-    # 匹配以 - 或 d 开头的行，捕获第一个字符和最后一个字段（文件名）
-    file_pattern = re.compile(
-        r'^([\-d]).*?\s+([^\s]+)$',
-        re.MULTILINE
-    )
+    # # 匹配以 - 或 d 开头的行，捕获第一个字符和最后一个字段（文件名）
+    # file_pattern = re.compile(
+    #     r'^([\-d]).*?\s+([^\s]+)$',
+    #     re.MULTILINE
+    # )
 
-    def replace_ls_line(match):
-        # match.group(1) 是文件类型标志（- 或 d）
-        # match.group(2) 是文件名
-        return match.group(1) + ' ' + match.group(2)
+    # def replace_ls_line(match):
+    #     # match.group(1) 是文件类型标志（- 或 d）
+    #     # match.group(2) 是文件名
+    #     return match.group(1) + ' ' + match.group(2)
 
-    simplified = file_pattern.sub(replace_ls_line, simplified)
+    # simplified = file_pattern.sub(replace_ls_line, simplified)
 
     return simplified
 

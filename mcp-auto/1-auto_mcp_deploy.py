@@ -238,7 +238,14 @@ class MCPHub:
 
                             elif tool_name == 'validate_config':
                                 self.selected_tool_message = self.dynamic_tool(['fix_config', 'execute_command', 'validate_config'])
-                        
+                                # if 'FastMCP.__init__() got an unexpected keyword argument' in call_tool_result:
+                                #     self.messages.append({"role": "user", "content": "it indicates a problem with the version of the MCP SDK. Please try modifying the MCP SDK to a compatible version."})
+
+                            elif tool_name == 'execute_command':
+                                pass
+                                # if 'FastMCP.__init__() got an unexpected keyword argument' in call_tool_result:
+                                #     self.messages.append({"role": "user", "content": "it indicates a problem with the version of the MCP SDK. Please try modifying the MCP SDK to a compatible version."})
+
                 else:
                     if content.find("✅ @@Task Done@@") != -1 or content.find("❌ @@Task Failed@@") != -1 or content.find("⚠️ @@Task Alert@@") != -1:
                         break
