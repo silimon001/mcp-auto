@@ -181,9 +181,11 @@ Please select from the following tools:
 - uv
 - node
 - git
+- None
 
 For all python items, please use uv/uvx to manage them.
 For all local-installation item, please use git to pull it.
+For installation-free and remote item, no need use any tool, please choose None.
 `,
                     inputSchema: zodToJsonSchema(NeedUseTheseToolsSchema),
                 }

@@ -121,7 +121,7 @@ def start_process(command: str, args: List[str] = None, env: dict = None, cwd: s
         from urllib.parse import urlparse
         parsed = urlparse(wait_url)
         host = parsed.hostname or "localhost"
-        port = parsed.port or (80 if parsed.scheme == "http" else 443)
+        port = parsed.port or 8000
         print(f"Waiting for server {host}:{port} to be ready...")
         if wait_for_port(host, port, timeout=wait_timeout):
             print("Server is ready!")
@@ -189,42 +189,114 @@ class Client:
         if not url:
             raise ValueError("URL is required for SSE transport")
 
+        from urllib.parse import urlparse
+        parsed = urlparse(url)
+        if not parsed.path or parsed.path == "/":
+            raise ValueError(
+                "URL must include an endpoint path (e.g., /mcp, /sse). "
+                "Got: {url}"
+            )
+
         if get_safe_value(config, 'command') is not None:
             command = get_safe_value(config, "command"),
             args = get_safe_value(config, "args")
             env = get_safe_value(config, "env")
             cwd = get_safe_value(config, "cwd")
-            start_process(command,args,env,cwd,url)
+            self.process = start_process(command,args,env,cwd,url)
+            self._server_process_started = True
 
-
-        sse_transport = await self.exit_stack.enter_async_context(sse_client(url=url, headers=headers))
-        read_stream, write_stream = sse_transport
-        self.session = await self.exit_stack.enter_async_context(ClientSession(read_stream, write_stream))
+        try:
+            sse_transport = await self.exit_stack.enter_async_context(sse_client(url=url, headers=headers))
+            read_stream, write_stream = sse_transport
+            self.session = await self.exit_stack.enter_async_context(ClientSession(read_stream, write_stream))
         
-        await self.session.initialize()
-        response = await self.session.list_tools()
-        self.tools = response.tools if hasattr(response, 'tools') else []
+            await self.session.initialize()
+            response = await self.session.list_tools()
+            self.tools = response.tools if hasattr(response, 'tools') else []
+
+        except Exception as e:
+            print(f"[ERROR] Failed to connect the MCP server: {e}")
+
+            # ❗ 关键：失败时关闭 server
+            await self._cleanup_server_process()
+
+            raise
 
     async def init_streamable_http(self, config: dict):
         url = get_safe_value(config, "url")
+        headers = get_safe_value(config, "headers")
         if not url:
-            raise ValueError("URL is required for SSE transport")
+            raise ValueError("URL is required for streamable_http transport")
+        
+        from urllib.parse import urlparse
+        parsed = urlparse(url)
+        if not parsed.path or parsed.path == "/":
+            raise ValueError(
+                "URL must include an endpoint path (e.g., /mcp, /sse). "
+                f"Got: {url}"
+            )
 
         if get_safe_value(config, 'command') is not None:
-            command = get_safe_value(config, "command"),
+            command = get_safe_value(config, "command")
             args = get_safe_value(config, "args")
             env = get_safe_value(config, "env")
             cwd = get_safe_value(config, "cwd")
-            start_process(command,args,env,cwd,url)
 
-        streamablehttp_transport = await self.exit_stack.enter_async_context(streamable_http_client(url=url))
-        read_stream, write_stream, _ = streamablehttp_transport
-        self.session = await self.exit_stack.enter_async_context(ClientSession(read_stream, write_stream))
-        
-        await self.session.initialize()
-        response = await self.session.list_tools()
-        self.tools = response.tools if hasattr(response, 'tools') else []
-            
+            self.process = start_process(command, args, env, cwd, url)
+            self._server_process_started = True
+
+        try:
+            import httpx
+
+            # 1. 创建带 headers 的 httpx 客户端
+            http_client = httpx.AsyncClient(headers=headers)
+
+            # 2. 将客户端推入 exit_stack 以便自动关闭
+            await self.exit_stack.enter_async_context(http_client)
+
+            # 3. 将自定义客户端传给 streamable_http_client
+            transport = await self.exit_stack.enter_async_context(
+                streamable_http_client(url=url, http_client=http_client)
+            )
+            read_stream, write_stream, _ = transport
+
+            self.session = await self.exit_stack.enter_async_context(
+                ClientSession(read_stream, write_stream)
+            )
+
+            await self.session.initialize()
+            response = await self.session.list_tools()
+            self.tools = response.tools if hasattr(response, 'tools') else []
+
+        except Exception as e:
+            print(f"[ERROR] Failed to connect the MCP server: {e}")
+
+            # ❗ 关键：失败时关闭 server
+            await self._cleanup_server_process()
+
+            raise
+
+    async def _cleanup_server_process(self):
+        if self.process and self._server_process_started:
+            print("[CLEANUP] Terminating MCP server process...")
+
+            try:
+                self.process.terminate()
+
+                # 等待优雅退出
+                try:
+                    self.process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    print("[CLEANUP] Force killing MCP server...")
+                    self.process.kill()
+
+            except Exception as e:
+                print(f"[WARN] Failed to terminate process: {e}")
+
+            finally:
+                self.process = None
+                self._server_process_started = False
+
     async def cleanup(self):
         """清理所有资源，确保正确释放"""
         try:
@@ -232,6 +304,7 @@ class Client:
         except Exception as e:
             print(f"[WARN] Cleanup error: {e}")
         finally:
+            await self._cleanup_server_process()
             self.session = None
 
 
