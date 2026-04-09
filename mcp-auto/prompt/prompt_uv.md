@@ -12,8 +12,6 @@ uv is an extremely fast Python package and project manager.
 * Replace the Python and pip commands in the deployment tutorial with the following:
   - Running Python scripts: Use `uv run <script>.py`, do not use `python <script>.py`
   - Installing dependencies: `uv pip install <package>`, do not use `pip install <package>`
-* Do not use the `python` or `pip` commands.
-* Do not use the `python` or `pip` commands.
 
 ---
 
