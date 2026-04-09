@@ -41,7 +41,6 @@ export async function handleValidateConfig(args: unknown): Promise<ServerResult>
 }
 
 export async function handleNeedTools(args: unknown) {
-    const parsed = NeedUseTheseToolsSchema.parse(args);
-    
-    return NeedTools(parsed.names)
+  const parsed = NeedUseTheseToolsSchema.parse(args);
+  return NeedTools(parsed.tools);
 }

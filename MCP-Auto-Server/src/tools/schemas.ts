@@ -121,5 +121,17 @@ export const ValidateConfigArgsSchema = z.object({
 });
 
 export const NeedUseTheseToolsSchema = z.object({
-  names: z.array(z.string()).nonempty()
-})
+  tools: z.array(z.enum(['git', 'uv', 'node', 'none'])).refine(
+    (arr) => {
+      // 允许的组合: ['git','uv'], ['git','node'], ['node'], ['uv'], ['none']
+      if (arr.length === 2) {
+        return arr[0] === 'git' && (arr[1] === 'uv' || arr[1] === 'node');
+      }
+      if (arr.length === 1) {
+        return ['node', 'uv', 'none'].includes(arr[0]);
+      }
+      return false;
+    },
+    { message: 'tools must be one of: ["git","uv"], ["git","node"], ["node"], ["uv"], ["none"]' }
+  ),
+});

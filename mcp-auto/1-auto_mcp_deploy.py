@@ -182,6 +182,7 @@ class MCPHub:
 
                 if response.get('tool_calls') is not None:
                     for tool_call in response.get('tool_calls'):
+                        tool_validation = False
                         server_name = "MCP-Auto"
                         tool_name = tool_call.get('function').get('name')
                         tool_args = json.loads(tool_call.get('function').get('arguments'))
@@ -189,12 +190,20 @@ class MCPHub:
 
                         if self.auto_deploy:
                             if 'python' in tool_args.get('command', '') and 'uv' not in tool_args.get('command', ''):
-                                call_tool_result = "Users refuse to use this tool; please reflect on this and choose the right tool."
+                                call_tool_result = "Don't use python, use uv instead."
+                            elif 'pip' in tool_args.get('command', '') and 'uv' not in tool_args.get('command', ''):
+                                call_tool_result = "Don't use pip, use uv pip instead."
                             else:
                                 call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
+                                tool_validation = True
                         else:
-                            if input("(Y/N): ").strip().lower() == 'y':
+                            if 'python' in tool_args.get('command', '') and 'uv' not in tool_args.get('command', ''):
+                                call_tool_result = "Don't use python, use uv instead."
+                            elif 'pip' in tool_args.get('command', '') and 'uv' not in tool_args.get('command', ''):
+                                call_tool_result = "Don't use pip, use uv pip instead."
+                            elif input("(Y/N): ").strip().lower() == 'y':
                                 call_tool_result = await self.call_tool(server_name, tool_name, tool_args)
+                                tool_validation = True
                             else:
                                 call_tool_result = "Users refuse to use this tool; please reflect on this and choose the right tool."
                     
@@ -205,7 +214,7 @@ class MCPHub:
                         })
                         self.log('\n' + call_tool_result + '\n----------------------------------------------------\n')
 
-                        if call_tool_result != "Users refuse to use this tool; please reflect on this and choose the right tool.":
+                        if tool_validation:
                             if tool_name == 'need_use_these_tools':
                                 # message = self.messages.pop(2) # delete analyze_prompt
                                 # message = message.get('content', '')
@@ -315,7 +324,7 @@ async def main():
         key=os.path.getsize,
         # reverse=True
     )
-    hub.auto_deploy = True
+    hub.auto_deploy = False
     max_chat_loop = 20
 
     print(readme_repos)
