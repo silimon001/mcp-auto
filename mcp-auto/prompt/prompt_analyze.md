@@ -47,5 +47,5 @@
 * Linux (Ubuntu)
 
 * Python (managed with uv)
-* Node.js
+* Node.js：node、npm、npx、yarn、pnpm
 * Git

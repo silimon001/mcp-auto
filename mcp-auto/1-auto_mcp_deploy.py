@@ -291,7 +291,7 @@ def add_extra_info(dataset_name = None, id = None):
 
 async def main():
     pos = 0
-    count = 200
+    count = 20
 
     hub = MCPHub(pos, count, enable_logging=True)
 
@@ -312,6 +312,7 @@ async def main():
         # reverse=True
     )
     hub.auto_deploy = True
+    max_chat_loop = 20
 
     print(readme_repos)
 
@@ -330,7 +331,7 @@ async def main():
         extra_info = add_extra_info(dataset_name, id)
 
         query = f'''=== README.md START ===\n{readme_content}\n=== README.md END ===\n{extra_info}'''
-        await hub.chat_loop(prompt, query, id, readme_path)
+        await hub.chat_loop(prompt, query, id, readme_path, max_chat_loop)
 
     await hub.shutdown()
 
