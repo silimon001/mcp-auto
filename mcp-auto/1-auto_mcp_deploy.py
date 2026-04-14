@@ -111,9 +111,8 @@ class MCPClientManager:
 
     async def call_tool(self, server_name: str, tool_name: str, tool_args: dict) -> str:
         result = await self.clients[server_name].session.call_tool(tool_name, tool_args)
-        response = result.content[0].text
-        if tool_name == 'execute_command':
-            response = simplify.simplify_log(response)
+        response = self.result_process(tool_name, tool_args, result.content[0].text)
+
         return response
 
     async def shutdown(self):
@@ -123,6 +122,11 @@ class MCPClientManager:
                 await client.cleanup()
             except Exception as e:
                 print(f"Error shutting down client-server connect {name}: {e}")
+    
+    async def result_process(tool_name, tool_args, text: str):
+        if tool_name == 'execute_command':
+            response = simplify.simplify_log(text)
+        return response
 
 
 # ==================== LLM 客户端 ====================
@@ -329,6 +333,27 @@ class ExecutionLoop:
             return "Don't use python, use uv instead.", False
         if 'pip' in command and 'uv' not in command:
             return "Don't use pip, use uv pip instead.", False
+        if tool_name == 'need_use_these_tools':
+            def _is_valid_tools_combination(tools: list) -> bool:
+                """校验 tools 列表是否符合允许的组合"""
+                if not isinstance(tools, list):
+                    return False
+
+                length = len(tools)
+                if length == 1:
+                    return tools[0] in {'node', 'uv', 'none'}
+                elif length == 2:
+                    tool_set = set(tools)
+                    return 'git' in tool_set and ('uv' in tool_set or 'node' in tool_set) and len(tool_set) == 2
+                elif length == 3:
+                    tool_set = set(tools)
+                    return tool_set == {'git', 'uv', 'node'}
+                else:
+                    return False
+            tools = tool_args.get('tools', [])
+            if not _is_valid_tools_combination(tools):
+                error_msg = 'tools must be one of: ["git","uv"], ["git","node"], ["node"], ["uv"], ["none"], ["git","uv","node"] (order does not matter)'
+                return error_msg, False
 
         if auto:
             result = await self.mcp_manager.call_tool(server_name, tool_name, tool_args)
@@ -381,8 +406,8 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 
 # ==================== 主函数 ====================
 async def main():
-    pos = 0
-    count = 20
+    pos = 14
+    count = 30
 
     # 初始化配置
     config = Config(pos, count, enable_logging=True)
@@ -393,7 +418,7 @@ async def main():
         is_streaming=False,
         enable_thinking=True
     )
-    config.auto_deploy = False
+    config.auto_deploy = True
     config.max_chat_loop = 20
 
     # 初始化各组件

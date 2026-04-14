@@ -133,12 +133,16 @@ export const NeedUseTheseToolsSchema = z.object({
         const set = new Set(arr);
         return set.has('git') && (set.has('uv') || set.has('node')) && set.size === 2;
       }
+      if (arr.length === 3) {
+        const set = new Set(arr);
+        return set.has('git') && (set.has('uv') && set.has('node')) && set.size === 3;
+      }
       // 其他长度均不允许
       return false;
     },
     {
       message:
-        'tools must be one of: ["git","uv"], ["git","node"], ["node"], ["uv"], ["none"] (order does not matter)',
+        'tools must be one of: ["git","uv"], ["git","node"], ["node"], ["uv"], ["none"], ["git","uv","node"] (order does not matter)',
     }
   ),
 });

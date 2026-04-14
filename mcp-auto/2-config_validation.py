@@ -41,7 +41,7 @@ if __name__ == "__main__":
     #     print("用法: python script.py  <config_filename> <server_name>")
     #     sys.exit(1)
 
-    config_path = 'mcp_server_config/1.json'
+    config_path = 'mcp_server_config/config.json'
     name = "947401196_himanshusanecha_mcp-osint-server"
 
     anyio.run(lambda: main(config_path, name))
