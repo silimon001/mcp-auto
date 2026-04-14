@@ -1,6 +1,6 @@
 import {
     AddConfig,
-    FixConfig,
+    UpdateAndValidateConfig,
     ExecuteCommand,
     ValidateConfig,
     NeedTools
@@ -10,7 +10,7 @@ import {ServerResult} from '../types.js';
 
 import {
     AddConfigArgsSchema,
-    FixConfigArgsSchema,
+    UpdateAndValidateConfigArgsSchema,
     ExecuteCommandArgsSchema,
     ValidateConfigArgsSchema,
     NeedUseTheseToolsSchema
@@ -22,10 +22,10 @@ export async function handleAddConfig(args: unknown): Promise<ServerResult> {
     return await AddConfig(parsed.name, parsed.type, parsed.url, parsed.headers, parsed.command, parsed.args, parsed.env, parsed.cwd);
 }
 
-export async function handleFixConfig(args: unknown): Promise<ServerResult> {
-    const parsed = FixConfigArgsSchema.parse(args);
+export async function handleUpdateAndValidateCondig(args: unknown): Promise<ServerResult> {
+    const parsed = UpdateAndValidateConfigArgsSchema.parse(args);
     
-    return await FixConfig(parsed.name, parsed.type, parsed.url, parsed.headers, parsed.command, parsed.args, parsed.env, parsed.cwd);
+    return await UpdateAndValidateConfig(parsed.name, parsed.type, parsed.url, parsed.headers, parsed.command, parsed.args, parsed.env, parsed.cwd, parsed.timeout_ms);
 }
 
 export async function handleExecuteCommand(args: unknown): Promise<ServerResult> {

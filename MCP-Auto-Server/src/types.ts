@@ -5,7 +5,6 @@ import { FilteredStdioServerTransport } from './custom-stdio.js';
 declare global {
   var mcpTransport: FilteredStdioServerTransport | undefined;
   var configDir: string;
-  var configIndex: Record<string, string>;
   var cwd: string;
   var pythonPath: string;
 }

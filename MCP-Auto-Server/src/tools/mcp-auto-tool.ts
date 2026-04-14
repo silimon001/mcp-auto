@@ -14,57 +14,58 @@ import { parseDateDef } from 'zod-to-json-schema';
 import { tmpdir } from 'node:os';
 import { time } from 'node:console';
 
-async function getConfigFile(configDir: string, name: string): Promise<{ fileName: string; configs: any }> {
-  if (name in global.configIndex) {
-    let file: string = global.configIndex[name];
-    let configs = JSON.parse(readFileSync(path.join(configDir, file), "utf-8").trim());
-    return { fileName: file, configs };
-  }
+const CONFIG_FILE_NAME = "config.json";
 
-  const files = (await fs.readdir(configDir))
-    .filter(f => f.endsWith(".json"))
-    .sort((a, b) => {
-      const numA = parseInt(a.match(/\d+/)?.[0] || "0", 10);
-      const numB = parseInt(b.match(/\d+/)?.[0] || "0", 10);
-      return numA - numB;
-    });
-
-  if (files.length === 0) return { fileName: "1.json", configs: { Servers: {} } };
-
-  let lastFile: string = files[files.length - 1];
-  const filePath = path.join(configDir, lastFile);
-  let configs: any = { Servers: {} };
-
-  let data = readFileSync(filePath, "utf-8").trim();
-
-  if (data === "") {} else {
-    configs = JSON.parse(data);
-  }
+async function getOrCreateConfig(configDir: string): Promise<any> {
+  const configPath = path.join(configDir, CONFIG_FILE_NAME);
   
-  if (Object.keys(configs.Servers || {}).length >= 10) {
-    const index = parseInt(lastFile.match(/\d+/)?.[0] || "0", 10) + 1;
-    lastFile = `${index}.json`;
-    configs = { Servers: {} };
+  if (existsSync(configPath)) {
+    const data = await fs.readFile(configPath, "utf-8").then(d => d.trim());
+    if (data === "") {
+      return { Servers: {} };
+    }
+    return JSON.parse(data);
+  } else {
+    return { Servers: {} };
   }
-
-  return { fileName: lastFile, configs };
 }
 
-export async function AddConfig(name: string, type: string, url: string, headers: Record<string, string>, command: string, args: Array<String>, env: Record<string, string>, cwd: string): Promise<ServerResult> {
-  try{
-    if (!global.configIndex || typeof global.configIndex !== "object") {
-      global.configIndex = {};
-    }
-
-    configDir = global.configDir;
+export async function AddConfig(
+  name: string,
+  type: string,
+  url: string,
+  headers: Record<string, string>,
+  command: string,
+  args: Array<string>,
+  env: Record<string, string>,
+  cwd: string
+): Promise<ServerResult> {
+  try {
+    const configDir = global.configDir;
+    
     if (!existsSync(configDir)) {
       await fs.mkdir(configDir, { recursive: true });
     }
 
-    let { fileName: lastFile, configs } = await getConfigFile(configDir, name);
-    if (!configs.Servers) configs.Servers = {};
+    const configs = await getOrCreateConfig(configDir);
+    if (!configs.Servers) {
+      configs.Servers = {};
+    }
 
-    // 添加新的 server 配置
+    // 检查配置是否已存在，禁止覆盖
+    if (configs.Servers.hasOwnProperty(name)) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Config with name "${name}" already exists. Overwriting is not allowed.`
+          }
+        ],
+        isError: true
+      };
+    }
+
+    // 添加新配置
     configs.Servers[name] = {
       type,
       url,
@@ -75,115 +76,98 @@ export async function AddConfig(name: string, type: string, url: string, headers
       cwd
     };
 
-    // 写入文件
-    writeFileSync(path.join(configDir, lastFile), JSON.stringify(configs, null, 2));
-
-    // 更新索引
-    global.configIndex[name] = lastFile;
+    const configPath = path.join(configDir, CONFIG_FILE_NAME);
+    await fs.writeFile(configPath, JSON.stringify(configs, null, 2), "utf-8");
 
     return {
       content: [
         {
-          type: 'text',
+          type: "text",
           text: `Successfully added ${name} config.`
         }
       ]
     };
-  } catch(error) {
+  } catch (error) {
     return {
       content: [
         {
-          type: 'text',
+          type: "text",
           text: `Failed to add ${name} config!\nError: ${error}`
         }
       ],
-      isError: true,
+      isError: true
     };
   }
-  
 }
 
-export async function FixConfig(name: string, type: string, url: string, headers: Record<string, string>, command: string, args: Array<String>, env: Record<string, string>, cwd: string): Promise<ServerResult> {
-  // 先找到配置文件
-  const configfile = global.configIndex[name];
-  if (!configfile) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `${name}'s config does not exist.`
-        }
-      ],
-      isError: true,
-    };
-  }
+export async function UpdateAndValidateConfig(
+  name: string,
+  type: string,
+  url: string,
+  headers: Record<string, string>,
+  command: string,
+  args: Array<string>,
+  env: Record<string, string>,
+  cwd: string,
+  timeout_ms: number
+): Promise<ServerResult> {
+  const configDir = global.configDir;
 
-  const filePath = path.join(global.configDir, configfile);
-
-  // 读取文件
-  let fileData: any;
+  // --- 第一部分：修改配置，捕获并返回明确错误 ---
   try {
-    const data = readFileSync(filePath, 'utf-8');
-    fileData = JSON.parse(data);
+    if (!existsSync(configDir)) {
+      await fs.mkdir(configDir, { recursive: true });
+    }
+
+    // 读取现有配置
+    const configs = await getOrCreateConfig(configDir);
+    if (!configs.Servers || !configs.Servers[name]) {
+      return {
+        content: [{ type: "text", text: `Config '${name}' does not exist.` }],
+        isError: true
+      };
+    }
+
+    // 更新配置内容
+    configs.Servers[name] = {
+      type,
+      url,
+      headers,
+      command,
+      args,
+      env,
+      cwd
+    };
+
+    // 写入配置文件
+    const configPath = path.join(configDir, CONFIG_FILE_NAME);
+    await fs.writeFile(configPath, JSON.stringify(configs, null, 2), "utf-8");
+
   } catch (error) {
     return {
-      content: [
-        {
-          type: 'text',
-          text: `Failed to read config file: ${configfile}.\nError: ${error}`
-        }
-      ],
-      isError: true,
+      content: [{ type: "text", text: `Failed to update config '${name}': ${error}` }],
+      isError: true
     };
   }
 
-  // 检查 Servers 是否存在
-  if (!fileData.Servers || !fileData.Servers[name]) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `The server named ${name} not found.`
-        }
-      ],
-      isError: true,
-    };
-  }
-
-  // 修改配置
-  fileData.Servers[name] = {
-    type,
-    url,
-    headers,
-    command,
-    args,
-    env,
-    cwd
-  };
-
-  // 写回文件
+  // --- 第二部分：验证配置，捕获并返回明确错误 ---
   try {
-    writeFileSync(filePath, JSON.stringify(fileData, null, 2));
+    const python = global.pythonPath;
+    const workdir = global.cwd;
+    const configPath = path.join(configDir, CONFIG_FILE_NAME);
+    const validationCmd = `${python} ${workdir}/dist/config_validation.py ${configPath} ${name}`;
+
+    // 执行验证命令（假设 ExecuteCommand 已定义）
+    return await ExecuteCommand({ command: validationCmd, timeout_ms });
+
   } catch (error) {
     return {
-      content: [
-        {
-          type: 'text',
-          text: `Failed to update config.\nError: ${error}`
-        }
-      ]
+      content: [{ type: "text", text: `Config updated, but validation failed: ${error}` }],
+      isError: true
     };
   }
-
-  return {
-    content: [
-      {
-        type: 'text',
-        text: `Successfully updated the ${name} config.`
-      }
-    ]
-  };
 }
+
 
 export async function ExecuteCommand(args: unknown): Promise<ServerResult> {
   const parsed = ExecuteCommandArgsSchema.safeParse(args);
@@ -250,27 +234,24 @@ export async function ExecuteCommand(args: unknown): Promise<ServerResult> {
 }
 
 export async function ValidateConfig(name: string, timeout_ms: number): Promise<ServerResult> {
+  const configDir = global.configDir;
 
-  const configfile = global.configIndex[name];
-  if (!configfile) {
+  // 读取现有配置
+  const configs = await getOrCreateConfig(configDir);
+  if (!configs.Servers || !configs.Servers[name]) {
     return {
-      content: [
-        {
-          type: 'text',
-          text: `${name}'s config does not exist.`
-        }
-      ],
-      isError: true,
+      content: [{ type: "text", text: `Config '${name}' does not exist.` }],
+      isError: true
     };
   }
 
-  const filePath = path.join(global.configDir, configfile);
+  const configPath = path.join(configDir, CONFIG_FILE_NAME);
 
-  let python = global.pythonPath;
-  let workdir = global.cwd;
-  let command = `${python} ${workdir}/dist/config_validation.py ${filePath} ${name}`;
+  const python = global.pythonPath;
+  const workdir = global.cwd;
+  const command = `${python} ${workdir}/dist/config_validation.py ${configPath} ${name}`;
 
-  return ExecuteCommand({command, timeout_ms});
+  return ExecuteCommand({ command, timeout_ms });
 }
 
 export async function NeedTools(names: Array<string>) {

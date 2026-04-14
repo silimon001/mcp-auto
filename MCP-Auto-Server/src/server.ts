@@ -22,7 +22,7 @@ const PATH_GUIDANCE = `IMPORTANT: ${getPathGuidance(SYSTEM_INFO)} Relative paths
 
 import {
     AddConfigArgsSchema,
-    FixConfigArgsSchema,
+    UpdateAndValidateConfigArgsSchema,
     ExecuteCommandArgsSchema,
     ValidateConfigArgsSchema,
     NeedUseTheseToolsSchema
@@ -142,14 +142,15 @@ The MCP server configuration will be added to a specific configuration file, whe
                     inputSchema: zodToJsonSchema(AddConfigArgsSchema),
                 },
                 {
-                    name: "fix_config",
+                    name: "update_and_validate_config",
                     description: 
-`Fix the MCP server's config.
+`Update an existing MCP server configuration and validate it.
 
-This tool will first extract the original configuration information of the MCP server and then replace the old information with the new configuration information.
-The parameters of fix_config and add_config have the same argument type.
+This tool performs two steps in sequence:
+1. Update the configuration entry for the specified server name in the config file.
+2. Run a validation script to verify that the updated configuration is correct and the server can be launched.
 `,
-                    inputSchema: zodToJsonSchema(FixConfigArgsSchema),
+                    inputSchema: zodToJsonSchema(UpdateAndValidateConfigArgsSchema),
                 },
                 {
                     name: "execute_command",
@@ -219,8 +220,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request: CallToolRequest)
                 result = await handlers.handleAddConfig(args);
                 break;
             
-            case "fix_config":
-                result = await handlers.handleFixConfig(args);
+            case "update_and_validate_config":
+                result = await handlers.handleUpdateAndValidateCondig(args);
                 break;
             
             case "execute_command":

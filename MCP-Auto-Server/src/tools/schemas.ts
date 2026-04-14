@@ -95,8 +95,8 @@ export const AddConfigArgsSchema = z.object({
   cwd: z.string(),
 });
 
-// Fix config schema
-export const FixConfigArgsSchema = z.object({
+// Update and validate config schema
+export const UpdateAndValidateConfigArgsSchema = z.object({
   name: z.string(),
   type: z.enum(["stdio", "sse", "streamable_http"]),
   url: z.string().optional().default(''),
@@ -105,6 +105,7 @@ export const FixConfigArgsSchema = z.object({
   args: z.array(z.string()).optional().default([]),
   env: z.record(z.string(), z.string()).optional().default({}),
   cwd: z.string(),
+  timeout_ms: z.number().optional().default(60000)
 });
 
 // Execute command schema

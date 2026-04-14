@@ -246,7 +246,7 @@ class PromptManager:
             'analyze': ['need_use_these_tools'],
             'deploy': ['add_config', 'execute_command'],
             'validate': ['validate_config'],
-            'fix': ['fix_config', 'execute_command', 'validate_config'],
+            'fix': ['update_and_validate_config', 'execute_command'],
         }
         return phase_tool_map.get(phase, [])
 

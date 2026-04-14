@@ -36,33 +36,6 @@ try {
   if (!existsSync(values.mcpServerConfigDir)) {
     await mkdir(values.mcpServerConfigDir, { recursive: true });
   }
-  global.configIndex = {};
-  const files = fs.readdirSync(global.configDir);
-
-  for (const file of files) {
-    if (!file.endsWith(".json")) continue;
-
-    const filePath = path.join(global.configDir, file);
-    const raw = fs.readFileSync(filePath, "utf-8").trim();
-
-    let json: any;
-    if (raw === "") continue;
-    try {
-        json = JSON.parse(raw);
-    } catch (e) {
-        console.error(`Invalid JSON: ${filePath}`, e);
-        continue;
-    }
-
-    const servers = json.Servers;
-    if (!servers || typeof servers !== "object") continue;
-
-    for (const name of Object.keys(servers)) {
-        // key = server name, value = file name
-        global.configIndex[name] = file;
-    }
-  }
-
 } catch (error) {
   console.error(error);
   process.exit(1);
