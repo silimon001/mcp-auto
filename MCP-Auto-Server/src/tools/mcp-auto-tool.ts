@@ -238,7 +238,7 @@ export async function ExecuteCommand(args: unknown): Promise<ServerResult> {
   let output = terminalManager.getNewOutput(result.pid);
 
   if (output !== null && !output.includes("Process completed with exit code")) {
-      output += `\nOperation timed out. The process has been forcibly terminated. Please try a different command or increase the timeout period and retry.\nRuntime: ${Math.round(parsed.data.timeout_ms / 1000)} s"`
+      output += `\nOperation timed out. The process has been forcibly terminated. Please try a different command or increase the timeout period and retry.\nRuntime: ${Math.round(parsed.data.timeout_ms / 1000)} s`
   }
 
   return {
