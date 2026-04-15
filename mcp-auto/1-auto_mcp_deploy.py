@@ -111,8 +111,9 @@ class MCPClientManager:
 
     async def call_tool(self, server_name: str, tool_name: str, tool_args: dict) -> str:
         result = await self.clients[server_name].session.call_tool(tool_name, tool_args)
-        response = self.result_process(tool_name, tool_args, result.content[0].text)
-
+        response = result.content[0].text
+        if tool_name == 'execute_command':
+            response = simplify.simplify_log(response)
         return response
 
     async def shutdown(self):
@@ -122,11 +123,6 @@ class MCPClientManager:
                 await client.cleanup()
             except Exception as e:
                 print(f"Error shutting down client-server connect {name}: {e}")
-    
-    async def result_process(tool_name, tool_args, text: str):
-        if tool_name == 'execute_command':
-            response = simplify.simplify_log(text)
-        return response
 
 
 # ==================== LLM 客户端 ====================
@@ -321,7 +317,7 @@ class ExecutionLoop:
 
             else:
                 # 检查任务完成标志
-                if content and any(marker in content for marker in ["✅ @@Task Done@@", "❌ @@Task Failed@@", "⚠️ @@Task Alert@@"]):
+                if content and any(marker in content for marker in ["@@Task Done@@", "@@Task Failed@@", "@@Task Alert@@"]):
                     break
                 # 继续对话
                 self.conv_manager.add_user_message("come on!")
@@ -406,8 +402,8 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 
 # ==================== 主函数 ====================
 async def main():
-    pos = 14
-    count = 30
+    pos = 0
+    count = 20
 
     # 初始化配置
     config = Config(pos, count, enable_logging=True)
