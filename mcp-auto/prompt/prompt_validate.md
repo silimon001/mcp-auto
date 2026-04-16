@@ -8,4 +8,4 @@
 
 * If the server can **start properly** and **expose tools**, the task is successful. Then strictly output "✅ @@Task Done@@".
 * If an error occurs, carefully review the log messages and retrace each step to identify the cause of the issue. Once resolved, use the `validate_config` tool again to perform the validation.
-* For unrecoverable errors, such as API key verification failure requiring a valid API key, strictly output "❌ @@Task Failed@@".
+* For errors that cannot be resolved, such as API key verification failure requiring a valid API key, strictly output "⚠️ @@Task Alert@@".
