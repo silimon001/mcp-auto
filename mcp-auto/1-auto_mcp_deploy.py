@@ -403,12 +403,12 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 # ==================== 主函数 ====================
 async def main():
     pos = 0
-    count = 20
+    count = 30
 
     # 初始化配置
     config = Config(pos, count, enable_logging=True)
     config.set_llm(
-        model='qwen3-coder-plus',
+        model='qwen3.5-plus',
         base_url='https://dashscope.aliyuncs.com/compatible-mode/v1',
         api_key=os.getenv('QWEN_API_KEY'),
         is_streaming=False,

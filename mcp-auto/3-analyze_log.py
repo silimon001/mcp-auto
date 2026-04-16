@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 """
-Parse MCP server deployment logs and export a CSV summary.
+Parse MCP server deployment logs and export a structured text log.
 
 Usage:
-    python parse_deploy_log.py <log_file> [output.csv]
+    python parse_deploy_log.py <log_file> [output.log]
 """
 
 import re
-import csv
 import json
 import sys
-from collections import defaultdict
 from pathlib import Path
 
-
-# Patterns
+# 正则表达式
 RE_DEALING = re.compile(
     r"^[\d\-:, ]+ - INFO - Dealing with (\d+) .*/(\d+_.*?)_README\.md"
 )
@@ -23,12 +20,13 @@ RE_TOKEN_USAGE = re.compile(r"Token Usage: (\{.*\})")
 RE_TOOL_CALL = re.compile(
     r"\[Call Tool\] Server: MCP-Auto, Tool: (\w+), Args: (\{.*\})"
 )
-RE_TASK_DONE = re.compile(r"✅ @@Task Done@@")
-RE_TASK_FAILED = re.compile(r"❌ @@Task Failed@@")
+# 允许前后空白，增强匹配
+RE_TASK_DONE = re.compile(r"\s*@@Task Done@@\s*")
+RE_TASK_FAILED = re.compile(r"\s*@@Task Failed@@\s*")
 
 
 def parse_log_file(log_path):
-    """Parse log file and return list of deployment records."""
+    """解析日志文件，返回部署记录列表。"""
     deployments = []
     current_deployment = None
     current_turn = None
@@ -39,12 +37,14 @@ def parse_log_file(log_path):
             if not line:
                 continue
 
-            # Check for new deployment start
+            # 新部署开始
             match_deal = RE_DEALING.search(line)
             if match_deal:
-                # Finish previous deployment if any
+                # 完成上一个部署（若存在且未完成）
                 if current_deployment is not None:
-                    finalize_deployment(current_deployment, "truncated")
+                    # 如果没有明确的状态标记，视为失败
+                    if current_deployment["final_status"] is None:
+                        finalize_deployment(current_deployment, "Task Failed")
                     deployments.append(current_deployment)
 
                 repo_id = match_deal.group(1)
@@ -59,9 +59,9 @@ def parse_log_file(log_path):
                 continue
 
             if current_deployment is None:
-                continue  # Haven't started a deployment block yet
+                continue  # 还未进入任何部署块
 
-            # Check for task completion markers
+            # 任务完成/失败标记
             if RE_TASK_DONE.search(line):
                 current_deployment["final_status"] = "Task Done"
                 continue
@@ -69,7 +69,7 @@ def parse_log_file(log_path):
                 current_deployment["final_status"] = "Task Failed"
                 continue
 
-            # Check for turn start
+            # 新一轮对话开始
             match_turn = RE_TURN_START.search(line)
             if match_turn:
                 turn_num = int(match_turn.group(1))
@@ -83,9 +83,9 @@ def parse_log_file(log_path):
                 current_deployment["turns"].append(current_turn)
                 continue
 
-            # If we are inside a turn, look for token usage and tool calls
+            # 如果处于某一轮中，提取 token 用量和工具调用
             if current_turn is not None:
-                # Token usage line
+                # Token 用量
                 match_token = RE_TOKEN_USAGE.search(line)
                 if match_token:
                     try:
@@ -97,91 +97,103 @@ def parse_log_file(log_path):
                         pass
                     continue
 
-                # Tool call line
+                # 工具调用
                 match_tool = RE_TOOL_CALL.search(line)
                 if match_tool:
                     tool_name = match_tool.group(1)
-                    current_turn["tools"].append(tool_name)
+                    args_str = match_tool.group(2)
+                    current_turn["tools"].append({
+                        "tool": tool_name,
+                        "args": args_str
+                    })
                     continue
 
-        # End of file: finalize last deployment
+        # 文件结束，处理最后一个部署
         if current_deployment is not None:
             if current_deployment["final_status"] is None:
-                finalize_deployment(current_deployment, "truncated")
+                finalize_deployment(current_deployment, "Task Failed")
             deployments.append(current_deployment)
 
     return deployments
 
 
 def finalize_deployment(deployment, status):
-    """Set final status and ensure all turns are properly closed."""
-    deployment["final_status"] = status
+    """设置部署的最终状态，仅在尚未设置时生效。"""
+    if deployment["final_status"] is None:
+        deployment["final_status"] = status
 
 
-def deployments_to_csv(deployments, output_path):
-    """Write deployments data to CSV."""
-    fieldnames = [
-        "repo_id",
-        "full_name",
-        "final_status",
-        "turn_number",
-        "tools_called",
-        "prompt_tokens",
-        "completion_tokens",
-        "total_tokens",
-    ]
-
-    with open(output_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-
-        for dep in deployments:
+def deployments_to_log(deployments, output_path):
+    """将部署记录写入可读文本日志。"""
+    with open(output_path, "w", encoding="utf-8") as f:
+        for idx, dep in enumerate(deployments, 1):
             repo_id = dep["repo_id"]
             full_name = dep["full_name"]
-            final_status = dep["final_status"]
+            status = dep["final_status"] or "unknown"
+            turns = dep["turns"]
+            total_turns = len(turns)
 
-            # If no turns recorded, still output one row with empty turn data
-            if not dep["turns"]:
-                writer.writerow({
-                    "repo_id": repo_id,
-                    "full_name": full_name,
-                    "final_status": final_status,
-                    "turn_number": "",
-                    "tools_called": "",
-                    "prompt_tokens": "",
-                    "completion_tokens": "",
-                    "total_tokens": "",
-                })
-            else:
-                for turn in dep["turns"]:
-                    tools_str = ";".join(turn["tools"]) if turn["tools"] else ""
-                    writer.writerow({
-                        "repo_id": repo_id,
-                        "full_name": full_name,
-                        "final_status": final_status,
-                        "turn_number": turn["turn_number"],
-                        "tools_called": tools_str,
-                        "prompt_tokens": turn["prompt_tokens"] or "",
-                        "completion_tokens": turn["completion_tokens"] or "",
-                        "total_tokens": turn["total_tokens"] or "",
-                    })
+            f.write("=" * 80 + "\n")
+            f.write(f"部署 #{idx}: {repo_id} ({full_name})\n")
+            f.write(f"最终状态: {status}\n")
+            f.write(f"对话总轮数: {total_turns}\n\n")
+
+            if not turns:
+                f.write("（无对话记录）\n\n")
+                continue
+
+            for turn in turns:
+                turn_num = turn["turn_number"]
+                tools = turn["tools"]
+                pt = turn["prompt_tokens"] or "N/A"
+                ct = turn["completion_tokens"] or "N/A"
+                tt = turn["total_tokens"] or "N/A"
+
+                f.write(f"--- 第 {turn_num} 轮 ---\n")
+                f.write(f"Token 用量: prompt={pt}, completion={ct}, total={tt}\n")
+
+                if tools:
+                    f.write("调用的工具:\n")
+                    for t in tools:
+                        tool_name = t["tool"]
+                        args = t["args"]
+                        try:
+                            args_obj = json.loads(args)
+                            args_fmt = json.dumps(args_obj, ensure_ascii=False, indent=2)
+                            f.write(f"  - {tool_name}:\n{args_fmt}\n")
+                        except json.JSONDecodeError:
+                            f.write(f"  - {tool_name}: {args}\n")
+                else:
+                    f.write("本轮无工具调用\n")
+                f.write("\n")
+            f.write("\n")
+
+    print(f"文本日志已写入: {output_path}")
 
 
 def main():
-
+    # 日志文件路径（请根据实际情况修改）
     log_dir = "/home/silimon/mcp-auto/log_file"
 
-    from dataset_setting import dataset_name
+    # 假设 dataset_setting 模块可用，否则直接指定文件名
+    try:
+        from dataset_setting import dataset_name
+    except ImportError:
+        dataset_name = "default"
 
-    log_file = log_dir + f'/EXP_{dataset_name}_14_44_2026-04-14_16-27-10.log'
+    from glob import glob
+    import os
+    log_file = sorted(
+        glob(os.path.join(log_dir, f"EXP_{dataset_name}_*.log")),
+        # reverse=True
+    )
 
-    output_file = log_dir + f'/EXP_{dataset_name}_summary.log'
-
-    print(f"Parsing {log_file} ...")
-    deployments = parse_log_file(log_file)
-    print(f"Found {len(deployments)} deployment records.")
-    deployments_to_csv(deployments, output_file)
-    print(f"CSV written to {output_file}")
+    print(f"解析日志: {log_file} ...")
+    for log in log_file:
+        deployments = parse_log_file(log)
+        print(f"共发现 {len(deployments)} 个部署记录。")
+        output_file = log.replace('EXP_', 'EXP_summary_')
+        deployments_to_log(deployments, output_file)
 
 
 if __name__ == "__main__":
