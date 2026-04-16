@@ -6,16 +6,17 @@ from dotenv import load_dotenv
 
 from MCP_Client import Client
 
-load_dotenv('.mcp-auto_env')
-
 async def test_server(name, config: dict):
     client = Client()
     try:
         await client.init(name, config)
         tools_str = ", ".join(t.name for t in client.tools)
-        print(f"\n[OK] server {name} is OK, tools: {tools_str}\n", flush=True)
+        if tools_str == '':
+            print(f"\n[Warning] The server {name} started successfully, but no tools were found.", flush=True)
+        else:
+            print(f"\n[OK] The server {name} started successfully, tools: {tools_str}\n", flush=True)
     except asyncio.CancelledError:
-        print(f"[WARN] server {name} init cancelled")
+        print(f"[WARN] The server {name} init cancelled")
     except Exception as e:
         print(str(e))
     finally:
@@ -32,16 +33,16 @@ async def main(path: str, name: str):
     if servers.get(name, None) is not None:
         await test_server(name, servers[name])
     else:
-        print(f"server {name} is not exists.")
+        print(f"The server {name} is not exists.")
 
 if __name__ == "__main__":
 
-    # import sys
-    # if len(sys.argv) != 3:
-    #     print("用法: python script.py  <config_filename> <server_name>")
-    #     sys.exit(1)
+    import sys
+    if len(sys.argv) != 3:
+        print("Usage: python script.py  <config_filename> <server_name>")
+        sys.exit(1)
 
-    config_path = 'mcp_server_config/config.json'
-    name = "947401196_himanshusanecha_mcp-osint-server"
+    config_path = str(sys.argv[1])
+    name = str(sys.argv[2])
 
     anyio.run(lambda: main(config_path, name))
