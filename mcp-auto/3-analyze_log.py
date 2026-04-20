@@ -24,18 +24,28 @@ RE_TOOL_CALL = re.compile(
 RE_TASK_DONE = re.compile(r"\s*@@Task Done@@\s*")
 RE_TASK_FAILED = re.compile(r"\s*@@Task Failed@@\s*")
 
+RE_MODEL = re.compile(r"Based on (.+)\.")
+
 
 def parse_log_file(log_path):
-    """解析日志文件，返回部署记录列表。"""
+    """解析日志文件，返回部署记录列表和模型名称。"""
     deployments = []
     current_deployment = None
     current_turn = None
+    model_name = None  # 新增
 
     with open(log_path, "r", encoding="utf-8") as f:
         for raw_line in f:
             line = raw_line.strip()
             if not line:
                 continue
+
+            # 提取模型名称（只取第一次）
+            if model_name is None:
+                match_model = RE_MODEL.search(line)
+                if match_model:
+                    model_name = match_model.group(1)
+                    continue
 
             # 新部署开始
             match_deal = RE_DEALING.search(line)
@@ -114,7 +124,7 @@ def parse_log_file(log_path):
                 finalize_deployment(current_deployment, "Task Failed")
             deployments.append(current_deployment)
 
-    return deployments
+    return deployments, model_name
 
 
 def finalize_deployment(deployment, status):
@@ -123,9 +133,17 @@ def finalize_deployment(deployment, status):
         deployment["final_status"] = status
 
 
-def deployments_to_log(deployments, output_path):
+def deployments_to_log(deployments, output_path, model_name=None):
     """将部署记录写入可读文本日志。"""
     with open(output_path, "w", encoding="utf-8") as f:
+        # 写入模型信息
+        if model_name:
+            f.write(f"模型: {model_name}\n")
+        else:
+            f.write("模型: unknown\n")
+
+        f.write("\n")
+    with open(output_path, "a", encoding="utf-8") as f:
         for idx, dep in enumerate(deployments, 1):
             repo_id = dep["repo_id"]
             full_name = dep["full_name"]
@@ -170,6 +188,60 @@ def deployments_to_log(deployments, output_path):
 
     print(f"文本日志已写入: {output_path}")
 
+def summarize_deployments(deployments, model_name):
+    summary_rows = []
+    total_turns_all = 0
+    total_tokens_all = 0
+    total_deployments = len(deployments)
+
+    for dep in deployments:
+        turns = dep["turns"]
+
+        total_tokens = sum(
+            t["total_tokens"] if t["total_tokens"] is not None else 0
+            for t in turns
+        )
+
+        total_turns = len(turns)
+
+        # 👉 用 full_name 作为 MCP server 名
+        summary_rows.append({
+            "name": dep["full_name"],
+            "status": dep["final_status"],
+            "total_tokens": total_tokens,
+            "turns": total_turns
+        })
+
+        total_turns_all += total_turns
+        total_tokens_all += total_tokens
+
+    avg_turns = total_turns_all / total_deployments if total_deployments else 0
+    avg_tokens = total_tokens_all / total_deployments if total_deployments else 0
+
+    return summary_rows, avg_turns, avg_tokens
+
+def write_summary_log(summary_rows, avg_turns, avg_tokens, output_path, model_name=None):
+    with open(output_path, "w", encoding="utf-8") as f:
+
+        # 👉 模型写在首行
+        if model_name:
+            f.write(f"模型: {model_name}\n\n")
+        else:
+            f.write("模型: unknown\n\n")
+
+        # 👉 表头修改
+        f.write("MCP服务器\t最终状态\t总Token\t对话轮数\n")
+        f.write("-" * 80 + "\n")
+
+        for row in summary_rows:
+            f.write(
+                f"{row['name']}\t{row['status']}\t{row['total_tokens']}\t{row['turns']}\n"
+            )
+
+        f.write("\n")
+        f.write("=" * 80 + "\n")
+        f.write(f"平均对话轮数: {avg_turns:.2f}\n")
+        f.write(f"平均Token消耗: {avg_tokens:.2f}\n")
 
 def main():
     # 日志文件路径（请根据实际情况修改）
@@ -190,10 +262,19 @@ def main():
 
     print(f"解析日志: {log_file} ...")
     for log in log_file:
-        deployments = parse_log_file(log)
-        print(f"共发现 {len(deployments)} 个部署记录。")
+        deployments, model_name = parse_log_file(log)
+
+        summary_rows, avg_turns, avg_tokens = summarize_deployments(
+            deployments, model_name
+        )
+
+        # 原始日志
         output_file = log.replace('EXP_', 'EXP_summary_')
-        deployments_to_log(deployments, output_file)
+        deployments_to_log(deployments, output_file, model_name)
+
+        # 新统计日志
+        stats_file = log.replace('EXP_', 'EXP_stats_')
+        write_summary_log(summary_rows, avg_turns, avg_tokens, stats_file, model_name)
 
 
 if __name__ == "__main__":

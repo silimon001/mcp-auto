@@ -403,12 +403,13 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 # ==================== 主函数 ====================
 async def main():
     pos = 0
-    count = 30
+    count = 20
 
     # 初始化配置
+    model_name = 'qwen3-coder-plus'
     config = Config(pos, count, enable_logging=True)
     config.set_llm(
-        model='qwen3.5-plus',
+        model=model_name,
         base_url='https://dashscope.aliyuncs.com/compatible-mode/v1',
         api_key=os.getenv('QWEN_API_KEY'),
         is_streaming=False,
@@ -430,6 +431,8 @@ async def main():
         server_configs = json.load(f)
     await mcp_manager.connect_servers(server_configs)
     conv_manager.register_tools(mcp_manager.all_tools)
+
+    logger.log(f"Based on {model_name}.")
 
     # 读取初始 prompt
     init_prompt_path = config.prompt_dir / "prompt_init.md"
