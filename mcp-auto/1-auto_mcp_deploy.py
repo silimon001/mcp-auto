@@ -43,7 +43,7 @@ class Config:
         # 路径配置
         self.cwd = os.getcwd()
         self.prompt_dir = Path(self.cwd) / "mcp-auto" / "prompt"
-        self.log_dir = Path(self.cwd) / "log_file"
+        self.log_dir = Path(self.cwd) / "log_file" / dataset_name
         self.data_dir = Path(self.cwd) / "data"
 
     def set_llm(self, model: str, base_url: str, headers: Optional[Dict] = None,

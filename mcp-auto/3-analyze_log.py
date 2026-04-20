@@ -244,14 +244,12 @@ def write_summary_log(summary_rows, avg_turns, avg_tokens, output_path, model_na
         f.write(f"平均Token消耗: {avg_tokens:.2f}\n")
 
 def main():
-    # 日志文件路径（请根据实际情况修改）
-    log_dir = "/home/silimon/mcp-auto/log_file"
-
-    # 假设 dataset_setting 模块可用，否则直接指定文件名
     try:
         from dataset_setting import dataset_name
     except ImportError:
         dataset_name = "default"
+
+    log_dir = f"/home/silimon/mcp-auto/log_file/{dataset_name}"
 
     from glob import glob
     import os
