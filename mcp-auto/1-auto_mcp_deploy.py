@@ -403,7 +403,7 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 # ==================== 主函数 ====================
 async def main():
     pos = 0
-    count = 20
+    count = 30
 
     # 初始化配置
     model_name = 'qwen3-coder-plus'

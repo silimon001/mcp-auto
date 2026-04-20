@@ -1,0 +1,1619 @@
+模型: qwen3-coder-plus
+
+================================================================================
+部署 #1: 991568388 (991568388_iremert_movie-recommender-mcp)
+最终状态: Task Done
+对话总轮数: 13
+
+--- 第 1 轮 ---
+Token 用量: prompt=1136, completion=271, total=1407
+调用的工具:
+  - need_use_these_tools: {'tools': ['git', 'uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3128, completion=106, total=3234
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:iremert/movie-recommender-mcp.git /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3319, completion=77, total=3396
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp && ls -la'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=3603, completion=80, total=3683
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp && ls -la movie-reccomender-mcp/'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=3947, completion=83, total=4030
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp && cat movie-reccomender-mcp/mcp.yaml'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4131, completion=78, total=4209
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp && cat movie-reccomender-mcp/requirements.txt'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=4271, completion=78, total=4349
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp && cat movie-reccomender-mcp/server.py'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=4499, completion=101, total=4600
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp/movie-reccomender-mcp && uv venv'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=4683, completion=78, total=4761
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp/movie-reccomender-mcp && uv pip install -r requirements.txt'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=4848, completion=187, total=5035
+调用的工具:
+  - add_config: {'name': '991568388_iremert_movie-recommender-mcp', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp/movie-reccomender-mcp', 'command': 'python', 'args': ['-m', 'server']}
+
+--- 第 11 轮 ---
+Token 用量: prompt=5058, completion=131, total=5189
+调用的工具:
+  - add_config: {'name': '991568388_iremert_movie-recommender-mcp', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/991568388_iremert_movie-recommender-mcp/movie-reccomender-mcp', 'command': 'uv', 'args': ['run', 'server.py']}
+
+--- 第 12 轮 ---
+Token 用量: prompt=4926, completion=63, total=4989
+调用的工具:
+  - validate_config: {'name': '991568388_iremert_movie-recommender-mcp'}
+
+--- 第 13 轮 ---
+Token 用量: prompt=5605, completion=5, total=5610
+本轮无工具调用
+
+
+================================================================================
+部署 #2: 991629505 (991629505_halismertkir_game-trends-mcp)
+最终状态: Task Done
+对话总轮数: 19
+
+--- 第 1 轮 ---
+Token 用量: prompt=1164, completion=328, total=1492
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3213, completion=107, total=3320
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:halismertkir/game-trends-mcp.git /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3406, completion=76, total=3482
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp && ls -la'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=3840, completion=72, total=3912
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp && cat requirements.txt'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4013, completion=72, total=4085
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp && cat server.py'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4979, completion=73, total=5052
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp && head -20 app.py'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5279, completion=75, total=5354
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp && cat smithery.yaml'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5732, completion=72, total=5804
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp && uv venv'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=5887, completion=69, total=5956
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp && uv pip install -r requirements.txt'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=6043, completion=174, total=6217
+调用的工具:
+  - add_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'uv', 'args': ['run', 'server.py'], 'url': 'http://localhost:8080/mcp'}
+
+--- 第 11 轮 ---
+Token 用量: prompt=6013, completion=165, total=6178
+调用的工具:
+  - add_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'streamable_http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'uv', 'args': '["run", "server.py"]', 'url': 'http://localhost:8080/mcp'}
+
+--- 第 12 轮 ---
+Token 用量: prompt=6403, completion=140, total=6543
+调用的工具:
+  - add_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'streamable_http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'uv', 'args': '["run", "server.py"]', 'url': 'http://localhost:8080/mcp'}
+
+--- 第 13 轮 ---
+Token 用量: prompt=6768, completion=147, total=6915
+调用的工具:
+  - add_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'streamable_http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'uv', 'args': '["run", "server.py"]', 'url': 'http://localhost:8080/mcp'}
+
+--- 第 14 轮 ---
+Token 用量: prompt=7140, completion=140, total=7280
+调用的工具:
+  - add_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'streamable_http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'python', 'args': '["server.py"]', 'url': 'http://localhost:8080/mcp'}
+
+--- 第 15 轮 ---
+Token 用量: prompt=7303, completion=143, total=7446
+调用的工具:
+  - add_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'streamable_http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'uv', 'args': '["run", "server.py"]', 'url': 'http://localhost:8080/mcp'}
+
+--- 第 16 轮 ---
+Token 用量: prompt=7671, completion=137, total=7808
+调用的工具:
+  - add_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'streamable_http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'uv', 'url': 'http://localhost:8080/mcp'}
+
+--- 第 17 轮 ---
+Token 用量: prompt=8004, completion=79, total=8083
+调用的工具:
+  - validate_config: {'name': '991629505_halismertkir_game-trends-mcp', 'timeout_ms': 60000}
+
+--- 第 18 轮 ---
+Token 用量: prompt=9380, completion=195, total=9575
+调用的工具:
+  - update_and_validate_config: {'name': '991629505_halismertkir_game-trends-mcp', 'type': 'streamable_http', 'cwd': '/home/silimon/mcp-auto/mcp_server/991629505_halismertkir_game-trends-mcp', 'command': 'uv', 'args': ['run', 'server.py'], 'url': 'http://localhost:8080/mcp', 'timeout_ms': 60000}
+
+--- 第 19 轮 ---
+Token 用量: prompt=10321, completion=75, total=10396
+本轮无工具调用
+
+
+================================================================================
+部署 #3: 1038308090 (1038308090_dumyCq_time-mcp)
+最终状态: Task Done
+对话总轮数: 17
+
+--- 第 1 轮 ---
+Token 用量: prompt=1342, completion=263, total=1605
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3326, completion=105, total=3431
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:dumyCq/time-mcp.git /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3517, completion=78, total=3595
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && uv venv'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=3718, completion=70, total=3788
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && uv pip install -e .'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=3916, completion=86, total=4002
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && ls -la'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4394, completion=75, total=4469
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && cat pyproject.toml'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=4840, completion=81, total=4921
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && find src -name "*.py" -exec ls -la {} \\;'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5078, completion=79, total=5157
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && cat src/mcp_server_time/__init__.py'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=5309, completion=74, total=5383
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && cat src/mcp_server_time/__main__.py'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=5444, completion=148, total=5592
+调用的工具:
+  - add_config: {'name': '1038308090_dumyCq_time-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'mcp-server-time'], 'cwd': '/home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp'}
+
+--- 第 11 轮 ---
+Token 用量: prompt=5328, completion=78, total=5406
+调用的工具:
+  - validate_config: {'name': '1038308090_dumyCq_time-mcp', 'timeout_ms': 60000}
+
+--- 第 12 轮 ---
+Token 用量: prompt=6057, completion=168, total=6225
+调用的工具:
+  - update_and_validate_config: {'name': '1038308090_dumyCq_time-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'mcp-server-time'], 'cwd': '/home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp', 'timeout_ms': 120000}
+
+--- 第 13 轮 ---
+Token 用量: prompt=6330, completion=127, total=6457
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && timeout 10s uv run mcp-server-time --help'}
+
+--- 第 14 轮 ---
+Token 用量: prompt=6551, completion=131, total=6682
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && python -c "import mcp_server_time; print(\'Package imported successfully\')"'}
+
+--- 第 15 轮 ---
+Token 用量: prompt=6705, completion=76, total=6781
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp && uv run python -c "import mcp_server_time; print(\'Package imported successfully\')"'}
+
+--- 第 16 轮 ---
+Token 用量: prompt=6885, completion=204, total=7089
+调用的工具:
+  - update_and_validate_config: {'name': '1038308090_dumyCq_time-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', '-m', 'mcp_server_time'], 'cwd': '/home/silimon/mcp-auto/mcp_server/1038308090_dumyCq_time-mcp', 'timeout_ms': 30000}
+
+--- 第 17 轮 ---
+Token 用量: prompt=7216, completion=47, total=7263
+本轮无工具调用
+
+
+================================================================================
+部署 #4: 991524361 (991524361_iremert_call-for-papers-mcp)
+最终状态: Task Failed
+对话总轮数: 1
+
+--- 第 1 轮 ---
+Token 用量: prompt=1378, completion=340, total=1718
+本轮无工具调用
+
+
+================================================================================
+部署 #5: 994954601 (994954601_CelalKhalilov_Fruityvice-MCP)
+最终状态: Task Done
+对话总轮数: 10
+
+--- 第 1 轮 ---
+Token 用量: prompt=1567, completion=334, total=1901
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3622, completion=114, total=3736
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:CelalKhalilov/Fruityvice-MCP.git /home/silimon/mcp-auto/mcp_server/994954601_CelalKhalilov_Fruityvice-MCP'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3826, completion=77, total=3903
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/994954601_CelalKhalilov_Fruityvice-MCP && uv venv'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=3986, completion=82, total=4068
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/994954601_CelalKhalilov_Fruityvice-MCP && source .venv/bin/activate && uv pip install -r requirements.txt'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4140, completion=80, total=4220
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/994954601_CelalKhalilov_Fruityvice-MCP'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4602, completion=82, total=4684
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/994954601_CelalKhalilov_Fruityvice-MCP/server.py'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=4901, completion=88, total=4989
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/994954601_CelalKhalilov_Fruityvice-MCP/app.py'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5301, completion=128, total=5429
+调用的工具:
+  - add_config: {'name': '994954601_CelalKhalilov_Fruityvice-MCP', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/994954601_CelalKhalilov_Fruityvice-MCP', 'command': 'uv', 'args': ['run', 'server.py']}
+
+--- 第 9 轮 ---
+Token 用量: prompt=5169, completion=82, total=5251
+调用的工具:
+  - validate_config: {'name': '994954601_CelalKhalilov_Fruityvice-MCP', 'timeout_ms': 60000}
+
+--- 第 10 轮 ---
+Token 用量: prompt=5874, completion=5, total=5879
+本轮无工具调用
+
+
+================================================================================
+部署 #6: 900049352 (900049352_janwilmake_openapi-mcp-server)
+最终状态: Task Done
+对话总轮数: 13
+
+--- 第 1 轮 ---
+Token 用量: prompt=1564, completion=378, total=1942
+调用的工具:
+  - need_use_these_tools: {'tools': ['git', 'node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3321, completion=110, total=3431
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:janwilmake/openapi-mcp-server.git /home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3517, completion=93, total=3610
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server/package.json'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=3700, completion=73, total=3773
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server/'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4172, completion=73, total=4245
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server/wrangler.json'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4399, completion=67, total=4466
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server/worker.ts'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=8970, completion=71, total=9041
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server && npm install'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=9119, completion=48, total=9167
+调用的工具:
+  - execute_command: {'command': 'which wrangler || echo "wrangler not found"'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=9223, completion=79, total=9302
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server && npm install -D wrangler'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=9381, completion=218, total=9599
+调用的工具:
+  - add_config: {'name': '900049352_janwilmake_openapi-mcp-server', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server', 'command': 'npx', 'args': ['wrangler', 'dev']}
+
+--- 第 11 轮 ---
+Token 用量: prompt=9335, completion=78, total=9413
+调用的工具:
+  - validate_config: {'name': '900049352_janwilmake_openapi-mcp-server', 'timeout_ms': 60000}
+
+--- 第 12 轮 ---
+Token 用量: prompt=14609, completion=203, total=14812
+调用的工具:
+  - update_and_validate_config: {'name': '900049352_janwilmake_openapi-mcp-server', 'type': 'streamable_http', 'url': 'http://localhost:8787/mcp', 'cwd': '/home/silimon/mcp-auto/mcp_server/900049352_janwilmake_openapi-mcp-server', 'command': 'npx', 'args': ['wrangler', 'dev'], 'timeout_ms': 60000}
+
+--- 第 13 轮 ---
+Token 用量: prompt=14927, completion=42, total=14969
+本轮无工具调用
+
+
+================================================================================
+部署 #7: 991919168 (991919168_yusaaztrk_car-price-mcp-main)
+最终状态: Task Done
+对话总轮数: 10
+
+--- 第 1 轮 ---
+Token 用量: prompt=1480, completion=255, total=1735
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3456, completion=108, total=3564
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:yusaaztrk/car-price-mcp-main.git /home/silimon/mcp-auto/mcp_server/991919168_yusaaztrk_car-price-mcp-main'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3651, completion=71, total=3722
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/991919168_yusaaztrk_car-price-mcp-main'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4044, completion=86, total=4130
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991919168_yusaaztrk_car-price-mcp-main && uv venv'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4212, completion=70, total=4282
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991919168_yusaaztrk_car-price-mcp-main && uv pip install -r requirements.txt'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4355, completion=81, total=4436
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/991919168_yusaaztrk_car-price-mcp-main/requirements.txt'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=4506, completion=72, total=4578
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/991919168_yusaaztrk_car-price-mcp-main/server.py'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5070, completion=167, total=5237
+调用的工具:
+  - add_config: {'name': '991919168_yusaaztrk_car-price-mcp-main', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/991919168_yusaaztrk_car-price-mcp-main', 'command': 'uv', 'args': ['run', 'server.py']}
+
+--- 第 9 轮 ---
+Token 用量: prompt=4974, completion=79, total=5053
+调用的工具:
+  - validate_config: {'name': '991919168_yusaaztrk_car-price-mcp-main', 'timeout_ms': 60000}
+
+--- 第 10 轮 ---
+Token 用量: prompt=5681, completion=5, total=5686
+本轮无工具调用
+
+
+================================================================================
+部署 #8: 947401196 (947401196_himanshusanecha_mcp-osint-server)
+最终状态: Task Done
+对话总轮数: 18
+
+--- 第 1 轮 ---
+Token 用量: prompt=1600, completion=404, total=2004
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3725, completion=110, total=3835
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:himanshusanecha/mcp-osint-server.git /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3922, completion=71, total=3993
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4198, completion=99, total=4297
+调用的工具:
+  - execute_command: {'command': 'find /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server -name "*.txt" -o -name "*.toml" -o -name "*.yaml" -o -name "*.yml"'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4429, completion=74, total=4503
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server/requirements.txt'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4558, completion=73, total=4631
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server/smithery.yaml'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=4781, completion=76, total=4857
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server/'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5120, completion=76, total=5196
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server/setup.py'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=5349, completion=74, total=5423
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server/mcp_osint_server/'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=5595, completion=80, total=5675
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server/mcp_osint_server/main.py'}
+
+--- 第 11 轮 ---
+Token 用量: prompt=6525, completion=79, total=6604
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server && uv venv'}
+
+--- 第 12 轮 ---
+Token 用量: prompt=6687, completion=78, total=6765
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server && uv pip install -r requirements.txt'}
+
+--- 第 13 轮 ---
+Token 用量: prompt=6853, completion=78, total=6931
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server && uv pip install -e .'}
+
+--- 第 14 轮 ---
+Token 用量: prompt=7016, completion=50, total=7066
+调用的工具:
+  - execute_command: {'command': 'which whois nmap dnsrecon dnstwist dig host'}
+
+--- 第 15 轮 ---
+Token 用量: prompt=7126, completion=56, total=7182
+调用的工具:
+  - execute_command: {'command': 'sudo apt update && sudo apt install -y whois nmap dnsrecon dnstwist'}
+
+--- 第 16 轮 ---
+Token 用量: prompt=7223, completion=187, total=7410
+调用的工具:
+  - add_config: {'name': '947401196_himanshusanecha_mcp-osint-server', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/947401196_himanshusanecha_mcp-osint-server/mcp_osint_server', 'command': 'uv', 'args': ['run', 'mcp-osint']}
+
+--- 第 17 轮 ---
+Token 用量: prompt=7148, completion=80, total=7228
+调用的工具:
+  - validate_config: {'name': '947401196_himanshusanecha_mcp-osint-server', 'timeout_ms': 60000}
+
+--- 第 18 轮 ---
+Token 用量: prompt=8090, completion=5, total=8095
+本轮无工具调用
+
+
+================================================================================
+部署 #9: 1028596302 (1028596302_dumyCq_mcp-reddit)
+最终状态: Task Done
+对话总轮数: 8
+
+--- 第 1 轮 ---
+Token 用量: prompt=1798, completion=330, total=2128
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3688, completion=93, total=3781
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/1028596302_dumyCq_mcp-reddit'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3837, completion=137, total=3974
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1028596302_dumyCq_mcp-reddit && timeout 10s uvx --from git+https://github.com/adhikasp/mcp-reddit.git mcp-reddit --help || true'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4037, completion=113, total=4150
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1028596302_dumyCq_mcp-reddit && uvx --from git+https://github.com/adhikasp/mcp-reddit.git --help'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=6863, completion=97, total=6960
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/1028596302_dumyCq_mcp-reddit && uvx --from git+https://github.com/adhikasp/mcp-reddit.git mcp-reddit --help'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=7249, completion=221, total=7470
+调用的工具:
+  - add_config: {'name': '1028596302_dumyCq_mcp-reddit', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/1028596302_dumyCq_mcp-reddit', 'command': 'uvx', 'args': ['--from', 'git+https://github.com/adhikasp/mcp-reddit.git', 'mcp-reddit']}
+
+--- 第 7 轮 ---
+Token 用量: prompt=7207, completion=79, total=7286
+调用的工具:
+  - validate_config: {'name': '1028596302_dumyCq_mcp-reddit', 'timeout_ms': 60000}
+
+--- 第 8 轮 ---
+Token 用量: prompt=8128, completion=5, total=8133
+本轮无工具调用
+
+
+================================================================================
+部署 #10: 964229615 (964229615_hugeicons_mcp-server)
+最终状态: Task Done
+对话总轮数: 10
+
+--- 第 1 轮 ---
+Token 用量: prompt=1886, completion=445, total=2331
+调用的工具:
+  - need_use_these_tools: {'tools': ['node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3549, completion=96, total=3645
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/964229615_hugeicons_mcp-server'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3701, completion=130, total=3831
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/964229615_hugeicons_mcp-server && npm init -y'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4004, completion=77, total=4081
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/964229615_hugeicons_mcp-server && npm install @hugeicons/mcp-server'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4160, completion=93, total=4253
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/964229615_hugeicons_mcp-server && ls -la node_modules/@hugeicons/mcp-server'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4482, completion=78, total=4560
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/964229615_hugeicons_mcp-server && cat node_modules/@hugeicons/mcp-server/package.json'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=4969, completion=108, total=5077
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/964229615_hugeicons_mcp-server && ls -la node_modules/@hugeicons/mcp-server/build/'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5281, completion=176, total=5457
+调用的工具:
+  - add_config: {'name': '964229615_hugeicons_mcp-server', 'type': 'stdio', 'command': 'npx', 'args': ['-y', '@hugeicons/mcp-server'], 'cwd': '/home/silimon/mcp-auto/mcp_server/964229615_hugeicons_mcp-server'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=5190, completion=75, total=5265
+调用的工具:
+  - validate_config: {'name': '964229615_hugeicons_mcp-server', 'timeout_ms': 60000}
+
+--- 第 10 轮 ---
+Token 用量: prompt=6065, completion=5, total=6070
+本轮无工具调用
+
+
+================================================================================
+部署 #11: 944632918 (944632918_esshka_okx-mcp)
+最终状态: Task Done
+对话总轮数: 7
+
+--- 第 1 轮 ---
+Token 用量: prompt=2111, completion=317, total=2428
+调用的工具:
+  - need_use_these_tools: {'tools': ['git', 'node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3807, completion=124, total=3931
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:esshka/okx-mcp.git /home/silimon/mcp-auto/mcp_server/944632918_esshka_okx-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4016, completion=67, total=4083
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/944632918_esshka_okx-mcp && npm install'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4218, completion=85, total=4303
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/944632918_esshka_okx-mcp/build/'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4445, completion=200, total=4645
+调用的工具:
+  - add_config: {'name': '944632918_esshka_okx-mcp', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/944632918_esshka_okx-mcp', 'command': 'node', 'args': ['/home/silimon/mcp-auto/mcp_server/944632918_esshka_okx-mcp/build/index.js']}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4380, completion=77, total=4457
+调用的工具:
+  - validate_config: {'name': '944632918_esshka_okx-mcp', 'timeout_ms': 60000}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5086, completion=5, total=5091
+本轮无工具调用
+
+
+================================================================================
+部署 #12: 975198545 (975198545_AnCode666_nasa-mcp)
+最终状态: Task Failed
+对话总轮数: 20
+
+--- 第 1 轮 ---
+Token 用量: prompt=2100, completion=420, total=2520
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=4080, completion=68, total=4148
+调用的工具:
+  - execute_command: {'command': 'which uv'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4209, completion=92, total=4301
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4357, completion=97, total=4454
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && timeout 10s uvx --help nasa_mcp || echo "Command executed or timed out as expected"'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=7169, completion=100, total=7269
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && timeout 15s uvx nasa_mcp --help'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=7506, completion=139, total=7645
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && git clone https://github.com/AnCode666/nasa-mcp.git .'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=7701, completion=71, total=7772
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && ls -la'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=8332, completion=75, total=8407
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && cat pyproject.toml'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=8614, completion=67, total=8681
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && ls -la src/'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=8826, completion=62, total=8888
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && ls -la src/nasa_mcp/'}
+
+--- 第 11 轮 ---
+Token 用量: prompt=9066, completion=78, total=9144
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && head -30 src/nasa_mcp/server.py'}
+
+--- 第 12 轮 ---
+Token 用量: prompt=9430, completion=109, total=9539
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && uv venv'}
+
+--- 第 13 轮 ---
+Token 用量: prompt=9623, completion=68, total=9691
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && uv pip install -e .'}
+
+--- 第 14 轮 ---
+Token 用量: prompt=9778, completion=93, total=9871
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && source .venv/bin/activate && python -c "from nasa_mcp.server import main; print(\'Import successful\')"'}
+
+--- 第 15 轮 ---
+Token 用量: prompt=9894, completion=88, total=9982
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && uv run python -c "from nasa_mcp.server import main; print(\'Import successful\')"'}
+
+--- 第 16 轮 ---
+Token 用量: prompt=10069, completion=115, total=10184
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && timeout 60s uv run python -c "from nasa_mcp.server import main; print(\'Import successful\')"', 'timeout_ms': 60000}
+
+--- 第 17 轮 ---
+Token 用量: prompt=10355, completion=89, total=10444
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && tail -20 src/nasa_mcp/server.py'}
+
+--- 第 18 轮 ---
+Token 用量: prompt=10674, completion=93, total=10767
+调用的工具:
+  - execute_command: {'command': "cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && sed -n '1320,1335p' src/nasa_mcp/server.py"}
+
+--- 第 19 轮 ---
+Token 用量: prompt=11015, completion=97, total=11112
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && grep -n "Photo Summary" src/nasa_mcp/server.py'}
+
+--- 第 20 轮 ---
+Token 用量: prompt=11185, completion=121, total=11306
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/975198545_Ancode666_nasa-mcp && sed -i \'1327s/^.*$/            "Photo Summary per Sol (showing latest 5 sols with photos):"/\' src/nasa_mcp/server.py'}
+
+
+================================================================================
+部署 #13: 940956191 (940956191_EthanHenrickson_math-mcp)
+最终状态: Task Done
+对话总轮数: 9
+
+--- 第 1 轮 ---
+Token 用量: prompt=2138, completion=250, total=2388
+调用的工具:
+  - need_use_these_tools: {'tools': ['node', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=3767, completion=110, total=3877
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:EthanHenrickson/math-mcp.git /home/silimon/mcp-auto/mcp_server/940956191_EthanHenrickson_math-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=3963, completion=81, total=4044
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/940956191_EthanHenrickson_math-mcp'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4477, completion=97, total=4574
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/940956191_EthanHenrickson_math-mcp/package.json'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4927, completion=71, total=4998
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/940956191_EthanHenrickson_math-mcp/build'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=5174, completion=87, total=5261
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/940956191_EthanHenrickson_math-mcp && npm install'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5341, completion=205, total=5546
+调用的工具:
+  - add_config: {'name': '940956191_EthanHenrickson_math-mcp', 'type': 'stdio', 'command': 'node', 'args': ['/home/silimon/mcp-auto/mcp_server/940956191_EthanHenrickson_math-mcp/build/index.js'], 'cwd': '/home/silimon/mcp-auto/mcp_server/940956191_EthanHenrickson_math-mcp'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5281, completion=62, total=5343
+调用的工具:
+  - validate_config: {'name': '940956191_EthanHenrickson_math-mcp'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=6009, completion=5, total=6014
+本轮无工具调用
+
+
+================================================================================
+部署 #14: 967789939 (967789939_vitaldb_medcalc)
+最终状态: Task Done
+对话总轮数: 7
+
+--- 第 1 轮 ---
+Token 用量: prompt=2527, completion=293, total=2820
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=4380, completion=71, total=4451
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/967789939_vitaldb_medcalc'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4508, completion=69, total=4577
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/967789939_vitaldb_medcalc && uv venv'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4661, completion=76, total=4737
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/967789939_vitaldb_medcalc && source .venv/bin/activate && uv pip install medcalc'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4826, completion=120, total=4946
+调用的工具:
+  - add_config: {'name': '967789939_vitaldb_medcalc', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'medcalc'], 'cwd': '/home/silimon/mcp-auto/mcp_server/967789939_vitaldb_medcalc'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4678, completion=72, total=4750
+调用的工具:
+  - validate_config: {'name': '967789939_vitaldb_medcalc', 'timeout_ms': 60000}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5479, completion=5, total=5484
+本轮无工具调用
+
+
+================================================================================
+部署 #15: 991949376 (991949376_HarunGuclu_weather_mcp)
+最终状态: Task Done
+对话总轮数: 8
+
+--- 第 1 轮 ---
+Token 用量: prompt=2436, completion=311, total=2747
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv', 'node', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=4633, completion=104, total=4737
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:HarunGuclu/weather_mcp.git /home/silimon/mcp-auto/mcp_server/991949376_HarunGuclu_weather_mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4824, completion=73, total=4897
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991949376_HarunGuclu_weather_mcp && uv venv'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4981, completion=78, total=5059
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991949376_HarunGuclu_weather_mcp && source .venv/bin/activate && uv pip install -r requirements.txt'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=5149, completion=75, total=5224
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/991949376_HarunGuclu_weather_mcp/weather_agent/my-mastra-app && npm install'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=5307, completion=169, total=5476
+调用的工具:
+  - add_config: {'name': '991949376_HarunGuclu_weather_mcp', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/991949376_HarunGuclu_weather_mcp', 'command': 'uv', 'args': ['run', 'server.py'], 'url': 'http://localhost:8000'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5212, completion=76, total=5288
+调用的工具:
+  - validate_config: {'name': '991949376_HarunGuclu_weather_mcp', 'timeout_ms': 60000}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5951, completion=5, total=5956
+本轮无工具调用
+
+
+================================================================================
+部署 #16: 951515356 (951515356_shreyaskarnik_huggingface-mcp-server)
+最终状态: Task Done
+对话总轮数: 11
+
+--- 第 1 轮 ---
+Token 用量: prompt=2448, completion=375, total=2823
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv', 'git']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=4544, completion=65, total=4609
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4666, completion=83, total=4749
+调用的工具:
+  - execute_command: {'command': 'git clone git@github.com:shreyaskarnik/huggingface-mcp-server.git /home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4838, completion=74, total=4912
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server && uv sync'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=5103, completion=87, total=5190
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server && uv sync', 'timeout_ms': 120000}
+
+--- 第 6 轮 ---
+Token 用量: prompt=5270, completion=75, total=5345
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5811, completion=72, total=5883
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server/src'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=6027, completion=71, total=6098
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server/src/huggingface'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=6276, completion=225, total=6501
+调用的工具:
+  - add_config: {'name': '951515356_shreyaskarnik_huggingface-mcp-server', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server', 'command': 'uv', 'args': ['--directory', '/home/silimon/mcp-auto/mcp_server/951515356_shreyaskarnik_huggingface-mcp-server', 'run', 'src/huggingface/server.py'], 'env': {'HF_TOKEN': '${HF_TOKEN}'}}
+
+--- 第 10 轮 ---
+Token 用量: prompt=6239, completion=78, total=6317
+调用的工具:
+  - validate_config: {'name': '951515356_shreyaskarnik_huggingface-mcp-server', 'timeout_ms': 60000}
+
+--- 第 11 轮 ---
+Token 用量: prompt=6967, completion=5, total=6972
+本轮无工具调用
+
+
+================================================================================
+部署 #17: 996594898 (996594898_Aman-Amith-Shastry_scientific_computation_mcp)
+最终状态: Task Failed
+对话总轮数: 20
+
+--- 第 1 轮 ---
+Token 用量: prompt=2592, completion=393, total=2985
+调用的工具:
+  - need_use_these_tools: {'tools': ['node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=4203, completion=103, total=4306
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4363, completion=123, total=4486
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp && npx -y @smithery/cli@latest run @Aman-Amith-Shastry/scientific_computation_mcp --help'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4575, completion=245, total=4820
+调用的工具:
+  - add_config: {'name': '996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'type': 'stdio', 'command': 'npx', 'args': ['-y', '@smithery/cli@latest', 'run', '@Aman-Amith-Shastry/scientific_computation_mcp', '--key', '<YOUR_SMITHERY_API_KEY>'], 'cwd': '/home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'env': {}}
+
+--- 第 5 轮 ---
+Token 用量: prompt=4561, completion=68, total=4629
+调用的工具:
+  - validate_config: {'name': '996594898_Aman-Amith-Shastry_scientific_computation_mcp'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=5215, completion=231, total=5446
+调用的工具:
+  - update_and_validate_config: {'name': '996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'type': 'stdio', 'command': 'npx', 'args': ['-y', '@smithery/cli@latest', 'run', '@Aman-Amith-Shastry/scientific_computation_mcp'], 'cwd': '/home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'env': {'SMITHERY_API_KEY': '<YOUR_SMITHERY_API_KEY>'}}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5535, completion=236, total=5771
+调用的工具:
+  - update_and_validate_config: {'name': '996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'type': 'stdio', 'command': 'npx', 'args': ['-y', '@smithery/cli@latest', 'install', '@Aman-Amith-Shastry/scientific_computation_mcp', '--client', 'claude', '--key', '<YOUR_SMITHERY_API_KEY>'], 'cwd': '/home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'env': {}}
+
+--- 第 8 轮 ---
+Token 用量: prompt=5833, completion=53, total=5886
+调用的工具:
+  - execute_command: {'command': 'npx -y @smithery/cli@latest --help'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=6143, completion=44, total=6187
+调用的工具:
+  - execute_command: {'command': 'npx -y @smithery/cli@latest mcp --help'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=6394, completion=57, total=6451
+调用的工具:
+  - execute_command: {'command': 'npx -y @smithery/cli@latest mcp add --help'}
+
+--- 第 11 轮 ---
+Token 用量: prompt=6819, completion=226, total=7045
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp && git clone https://github.com/Aman-Amith-Shastry/scientific_computation_mcp.git .'}
+
+--- 第 12 轮 ---
+Token 用量: prompt=7102, completion=74, total=7176
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp'}
+
+--- 第 13 轮 ---
+Token 用量: prompt=7643, completion=82, total=7725
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp/pyproject.toml'}
+
+--- 第 14 轮 ---
+Token 用量: prompt=7923, completion=61, total=7984
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp/smithery.yaml'}
+
+--- 第 15 轮 ---
+Token 用量: prompt=8147, completion=76, total=8223
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp/client.py'}
+
+--- 第 16 轮 ---
+Token 用量: prompt=8575, completion=73, total=8648
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp/src'}
+
+--- 第 17 轮 ---
+Token 用量: prompt=8952, completion=75, total=9027
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp/src/main.py'}
+
+--- 第 18 轮 ---
+Token 用量: prompt=9862, completion=209, total=10071
+调用的工具:
+  - update_and_validate_config: {'name': '996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'type': 'streamable_http', 'url': 'http://localhost:8081/mcp', 'command': 'python', 'args': ['-m', 'src.main'], 'cwd': '/home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'env': {}}
+
+--- 第 19 轮 ---
+Token 用量: prompt=10094, completion=169, total=10263
+调用的工具:
+  - update_and_validate_config: {'name': '996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'type': 'streamable_http', 'url': 'http://localhost:8081/mcp', 'command': 'uv', 'args': ['run', 'python', '-m', 'src.main'], 'cwd': '/home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp', 'env': {}}
+
+--- 第 20 轮 ---
+Token 用量: prompt=10754, completion=128, total=10882
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/996594898_Aman-Amith-Shastry_scientific_computation_mcp && python -c "import sys; print(sys.path)"'}
+
+
+================================================================================
+部署 #18: 999262466 (999262466_d4nshields_bibliomantic-mcp-server)
+最终状态: Task Done
+对话总轮数: 7
+
+--- 第 1 轮 ---
+Token 用量: prompt=2458, completion=326, total=2784
+调用的工具:
+  - need_use_these_tools: {'tools': ['git', 'uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=4505, completion=114, total=4619
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:d4nshields/bibliomantic-mcp-server.git /home/silimon/mcp-auto/mcp_server/999262466_d4nshields_bibliomantic-mcp-server'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4709, completion=81, total=4790
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/999262466_d4nshields_bibliomantic-mcp-server && uv venv'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4874, completion=82, total=4956
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/999262466_d4nshields_bibliomantic-mcp-server && uv pip install -e .'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=5042, completion=158, total=5200
+调用的工具:
+  - add_config: {'name': '999262466_d4nshields_bibliomantic-mcp-server', 'type': 'stdio', 'command': 'uv', 'args': ['run', '-m', 'bibliomantic_server'], 'cwd': '/home/silimon/mcp-auto/mcp_server/999262466_d4nshields_bibliomantic-mcp-server'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=4939, completion=65, total=5004
+调用的工具:
+  - validate_config: {'name': '999262466_d4nshields_bibliomantic-mcp-server'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5805, completion=5, total=5810
+本轮无工具调用
+
+
+================================================================================
+部署 #19: 951713109 (951713109_KyrieTangSheng_mcp-server-nationalparks)
+最终状态: Task Done
+对话总轮数: 14
+
+--- 第 1 轮 ---
+Token 用量: prompt=2675, completion=394, total=3069
+调用的工具:
+  - need_use_these_tools: {'tools': ['node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=4287, completion=95, total=4382
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4439, completion=103, total=4542
+调用的工具:
+  - execute_command: {'command': 'npx -y @KyrieTangSheng/mcp-server-nationalparks --help', 'timeout_ms': 60000}
+
+--- 第 4 轮 ---
+Token 用量: prompt=4798, completion=73, total=4871
+调用的工具:
+  - execute_command: {'command': 'npx -y @kyrietangsheng/mcp-server-nationalparks --help', 'timeout_ms': 60000}
+
+--- 第 5 轮 ---
+Token 用量: prompt=5092, completion=107, total=5199
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks && git clone https://github.com/KyrieTangSheng/mcp-server-nationalparks .'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=5255, completion=84, total=5339
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=5776, completion=75, total=5851
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks/package.json'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=6264, completion=86, total=6350
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks && npm install', 'timeout_ms': 120000}
+
+--- 第 9 轮 ---
+Token 用量: prompt=6430, completion=67, total=6497
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks && npm run build'}
+
+--- 第 10 轮 ---
+Token 用量: prompt=6577, completion=77, total=6654
+调用的工具:
+  - execute_command: {'command': 'ls -la /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks/build'}
+
+--- 第 11 轮 ---
+Token 用量: prompt=7013, completion=82, total=7095
+调用的工具:
+  - execute_command: {'command': 'cat /home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks/build/index.js'}
+
+--- 第 12 轮 ---
+Token 用量: prompt=7331, completion=188, total=7519
+调用的工具:
+  - add_config: {'name': '951713109_KyrieTangSheng_mcp-server-nationalparks', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/951713109_KyrieTangSheng_mcp-server-nationalparks', 'command': 'node', 'args': ['./build/index.js'], 'env': {'NPS_API_KEY': '${NPS_API_KEY}'}}
+
+--- 第 13 轮 ---
+Token 用量: prompt=7259, completion=83, total=7342
+调用的工具:
+  - validate_config: {'name': '951713109_KyrieTangSheng_mcp-server-nationalparks', 'timeout_ms': 60000}
+
+--- 第 14 轮 ---
+Token 用量: prompt=7984, completion=5, total=7989
+本轮无工具调用
+
+
+================================================================================
+部署 #20: 955620917 (955620917_upstash_context7)
+最终状态: Task Done
+对话总轮数: 6
+
+--- 第 1 轮 ---
+Token 用量: prompt=3573, completion=448, total=4021
+调用的工具:
+  - need_use_these_tools: {'tools': ['none']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=5075, completion=191, total=5266
+调用的工具:
+  - add_config: {'name': '955620917_upstash_context7', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/955620917_upstash_context7', 'url': 'https://mcp.context7.com/mcp', 'headers': {'CONTEXT7_API_KEY': 'your-api-key-here'}}
+
+--- 第 3 轮 ---
+Token 用量: prompt=4997, completion=72, total=5069
+调用的工具:
+  - validate_config: {'name': '955620917_upstash_context7', 'timeout_ms': 60000}
+
+--- 第 4 轮 ---
+Token 用量: prompt=5699, completion=168, total=5867
+调用的工具:
+  - update_and_validate_config: {'name': '955620917_upstash_context7', 'type': 'sse', 'url': 'https://mcp.context7.com/mcp', 'headers': {'CONTEXT7_API_KEY': 'your-api-key-here'}, 'cwd': '/home/silimon/mcp-auto/mcp_server/955620917_upstash_context7', 'timeout_ms': 60000}
+
+--- 第 5 轮 ---
+Token 用量: prompt=5955, completion=191, total=6146
+调用的工具:
+  - update_and_validate_config: {'name': '955620917_upstash_context7', 'type': 'streamable_http', 'url': 'https://mcp.context7.com/mcp', 'headers': {'CONTEXT7_API_KEY': 'your-api-key-here'}, 'cwd': '/home/silimon/mcp-auto/mcp_server/955620917_upstash_context7', 'timeout_ms': 60000}
+
+--- 第 6 轮 ---
+Token 用量: prompt=6230, completion=24, total=6254
+本轮无工具调用
+
+
+================================================================================
+部署 #21: 946575068 (946575068_coinpaprika_dexpaprika-mcp)
+最终状态: Task Done
+对话总轮数: 7
+
+--- 第 1 轮 ---
+Token 用量: prompt=3814, completion=506, total=4320
+调用的工具:
+  - need_use_these_tools: {'tools': ['node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=5538, completion=103, total=5641
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/946575068_coinpaprika_dexpaprika-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=5698, completion=46, total=5744
+调用的工具:
+  - execute_command: {'command': 'npx dexpaprika-mcp --version'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=5868, completion=106, total=5974
+调用的工具:
+  - execute_command: {'command': 'npm install -g dexpaprika-mcp@latest'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=6053, completion=180, total=6233
+调用的工具:
+  - add_config: {'name': '946575068_coinpaprika_dexpaprika-mcp', 'type': 'stdio', 'command': 'npx', 'args': ['dexpaprika-mcp'], 'cwd': '/home/silimon/mcp-auto/mcp_server/946575068_coinpaprika_dexpaprika-mcp'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=5970, completion=79, total=6049
+调用的工具:
+  - validate_config: {'name': '946575068_coinpaprika_dexpaprika-mcp', 'timeout_ms': 60000}
+
+--- 第 7 轮 ---
+Token 用量: prompt=6725, completion=5, total=6730
+本轮无工具调用
+
+
+================================================================================
+部署 #22: 951693330 (951693330_utensils_mcp-nixos)
+最终状态: Task Done
+对话总轮数: 7
+
+--- 第 1 轮 ---
+Token 用量: prompt=4393, completion=642, total=5035
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=6595, completion=95, total=6690
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/951693330_utensils_mcp-nixos'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=6747, completion=125, total=6872
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/951693330_utensils_mcp-nixos && uvx --help mcp-nixos'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=9587, completion=97, total=9684
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/951693330_utensils_mcp-nixos && timeout 10s uvx mcp-nixos --help'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=9979, completion=172, total=10151
+调用的工具:
+  - add_config: {'name': '951693330_utensils_mcp-nixos', 'type': 'stdio', 'command': 'uvx', 'args': ['mcp-nixos'], 'cwd': '/home/silimon/mcp-auto/mcp_server/951693330_utensils_mcp-nixos'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=9886, completion=75, total=9961
+调用的工具:
+  - validate_config: {'name': '951693330_utensils_mcp-nixos', 'timeout_ms': 60000}
+
+--- 第 7 轮 ---
+Token 用量: prompt=10803, completion=5, total=10808
+本轮无工具调用
+
+
+================================================================================
+部署 #23: 964126632 (964126632_mikechao_metmuseum-mcp)
+最终状态: Task Done
+对话总轮数: 7
+
+--- 第 1 轮 ---
+Token 用量: prompt=4185, completion=366, total=4551
+调用的工具:
+  - need_use_these_tools: {'tools': ['node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=5769, completion=102, total=5871
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/964126632_mikechao_metmuseum-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=5928, completion=81, total=6009
+调用的工具:
+  - execute_command: {'command': 'npx -y metmuseum-mcp --help'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=6083, completion=112, total=6195
+调用的工具:
+  - execute_command: {'command': 'timeout 10s npx -y metmuseum-mcp || true'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=6257, completion=211, total=6468
+调用的工具:
+  - add_config: {'name': '964126632_mikechao_metmuseum-mcp', 'type': 'stdio', 'command': 'npx', 'args': ['-y', 'metmuseum-mcp'], 'cwd': '/home/silimon/mcp-auto/mcp_server/964126632_mikechao_metmuseum-mcp'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=6204, completion=81, total=6285
+调用的工具:
+  - validate_config: {'name': '964126632_mikechao_metmuseum-mcp', 'timeout_ms': 60000}
+
+--- 第 7 轮 ---
+Token 用量: prompt=6921, completion=5, total=6926
+本轮无工具调用
+
+
+================================================================================
+部署 #24: 958852531 (958852531_genomoncology_biomcp)
+最终状态: Task Done
+对话总轮数: 8
+
+--- 第 1 轮 ---
+Token 用量: prompt=4912, completion=451, total=5363
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=6923, completion=101, total=7024
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/958852531_genomoncology_biomcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=7081, completion=70, total=7151
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/958852531_genomoncology_biomcp && uv tool install biomcp-cli'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=7250, completion=39, total=7289
+调用的工具:
+  - execute_command: {'command': 'which biomcp'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=7352, completion=42, total=7394
+调用的工具:
+  - execute_command: {'command': 'biomcp --help'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=7827, completion=243, total=8070
+调用的工具:
+  - add_config: {'name': '958852531_genomoncology_biomcp', 'type': 'stdio', 'command': 'biomcp', 'args': ['serve'], 'cwd': '/home/silimon/mcp-auto/mcp_server/958852531_genomoncology_biomcp'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=7804, completion=80, total=7884
+调用的工具:
+  - validate_config: {'name': '958852531_genomoncology_biomcp', 'timeout_ms': 60000}
+
+--- 第 8 轮 ---
+Token 用量: prompt=8490, completion=188, total=8678
+本轮无工具调用
+
+
+================================================================================
+部署 #25: 1021171204 (1021171204_zazencodes_unit-converter-mcp)
+最终状态: Task Done
+对话总轮数: 6
+
+--- 第 1 轮 ---
+Token 用量: prompt=5159, completion=404, total=5563
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=7123, completion=92, total=7215
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/1021171204_zazencodes_unit-converter-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=7272, completion=94, total=7366
+调用的工具:
+  - execute_command: {'command': 'uvx --help unit-converter-mcp'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=10081, completion=183, total=10264
+调用的工具:
+  - add_config: {'name': '1021171204_zazencodes_unit-converter-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['unit-converter-mcp'], 'cwd': '/home/silimon/mcp-auto/mcp_server/1021171204_zazencodes_unit-converter-mcp'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=10001, completion=79, total=10080
+调用的工具:
+  - validate_config: {'name': '1021171204_zazencodes_unit-converter-mcp', 'timeout_ms': 60000}
+
+--- 第 6 轮 ---
+Token 用量: prompt=11214, completion=5, total=11219
+本轮无工具调用
+
+
+================================================================================
+部署 #26: 937106681 (937106681_cablate_mcp-google-map)
+最终状态: Task Done
+对话总轮数: 6
+
+--- 第 1 轮 ---
+Token 用量: prompt=5116, completion=400, total=5516
+调用的工具:
+  - need_use_these_tools: {'tools': ['node']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=6734, completion=91, total=6825
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/937106681_cablate_mcp-google-map'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=6882, completion=55, total=6937
+调用的工具:
+  - execute_command: {'command': 'npx -y @cablate/mcp-google-map --help'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=7253, completion=211, total=7464
+调用的工具:
+  - add_config: {'name': '937106681_cablate_mcp-google-map', 'type': 'stdio', 'command': 'npx', 'args': ['-y', '@cablate/mcp-google-map', '--stdio'], 'env': {'GOOGLE_MAPS_API_KEY': 'YOUR_API_KEY'}, 'cwd': '/home/silimon/mcp-auto/mcp_server/937106681_cablate_mcp-google-map'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=7198, completion=76, total=7274
+调用的工具:
+  - validate_config: {'name': '937106681_cablate_mcp-google-map', 'timeout_ms': 60000}
+
+--- 第 6 轮 ---
+Token 用量: prompt=7967, completion=5, total=7972
+本轮无工具调用
+
+
+================================================================================
+部署 #27: 961295208 (961295208_openags_paper-search-mcp)
+最终状态: Task Done
+对话总轮数: 17
+
+--- 第 1 轮 ---
+Token 用量: prompt=7722, completion=377, total=8099
+调用的工具:
+  - need_use_these_tools: {'tools': ['uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=9659, completion=94, total=9753
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=9809, completion=56, total=9865
+调用的工具:
+  - execute_command: {'command': 'uvx --help paper-search-mcp'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=12580, completion=49, total=12629
+调用的工具:
+  - execute_command: {'command': 'uvx paper-search-mcp --help'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=12746, completion=57, total=12803
+调用的工具:
+  - execute_command: {'command': 'uvx -m paper_search_mcp.server --help'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=12882, completion=67, total=12949
+调用的工具:
+  - execute_command: {'command': 'uv tool install paper-search-mcp'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=13969, completion=94, total=14063
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && git clone https://github.com/openags/paper-search-mcp.git .'}
+
+--- 第 8 轮 ---
+Token 用量: prompt=14120, completion=77, total=14197
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && uv run -m paper_search_mcp.server --help'}
+
+--- 第 9 轮 ---
+Token 用量: prompt=14434, completion=90, total=14524
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && uv run -m paper_search_mcp.server --help', 'timeout_ms': 60000}
+
+--- 第 10 轮 ---
+Token 用量: prompt=14589, completion=96, total=14685
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && uv pip install -e .'}
+
+--- 第 11 轮 ---
+Token 用量: prompt=14750, completion=79, total=14829
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && uv pip install -e .', 'timeout_ms': 120000}
+
+--- 第 12 轮 ---
+Token 用量: prompt=14970, completion=85, total=15055
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && ls -la'}
+
+--- 第 13 轮 ---
+Token 用量: prompt=15658, completion=73, total=15731
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && cat pyproject.toml'}
+
+--- 第 14 轮 ---
+Token 用量: prompt=16202, completion=118, total=16320
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp && timeout 10s uv run paper-search-mcp --help || echo "Command completed or timed out"'}
+
+--- 第 15 轮 ---
+Token 用量: prompt=16547, completion=194, total=16741
+调用的工具:
+  - add_config: {'name': '961295208_openags_paper-search-mcp', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/961295208_openags_paper-search-mcp', 'command': 'uv', 'args': ['run', 'paper-search-mcp'], 'env': {'PAPER_SEARCH_MCP_UNPAYWALL_EMAIL': 'your@email.com'}}
+
+--- 第 16 轮 ---
+Token 用量: prompt=16474, completion=73, total=16547
+调用的工具:
+  - validate_config: {'name': '961295208_openags_paper-search-mcp', 'timeout_ms': 60000}
+
+--- 第 17 轮 ---
+Token 用量: prompt=17550, completion=33, total=17583
+本轮无工具调用
+
+
+================================================================================
+部署 #28: 944950963 (944950963_Rudra-ravi_wikipedia-mcp)
+最终状态: Task Done
+对话总轮数: 9
+
+--- 第 1 轮 ---
+Token 用量: prompt=7557, completion=525, total=8082
+调用的工具:
+  - need_use_these_tools: {'tools': ['git', 'uv']}
+
+--- 第 2 轮 ---
+Token 用量: prompt=9803, completion=128, total=9931
+调用的工具:
+  - execute_command: {'command': 'mkdir -p /home/silimon/mcp-auto/mcp_server && git clone git@github.com:Rudra-ravi/wikipedia-mcp.git /home/silimon/mcp-auto/mcp_server/944950963_Rudra-ravi_wikipedia-mcp'}
+
+--- 第 3 轮 ---
+Token 用量: prompt=10018, completion=73, total=10091
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/944950963_Rudra-ravi_wikipedia-mcp && uv venv'}
+
+--- 第 4 轮 ---
+Token 用量: prompt=10174, completion=78, total=10252
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/944950963_Rudra-ravi_wikipedia-mcp && source .venv/bin/activate && uv pip install -e .'}
+
+--- 第 5 轮 ---
+Token 用量: prompt=10341, completion=81, total=10422
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/944950963_Rudra-ravi_wikipedia-mcp && source .venv/bin/activate && which wikipedia-mcp'}
+
+--- 第 6 轮 ---
+Token 用量: prompt=10512, completion=85, total=10597
+调用的工具:
+  - execute_command: {'command': 'cd /home/silimon/mcp-auto/mcp_server/944950963_Rudra-ravi_wikipedia-mcp && source .venv/bin/activate && wikipedia-mcp --help'}
+
+--- 第 7 轮 ---
+Token 用量: prompt=11278, completion=156, total=11434
+调用的工具:
+  - add_config: {'name': '944950963_Rudra-ravi_wikipedia-mcp', 'type': 'stdio', 'cwd': '/home/silimon/mcp-auto/mcp_server/944950963_Rudra-ravi_wikipedia-mcp', 'command': 'uv', 'args': ['run', 'wikipedia-mcp', '--transport', 'stdio']}
+
+--- 第 8 轮 ---
+Token 用量: prompt=11170, completion=77, total=11247
+调用的工具:
+  - validate_config: {'name': '944950963_Rudra-ravi_wikipedia-mcp', 'timeout_ms': 120000}
+
+--- 第 9 轮 ---
+Token 用量: prompt=12285, completion=5, total=12290
+本轮无工具调用
+
+
