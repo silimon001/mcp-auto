@@ -227,7 +227,7 @@ def run_task(prompt_text: str, task_name, pos, count):
 
     messages, order = collect_messages(events)
 
-    log_file = f"{LOG_DIR}/EXP_{dataset_name}_{pos}_{pos+count}_{task_name}.log"
+    log_file = f"{LOG_DIR}/EXP_{dataset_name}_{pos+count}_{task_name}.log"
     write_log(messages, order, log_file)
 
     if stderr:
@@ -272,8 +272,8 @@ if __name__ == "__main__":
     readme_dir = Path.cwd() / "data" / "dataset" / dataset_name / "sampled_validated_readme"
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
-    pos = 10
-    count = 1
+    pos = 0
+    count = 30
 
     for readme_path in readme_files[pos:pos+count]:
         readme_path = Path(readme_path)
