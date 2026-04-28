@@ -1,24 +1,22 @@
 # Task
 
-Deploy an MCP server based on the information provided by the user.
+Connect to an MCP server according to the Readme document.
 
 # Notes
 
-* You are a highly skilled software engineer.
-* The task steps are divided into analysis, deployment, configuration, and verification.
-* First, you need to perform analysis to determine how to deploy.
-* Second, during deployment, if you need to pull the source code repository, please pull it to `{WORKSPACE}/mcp_server/` and name it `{id}_{owner}_{name}`.
-* Also, when you deploy the MCP server, please create the virtual environment first.
-* Third, please add the MCP server configuration information to `{WORKSPACE}/mcp_server_config/config.json`.
-* Also, before you add the configuration, please read the config.json file first.
-* Fourth, you need to verify that the configuration information you wrote is correct. You should try to start the MCP server using this configuration information.
-* If the server can **start properly** and **expose tools**, the task is successful. Then strictly output "✅ @@Task Done@@".
-* If the MCP server fails to start and expose tools, please repair it until the task succeeds.
-* For errors that cannot be resolved, such as API key verification failure requiring a valid API key, please inform users and strictly output "⚠️ @@Task Alert@@".
+* If you need to install the MCP server locally, please install it to `{WORKSPACE}/mcp_server/` and name it `{id}_{owner}_{name}`. And create an independent virtual environment for the MCP server.
+* Write the configuration used to connect to the MCP server into `{WORKSPACE}/mcp_server_config/config.json`. 
+* You need to verify that the configuration used to connect to the MCP server is correct. The user provides an executable file , and you only need to provide the name of the MCP server to perform a connection test. For example
 
-## MCP server configuration example
+```bash
+{WORKSPACE}/claude_code/config_validation id_onwer_name
+```
 
-Provide only the necessary fields for the MCP server.
+* If you can successfully connect to the MCP server and obtain the list of tools it provides, the task is successful, then strictly output "✅ @@Task Done@@".
+* If any errors occur, please try to fix it.
+* If you encounter problems with API-Key or other key verification methods, immediately end the task and strictly output "⚠️ @@Task Alert@@".
+
+# MCP server configuration example
 
 ```json
 "{id}_{owner}_{name}": {
@@ -37,11 +35,9 @@ Provide only the necessary fields for the MCP server.
 }
 ```
 
-### Development Environments Available on the User’s Machine
+# Development Environments Available on the User’s Machine
 
 * Linux (Ubuntu)
-
-* Python: you can only use uv, instead of python.
+* Python: The user does not have Python installed. Please use uv to replace Python.
 * uv path: /home/silimon/.local/bin/uv
 * Node.js：node、npm、npx、yarn、pnpm
-* Git

@@ -47,6 +47,41 @@ def parse_all(stdout: str):
             continue
     return events
 
+def render_content(obj):
+    """
+    把 Claude stream-json content 递归展开成纯 string
+    """
+    if obj is None:
+        return ""
+
+    # str
+    if isinstance(obj, str):
+        return obj
+
+    # dict（核心：Claude node）
+    if isinstance(obj, dict):
+        t = obj.get("type")
+
+        # tool result wrapper
+        if t == "text":
+            return render_content(obj.get("text"))
+
+        if t == "tool_result":
+            return render_content(obj.get("content"))
+
+        # fallback：尽量抽取 text
+        if "text" in obj:
+            return render_content(obj["text"])
+
+        return json.dumps(obj, ensure_ascii=False)
+
+    # list（递归 flatten）
+    if isinstance(obj, list):
+        return "\n".join(render_content(x) for x in obj)
+
+    # fallback
+    return str(obj)
+
 
 def collect_messages(events):
     """聚合事件，记录时间戳，并捕获 result 事件用于总结"""
@@ -69,11 +104,7 @@ def collect_messages(events):
         # -------- user --------
         if etype == "user":
             contents = event.get("message", {}).get("content", [])
-            text = "\n".join(
-                c.get("content", "") if c.get("type") == "tool_result"
-                else c.get("text", "")
-                for c in contents
-            )
+            text = render_content(contents)
             order.append({
                 "type": "user",
                 "content": text,
@@ -226,8 +257,8 @@ def run_task(prompt_text: str, task_name, pos, count):
     events = parse_all(stdout)
 
     messages, order = collect_messages(events)
-
-    log_file = f"{LOG_DIR}/EXP_{dataset_name}_{pos+count}_{task_name}.log"
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    log_file = f"{LOG_DIR}/EXP_{dataset_name}_{task_name}_{timestamp}.log"
     write_log(messages, order, log_file)
 
     if stderr:
@@ -261,6 +292,11 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 # =========================
 if __name__ == "__main__":
     
+    os.makedirs('mcp_server', exist_ok=True)
+    os.makedirs('mcp_server_config', exist_ok=True)
+    with open('mcp_server_config/config.json', 'w', encoding='utf-8') as f:
+        f.write('{\n\n}')
+
     with open('claude_code/prompt_workflow.md', 'r', encoding='utf-8') as f:
         task_prompt = f.read()
 
