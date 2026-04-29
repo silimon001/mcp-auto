@@ -45,7 +45,6 @@
 ### Development Environments Available on the User’s Machine
 
 * Linux (Ubuntu)
-
-* Python (managed with uv)
+* Python: The user does not have Python installed. Please use uv to replace Python.
 * Node.js：node、npm、npx、yarn、pnpm
 * Git

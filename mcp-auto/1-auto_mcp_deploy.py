@@ -20,6 +20,9 @@ from dataset_setting import dataset_name
 
 load_dotenv('.mcp-auto_env')
 
+API_KEY = os.getenv("QWEN_MCP_AUTO_KEY")
+
+
 os.makedirs(f"{os.getcwd()}/mcp_server", exist_ok=True)
 
 # ==================== 配置类 ====================
@@ -411,7 +414,7 @@ async def main():
     config.set_llm(
         model=model_name,
         base_url='https://dashscope.aliyuncs.com/compatible-mode/v1',
-        api_key=os.getenv('QWEN_API_KEY'),
+        api_key=API_KEY,
         is_streaming=False,
         enable_thinking=True
     )

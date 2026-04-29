@@ -12,6 +12,9 @@ from MCP_Client import Client
 
 load_dotenv('.mcp-auto_env')
 
+API_KEY = os.getenv("QWEN_TMP_KEY")
+
+
 class Colors:
     OK = "\033[92m"      # 绿色
     WARN = "\033[93m"    # 黄色
@@ -307,7 +310,7 @@ async def main():
 
     model = 'qwen3-coder-plus'  # Qwen/Qwen3-235B-A22B-Instruct-2507 deepseek-reasoner qwen3-coder-plus
     base_url = 'https://dashscope.aliyuncs.com/compatible-mode/v1'  # https://api.siliconflow.cn/v1/chat/completions https://api.deepseek.com https://dashscope.aliyuncs.com/compatible-mode/v1
-    api_key = os.getenv('QWEN_API_KEY')  # siliconflow_api_key DEEPSEEK_API_KEY QWEN_API_KEY
+    api_key = API_KEY  # siliconflow_api_key DEEPSEEK_API_KEY QWEN_API_KEY
 
     try:
         hub.select_model(model=model,

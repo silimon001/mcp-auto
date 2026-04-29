@@ -134,7 +134,7 @@ def analyze_readme(
     upper_bound: int = 25000,
 ):
     client = OpenAI(
-        api_key=os.getenv("QWEN_API_KEY"),
+        api_key=os.getenv("QWEN_TMP_KEY"),
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
     )
 
