@@ -37,12 +37,15 @@ async def main(path: str, name: str):
 
 if __name__ == "__main__":
 
-    import sys
-    if len(sys.argv) != 3:
-        print("Usage: python script.py  <config_filename> <server_name>")
-        sys.exit(1)
+    # import sys
+    # if len(sys.argv) != 3:
+    #     print("Usage: python script.py  <config_filename> <server_name>")
+    #     sys.exit(1)
 
-    config_path = str(sys.argv[1])
-    name = str(sys.argv[2])
+    # config_path = str(sys.argv[1])
+    # name = str(sys.argv[2])
+
+    config_path = ""
+    name = ""
 
     anyio.run(lambda: main(config_path, name))

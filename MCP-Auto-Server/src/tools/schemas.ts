@@ -105,20 +105,20 @@ export const UpdateAndValidateConfigArgsSchema = z.object({
   args: z.array(z.string()).optional().default([]),
   env: z.record(z.string(), z.string()).optional().default({}),
   cwd: z.string(),
-  timeout_ms: z.number().optional().default(60000)
+  timeout_ms: z.coerce.number().optional().default(60000)
 });
 
 // Execute command schema
 export const ExecuteCommandArgsSchema = z.object({
   command: z.string(),
-  timeout_ms: z.number().optional().default(30000),
+  timeout_ms: z.coerce.number(),
   shell: z.string().optional()
 });
 
 // Validate config schema
 export const ValidateConfigArgsSchema = z.object({
   name: z.string(),
-  timeout_ms: z.number().optional().default(60000)
+  timeout_ms: z.coerce.number().optional().default(60000)
 });
 
 export const NeedUseTheseToolsSchema = z.object({
