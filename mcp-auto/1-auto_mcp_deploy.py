@@ -20,7 +20,14 @@ from dataset_setting import dataset_name
 
 load_dotenv('.mcp-auto_env')
 
-API_KEY = os.getenv("QWEN_MCP_AUTO_KEY")
+test_flag = True
+
+API_KEY = ''
+
+if test_flag:
+    API_KEY = os.getenv("QWEN_TMP_KEY")
+else:
+    API_KEY = os.getenv("QWEN_MCP_AUTO_KEY")
 
 
 os.makedirs(f"{os.getcwd()}/mcp_server", exist_ok=True)
@@ -28,12 +35,12 @@ os.makedirs(f"{os.getcwd()}/mcp_server", exist_ok=True)
 # ==================== 配置类 ====================
 class Config:
     """集中管理应用配置"""
-    def __init__(self, pos: int, count: int, enable_logging: bool = False):
+    def __init__(self, pos: int, count: int, model_name:str, enable_logging: bool = False):
         self.pos = pos
         self.count = count
         self.enable_logging = enable_logging
         self.auto_deploy = False
-        self.max_chat_loop = 20
+        self.max_chat_loop = 21
 
         # LLM 配置
         self.model: str = None
@@ -46,7 +53,7 @@ class Config:
         # 路径配置
         self.cwd = os.getcwd()
         self.prompt_dir = Path(self.cwd) / "mcp-auto" / "prompt"
-        self.log_dir = Path(self.cwd) / "log_file" / dataset_name
+        self.log_dir = Path(self.cwd) / "log_file" / dataset_name / model_name
         self.data_dir = Path(self.cwd) / "data"
 
     def set_llm(self, model: str, base_url: str, headers: Optional[Dict] = None,
@@ -70,10 +77,15 @@ class Logger:
     def _setup(self):
         if not self.config.enable_logging:
             return
-        self.config.log_dir.mkdir(exist_ok=True)
+
+        # 关键修复：递归创建目录
+        self.config.log_dir.mkdir(parents=True, exist_ok=True)
+
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        log_filename = self.config.log_dir / f"EXP_{dataset_name}_{self.config.pos}_{self.config.pos+self.config.count}_{timestamp}.log"
+        log_filename = self.config.log_dir / f"{self.config.pos}_{self.config.pos+self.config.count}_{timestamp}.log"
+
         print(f"Logging to: {log_filename}")
+
         logging.basicConfig(
             filename=str(log_filename),
             level=logging.INFO,
@@ -328,8 +340,8 @@ class ExecutionLoop:
     async def _execute_tool_with_policy(self, server_name: str, tool_name: str, tool_args: dict, auto: bool):
         """根据自动化策略执行工具调用"""
         command = tool_args.get('command', '')
-        if 'python' in command and 'uv' not in command:
-            return "Don't use python, use uv instead.", False
+        # if 'python' in command and 'uv' not in command:
+        #     return "Don't use python, use uv instead.", False
         if 'pip' in command and 'uv' not in command:
             return "Don't use pip, use uv pip instead.", False
         if tool_name == 'need_use_these_tools':
@@ -410,7 +422,7 @@ async def main():
 
     # 初始化配置
     model_name = 'qwen3-coder-plus'
-    config = Config(pos, count, enable_logging=True)
+    config = Config(pos, count, model_name, enable_logging=True)
     config.set_llm(
         model=model_name,
         base_url='https://dashscope.aliyuncs.com/compatible-mode/v1',
