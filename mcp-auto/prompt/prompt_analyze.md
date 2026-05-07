@@ -16,10 +16,9 @@
 
 ## Deployment Option Classification Standards
 
-* **Free-installation deployment:** Deploy using free-installation methods such as `npx` or `uvx`, which require no additional setup steps.
-* **Local deployment:** Need to use the `git` tool to clone the source code to your local machine and then perform the corresponding deployment operations.
+* **Free-installation deployment:** Deploy using free-installation methods such as `npx` or `uvx`, which require no additional setup steps. This deployment method uses the local ("STDIO") transport protocol.
+* **Local deployment:** Need to use the `git` tool to clone the source code to your local machine and then perform the corresponding deployment operations. The transport protocol for this deployment method can be local ("STDIO") or remote ("SSE ", "Streamable-HTTP") protocols.
 * **Remote deployment:** The MCP server has been deployed on a cloud server by the developers. Users only need to write configurations and communicate with the cloud MCP server through remote transport protocols such as SSE or Streamable-HTTP.
-* **Locally installed but transport via remote protocol deployment:** These types of MCP servers require users to deploy the MCP server locally, but instead of communicating via stdio, they communicate via remote transport protocols such as SSE or Streamable-HTTP.
 
 **Notes**
 
@@ -34,7 +33,6 @@
 * Free-installation deployment has the highest priority.
 * Remote deployment has the second-highest priority.
 * Local deployment has the third-highest priority.
-* Locally installed but transport via remote protocol deployment has the lowest priority.
 
 **Notes**
 
