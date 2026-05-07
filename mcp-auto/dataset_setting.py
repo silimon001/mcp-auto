@@ -1,3 +1,5 @@
 # py js_ts MCP-Bench LiveMCPBench
 
-dataset_name = "py" 
+dataset_name = "MCP-Bench"
+
+framework_name = 'MCP-Auto'

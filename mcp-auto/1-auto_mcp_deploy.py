@@ -16,7 +16,7 @@ from MCP_Client import Client
 from mcp import Tool
 
 import simplify
-from dataset_setting import dataset_name
+from dataset_setting import dataset_name, framework_name
 
 load_dotenv('.mcp-auto_env')
 
@@ -53,7 +53,7 @@ class Config:
         # 路径配置
         self.cwd = os.getcwd()
         self.prompt_dir = Path(self.cwd) / "mcp-auto" / "prompt"
-        self.log_dir = Path(self.cwd) / "log_file" / dataset_name / model_name
+        self.log_dir = Path(self.cwd) / "log_file" / framework_name / dataset_name / model_name
         self.data_dir = Path(self.cwd) / "data"
 
     def set_llm(self, model: str, base_url: str, headers: Optional[Dict] = None,
@@ -421,7 +421,7 @@ async def main():
     count = 30
 
     # 初始化配置
-    model_name = 'qwen3-coder-plus'
+    model_name = 'qwen3.5-plus'
     config = Config(pos, count, model_name, enable_logging=True)
     config.set_llm(
         model=model_name,
@@ -431,7 +431,7 @@ async def main():
         enable_thinking=True
     )
     config.auto_deploy = True
-    config.max_chat_loop = 20
+    config.max_chat_loop = 21
 
     # 初始化各组件
     logger = Logger(config)
