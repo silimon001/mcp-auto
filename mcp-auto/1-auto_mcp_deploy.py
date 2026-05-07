@@ -20,7 +20,7 @@ from dataset_setting import dataset_name, framework_name
 
 load_dotenv('.mcp-auto_env')
 
-test_flag = True
+test_flag = False
 
 API_KEY = ''
 
@@ -53,7 +53,7 @@ class Config:
         # 路径配置
         self.cwd = os.getcwd()
         self.prompt_dir = Path(self.cwd) / "mcp-auto" / "prompt"
-        self.log_dir = Path(self.cwd) / "log_file" / framework_name / dataset_name / model_name
+        self.log_dir = Path(self.cwd) / "log_file" / dataset_name / framework_name / model_name
         self.data_dir = Path(self.cwd) / "data"
 
     def set_llm(self, model: str, base_url: str, headers: Optional[Dict] = None,
