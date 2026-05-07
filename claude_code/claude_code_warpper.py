@@ -1,15 +1,20 @@
 import subprocess
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from dataset_setting import dataset_name
+from dataset_setting import dataset_name, framework_name
 
-LOG_DIR = f"log_file/{dataset_name}"
-os.makedirs(LOG_DIR, exist_ok=True)
+LOG_DIR = Path(os.getcwd()) / "log_file" / dataset_name / framework_name / 'qwen3.5-plus'
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-def run_claude(prompt_text: str):
+def run_claude_stream(prompt_text: str, json_log_path: str):
+    """
+    流式运行 Claude，并实时写 JSONL
+    """
+
     process = subprocess.Popen(
         [
             "claude",
@@ -22,30 +27,82 @@ def run_claude(prompt_text: str):
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        text=True
+        text=True,
+        encoding="utf-8",
+        bufsize=1
     )
 
-    stdout, stderr = process.communicate(input=prompt_text)
+    process.stdin.write(prompt_text)
+    process.stdin.close()
 
-    return stdout, stderr
-
-from datetime import datetime, timezone
-
-def parse_all(stdout: str):
-    """解析 stream-json 行，并为每条事件记录接收时间"""
     events = []
-    for line in stdout.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            event = json.loads(line)
-            # 添加我们接收到这一行的时间戳（UTC）
-            event["_received_at"] = datetime.now(timezone.utc).isoformat()
-            events.append(event)
-        except json.JSONDecodeError:
-            continue
-    return events
+
+    got_result = False
+
+    with open(json_log_path, "a", encoding="utf-8") as jf:
+
+        while True:
+
+            # 读取一行
+            line = process.stdout.readline()
+
+            # EOF
+            if not line:
+
+                # 进程已退出
+                if process.poll() is not None:
+                    break
+
+                continue
+
+            line = line.strip()
+
+            if not line:
+                continue
+
+            try:
+                obj = json.loads(line)
+
+                obj["_received_at"] = datetime.now(
+                    timezone.utc
+                ).isoformat()
+
+                events.append(obj)
+
+                jf.write(
+                    json.dumps(
+                        obj,
+                        ensure_ascii=False
+                    ) + "\n"
+                )
+
+                jf.flush()
+
+                # 收到最终 result
+                if obj.get("type") == "result":
+                    got_result = True
+
+            except json.JSONDecodeError:
+                continue
+
+            # 已收到 result 且进程结束
+            if got_result and process.poll() is not None:
+                break
+
+    # 防止卡死
+    try:
+        stderr = process.stderr.read()
+    except:
+        stderr = ""
+
+    # 最多等5秒
+    try:
+        process.wait(timeout=120)
+    except subprocess.TimeoutExpired:
+        print("⚠️ Claude process timeout, killing...")
+        process.kill()
+
+    return events, stderr
 
 def render_content(obj):
     """
@@ -171,7 +228,7 @@ def collect_messages(events):
 def write_log(messages, order, log_file):
     """按轮次和时间戳输出，末尾附加任务结果总结"""
     turn = 0
-    with open(log_file, "w", encoding="utf-8") as f:
+    with open(log_file, "a", encoding="utf-8") as f:
         for item in order:
             # -------- 结果总结（直接输出，不改变轮次）--------
             if isinstance(item, dict) and item.get("type") == "result":
@@ -236,29 +293,16 @@ def write_log(messages, order, log_file):
             f.write("\n" + "-" * 60 + "\n")
 
 def run_task(prompt_text: str, task_name, pos, count):
-    stdout, stderr = run_claude(prompt_text)
 
-    # 解析 stdout (JSONL 格式) 为 Python 对象列表
-    log_entries = []
-    for line in stdout.strip().splitlines():
-        line = line.strip()
-        if line:  # 跳过空行
-            try:
-                log_entries.append(json.loads(line))
-            except json.JSONDecodeError as e:
-                # 可选：记录解析失败的行
-                print(f"警告：跳过无效 JSON 行 - {e}")
+    json_log_path = f"{LOG_DIR}/tmp_{task_name}.jsonl"
 
-    # 写入缩进排列的 JSON 文件
-    with open(f"{LOG_DIR}/{task_name}.json", "w", encoding="utf-8") as f:
-        json.dump(log_entries, f, indent=2, ensure_ascii=False)
-
-
-    events = parse_all(stdout)
+    events, stderr = run_claude_stream(
+        prompt_text,
+        json_log_path
+    )
 
     messages, order = collect_messages(events)
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    log_file = f"{LOG_DIR}/EXP_{dataset_name}_{task_name}_{timestamp}.log"
+    log_file = f"{LOG_DIR}/{pos}_{pos+count}_{timestamp}.log"
     write_log(messages, order, log_file)
 
     if stderr:

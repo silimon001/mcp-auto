@@ -431,7 +431,7 @@ async def main():
         enable_thinking=True
     )
     config.auto_deploy = True
-    config.max_chat_loop = 21
+    config.max_chat_loop = 20
 
     # 初始化各组件
     logger = Logger(config)

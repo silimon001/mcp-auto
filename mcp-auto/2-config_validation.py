@@ -28,7 +28,12 @@ async def main(path: str, name: str):
     with open(config_path, "r", encoding="utf-8") as f:
         configs = json.load(f)
 
-    servers = configs.get("Servers", {})
+    servers = {}
+
+    if configs.get("Servers", {}) == {}:
+        servers = configs
+    else:
+        servers = configs.get("Servers", {})
         
     if servers.get(name, None) is not None:
         await test_server(name, servers[name])
@@ -37,15 +42,12 @@ async def main(path: str, name: str):
 
 if __name__ == "__main__":
 
-    # import sys
-    # if len(sys.argv) != 3:
-    #     print("Usage: python script.py  <config_filename> <server_name>")
-    #     sys.exit(1)
+    import sys
+    if len(sys.argv) != 3:
+        print("Usage: python script.py  <config_filename> <server_name>")
+        sys.exit(1)
 
-    # config_path = str(sys.argv[1])
-    # name = str(sys.argv[2])
-
-    config_path = ""
-    name = ""
+    config_path = str(sys.argv[1])
+    name = str(sys.argv[2])
 
     anyio.run(lambda: main(config_path, name))
