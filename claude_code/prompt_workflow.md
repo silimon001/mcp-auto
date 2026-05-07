@@ -14,7 +14,6 @@ Connect to an MCP server according to the Readme document.
 
 * If you can successfully connect to the MCP server and obtain the list of tools it provides, the task is successful, then strictly output "✅ @@Task Done@@".
 * If any errors occur, please try to fix it.
-* If you encounter problems with API-Key or other key verification methods, immediately end the task and strictly output "⚠️ @@Task Alert@@".
 
 # MCP server configuration example
 
