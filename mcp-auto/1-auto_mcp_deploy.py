@@ -340,9 +340,7 @@ class ExecutionLoop:
     async def _execute_tool_with_policy(self, server_name: str, tool_name: str, tool_args: dict, auto: bool):
         """根据自动化策略执行工具调用"""
         command = tool_args.get('command', '')
-        # if 'python' in command and 'uv' not in command:
-        #     return "Don't use python, use uv instead.", False
-        if 'pip' in command and 'uv' not in command:
+        if 'pip ' in command and 'uv ' not in command:
             return "Don't use pip, use uv pip instead.", False
         if tool_name == 'need_use_these_tools':
             def _is_valid_tools_combination(tools: list) -> bool:
@@ -417,7 +415,7 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 
 # ==================== 主函数 ====================
 async def main():
-    pos = 0
+    pos = 80
     count = 40
 
     # 初始化配置
