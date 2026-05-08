@@ -418,7 +418,7 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 # ==================== 主函数 ====================
 async def main():
     pos = 0
-    count = 30
+    count = 40
 
     # 初始化配置
     model_name = 'qwen3.5-plus'
