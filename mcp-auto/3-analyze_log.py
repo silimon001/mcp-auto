@@ -125,18 +125,18 @@ def _output_path_for_source(source: str, local_path: str | None) -> Path:
     生成输出路径：
     - 本地文件 / file://：
         同目录下生成：
-        s_<原文件名>.slog
+        s_<原文件名>.log
 
     - http(s) URL：
         当前目录下生成：
-        s_<原文件名>.slog
+        s_<原文件名>.log
     """
 
     if local_path is not None:
         p = Path(local_path)
 
         return p.with_name(
-            f"s_{p.stem}.slog"
+            f"s_{p.stem}.log"
         )
 
     # 远程 URL
@@ -144,7 +144,7 @@ def _output_path_for_source(source: str, local_path: str | None) -> Path:
 
     base = Path(unquote(parsed.path)).stem or "simplified"
 
-    return Path.cwd() / f"s_{base}.slog"
+    return Path.cwd() / f"s_{base}.log"
 
 
 def _extract_server_name(segment_text: str) -> str:
@@ -338,17 +338,24 @@ def simplify_logs(log_sources: list[str]) -> list[Path]:
 # ----------------------------
 if __name__ == "__main__":
     log_sources: list[str] = [
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/0_40_2026-05-08_11-46-36.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/0_40_2026-05-08_18-47-24.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/160_200_2026-05-09_14-06-16.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/40_80_2026-05-08_17-36-02.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/80_120_2026-05-08_15-23-20.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/80_120_2026-05-08_23-57-08.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/0_40_2026-05-08_15-56-48.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/120_160_2026-05-09_12-51-47.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/40_80_2026-05-08_14-16-18.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/40_80_2026-05-08_18-37-34.log",
-        "log_file/js_ts/MCP-Auto/qwen3.5-plus/80_120_2026-05-08_21-38-40.log"
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/" + x
+        for x in [
+            "0_40_2026-05-08_11-46-36.log",
+            "0_40_2026-05-08_15-56-48.log",
+            "0_40_2026-05-08_18-47-24.log",
+            "120_160_2026-05-09_12-51-47.log",
+            "120_160_2026-05-09_15-50-42.log",
+            "120_160_2026-05-09_18-39-09.log",
+            "160_200_2026-05-09_14-06-16.log",
+            "160_200_2026-05-09_19-24-44.log",
+            "160_200_2026-05-09_21-22-10.log",
+            "40_80_2026-05-08_14-16-18.log",
+            "40_80_2026-05-08_17-36-02.log",
+            "40_80_2026-05-08_18-37-34.log",
+            "80_120_2026-05-08_15-23-20.log",
+            "80_120_2026-05-08_21-38-40.log",
+            "80_120_2026-05-08_23-57-08.log"
+        ]
     ]
 
     outputs = simplify_logs(log_sources)
