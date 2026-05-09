@@ -1,279 +1,356 @@
-#!/usr/bin/env python3
-"""
-Parse MCP server deployment logs and export a structured text log.
-
-Usage:
-    python parse_deploy_log.py <log_file> [output.log]
-"""
+from __future__ import annotations
 
 import re
-import json
-import sys
+import tempfile
+import urllib.request
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Iterable
+from urllib.parse import urlparse, unquote
+import ast
 
-# 正则表达式
-RE_DEALING = re.compile(
-    r"^[\d\-:, ]+ - INFO - Dealing with (\d+) .*/(\d+_.*?)_README\.md"
+
+# ----------------------------
+# 1) 正则
+# ----------------------------
+SEGMENT_START_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}.*? - INFO - Dealing with .*?$",
+    re.MULTILINE,
 )
-RE_TURN_START = re.compile(r"--- Communicate Count: (\d+) ---")
-RE_TOKEN_USAGE = re.compile(r"Token Usage: (\{.*\})")
-RE_TOOL_CALL = re.compile(
-    r"\[Call Tool\] Server: MCP-Auto, Tool: (\w+), Args: (\{.*\})"
+
+COMMUNICATE_RE = re.compile(r"Communicate Count:\s*(\d+)")
+TOKEN_USAGE_RE = re.compile(r"Token Usage:\s*(\{.*\})")
+CALL_TOOL_RE = re.compile(
+    r"\[Call Tool\]\s*Server:\s*.*?,\s*Tool:\s*(.*?),\s*Args:\s*(\{.*\})"
 )
-# 允许前后空白，增强匹配
-RE_TASK_DONE = re.compile(r"\s*@@Task Done@@\s*")
-RE_TASK_FAILED = re.compile(r"\s*@@Task Failed@@\s*")
 
-RE_MODEL = re.compile(r"Based on (.+)\.")
+STATUS_PATTERNS = [
+    (
+        re.compile(r"❌\s*\**\s*@@Task Failed@@\s*\**"),
+        "❌ @@Task Failed@@"
+    ),
 
+    (
+        re.compile(r"\**\s*@@Task Alert@@\s*\**"),
+        "⚠️ @@Task Alert@@"
+    ),
 
-def parse_log_file(log_path):
-    """解析日志文件，返回部署记录列表和模型名称。"""
-    deployments = []
-    current_deployment = None
-    current_turn = None
-    model_name = None  # 新增
-
-    with open(log_path, "r", encoding="utf-8") as f:
-        for raw_line in f:
-            line = raw_line.strip()
-            if not line:
-                continue
-
-            # 提取模型名称（只取第一次）
-            if model_name is None:
-                match_model = RE_MODEL.search(line)
-                if match_model:
-                    model_name = match_model.group(1)
-                    continue
-
-            # 新部署开始
-            match_deal = RE_DEALING.search(line)
-            if match_deal:
-                # 完成上一个部署（若存在且未完成）
-                if current_deployment is not None:
-                    # 如果没有明确的状态标记，视为失败
-                    if current_deployment["final_status"] is None:
-                        finalize_deployment(current_deployment, "Task Failed")
-                    deployments.append(current_deployment)
-
-                repo_id = match_deal.group(1)
-                full_name = match_deal.group(2)
-                current_deployment = {
-                    "repo_id": repo_id,
-                    "full_name": full_name,
-                    "final_status": None,
-                    "turns": [],
-                }
-                current_turn = None
-                continue
-
-            if current_deployment is None:
-                continue  # 还未进入任何部署块
-
-            # 任务完成/失败标记
-            if RE_TASK_DONE.search(line):
-                current_deployment["final_status"] = "Task Done"
-                continue
-            if RE_TASK_FAILED.search(line):
-                current_deployment["final_status"] = "Task Failed"
-                continue
-
-            # 新一轮对话开始
-            match_turn = RE_TURN_START.search(line)
-            if match_turn:
-                turn_num = int(match_turn.group(1))
-                current_turn = {
-                    "turn_number": turn_num,
-                    "tools": [],
-                    "prompt_tokens": None,
-                    "completion_tokens": None,
-                    "total_tokens": None,
-                }
-                current_deployment["turns"].append(current_turn)
-                continue
-
-            # 如果处于某一轮中，提取 token 用量和工具调用
-            if current_turn is not None:
-                # Token 用量
-                match_token = RE_TOKEN_USAGE.search(line)
-                if match_token:
-                    try:
-                        token_data = json.loads(match_token.group(1))
-                        current_turn["prompt_tokens"] = token_data.get("prompt_tokens")
-                        current_turn["completion_tokens"] = token_data.get("completion_tokens")
-                        current_turn["total_tokens"] = token_data.get("total_tokens")
-                    except json.JSONDecodeError:
-                        pass
-                    continue
-
-                # 工具调用
-                match_tool = RE_TOOL_CALL.search(line)
-                if match_tool:
-                    tool_name = match_tool.group(1)
-                    args_str = match_tool.group(2)
-                    current_turn["tools"].append({
-                        "tool": tool_name,
-                        "args": args_str
-                    })
-                    continue
-
-        # 文件结束，处理最后一个部署
-        if current_deployment is not None:
-            if current_deployment["final_status"] is None:
-                finalize_deployment(current_deployment, "Task Failed")
-            deployments.append(current_deployment)
-
-    return deployments, model_name
+    (
+        re.compile(r"✅\s*\**\s*@@Task Done@@\s*\**"),
+        "✅ @@Task Done@@"
+    ),
+]
 
 
-def finalize_deployment(deployment, status):
-    """设置部署的最终状态，仅在尚未设置时生效。"""
-    if deployment["final_status"] is None:
-        deployment["final_status"] = status
+# ----------------------------
+# 2) 数据结构
+# ----------------------------
+@dataclass
+class RoundRecord:
+    round_id: int
+
+    input_tokens: int = 0
+    output_tokens: int = 0
+    reasoning_tokens: int = 0
+
+    tool_calls: list[str] = field(default_factory=list)
 
 
-def deployments_to_log(deployments, output_path, model_name=None):
-    """将部署记录写入可读文本日志。"""
-    with open(output_path, "w", encoding="utf-8") as f:
-        # 写入模型信息
-        if model_name:
-            f.write(f"模型: {model_name}\n")
-        else:
-            f.write("模型: unknown\n")
+@dataclass
+class SegmentRecord:
+    server_name: str
+    status: str
+    rounds: list[RoundRecord] = field(default_factory=list)
 
-        f.write("\n")
-    with open(output_path, "a", encoding="utf-8") as f:
-        for idx, dep in enumerate(deployments, 1):
-            repo_id = dep["repo_id"]
-            full_name = dep["full_name"]
-            status = dep["final_status"] or "unknown"
-            turns = dep["turns"]
-            total_turns = len(turns)
 
-            f.write("=" * 80 + "\n")
-            f.write(f"部署 #{idx}: {repo_id} ({full_name})\n")
-            f.write(f"最终状态: {status}\n")
-            f.write(f"对话总轮数: {total_turns}\n\n")
+# ----------------------------
+# 3) 工具函数
+# ----------------------------
+def _read_source_text(source: str) -> tuple[str, str | None]:
+    """
+    读取输入源文本。
+    支持：
+    - 本地路径
+    - file:// URL
+    - http(s) URL（先下载到临时文件再读取）
+    返回：
+    - text
+    - local_path: 若可定位到本地路径则返回，否则为 None
+    """
+    parsed = urlparse(source)
 
-            if not turns:
-                f.write("（无对话记录）\n\n")
-                continue
+    # file:// URL
+    if parsed.scheme == "file":
+        local_path = Path(unquote(parsed.path))
+        return local_path.read_text(encoding="utf-8", errors="replace"), str(local_path)
 
-            for turn in turns:
-                turn_num = turn["turn_number"]
-                tools = turn["tools"]
-                pt = turn["prompt_tokens"] or "N/A"
-                ct = turn["completion_tokens"] or "N/A"
-                tt = turn["total_tokens"] or "N/A"
+    # http(s) URL
+    if parsed.scheme in {"http", "https"}:
+        with urllib.request.urlopen(source) as resp:
+            raw = resp.read()
+        text = raw.decode("utf-8", errors="replace")
 
-                f.write(f"--- 第 {turn_num} 轮 ---\n")
-                f.write(f"Token 用量: prompt={pt}, completion={ct}, total={tt}\n")
+        # 远程日志没有原始本地目录，这里返回 None，输出会落到当前目录下的同名 .log
+        return text, None
 
-                if tools:
-                    f.write("调用的工具:\n")
-                    for t in tools:
-                        tool_name = t["tool"]
-                        args = t["args"]
-                        try:
-                            args_obj = json.loads(args)
-                            args_fmt = json.dumps(args_obj, ensure_ascii=False, indent=2)
-                            f.write(f"  - {tool_name}:\n{args_fmt}\n")
-                        except json.JSONDecodeError:
-                            f.write(f"  - {tool_name}: {args}\n")
-                else:
-                    f.write("本轮无工具调用\n")
-                f.write("\n")
-            f.write("\n")
+    # 普通本地路径
+    local_path = Path(source)
+    return local_path.read_text(encoding="utf-8", errors="replace"), str(local_path)
 
-    print(f"文本日志已写入: {output_path}")
+def _parse_token_usage(token_usage_str: str) -> tuple[int, int, int]:
+    """
+    从 Token Usage JSON 字符串中提取：
+    - prompt_tokens -> input
+    - completion_tokens -> output
+    - reasoning_tokens -> reasoning
+    """
+    try:
+        data = ast.literal_eval(token_usage_str)
 
-def summarize_deployments(deployments, model_name):
-    summary_rows = []
-    total_turns_all = 0
-    total_tokens_all = 0
-    total_deployments = len(deployments)
+        output_tokens = data.get("completion_tokens", 0)
+        input_tokens = data.get("prompt_tokens", 0)
 
-    for dep in deployments:
-        turns = dep["turns"]
-
-        total_tokens = sum(
-            t["total_tokens"] if t["total_tokens"] is not None else 0
-            for t in turns
+        reasoning_tokens = (
+            data.get("completion_tokens_details", {})
+            .get("reasoning_tokens", 0)
         )
 
-        total_turns = len(turns)
+        return input_tokens, output_tokens, reasoning_tokens
 
-        # 👉 用 full_name 作为 MCP server 名
-        summary_rows.append({
-            "name": dep["full_name"],
-            "status": dep["final_status"],
-            "total_tokens": total_tokens,
-            "turns": total_turns
-        })
+    except Exception:
+        return 0, 0, 0
 
-        total_turns_all += total_turns
-        total_tokens_all += total_tokens
+def _output_path_for_source(source: str, local_path: str | None) -> Path:
+    """
+    生成输出路径：
+    - 本地文件 / file://：
+        同目录下生成：
+        s_<原文件名>.slog
 
-    avg_turns = total_turns_all / total_deployments if total_deployments else 0
-    avg_tokens = total_tokens_all / total_deployments if total_deployments else 0
+    - http(s) URL：
+        当前目录下生成：
+        s_<原文件名>.slog
+    """
 
-    return summary_rows, avg_turns, avg_tokens
+    if local_path is not None:
+        p = Path(local_path)
 
-def write_summary_log(summary_rows, avg_turns, avg_tokens, output_path, model_name=None):
-    with open(output_path, "w", encoding="utf-8") as f:
+        return p.with_name(
+            f"s_{p.stem}.slog"
+        )
 
-        # 👉 模型写在首行
-        if model_name:
-            f.write(f"模型: {model_name}\n\n")
-        else:
-            f.write("模型: unknown\n\n")
+    # 远程 URL
+    parsed = urlparse(source)
 
-        # 👉 表头修改
-        f.write("MCP服务器\t最终状态\t总Token\t对话轮数\n")
-        f.write("-" * 80 + "\n")
+    base = Path(unquote(parsed.path)).stem or "simplified"
 
-        for row in summary_rows:
-            f.write(
-                f"{row['name']}\t{row['status']}\t{row['total_tokens']}\t{row['turns']}\n"
+    return Path.cwd() / f"s_{base}.slog"
+
+
+def _extract_server_name(segment_text: str) -> str:
+    """
+    从 "Dealing with ..." 这一段里提取 MCP 服务器名称。
+    示例：
+    ... Dealing with 985428812 /home/.../985428812_google-pse-mcp_README.md ...
+    -> 985428812_google-pse-mcp
+    """
+    first_line = segment_text.splitlines()[0].strip()
+
+    # 优先抓 README 文件名
+    m = re.search(r"/([^/\s]+)_README\.md\b", first_line)
+    if m:
+        return m.group(1)
+
+    # 兜底：抓最后一个路径组件
+    m = re.search(r"/([^/\s]+)\s*\.\.\.\s*$", first_line)
+    if m:
+        name = m.group(1)
+        if name.endswith("_README.md"):
+            return name[:-len("_README.md")]
+        return name
+
+    return "unknown_server"
+
+
+def _extract_status(segment_text: str) -> str:
+    """
+    取该段落里最后一个状态标志。
+    若完全没有任何标志，则按失败处理。
+    """
+    found: list[tuple[int, str]] = []
+    for regex, normalized in STATUS_PATTERNS:
+        for m in regex.finditer(segment_text):
+            found.append((m.start(), normalized))
+
+    if not found:
+        return "❌ @@Task Failed@@"
+
+    found.sort(key=lambda x: x[0])
+    return found[-1][1]
+
+
+def _split_segments(text: str) -> list[str]:
+    """
+    按每个 "Dealing with" 起始行切段。
+    """
+    starts = [m.start() for m in SEGMENT_START_RE.finditer(text)]
+    if not starts:
+        return []
+
+    starts.append(len(text))
+    segments = []
+    for i in range(len(starts) - 1):
+        seg = text[starts[i]:starts[i + 1]].strip()
+        if seg:
+            segments.append(seg)
+    return segments
+
+
+def _parse_rounds(segment_text: str) -> list[RoundRecord]:
+    """
+    解析一个 MCP 服务器测试段中的所有对话轮次。
+    规则：
+    - 每次出现 "Communicate Count: N" 视作新一轮开始
+    - 该轮内抓取：
+      - Token Usage
+      - [Call Tool] 行
+    """
+    rounds: list[RoundRecord] = []
+    current: RoundRecord | None = None
+
+    for line in segment_text.splitlines():
+        line = line.rstrip()
+
+        m = COMMUNICATE_RE.search(line)
+        if m:
+            if current is not None:
+                rounds.append(current)
+            current = RoundRecord(round_id=int(m.group(1)))
+            continue
+
+        if current is None:
+            continue
+
+        m = TOKEN_USAGE_RE.search(line)
+        if m:
+            token_usage_str = m.group(1).strip()
+
+            (
+                current.input_tokens,
+                current.output_tokens,
+                current.reasoning_tokens,
+            ) = _parse_token_usage(token_usage_str)
+
+            continue
+
+        if "[Call Tool]" in line:
+            m = CALL_TOOL_RE.search(line)
+
+            if m:
+                tool, args = m.groups()
+
+                current.tool_calls.append(
+                    f"Tool={tool.strip()}, Args={args.strip()}"
+                )
+
+            else:
+                current.tool_calls.append(line.strip())
+
+    if current is not None:
+        rounds.append(current)
+
+    return rounds
+
+
+def simplify_log_text(text: str) -> list[SegmentRecord]:
+    """
+    将一个原始日志文本，解析成结构化段落。
+    """
+    segments = _split_segments(text)
+    results: list[SegmentRecord] = []
+
+    for seg in segments:
+        server_name = _extract_server_name(seg)
+        status = _extract_status(seg)
+        rounds = _parse_rounds(seg)
+        results.append(SegmentRecord(server_name=server_name, status=status, rounds=rounds))
+
+    return results
+
+
+def write_simplified_log(records: list[SegmentRecord], output_path: Path) -> None:
+    """
+    写出简化日志。
+    格式：
+    MCP服务器名称 | 任务状态标志
+    对话轮次1 | token usage | tool_calls
+    ...
+    """
+    lines: list[str] = []
+
+    for seg in records:
+        lines.append(f"{seg.server_name} | {seg.status}")
+        for rd in seg.rounds:
+            
+            token_usage = (
+                f"input={rd.input_tokens}, "
+                f"output={rd.output_tokens}, "
+                f"reasoning={rd.reasoning_tokens}"
             )
 
-        f.write("\n")
-        f.write("=" * 80 + "\n")
-        f.write(f"平均对话轮数: {avg_turns:.2f}\n")
-        f.write(f"平均Token消耗: {avg_tokens:.2f}\n")
+            tool_calls = (
+                " ; ".join(rd.tool_calls)
+                if rd.tool_calls
+                else "无 tool_calls"
+            )
 
-def main():
-    try:
-        from dataset_setting import dataset_name
-    except ImportError:
-        dataset_name = "default"
+            lines.append(
+                f"loop {rd.round_id} | "
+                f"{token_usage} | "
+                f"{tool_calls}"
+            )
 
-    log_dir = f"/home/silimon/mcp-auto/log_file/{dataset_name}"
+        lines.append("")  # 段落间空行
 
-    from glob import glob
-    import os
-    log_file = sorted(
-        glob(os.path.join(log_dir, f"EXP_{dataset_name}_*.log")),
-        # reverse=True
-    )
-
-    print(f"解析日志: {log_file} ...")
-    for log in log_file:
-        deployments, model_name = parse_log_file(log)
-
-        summary_rows, avg_turns, avg_tokens = summarize_deployments(
-            deployments, model_name
-        )
-
-        # 原始日志
-        output_file = log.replace('EXP_', 'EXP_summary_')
-        deployments_to_log(deployments, output_file, model_name)
-
-        # 新统计日志
-        stats_file = log.replace('EXP_', 'EXP_stats_')
-        write_summary_log(summary_rows, avg_turns, avg_tokens, stats_file, model_name)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
+def simplify_logs(log_sources: list[str]) -> list[Path]:
+    """
+    传入多个日志文件 URL / 路径，逐个生成对应的简化日志文件。
+    返回生成的输出路径列表。
+    """
+    output_paths: list[Path] = []
+
+    for source in log_sources:
+        text, local_path = _read_source_text(source)
+        records = simplify_log_text(text)
+        output_path = _output_path_for_source(source, local_path)
+        write_simplified_log(records, output_path)
+        output_paths.append(output_path)
+
+    return output_paths
+
+
+# ----------------------------
+# 4) CLI 示例
+# ----------------------------
 if __name__ == "__main__":
-    main()
+    log_sources: list[str] = [
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/0_40_2026-05-08_11-46-36.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/0_40_2026-05-08_18-47-24.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/160_200_2026-05-09_14-06-16.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/40_80_2026-05-08_17-36-02.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/80_120_2026-05-08_15-23-20.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/80_120_2026-05-08_23-57-08.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/0_40_2026-05-08_15-56-48.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/120_160_2026-05-09_12-51-47.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/40_80_2026-05-08_14-16-18.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/40_80_2026-05-08_18-37-34.log",
+        "log_file/js_ts/MCP-Auto/qwen3.5-plus/80_120_2026-05-08_21-38-40.log"
+    ]
+
+    outputs = simplify_logs(log_sources)
+    for p in outputs:
+        print(f"written: {p}")
