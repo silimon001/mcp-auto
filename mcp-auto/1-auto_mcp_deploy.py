@@ -415,7 +415,7 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 
 # ==================== 主函数 ====================
 async def main():
-    pos = 80
+    pos = 0
     count = 40
 
     # 初始化配置
