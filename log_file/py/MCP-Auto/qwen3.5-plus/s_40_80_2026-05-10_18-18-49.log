@@ -1,0 +1,512 @@
+919433912_mcp-server-jupyter | ✅ @@Task Done@@
+loop 1 | input=2138, output=895, reasoning=500 | Tool=need_use_these_tools, Args={'tools': ['uv', 'git']}
+loop 2 | input=4190, output=229, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/919433912_ihrpr_mcp-server-jupyter && cd /home/silimon/MCP-Auto/mcp_server/919433912_ihrpr_mcp-server-jupyter && uv venv --seed', 'timeout_ms': 120000}
+loop 3 | input=4513, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/919433912_ihrpr_mcp-server-jupyter && uv pip install jupyterlab', 'timeout_ms': 300000}
+loop 4 | input=4712, output=108, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/919433912_ihrpr_mcp-server-jupyter && echo $(pwd)/.venv', 'timeout_ms': 10000}
+loop 5 | input=4904, output=435, reasoning=0 | Tool=add_config, Args={'name': '919433912_ihrpr_mcp-server-jupyter', 'type': 'stdio', 'command': 'uv', 'args': ['run', '--with', 'mcp-server-jupyter', 'mcp-server-jupyter'], 'env': {'UV_PROJECT_ENVIRONMENT': '/home/silimon/MCP-Auto/mcp_server/919433912_ihrpr_mcp-server-jupyter/.venv'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/919433912_ihrpr_mcp-server-jupyter'}
+loop 6 | input=5176, output=95, reasoning=0 | Tool=validate_config, Args={'name': '919433912_ihrpr_mcp-server-jupyter', 'timeout_ms': 120000}
+loop 7 | input=5836, output=87, reasoning=0 | 无 tool_calls
+
+1012242814_thinqconnect-mcp | ⚠️ @@Task Alert@@
+loop 1 | input=2025, output=1130, reasoning=768 | Tool=need_use_these_tools, Args={'tools': ['uv', 'git']}
+loop 2 | input=4044, output=194, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1012242814_thinq-connect_thinqconnect-mcp && uvx --help', 'timeout_ms': 30000}
+loop 3 | input=7173, output=113, reasoning=0 | Tool=execute_command, Args={'command': 'uvx --help thinqconnect-mcp 2>&1 || uv pip index versions thinqconnect-mcp 2>&1 | head -20', 'timeout_ms': 60000}
+loop 4 | input=10221, output=71, reasoning=0 | Tool=execute_command, Args={'command': 'uv pip index versions thinqconnect-mcp 2>&1', 'timeout_ms': 60000}
+loop 5 | input=10372, output=79, reasoning=0 | Tool=execute_command, Args={'command': 'uv pip install thinqconnect-mcp --dry-run 2>&1 | head -30', 'timeout_ms': 60000}
+loop 6 | input=10517, output=432, reasoning=0 | Tool=add_config, Args={'name': '1012242814_thinq-connect_thinqconnect-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['thinqconnect-mcp'], 'env': {'THINQ_PAT': 'your_personal_access_token_here', 'THINQ_COUNTRY': 'your_country_code_here'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/1012242814_thinq-connect_thinqconnect-mcp'}
+loop 7 | input=10787, output=114, reasoning=0 | Tool=validate_config, Args={'name': '1012242814_thinq-connect_thinqconnect-mcp', 'timeout_ms': 120000}
+loop 8 | input=11812, output=411, reasoning=0 | 无 tool_calls
+
+916111107_mcp-pdf-extraction-server | ✅ @@Task Done@@
+loop 1 | input=2120, output=821, reasoning=457 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4140, output=218, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server && git clone git@github.com:xraywu/mcp-pdf-extraction-server.git /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server', 'timeout_ms': 60000}
+loop 3 | input=4447, output=172, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server/', 'timeout_ms': 10000}
+loop 4 | input=4951, output=82, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server/src/', 'timeout_ms': 10000}
+loop 5 | input=5178, output=84, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server/src/pdf_extraction/', 'timeout_ms': 10000}
+loop 6 | input=5501, output=119, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server/pyproject.toml', 'timeout_ms': 10000}
+loop 7 | input=5857, output=142, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server && uv sync', 'timeout_ms': 300000}
+loop 8 | input=6107, output=119, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server && uv pip install -e .', 'timeout_ms': 120000}
+loop 9 | input=6370, output=74, reasoning=0 | Tool=execute_command, Args={'command': 'which pdf-extraction', 'timeout_ms': 10000}
+loop 10 | input=6502, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server/.venv/bin/', 'timeout_ms': 10000}
+loop 11 | input=7338, output=113, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server/.venv/bin/pdf-extraction', 'timeout_ms': 10000}
+loop 12 | input=7636, output=307, reasoning=0 | Tool=add_config, Args={'name': '916111107_xraywu_mcp-pdf-extraction-server', 'type': 'stdio', 'command': '/home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server/.venv/bin/pdf-extraction', 'args': [], 'cwd': '/home/silimon/MCP-Auto/mcp_server/916111107_xraywu_mcp-pdf-extraction-server'}
+loop 13 | input=7781, output=94, reasoning=0 | Tool=validate_config, Args={'name': '916111107_xraywu_mcp-pdf-extraction-server', 'timeout_ms': 60000}
+loop 14 | input=8374, output=188, reasoning=0 | 无 tool_calls
+
+924542723_mssql_mcp_server | ⚠️ @@Task Alert@@
+loop 1 | input=2078, output=918, reasoning=499 | Tool=need_use_these_tools, Args={'tools': ['uv', 'git']}
+loop 2 | input=4154, output=196, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server && cd /home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server && uv init --no-readme', 'timeout_ms': 30000}
+loop 3 | input=4425, output=105, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server && uv add mssql-mcp-server', 'timeout_ms': 120000}
+loop 4 | input=4641, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server && uv sync', 'timeout_ms': 60000}
+loop 5 | input=4826, output=113, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server && uv run python -c "import mssql_mcp_server; print(\'Package installed successfully\')"', 'timeout_ms': 30000}
+loop 6 | input=5176, output=85, reasoning=0 | Tool=execute_command, Args={'command': 'sudo apt-get update && sudo apt-get install -y unixodbc unixodbc-dev', 'timeout_ms': 120000}
+loop 7 | input=5299, output=116, reasoning=44 | Tool=execute_command, Args={'command': 'ldconfig -p | grep -i odbc', 'timeout_ms': 10000}
+loop 8 | input=5428, output=85, reasoning=0 | Tool=execute_command, Args={'command': 'apt-get update 2>&1 | head -20', 'timeout_ms': 60000}
+loop 9 | input=5660, output=159, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server && uv pip list | grep mssql', 'timeout_ms': 30000}
+loop 10 | input=5884, output=468, reasoning=0 | Tool=add_config, Args={'name': '924542723_JexinSam_mssql_mcp_server', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server', 'run', 'mssql_mcp_server'], 'env': {'MSSQL_DRIVER': 'mssql_driver', 'MSSQL_HOST': 'localhost', 'MSSQL_USER': 'your_username', 'MSSQL_PASSWORD': 'your_password', 'MSSQL_DATABASE': 'your_database'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server'}
+loop 11 | input=6190, output=99, reasoning=0 | Tool=validate_config, Args={'name': '924542723_JexinSam_mssql_mcp_server', 'timeout_ms': 60000}
+loop 12 | input=6990, output=134, reasoning=0 | Tool=execute_command, Args={'command': 'find /usr -name "libodbc*" 2>/dev/null', 'timeout_ms': 30000}
+loop 13 | input=7182, output=93, reasoning=0 | Tool=execute_command, Args={'command': 'which apt-get && apt-get install -y unixodbc 2>&1 | head -30', 'timeout_ms': 120000}
+loop 14 | input=7383, output=160, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/924542723_JexinSam_mssql_mcp_server && cat .venv/lib/python3.11/site-packages/mssql_mcp_server/server.py | head -20', 'timeout_ms': 30000}
+loop 15 | input=7742, output=128, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/.local/lib/ 2>/dev/null || echo "Directory not found"', 'timeout_ms': 10000}
+loop 16 | input=7926, output=55, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/', 'timeout_ms': 10000}
+loop 17 | input=9075, output=57, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/.local/', 'timeout_ms': 10000}
+loop 18 | input=9329, output=131, reasoning=0 | Tool=execute_command, Args={'command': 'find / -name "libodbc*" 2>/dev/null | head -10', 'timeout_ms': 60000}
+loop 19 | input=9518, output=282, reasoning=0 | 无 tool_calls
+
+960542103_zoho-mcp | ❌ @@Task Failed@@
+loop 1 | input=2191, output=804, reasoning=460 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4023, output=158, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp', 'timeout_ms': 5000}
+loop 3 | input=4239, output=365, reasoning=0 | Tool=add_config, Args={'name': '960542103_kkeeling_zoho-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['zoho-books-mcp'], 'env': {'ZOHO_CLIENT_ID': 'your_client_id', 'ZOHO_CLIENT_SECRET': 'your_client_secret', 'ZOHO_REFRESH_TOKEN': 'your_refresh_token', 'ZOHO_ORGANIZATION_ID': 'your_organization_id', 'ZOHO_REGION': 'US'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp'}
+loop 4 | input=4440, output=115, reasoning=0 | Tool=validate_config, Args={'name': '960542103_kkeeling_zoho-mcp', 'timeout_ms': 120000}
+loop 5 | input=5304, output=211, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && git clone https://github.com/kkeeling/zoho-mcp.git temp_repo 2>&1', 'timeout_ms': 60000}
+loop 6 | input=5576, output=143, reasoning=0 | Tool=execute_command, Args={'command': 'mv /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/temp_repo/* /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/ && rm -rf /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/temp_repo', 'timeout_ms': 5000}
+loop 7 | input=5777, output=97, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && uv venv 2>&1', 'timeout_ms': 30000}
+loop 8 | input=5957, output=89, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && uv pip install -r requirements.txt 2>&1', 'timeout_ms': 120000}
+loop 9 | input=6134, output=96, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/requirements.txt', 'timeout_ms': 5000}
+loop 10 | input=6467, output=79, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/pyproject.toml', 'timeout_ms': 5000}
+loop 11 | input=7192, output=93, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/server.py', 'timeout_ms': 5000}
+loop 12 | input=7377, output=78, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/', 'timeout_ms': 5000}
+loop 13 | input=8148, output=82, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/zoho_mcp/', 'timeout_ms': 5000}
+loop 14 | input=8783, output=81, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/zoho_mcp/server.py', 'timeout_ms': 5000}
+loop 15 | input=10751, output=147, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && uv run pip show mcp 2>&1', 'timeout_ms': 10000}
+loop 16 | input=11673, output=131, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && uv run python --version 2>&1', 'timeout_ms': 10000}
+loop 17 | input=12579, output=149, reasoning=0 | Tool=execute_command, Args={'command': 'sed -i \'s/requires-python = ">=3.9"/requires-python = ">=3.10"/\' /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/pyproject.toml', 'timeout_ms': 5000}
+loop 18 | input=12786, output=141, reasoning=0 | Tool=execute_command, Args={'command': 'rm -rf /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp/.venv && cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && uv venv --python 3.11 2>&1', 'timeout_ms': 30000}
+loop 19 | input=13011, output=89, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && uv pip install -r requirements.txt 2>&1', 'timeout_ms': 120000}
+loop 20 | input=13174, output=133, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/960542103_kkeeling_zoho-mcp && uv run python -c "from mcp.server.fastmcp import FastMCP; import inspect; print(inspect.signature(FastMCP.__init__))" 2>&1', 'timeout_ms': 30000}
+
+959007986_jebmcp | ✅ @@Task Done@@
+loop 1 | input=2299, output=797, reasoning=453 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4299, output=173, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp && git clone git@github.com:dawnslab/jebmcp.git /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp', 'timeout_ms': 120000}
+loop 3 | input=4560, output=98, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp', 'timeout_ms': 30000}
+loop 4 | input=5059, output=119, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp', 'timeout_ms': 30000}
+loop 5 | input=5354, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp/pyproject.toml', 'timeout_ms': 30000}
+loop 6 | input=5597, output=104, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp/src/jeb_mcp/server.py', 'timeout_ms': 30000}
+loop 7 | input=6376, output=120, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp && uv venv', 'timeout_ms': 60000}
+loop 8 | input=6580, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp && uv pip install -e .', 'timeout_ms': 300000}
+loop 9 | input=6773, output=117, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp && uv run --help 2>&1 | head -20', 'timeout_ms': 30000}
+loop 10 | input=7123, output=109, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp/', 'timeout_ms': 30000}
+loop 11 | input=7439, output=267, reasoning=0 | Tool=add_config, Args={'name': '959007986_dawnslab_jebmcp', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp/jeb-mcp', 'run', 'src/jeb_mcp/server.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/959007986_dawnslab_jebmcp'}
+loop 12 | input=7543, output=97, reasoning=0 | Tool=validate_config, Args={'name': '959007986_dawnslab_jebmcp', 'timeout_ms': 120000}
+loop 13 | input=8488, output=177, reasoning=0 | 无 tool_calls
+
+990087225_read-team-mcp-server | ❌ @@Task Failed@@
+loop 1 | input=2090, output=971, reasoning=522 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4195, output=193, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server && git clone git@github.com:skjortan23/read-team-mcp-server.git /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server', 'timeout_ms': 120000}
+loop 3 | input=4479, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server && uv init', 'timeout_ms': 60000}
+loop 4 | input=4684, output=132, reasoning=32 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server && uv sync', 'timeout_ms': 300000}
+loop 5 | input=6177, output=133, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/pyproject.toml', 'timeout_ms': 30000}
+loop 6 | input=6932, output=147, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server && sed -i \'s/requires-python = ">=3.8"/requires-python = ">=3.10"/\' pyproject.toml && cat pyproject.toml | head -20', 'timeout_ms': 30000}
+loop 7 | input=7318, output=109, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server && uv sync', 'timeout_ms': 300000}
+loop 8 | input=7516, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/', 'timeout_ms': 30000}
+loop 9 | input=8181, output=98, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/', 'timeout_ms': 30000}
+loop 10 | input=8490, output=88, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/red_team_mcp/', 'timeout_ms': 30000}
+loop 11 | input=9150, output=119, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/red_team_mcp/fastmcp_server.py | head -100', 'timeout_ms': 30000}
+loop 12 | input=10302, output=117, reasoning=0 | Tool=execute_command, Args={'command': 'find /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server -name "main.py" -o -name "__main__.py" 2>/dev/null', 'timeout_ms': 30000}
+loop 13 | input=11981, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'grep -A5 "project.scripts" /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/pyproject.toml', 'timeout_ms': 30000}
+loop 14 | input=12189, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/red_team_mcp/ | grep -i main', 'timeout_ms': 30000}
+loop 15 | input=12385, output=119, reasoning=0 | Tool=execute_command, Args={'command': 'tail -50 /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/red_team_mcp/fastmcp_server.py', 'timeout_ms': 30000}
+loop 16 | input=12966, output=149, reasoning=0 | Tool=execute_command, Args={'command': 'grep -n "stdio" /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/red_team_mcp/fastmcp_server.py', 'timeout_ms': 30000}
+loop 17 | input=13173, output=132, reasoning=0 | Tool=execute_command, Args={'command': 'grep -n "FastMCP" /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/red_team_mcp/fastmcp_server.py | head -20', 'timeout_ms': 30000}
+loop 18 | input=13437, output=111, reasoning=0 | Tool=execute_command, Args={'command': "sed -n '59,65p' /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/src/red_team_mcp/fastmcp_server.py", 'timeout_ms': 30000}
+loop 19 | input=13639, output=252, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server && uv run python -c "from fastmcp import FastMCP; help(FastMCP.run)" 2>&1 | head -50', 'timeout_ms': 60000}
+loop 20 | input=14075, output=332, reasoning=0 | Tool=execute_command, Args={'command': 'cat > /home/silimon/MCP-Auto/mcp_server/990087225_skjortan23_read-team-mcp-server/run_server.py << \'EOF\'\n#!/usr/bin/env python3\n"""Runner script for Red Team MCP Server"""\nimport sys\nimport os\n\n# Add src to path\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), \'src\'))\n\nfrom red_team_mcp.fastmcp_server import app\n\nif __name__ == "__main__":\n    # Run with stdio transport for MCP integration\n    app.run(transport="stdio")\nEOF', 'timeout_ms': 30000}
+
+908789222_perplexity-mcp | ✅ @@Task Done@@
+loop 1 | input=2357, output=1159, reasoning=653 | Tool=need_use_these_tools, Args={'tools': ['uv', 'git']}
+loop 2 | input=4520, output=156, reasoning=0 | Tool=execute_command, Args={'command': 'which uv && uv --version', 'timeout_ms': 10000}
+loop 3 | input=4759, output=100, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/908789222_jsonallen_perplexity-mcp', 'timeout_ms': 5000}
+loop 4 | input=4917, output=364, reasoning=0 | Tool=add_config, Args={'name': '908789222_jsonallen_perplexity-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['perplexity-mcp'], 'env': {'PERPLEXITY_API_KEY': 'YOUR_PERPLEXITY_API_KEY_HERE', 'PERPLEXITY_MODEL': 'sonar'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/908789222_jsonallen_perplexity-mcp'}
+loop 5 | input=5117, output=235, reasoning=0 | Tool=validate_config, Args={'name': '908789222_jsonallen_perplexity-mcp', 'timeout_ms': 60000}
+loop 6 | input=5876, output=216, reasoning=0 | 无 tool_calls
+
+967955645_ticktick-mcp | ✅ @@Task Done@@
+loop 1 | input=2176, output=729, reasoning=378 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4183, output=189, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp && git clone git@github.com:ekkyarmandi/ticktick-mcp.git /home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp', 'timeout_ms': 60000}
+loop 3 | input=4462, output=105, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp && uv venv', 'timeout_ms': 60000}
+loop 4 | input=4652, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp && uv pip install -r requirements.txt', 'timeout_ms': 300000}
+loop 5 | input=4848, output=105, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp/requirements.txt', 'timeout_ms': 10000}
+loop 6 | input=5289, output=101, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp/main.py', 'timeout_ms': 10000}
+loop 7 | input=5785, output=194, reasoning=0 | Tool=execute_command, Args={'command': 'echo "TICKTICK_API_KEY=your_access_token_here" > /home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp/.env', 'timeout_ms': 10000}
+loop 8 | input=6038, output=374, reasoning=0 | Tool=add_config, Args={'name': '967955645_ekkyarmandi_ticktick-mcp', 'type': 'sse', 'url': 'http://localhost:58321/sse', 'command': 'uv', 'args': ['run', 'main.py'], 'env': {}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/967955645_ekkyarmandi_ticktick-mcp'}
+loop 9 | input=6251, output=99, reasoning=0 | Tool=validate_config, Args={'name': '967955645_ekkyarmandi_ticktick-mcp', 'timeout_ms': 120000}
+loop 10 | input=6984, output=453, reasoning=0 | 无 tool_calls
+
+932695221_joplin-mcp-server | ✅ @@Task Done@@
+loop 1 | input=2333, output=874, reasoning=464 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4399, output=180, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone git@github.com:dweigend/joplin-mcp-server.git /home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server', 'timeout_ms': 120000}
+loop 3 | input=4669, output=98, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server && uv venv', 'timeout_ms': 60000}
+loop 4 | input=4851, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server && uv pip install -e .', 'timeout_ms': 300000}
+loop 5 | input=5042, output=112, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server/', 'timeout_ms': 10000}
+loop 6 | input=5598, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'find /home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server -name "*.py" -type f', 'timeout_ms': 10000}
+loop 7 | input=69157, output=147, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server/pyproject.toml', 'timeout_ms': 10000}
+loop 8 | input=69787, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server/.env.example', 'timeout_ms': 10000}
+loop 9 | input=69956, output=391, reasoning=0 | Tool=add_config, Args={'name': '932695221_dweigend_joplin-mcp-server', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server', 'run', 'src/mcp/joplin_mcp.py'], 'env': {'JOPLIN_TOKEN': 'your_joplin_token_here'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/932695221_dweigend_joplin-mcp-server'}
+loop 10 | input=70185, output=97, reasoning=0 | Tool=validate_config, Args={'name': '932695221_dweigend_joplin-mcp-server', 'timeout_ms': 60000}
+loop 11 | input=70939, output=414, reasoning=0 | 无 tool_calls
+
+949885195_kafka_mcp_server | ✅ @@Task Done@@
+loop 1 | input=2182, output=849, reasoning=428 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4259, output=183, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server && git clone git@github.com:pavanjava/kafka_mcp_server.git /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server', 'timeout_ms': 120000}
+loop 3 | input=4531, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server && uv init --no-readme 2>/dev/null || true && uv venv', 'timeout_ms': 60000}
+loop 4 | input=4727, output=108, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server && uv pip install aiokafka python-dotenv pydantic-settings mcp-server', 'timeout_ms': 300000}
+loop 5 | input=4924, output=153, reasoning=0 | Tool=execute_command, Args={'command': "cat > /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server/.env << 'EOF'\n# Kafka Configuration\nKAFKA_BOOTSTRAP_SERVERS=localhost:9092\nTOPIC_NAME=your-topic-name\nIS_TOPIC_READ_FROM_BEGINNING=False\nDEFAULT_GROUP_ID_FOR_CONSUMER=kafka-mcp-group\nEOF", 'timeout_ms': 10000}
+loop 6 | input=5136, output=97, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server/', 'timeout_ms': 10000}
+loop 7 | input=5764, output=112, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server/main.py', 'timeout_ms': 10000}
+loop 8 | input=5972, output=108, reasoning=0 | Tool=execute_command, Args={'command': 'find /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server/src -name "*.py" -type f', 'timeout_ms': 10000}
+loop 9 | input=6326, output=108, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server/src/kafka_mcp_server/main.py', 'timeout_ms': 10000}
+loop 10 | input=6666, output=127, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server/src/kafka_mcp_server/server.py', 'timeout_ms': 10000}
+loop 11 | input=8004, output=282, reasoning=0 | Tool=add_config, Args={'name': '949885195_pavanjava_kafka_mcp_server', 'type': 'stdio', 'command': 'uv', 'args': ['run', '--directory', '/home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server/src/kafka_mcp_server', 'main.py', '--transport', 'stdio'], 'env': {'KAFKA_BOOTSTRAP_SERVERS': 'localhost:9092', 'TOPIC_NAME': 'your-topic-name', 'IS_TOPIC_READ_FROM_BEGINNING': 'False', 'DEFAULT_GROUP_ID_FOR_CONSUMER': 'kafka-mcp-group'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server'}
+loop 12 | input=8123, output=78, reasoning=0 | Tool=validate_config, Args={'name': '949885195_pavanjava_kafka_mcp_server', 'timeout_ms': 60000}
+loop 13 | input=8937, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/949885195_pavanjava_kafka_mcp_server && uv pip install confluent-kafka', 'timeout_ms': 120000}
+loop 14 | input=9130, output=69, reasoning=0 | Tool=validate_config, Args={'name': '949885195_pavanjava_kafka_mcp_server', 'timeout_ms': '60000'}
+loop 15 | input=11417, output=232, reasoning=0 | 无 tool_calls
+
+972632334_comfyui-mcp-server | ✅ @@Task Done@@
+loop 1 | input=2454, output=1110, reasoning=640 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4580, output=189, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server && git clone git@github.com:Overseer66/comfyui-mcp-server.git /home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server', 'timeout_ms': 120000}
+loop 3 | input=4862, output=104, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server && uv venv', 'timeout_ms': 60000}
+loop 4 | input=5061, output=109, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server && uv pip install mcp websocket-client python-dotenv', 'timeout_ms': 300000}
+loop 5 | input=5246, output=115, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server/src/', 'timeout_ms': 10000}
+loop 6 | input=5599, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server/src/.env', 'timeout_ms': 10000}
+loop 7 | input=5938, output=387, reasoning=0 | Tool=add_config, Args={'name': '972632334_Overseer66_comfyui-mcp-server', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server', 'run', '--with', 'mcp', '--with', 'websocket-client', '--with', 'python-dotenv', 'mcp', 'run', 'src/server.py:mcp'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/972632334_Overseer66_comfyui-mcp-server'}
+loop 8 | input=6166, output=100, reasoning=0 | Tool=validate_config, Args={'name': '972632334_Overseer66_comfyui-mcp-server', 'timeout_ms': 60000}
+loop 9 | input=6861, output=66, reasoning=0 | 无 tool_calls
+
+963838819_mcp-business-central-server | ✅ @@Task Done@@
+loop 1 | input=2252, output=1407, reasoning=853 | Tool=need_use_these_tools, Args={'tools': ['uv', 'git']}
+loop 2 | input=4463, output=215, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server && git clone git@github.com:Sofias-ai/mcp-business-central-server.git /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server', 'timeout_ms': 60000}
+loop 3 | input=4804, output=109, reasoning=0 | Tool=execute_command, Args={'command': 'git clone https://github.com/Sofias-ai/mcp-business-central-server.git /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server', 'timeout_ms': 60000}
+loop 4 | input=5025, output=77, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/', 'timeout_ms': 10000}
+loop 5 | input=5844, output=133, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server && git init && git remote add origin https://github.com/Sofias-ai/mcp-business-central-server.git && git pull origin main', 'timeout_ms': 60000}
+loop 6 | input=6214, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'curl -s -o /dev/null -w "%{http_code}" https://github.com/Sofias-ai/mcp-business-central-server', 'timeout_ms': 10000}
+loop 7 | input=6382, output=134, reasoning=0 | Tool=execute_command, Args={'command': 'uvx --help', 'timeout_ms': 10000}
+loop 8 | input=9452, output=205, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server && ls -la /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server', 'timeout_ms': 10000}
+loop 9 | input=9806, output=147, reasoning=0 | Tool=execute_command, Args={'command': 'rm -rf /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server/.git && ls -la /home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server', 'timeout_ms': 10000}
+loop 10 | input=10070, output=432, reasoning=0 | Tool=add_config, Args={'name': '963838819_Sofias-ai_mcp-business-central-server', 'type': 'stdio', 'command': 'uvx', 'args': ['mcp-business-central-server'], 'env': {'BC_URL_SERVER': 'your-bc-api-url', 'BC_USER': 'your-bc-username', 'BC_PASS': 'your-bc-password', 'BC_COMPANY': 'your-bc-company'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/963838819_Sofias-ai_mcp-business-central-server'}
+loop 11 | input=10341, output=99, reasoning=0 | Tool=validate_config, Args={'name': '963838819_Sofias-ai_mcp-business-central-server', 'timeout_ms': 120000}
+loop 12 | input=11088, output=399, reasoning=0 | 无 tool_calls
+
+953349763_mcp-server-email | ✅ @@Task Done@@
+loop 1 | input=2504, output=1166, reasoning=655 | Tool=need_use_these_tools, Args={'tools': ['uv', 'git']}
+loop 2 | input=4672, output=206, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email && git clone git@github.com:Shy2593666979/mcp-server-email.git /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email', 'timeout_ms': 120000}
+loop 3 | input=4975, output=150, reasoning=42 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email && ls -la', 'timeout_ms': 30000}
+loop 4 | input=5486, output=132, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/pyproject.toml', 'timeout_ms': 30000}
+loop 5 | input=5973, output=119, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email && uv sync', 'timeout_ms': 300000}
+loop 6 | input=6244, output=124, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src/', 'timeout_ms': 30000}
+loop 7 | input=6516, output=93, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src/mcp_server_email/', 'timeout_ms': 30000}
+loop 8 | input=6918, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src/mcp_server_email/email.json', 'timeout_ms': 30000}
+loop 9 | input=7638, output=131, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src/mcp_server_email/__main__.py', 'timeout_ms': 30000}
+loop 10 | input=7901, output=225, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email && uv run python -c "import sys; sys.path.insert(0, \'src\'); import mcp_server_email; print(\'Import successful\')"', 'timeout_ms': 60000}
+loop 11 | input=8315, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src/mcp_server_email/__init__.py', 'timeout_ms': 30000}
+loop 12 | input=8569, output=140, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src && uv run python -m mcp_server_email --help', 'timeout_ms': 60000}
+loop 13 | input=9113, output=154, reasoning=0 | Tool=execute_command, Args={'command': "cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src/mcp_server_email && sed -i 's/import server/from . import server/' __init__.py && cat __init__.py", 'timeout_ms': 30000}
+loop 14 | input=9412, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src && uv run python -m mcp_server_email --help', 'timeout_ms': 60000}
+loop 15 | input=9893, output=132, reasoning=0 | Tool=execute_command, Args={'command': "cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src/mcp_server_email && sed -i 's/import server/from . import server/' __main__.py && cat __main__.py", 'timeout_ms': 30000}
+loop 16 | input=10159, output=105, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/src && uv run python -m mcp_server_email --help', 'timeout_ms': 60000}
+loop 17 | input=10480, output=313, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/attachments', 'timeout_ms': 30000}
+loop 18 | input=10852, output=250, reasoning=0 | Tool=add_config, Args={'name': '953349763_Shy2593666979_mcp-server-email', 'type': 'stdio', 'cwd': '/home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email', 'command': 'uv', 'args': ['--directory', 'src', 'run', 'python', '-m', 'mcp_server_email', '--dir', '/home/silimon/MCP-Auto/mcp_server/953349763_Shy2593666979_mcp-server-email/attachments'], 'env': {'SENDER': 'your-email@example.com', 'PASSWORD': 'your-app-password'}}
+loop 19 | input=10947, output=129, reasoning=0 | Tool=validate_config, Args={'name': '953349763_Shy2593666979_mcp-server-email', 'timeout_ms': 60000}
+loop 20 | input=11661, output=363, reasoning=0 | 无 tool_calls
+
+1022761180_remy-mcp | ✅ @@Task Done@@
+loop 1 | input=2358, output=847, reasoning=450 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4411, output=201, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp && git clone git@github.com:barvhaim/remy-mcp.git /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp', 'timeout_ms': 120000}
+loop 3 | input=4701, output=127, reasoning=24 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp && uv sync', 'timeout_ms': 300000}
+loop 4 | input=5232, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp && uv sync', 'timeout_ms': 600000}
+loop 5 | input=5739, output=132, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp/.venv/', 'timeout_ms': 30000}
+loop 6 | input=6206, output=125, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp/pyproject.toml', 'timeout_ms': 30000}
+loop 7 | input=6905, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp && uv sync --retries 5', 'timeout_ms': 600000}
+loop 8 | input=7099, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp && uv sync --refresh', 'timeout_ms': 600000}
+loop 9 | input=7637, output=154, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp && uv pip install --index-url https://pypi.tuna.tsinghua.edu.cn/simple fastmcp pydantic requests black', 'timeout_ms': 600000}
+loop 10 | input=7882, output=134, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp && uv run python -c "from src.remy_mcp.server import main; print(\'Import successful\')"', 'timeout_ms': 60000}
+loop 11 | input=8095, output=222, reasoning=0 | Tool=add_config, Args={'name': '1022761180_barvhaim_remy-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp', 'run', 'main.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/1022761180_barvhaim_remy-mcp'}
+loop 12 | input=8154, output=94, reasoning=0 | Tool=validate_config, Args={'name': '1022761180_barvhaim_remy-mcp', 'timeout_ms': 120000}
+loop 13 | input=9156, output=235, reasoning=0 | 无 tool_calls
+
+954478845_ida-mcp-server-plugin | ⚠️ @@Task Alert@@
+loop 1 | input=2310, output=853, reasoning=451 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4368, output=229, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin && git clone git@github.com:taida957789/ida-mcp-server-plugin.git /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin', 'timeout_ms': 60000}
+loop 3 | input=4692, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin && uv venv', 'timeout_ms': 30000}
+loop 4 | input=4884, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin && ls -la', 'timeout_ms': 10000}
+loop 5 | input=5308, output=113, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin && uv pip install -r requirements.txt', 'timeout_ms': 120000}
+loop 6 | input=5497, output=109, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin/requirements.txt', 'timeout_ms': 10000}
+loop 7 | input=5807, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'head -100 /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin/ida-mcp-server.py', 'timeout_ms': 10000}
+loop 8 | input=6611, output=166, reasoning=0 | Tool=execute_command, Args={'command': 'tail -100 /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin/ida-mcp-server.py', 'timeout_ms': 10000}
+loop 9 | input=7832, output=347, reasoning=0 | Tool=execute_command, Args={'command': 'grep -n "if __name__" /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin/ida-mcp-server.py', 'timeout_ms': 10000}
+loop 10 | input=8246, output=159, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p ~/.idapro/plugins && cp /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin/ida-mcp-server.py ~/.idapro/plugins/', 'timeout_ms': 10000}
+loop 11 | input=8464, output=66, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la ~/.idapro/plugins/', 'timeout_ms': 10000}
+loop 12 | input=8682, output=627, reasoning=0 | Tool=add_config, Args={'name': '954478845_taida957789_ida-mcp-server-plugin', 'type': 'sse', 'url': 'http://127.0.0.1:3000/sse', 'cwd': '/home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin'}
+loop 13 | input=9152, output=103, reasoning=0 | Tool=validate_config, Args={'name': '954478845_taida957789_ida-mcp-server-plugin', 'timeout_ms': 60000}
+loop 14 | input=9759, output=132, reasoning=0 | Tool=execute_command, Args={'command': 'which idaq64 || which idaq || which ida || ls -la ~/.idapro/ 2>/dev/null || echo "IDA Pro not found"', 'timeout_ms': 10000}
+loop 15 | input=10038, output=287, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/954478845_taida957789_ida-mcp-server-plugin/README.md | head -30', 'timeout_ms': 10000}
+loop 16 | input=10554, output=341, reasoning=0 | 无 tool_calls
+
+1035557140_mcp-apple-notes | ❌ @@Task Failed@@
+loop 1 | input=2381, output=1008, reasoning=485 | 无 tool_calls
+
+957950470_imgflip-mcp | ✅ @@Task Done@@
+loop 1 | input=2443, output=1248, reasoning=766 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4413, output=167, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/957950470_redblock-ai_imgflip-mcp', 'timeout_ms': 5000}
+loop 3 | input=4639, output=178, reasoning=0 | Tool=execute_command, Args={'command': 'cat > /home/silimon/MCP-Auto/mcp_server/957950470_redblock-ai_imgflip-mcp/.env << \'EOF\'\nIMGFLIP_USERNAME="YOUR_IMGFLIP_USERNAME"\nIMGFLIP_PASSWORD="YOUR_IMGFLIP_PASSWORD"\nEOF', 'timeout_ms': 5000}
+loop 4 | input=4876, output=377, reasoning=0 | Tool=add_config, Args={'name': '957950470_redblock-ai_imgflip-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['imgflip-mcp'], 'env': {'IMGFLIP_USERNAME': 'YOUR_IMGFLIP_USERNAME', 'IMGFLIP_PASSWORD': 'YOUR_IMGFLIP_PASSWORD'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/957950470_redblock-ai_imgflip-mcp'}
+loop 5 | input=5090, output=182, reasoning=0 | Tool=validate_config, Args={'name': '957950470_redblock-ai_imgflip-mcp', 'timeout_ms': 60000}
+loop 6 | input=5792, output=277, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/957950470_redblock-ai_imgflip-mcp && git clone https://github.com/redblock-ai/imgflip-mcp.git temp_clone && mv temp_clone/* temp_clone/.* . 2>/dev/null; rm -rf temp_clone', 'timeout_ms': 60000}
+loop 7 | input=6131, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/957950470_redblock-ai_imgflip-mcp/', 'timeout_ms': 5000}
+loop 8 | input=6595, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/957950470_redblock-ai_imgflip-mcp && uv sync --dev --all-extras', 'timeout_ms': 300000}
+loop 9 | input=6825, output=216, reasoning=0 | Tool=update_and_validate_config, Args={'name': '957950470_redblock-ai_imgflip-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'imgflip-mcp'], 'env': {'IMGFLIP_USERNAME': 'YOUR_IMGFLIP_USERNAME', 'IMGFLIP_PASSWORD': 'YOUR_IMGFLIP_PASSWORD'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/957950470_redblock-ai_imgflip-mcp'}
+loop 10 | input=7336, output=414, reasoning=0 | 无 tool_calls
+
+950632442_PubMed-MCP-Server | ✅ @@Task Done@@
+loop 1 | input=2517, output=1236, reasoning=665 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4744, output=234, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server && git clone git@github.com:JackKuo666/PubMed-MCP-Server.git /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server', 'timeout_ms': 60000}
+loop 3 | input=5073, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server/requirements.txt', 'timeout_ms': 30000}
+loop 4 | input=5240, output=101, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server && uv venv', 'timeout_ms': 60000}
+loop 5 | input=5426, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server && uv pip install -r requirements.txt', 'timeout_ms': 300000}
+loop 6 | input=5623, output=104, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server/', 'timeout_ms': 30000}
+loop 7 | input=6232, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'head -50 /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server/pubmed_server.py', 'timeout_ms': 30000}
+loop 8 | input=6822, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'tail -30 /home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server/pubmed_server.py', 'timeout_ms': 30000}
+loop 9 | input=7248, output=294, reasoning=0 | Tool=add_config, Args={'name': '950632442_JackKuo666_PubMed-MCP-Server', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'pubmed_server.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/950632442_JackKuo666_PubMed-MCP-Server'}
+loop 10 | input=7385, output=102, reasoning=0 | Tool=validate_config, Args={'name': '950632442_JackKuo666_PubMed-MCP-Server', 'timeout_ms': 60000}
+loop 11 | input=8084, output=238, reasoning=0 | 无 tool_calls
+
+952857346_mcp-images | ✅ @@Task Done@@
+loop 1 | input=2697, output=776, reasoning=439 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4690, output=191, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images && git clone git@github.com:IA-Programming/mcp-images.git /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images', 'timeout_ms': 120000}
+loop 3 | input=4967, output=96, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images && uv venv', 'timeout_ms': 60000}
+loop 4 | input=5148, output=96, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images && uv pip install -r requirements.txt', 'timeout_ms': 300000}
+loop 5 | input=5308, output=101, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images', 'timeout_ms': 10000}
+loop 6 | input=5790, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images/pyproject.toml', 'timeout_ms': 10000}
+loop 7 | input=6050, output=114, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images && uv sync', 'timeout_ms': 300000}
+loop 8 | input=6241, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images/mcp_image.py', 'timeout_ms': 10000}
+loop 9 | input=6454, output=271, reasoning=0 | Tool=add_config, Args={'name': '952857346_IA-Programming_mcp-images', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images', 'run', 'mcp_image.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/952857346_IA-Programming_mcp-images'}
+loop 10 | input=6560, output=91, reasoning=0 | Tool=validate_config, Args={'name': '952857346_IA-Programming_mcp-images', 'timeout_ms': 60000}
+loop 11 | input=7146, output=278, reasoning=0 | 无 tool_calls
+
+1082106876_gemini-api-docs-mcp | ✅ @@Task Done@@
+loop 1 | input=2495, output=1082, reasoning=628 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4437, output=140, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1082106876_philschmid_gemini-api-docs-mcp', 'timeout_ms': 5000}
+loop 3 | input=4636, output=66, reasoning=0 | Tool=execute_command, Args={'command': 'which uvx', 'timeout_ms': 5000}
+loop 4 | input=4766, output=381, reasoning=0 | Tool=add_config, Args={'name': '1082106876_philschmid_gemini-api-docs-mcp', 'type': 'stdio', 'cwd': '/home/silimon/MCP-Auto/mcp_server/1082106876_philschmid_gemini-api-docs-mcp', 'command': 'uvx', 'args': ['--from', 'git+https://github.com/philschmid/gemini-api-docs-mcp', 'gemini-docs-mcp']}
+loop 5 | input=4988, output=218, reasoning=0 | Tool=validate_config, Args={'name': '1082106876_philschmid_gemini-api-docs-mcp', 'timeout_ms': 120000}
+loop 6 | input=6507, output=266, reasoning=0 | 无 tool_calls
+
+985352463_unreal-mcp | ✅ @@Task Done@@
+loop 1 | input=2526, output=917, reasoning=532 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4567, output=163, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp && git clone git@github.com:GenOrca/unreal-mcp.git /home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp', 'timeout_ms': 120000}
+loop 3 | input=4818, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp/mcp-server/', 'timeout_ms': 30000}
+loop 4 | input=5306, output=128, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp/mcp-server/src/', 'timeout_ms': 30000}
+loop 5 | input=5581, output=88, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp/mcp-server/src/unreal_mcp/', 'timeout_ms': 30000}
+loop 6 | input=5906, output=119, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp/mcp-server && uv sync', 'timeout_ms': 300000}
+loop 7 | input=6137, output=113, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp/mcp-server/pyproject.toml', 'timeout_ms': 30000}
+loop 8 | input=6504, output=249, reasoning=0 | Tool=add_config, Args={'name': '985352463_GenOrca_unreal-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp/mcp-server', 'run', 'src/unreal_mcp/main.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/985352463_GenOrca_unreal-mcp'}
+loop 9 | input=6590, output=110, reasoning=0 | Tool=validate_config, Args={'name': '985352463_GenOrca_unreal-mcp', 'timeout_ms': 120000}
+loop 10 | input=7630, output=139, reasoning=0 | 无 tool_calls
+
+955087112_lldb-mcp | ✅ @@Task Done@@
+loop 1 | input=2393, output=751, reasoning=413 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4387, output=164, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone git@github.com:stass/lldb-mcp.git /home/silimon/MCP-Auto/mcp_server/955087112_stass_lldb-mcp', 'timeout_ms': 60000}
+loop 3 | input=4638, output=100, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/955087112_stass_lldb-mcp && uv venv', 'timeout_ms': 60000}
+loop 4 | input=4823, output=101, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/955087112_stass_lldb-mcp && uv pip install mcp', 'timeout_ms': 300000}
+loop 5 | input=4998, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/955087112_stass_lldb-mcp/', 'timeout_ms': 10000}
+loop 6 | input=5449, output=93, reasoning=0 | Tool=execute_command, Args={'command': 'which lldb || echo "LLDB not found"', 'timeout_ms': 10000}
+loop 7 | input=5600, output=88, reasoning=0 | Tool=execute_command, Args={'command': 'sudo apt-get update && sudo apt-get install -y lldb', 'timeout_ms': 300000}
+loop 8 | input=5721, output=94, reasoning=0 | Tool=execute_command, Args={'command': 'which python3-lldb || dpkg -l | grep lldb || echo "LLDB packages check"', 'timeout_ms': 10000}
+loop 9 | input=5873, output=309, reasoning=0 | Tool=add_config, Args={'name': '955087112_stass_lldb-mcp', 'type': 'stdio', 'command': '/home/silimon/MCP-Auto/mcp_server/955087112_stass_lldb-mcp/.venv/bin/python', 'args': ['/home/silimon/MCP-Auto/mcp_server/955087112_stass_lldb-mcp/lldb_mcp.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/955087112_stass_lldb-mcp'}
+loop 10 | input=6017, output=91, reasoning=0 | Tool=validate_config, Args={'name': '955087112_stass_lldb-mcp', 'timeout_ms': 60000}
+loop 11 | input=6738, output=404, reasoning=0 | 无 tool_calls
+
+1123894299_gait_mcp | ✅ @@Task Done@@
+loop 1 | input=2428, output=868, reasoning=484 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4468, output=182, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1123894299_automateyournetwork_gait_mcp && git clone git@github.com:automateyournetwork/gait_mcp.git /home/silimon/MCP-Auto/mcp_server/1123894299_automateyournetwork_gait_mcp', 'timeout_ms': 120000}
+loop 3 | input=4742, output=101, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1123894299_automateyournetwork_gait_mcp && uv sync', 'timeout_ms': 300000}
+loop 4 | input=4954, output=313, reasoning=0 | Tool=add_config, Args={'name': '1123894299_automateyournetwork_gait_mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'python', '-u', 'gait_mcp.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/1123894299_automateyournetwork_gait_mcp', 'env': {}}
+loop 5 | input=5107, output=96, reasoning=0 | Tool=validate_config, Args={'name': '1123894299_automateyournetwork_gait_mcp', 'timeout_ms': 60000}
+loop 6 | input=5800, output=247, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/1123894299_automateyournetwork_gait_mcp/gait_mcp.py | head -100', 'timeout_ms': 30000}
+loop 7 | input=6678, output=105, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/1123894299_automateyournetwork_gait_mcp/gait_mcp.py | tail -50', 'timeout_ms': 30000}
+loop 8 | input=7385, output=278, reasoning=0 | Tool=update_and_validate_config, Args={'name': '1123894299_automateyournetwork_gait_mcp', 'type': 'sse', 'url': 'http://localhost:8000/sse', 'command': 'uv', 'args': ['run', 'python', '-u', 'gait_mcp.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/1123894299_automateyournetwork_gait_mcp', 'env': {}}
+loop 9 | input=7883, output=340, reasoning=0 | 无 tool_calls
+
+950529282_davinci-resolve-mcp | ✅ @@Task Done@@
+loop 1 | input=2364, output=1005, reasoning=544 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4481, output=180, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp && git clone git@github.com:apvlv/davinci-resolve-mcp.git /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp', 'timeout_ms': 120000}
+loop 3 | input=4752, output=105, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp && uv venv', 'timeout_ms': 60000}
+loop 4 | input=4942, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp && uv pip install -r requirements.txt', 'timeout_ms': 300000}
+loop 5 | input=5116, output=133, reasoning=26 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp/', 'timeout_ms': 30000}
+loop 6 | input=5763, output=132, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp/pyproject.toml', 'timeout_ms': 30000}
+loop 7 | input=6434, output=167, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp && uv sync', 'timeout_ms': 300000}
+loop 8 | input=6733, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp/src/', 'timeout_ms': 30000}
+loop 9 | input=6984, output=89, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp/src/davinci_resolve_mcp/', 'timeout_ms': 30000}
+loop 10 | input=7318, output=123, reasoning=0 | Tool=execute_command, Args={'command': 'head -100 /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp/src/davinci_resolve_mcp/server.py', 'timeout_ms': 30000}
+loop 11 | input=8150, output=117, reasoning=0 | Tool=execute_command, Args={'command': 'tail -50 /home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp/src/davinci_resolve_mcp/server.py', 'timeout_ms': 30000}
+loop 12 | input=8658, output=317, reasoning=0 | Tool=add_config, Args={'name': '950529282_apvlv_davinci-resolve-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', '--directory', '/home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp', 'python', '-m', 'davinci_resolve_mcp.server'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/950529282_apvlv_davinci-resolve-mcp'}
+loop 13 | input=8814, output=90, reasoning=0 | Tool=validate_config, Args={'name': '950529282_apvlv_davinci-resolve-mcp', 'timeout_ms': 120000}
+loop 14 | input=9592, output=206, reasoning=0 | 无 tool_calls
+
+972634486_OutlookMCPServer | ✅ @@Task Done@@
+loop 1 | input=2440, output=1112, reasoning=641 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4567, output=186, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer && git clone git@github.com:Norcim133/OutlookMCPServer.git /home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer', 'timeout_ms': 120000}
+loop 3 | input=4845, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer && uv venv', 'timeout_ms': 60000}
+loop 4 | input=5031, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer && uv sync', 'timeout_ms': 300000}
+loop 5 | input=6566, output=93, reasoning=0 | Tool=execute_command, Args={'command': 'sudo apt-get update && sudo apt-get install -y libffi-dev build-essential', 'timeout_ms': 120000}
+loop 6 | input=6696, output=165, reasoning=45 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer && uv pip install azure-identity mcp msgraph-core msgraph-sdk fastmcp', 'timeout_ms': 300000}
+loop 7 | input=6908, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer/auth_cache', 'timeout_ms': 10000}
+loop 8 | input=7074, output=333, reasoning=0 | Tool=add_config, Args={'name': '972634486_Norcim133_OutlookMCPServer', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'main.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer', 'env': {'AZURE_CLIENT_ID': '<your-azure-client-id>', 'AZURE_TENANT_ID': '<your-azure-tenant-id>', 'AZURE_GRAPH_SCOPES': 'User.Read Mail.Read Mail.Send Mail.ReadWrite'}}
+loop 9 | input=7247, output=147, reasoning=0 | Tool=validate_config, Args={'name': '972634486_Norcim133_OutlookMCPServer', 'timeout_ms': 120000}
+loop 10 | input=9161, output=315, reasoning=0 | Tool=update_and_validate_config, Args={'name': '972634486_Norcim133_OutlookMCPServer', 'type': 'stdio', 'command': '/home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer/.venv/bin/python', 'args': ['main.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/972634486_Norcim133_OutlookMCPServer', 'env': {'AZURE_CLIENT_ID': '<your-azure-client-id>', 'AZURE_TENANT_ID': '<your-azure-tenant-id>', 'AZURE_GRAPH_SCOPES': 'User.Read Mail.Read Mail.Send Mail.ReadWrite'}}
+loop 11 | input=9969, output=470, reasoning=0 | 无 tool_calls
+
+998331360_teslamate-mcp | ✅ @@Task Done@@
+loop 1 | input=2570, output=907, reasoning=506 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4627, output=201, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/998331360_cobanov_teslamate-mcp && git clone git@github.com:cobanov/teslamate-mcp.git /home/silimon/MCP-Auto/mcp_server/998331360_cobanov_teslamate-mcp', 'timeout_ms': 60000}
+loop 3 | input=4919, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/998331360_cobanov_teslamate-mcp && cp env.example .env', 'timeout_ms': 10000}
+loop 4 | input=5085, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/998331360_cobanov_teslamate-mcp/.env', 'timeout_ms': 10000}
+loop 5 | input=5325, output=126, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/998331360_cobanov_teslamate-mcp && uv sync', 'timeout_ms': 300000}
+loop 6 | input=5562, output=113, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/998331360_cobanov_teslamate-mcp/', 'timeout_ms': 10000}
+loop 7 | input=6462, output=298, reasoning=0 | Tool=add_config, Args={'name': '998331360_cobanov_teslamate-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'main.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/998331360_cobanov_teslamate-mcp', 'env': {'DATABASE_URL': 'postgresql://teslamate:password@localhost:5432/teslamate', 'AUTH_TOKEN': ''}}
+loop 8 | input=6599, output=97, reasoning=0 | Tool=validate_config, Args={'name': '998331360_cobanov_teslamate-mcp', 'timeout_ms': 60000}
+loop 9 | input=7390, output=384, reasoning=0 | 无 tool_calls
+
+949274146_mcp_server_notify | ✅ @@Task Done@@
+loop 1 | input=2483, output=810, reasoning=443 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4338, output=166, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/949274146_Cactusinhand_mcp_server_notify', 'timeout_ms': 5000}
+loop 3 | input=4562, output=270, reasoning=0 | Tool=add_config, Args={'name': '949274146_Cactusinhand_mcp_server_notify', 'type': 'stdio', 'command': 'uvx', 'args': ['mcp-server-notify'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/949274146_Cactusinhand_mcp_server_notify'}
+loop 4 | input=4669, output=111, reasoning=0 | Tool=validate_config, Args={'name': '949274146_Cactusinhand_mcp_server_notify', 'timeout_ms': 60000}
+loop 5 | input=6174, output=145, reasoning=0 | Tool=execute_command, Args={'command': 'sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev pkg-config', 'timeout_ms': 300000}
+loop 6 | input=6379, output=133, reasoning=0 | Tool=execute_command, Args={'command': 'uvx --python 3.11 mcp-server-notify --help 2>&1 || echo "Failed with python 3.11"', 'timeout_ms': 120000}
+loop 7 | input=6689, output=188, reasoning=0 | Tool=update_and_validate_config, Args={'name': '949274146_Cactusinhand_mcp_server_notify', 'type': 'stdio', 'command': 'uvx', 'args': ['--python', '3.11', 'mcp-server-notify'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/949274146_Cactusinhand_mcp_server_notify'}
+loop 8 | input=7417, output=171, reasoning=0 | 无 tool_calls
+
+1019250377_jenius-mcp-smart-device | ✅ @@Task Done@@
+loop 1 | input=2565, output=1046, reasoning=605 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4662, output=174, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone git@github.com:jenius-group/jenius-mcp-smart-device.git /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device', 'timeout_ms': 60000}
+loop 3 | input=4928, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device && uv sync', 'timeout_ms': 300000}
+loop 4 | input=5149, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device/', 'timeout_ms': 10000}
+loop 5 | input=5956, output=153, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device/.mcp.env.example', 'timeout_ms': 10000}
+loop 6 | input=7117, output=290, reasoning=0 | Tool=add_config, Args={'name': '1019250377_jenius-group_jenius-mcp-smart-device', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'jenius_mcp.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device'}
+loop 7 | input=7247, output=96, reasoning=0 | Tool=validate_config, Args={'name': '1019250377_jenius-group_jenius-mcp-smart-device', 'timeout_ms': 60000}
+loop 8 | input=8059, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device && uv pip install colorlog', 'timeout_ms': 60000}
+loop 9 | input=8249, output=77, reasoning=0 | Tool=validate_config, Args={'name': '1019250377_jenius-group_jenius-mcp-smart-device', 'timeout_ms': '60000'}
+loop 10 | input=8741, output=138, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device/jenius_mcp.py', 'timeout_ms': 10000}
+loop 11 | input=9681, output=180, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device/tools/mcp/fan.py', 'timeout_ms': 10000}
+loop 12 | input=10547, output=581, reasoning=0 | Tool=execute_command, Args={'command': 'cat > /home/silimon/MCP-Auto/mcp_server/1019250377_jenius-group_jenius-mcp-smart-device/.mcp.env << \'EOF\'\n# MCP Server Configuration\nJENIUS_SMART_DEVICE_MCP_LOG_LEVEL = INFO\nJENIUS_SMART_DEVICE_MCP_HOST = 127.0.0.1\nJENIUS_SMART_DEVICE_MCP_TRANSPORT = stdio\n\n# Home Assistant Configuration (placeholder values)\nCONTROL_CENTER_URL = http://localhost:8123\nCONTROL_CENTER_HEADERS = {"Authorization": "Bearer placeholder_token", "Content-Type": "application/json"}\n\n# Fan Configuration (placeholder values)\nFAN_BASE_URL = http://localhost:8080\nFAN_HEADERS = {"Content-Type": "application/json"}\n\n# Xiaomi Device Entity IDs (placeholder values)\nXIAOMI_AIR_PURIFIER_SWITCH_ENTITY_ID = "switch.placeholder"\nXIAOMI_AIR_PURIFIER_MODE_SELECT_ENTITY_ID = "select.placeholder"\nXIAOMI_SPEAKER_SLEEPMODE_SWITCH_ENTITY_ID = "switch.placeholder"\nXIAOMI_SPEAKER_MUTE_SWITCH_ENTITY_ID = "switch.placeholder"\nXIAOMI_SPEAKER_VOLUME_ADJUST_ENTITY_ID = "number.placeholder"\nXIAOMI_SPEAKER_BUTTON_PLAY_ENTITY_ID = "button.placeholder"\nXIAOMI_SPEAKER_BUTTON_PREVIOUS_ENTITY_ID = "button.placeholder"\nXIAOMI_SPEAKER_BUTTON_NEXT_ENTITY_ID = "button.placeholder"\nXIAOMI_SPEAKER_BUTTON_PAUSE_ENTITY_ID = "button.placeholder"\nXIAOMI_SPEAKER_BUTTON_MUSIC_ENTITY_ID = "button.placeholder"\nXIAOMI_SPEAKER_BUTTON_BROADCAST_ENTITY_ID = "button.placeholder"\nROBOROCK_T7_START_CHARGE_ENTITY_ID = "button.placeholder"\nROBOROCK_T7_MODE_SELECT_ENTITY_ID = "select.placeholder"\nROBOROCK_T7_CONTTOL_ENTITY_ID = "vacuum.placeholder"\nXIAOMI_SMART_SURVEILLANCE_SWITCH_ENTITY_ID = "switch.placeholder"\nXIAOMI_SMART_SURVEILLANCE_NIGHT_VISION_MODE_SELECT_ENTITY_ID = "select.placeholder"\nEOF', 'timeout_ms': 10000}
+loop 13 | input=11187, output=87, reasoning=0 | Tool=validate_config, Args={'name': '1019250377_jenius-group_jenius-mcp-smart-device', 'timeout_ms': '60000'}
+loop 14 | input=12174, output=374, reasoning=0 | 无 tool_calls
+
+1011083110_deutsche-gesetze-mcp | ✅ @@Task Done@@
+loop 1 | input=2645, output=973, reasoning=461 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4813, output=207, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp && git clone git@github.com:floleuerer/deutsche-gesetze-mcp.git /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp', 'timeout_ms': 60000}
+loop 3 | input=5114, output=104, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp && uv venv', 'timeout_ms': 60000}
+loop 4 | input=5302, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp && uv pip install -r mcp/requirements.txt', 'timeout_ms': 300000}
+loop 5 | input=5497, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp && cat mcp/requirements.txt', 'timeout_ms': 10000}
+loop 6 | input=5676, output=109, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp && cat mcp/server.py', 'timeout_ms': 10000}
+loop 7 | input=6411, output=117, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp && cat mcp/config.py', 'timeout_ms': 10000}
+loop 8 | input=6661, output=187, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp && echo \'LOAD_FROM_GITHUB=["BGB", "StGB"]\' > .env', 'timeout_ms': 5000}
+loop 9 | input=6907, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp/', 'timeout_ms': 5000}
+loop 10 | input=7440, output=407, reasoning=0 | Tool=add_config, Args={'name': '1011083110_floleuerer_deutsche-gesetze-mcp', 'type': 'streamable_http', 'url': 'http://localhost:8001/mcp', 'command': 'uv', 'args': ['run', 'mcp/server.py'], 'env': {'LOAD_FROM_GITHUB': '["BGB", "StGB"]'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/1011083110_floleuerer_deutsche-gesetze-mcp'}
+loop 11 | input=7689, output=102, reasoning=0 | Tool=validate_config, Args={'name': '1011083110_floleuerer_deutsche-gesetze-mcp', 'timeout_ms': 120000}
+loop 12 | input=8420, output=181, reasoning=0 | Tool=validate_config, Args={'name': '1011083110_floleuerer_deutsche-gesetze-mcp', 'timeout_ms': '120000'}
+loop 13 | input=8817, output=111, reasoning=0 | 无 tool_calls
+
+902419155_mcp-datetime | ✅ @@Task Done@@
+loop 1 | input=2717, output=1017, reasoning=629 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4593, output=151, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/902419155_ZeparHyfar_mcp-datetime', 'timeout_ms': 5000}
+loop 3 | input=4803, output=118, reasoning=0 | Tool=execute_command, Args={'command': 'uvx --help', 'timeout_ms': 5000}
+loop 4 | input=7857, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'uvx --help mcp-datetime 2>&1 || uv pip index versions mcp-datetime 2>&1 | head -5', 'timeout_ms': 10000}
+loop 5 | input=10903, output=275, reasoning=0 | Tool=add_config, Args={'name': '902419155_ZeparHyfar_mcp-datetime', 'type': 'stdio', 'command': 'uvx', 'args': ['mcp-datetime'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/902419155_ZeparHyfar_mcp-datetime'}
+loop 6 | input=11015, output=94, reasoning=0 | Tool=validate_config, Args={'name': '902419155_ZeparHyfar_mcp-datetime', 'timeout_ms': 60000}
+loop 7 | input=11633, output=304, reasoning=0 | 无 tool_calls
+
+1048805255_lineshopping-api-mcp | ✅ @@Task Done@@
+loop 1 | input=2670, output=868, reasoning=440 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4586, output=185, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1048805255_woraphol-j_lineshopping-api-mcp', 'timeout_ms': 5000}
+loop 3 | input=4830, output=48, reasoning=0 | Tool=execute_command, Args={'command': 'which uvx', 'timeout_ms': 5000}
+loop 4 | input=4942, output=423, reasoning=0 | Tool=add_config, Args={'name': '1048805255_woraphol-j_lineshopping-api-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['--from', 'lineshopping-api-mcp', 'lineshopping-mcp'], 'env': {'X_API_KEY': 'your_api_key_here'}, 'cwd': '/home/silimon/MCP-Auto/mcp_server/1048805255_woraphol-j_lineshopping-api-mcp'}
+loop 5 | input=5206, output=115, reasoning=0 | Tool=validate_config, Args={'name': '1048805255_woraphol-j_lineshopping-api-mcp', 'timeout_ms': 120000}
+loop 6 | input=6179, output=237, reasoning=0 | 无 tool_calls
+
+1114565704_coach-claude | ✅ @@Task Done@@
+loop 1 | input=2441, output=873, reasoning=500 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4302, output=171, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1114565704_ClutchEngineering_coach-claude', 'timeout_ms': 5000}
+loop 3 | input=4532, output=124, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1114565704_ClutchEngineering_coach-claude && uv venv', 'timeout_ms': 30000}
+loop 4 | input=4740, output=101, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1114565704_ClutchEngineering_coach-claude && uv pip install coach-claude', 'timeout_ms': 120000}
+loop 5 | input=4930, output=108, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1114565704_ClutchEngineering_coach-claude && uv run coach-claude --help', 'timeout_ms': 30000}
+loop 6 | input=5319, output=153, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1114565704_ClutchEngineering_coach-claude && uv run coach-claude run --help', 'timeout_ms': 30000}
+loop 7 | input=5629, output=392, reasoning=0 | Tool=add_config, Args={'name': '1114565704_ClutchEngineering_coach-claude', 'type': 'sse', 'url': 'http://localhost:8787/sse', 'command': 'uv', 'args': ['run', 'coach-claude', 'run', '--transport', 'sse', '--port', '8787'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/1114565704_ClutchEngineering_coach-claude'}
+loop 8 | input=5859, output=94, reasoning=0 | Tool=validate_config, Args={'name': '1114565704_ClutchEngineering_coach-claude', 'timeout_ms': 60000}
+loop 9 | input=6633, output=196, reasoning=0 | 无 tool_calls
+
+940722828_gmail-mcp | ⚠️ @@Task Alert@@
+loop 1 | input=2378, output=971, reasoning=523 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4482, output=176, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp && git clone git@github.com:theposch/gmail-mcp.git /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp', 'timeout_ms': 120000}
+loop 3 | input=4748, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp && uv venv', 'timeout_ms': 60000}
+loop 4 | input=4942, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp && uv pip install -e .', 'timeout_ms': 300000}
+loop 5 | input=5135, output=105, reasoning=0 | Tool=execute_command, Args={'command': 'ls -la /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp/', 'timeout_ms': 10000}
+loop 6 | input=5680, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp/pyproject.toml', 'timeout_ms': 10000}
+loop 7 | input=5999, output=107, reasoning=0 | Tool=execute_command, Args={'command': 'find /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp/src -type f -name "*.py" | head -20', 'timeout_ms': 10000}
+loop 8 | input=6231, output=102, reasoning=0 | Tool=execute_command, Args={'command': 'cat /home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp/src/gmail/__init__.py', 'timeout_ms': 10000}
+loop 9 | input=6530, output=330, reasoning=0 | Tool=add_config, Args={'name': '940722828_theposch_gmail-mcp', 'type': 'stdio', 'command': 'uv', 'args': ['--directory', '/home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp', 'run', 'gmail', '--creds-file-path', '/home/silimon/.gmail-mcp/credentials.json', '--token-path', '/home/silimon/.gmail-mcp/tokens.json'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/940722828_theposch_gmail-mcp'}
+loop 10 | input=6697, output=91, reasoning=0 | Tool=validate_config, Args={'name': '940722828_theposch_gmail-mcp', 'timeout_ms': 60000}
+loop 11 | input=7974, output=474, reasoning=0 | 无 tool_calls
+
+1124396418_frida-c2-mcp | ❌ @@Task Failed@@
+loop 1 | input=2432, output=1102, reasoning=667 | 无 tool_calls
+
+925874672_Gmail-mcp-server | ✅ @@Task Done@@
+loop 1 | input=2522, output=959, reasoning=608 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4529, output=187, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && git clone git@github.com:Quantum-369/Gmail-mcp-server.git /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server', 'timeout_ms': 120000}
+loop 3 | input=4809, output=103, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && uv venv', 'timeout_ms': 60000}
+loop 4 | input=5007, output=104, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && uv pip install -e .', 'timeout_ms': 300000}
+loop 5 | input=5509, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && cat pyproject.toml', 'timeout_ms': 10000}
+loop 6 | input=5785, output=132, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && uv pip install google-api-python-client google-auth google-auth-oauthlib "mcp[cli]"', 'timeout_ms': 300000}
+loop 7 | input=5992, output=106, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && ls -la', 'timeout_ms': 10000}
+loop 8 | input=6803, output=110, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && head -50 gmail_server.py', 'timeout_ms': 10000}
+loop 9 | input=7299, output=108, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server && tail -30 gmail_server.py', 'timeout_ms': 10000}
+loop 10 | input=7725, output=273, reasoning=0 | Tool=add_config, Args={'name': '925874672_Quantum-369_Gmail-mcp-server', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'gmail_server.py'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/925874672_Quantum-369_Gmail-mcp-server'}
+loop 11 | input=7839, output=101, reasoning=0 | Tool=validate_config, Args={'name': '925874672_Quantum-369_Gmail-mcp-server', 'timeout_ms': 120000}
+loop 12 | input=8574, output=368, reasoning=0 | 无 tool_calls
+
+942276025_open-streetmap-mcp | ✅ @@Task Done@@
+loop 1 | input=2482, output=971, reasoning=570 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4371, output=166, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/942276025_jagan-shanmugam_open-streetmap-mcp', 'timeout_ms': 5000}
+loop 3 | input=4596, output=293, reasoning=0 | Tool=add_config, Args={'name': '942276025_jagan-shanmugam_open-streetmap-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['osm-mcp-server'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/942276025_jagan-shanmugam_open-streetmap-mcp'}
+loop 4 | input=4731, output=116, reasoning=0 | Tool=validate_config, Args={'name': '942276025_jagan-shanmugam_open-streetmap-mcp', 'timeout_ms': 120000}
+loop 5 | input=5452, output=123, reasoning=0 | 无 tool_calls
+
+1027836022_video-edit-mcp | ✅ @@Task Done@@
+loop 1 | input=2547, output=904, reasoning=500 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4439, output=162, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1027836022_Aditya2755_video-edit-mcp', 'timeout_ms': 5000}
+loop 3 | input=4659, output=300, reasoning=0 | Tool=add_config, Args={'name': '1027836022_Aditya2755_video-edit-mcp', 'type': 'stdio', 'command': 'uvx', 'args': ['--python', '3.11', 'video-edit-mcp'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/1027836022_Aditya2755_video-edit-mcp'}
+loop 4 | input=4800, output=92, reasoning=0 | Tool=validate_config, Args={'name': '1027836022_Aditya2755_video-edit-mcp', 'timeout_ms': 120000}
+loop 5 | input=5624, output=167, reasoning=0 | 无 tool_calls
+
+1025182558_ibkr-mcp-server | ✅ @@Task Done@@
+loop 1 | input=2745, output=820, reasoning=428 | Tool=need_use_these_tools, Args={'tools': ['git', 'uv']}
+loop 2 | input=4793, output=188, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && git clone git@github.com:ArjunDivecha/ibkr-mcp-server.git /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server', 'timeout_ms': 120000}
+loop 3 | input=5074, output=104, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && uv init --no-readme', 'timeout_ms': 60000}
+loop 4 | input=5283, output=131, reasoning=25 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && uv sync', 'timeout_ms': 300000}
+loop 5 | input=5500, output=127, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && ls -la .env* 2>/dev/null || echo "No .env files found"', 'timeout_ms': 30000}
+loop 6 | input=5710, output=92, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && cp .env.example .env && cat .env', 'timeout_ms': 30000}
+loop 7 | input=6025, output=111, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && ls -la && cat pyproject.toml', 'timeout_ms': 30000}
+loop 8 | input=7680, output=159, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && ls -la ibkr_mcp_server/', 'timeout_ms': 30000}
+loop 9 | input=8176, output=92, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server && cat ibkr_mcp_server/__main__.py', 'timeout_ms': 30000}
+loop 10 | input=8376, output=335, reasoning=0 | Tool=add_config, Args={'name': '1025182558_ArjunDivecha_ibkr-mcp-server', 'type': 'stdio', 'command': 'uv', 'args': ['run', 'python', '-m', 'ibkr_mcp_server.main'], 'cwd': '/home/silimon/MCP-Auto/mcp_server/1025182558_ArjunDivecha_ibkr-mcp-server', 'env': {'IBKR_HOST': '127.0.0.1', 'IBKR_PORT': '7497', 'IBKR_CLIENT_ID': '1', 'IBKR_IS_PAPER': 'true', 'LOG_LEVEL': 'INFO', 'ENABLE_LIVE_TRADING': 'false', 'MAX_ORDER_SIZE': '1000'}}
+loop 11 | input=8552, output=101, reasoning=0 | Tool=validate_config, Args={'name': '1025182558_ArjunDivecha_ibkr-mcp-server', 'timeout_ms': 120000}
+loop 12 | input=9385, output=97, reasoning=0 | 无 tool_calls
+
+912480987_mcp-server-replicate | ✅ @@Task Done@@
+loop 1 | input=2623, output=1175, reasoning=748 | Tool=need_use_these_tools, Args={'tools': ['uv']}
+loop 2 | input=4538, output=138, reasoning=0 | Tool=execute_command, Args={'command': 'mkdir -p /home/silimon/MCP-Auto/mcp_server/912480987_gerred_mcp-server-replicate', 'timeout_ms': 30000}
+loop 3 | input=4735, output=50, reasoning=0 | Tool=execute_command, Args={'command': 'uvx --version', 'timeout_ms': 30000}
+loop 4 | input=4859, output=65, reasoning=0 | Tool=execute_command, Args={'command': 'uvx mcp-server-replicate --help 2>&1 | head -20', 'timeout_ms': 60000}
+loop 5 | input=5070, output=99, reasoning=0 | Tool=execute_command, Args={'command': 'uv tool run mcp-server-replicate --help 2>&1 | head -20', 'timeout_ms': 60000}
+loop 6 | input=5304, output=72, reasoning=0 | Tool=execute_command, Args={'command': 'uv cache clean 2>&1', 'timeout_ms': 30000}
+loop 7 | input=5466, output=121, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/912480987_gerred_mcp-server-replicate && git clone https://github.com/gerred/mcp-server-replicate.git . 2>&1', 'timeout_ms': 120000}
+loop 8 | input=5646, output=86, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/912480987_gerred_mcp-server-replicate && uv venv 2>&1', 'timeout_ms': 60000}
+loop 9 | input=5817, output=90, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/912480987_gerred_mcp-server-replicate && uv pip install -e . 2>&1', 'timeout_ms': 120000}
+loop 10 | input=5994, output=98, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/912480987_gerred_mcp-server-replicate && uv run mcp-server-replicate --help 2>&1 | head -30', 'timeout_ms': 60000}
+loop 11 | input=6253, output=121, reasoning=0 | Tool=execute_command, Args={'command': 'cd /home/silimon/MCP-Auto/mcp_server/912480987_gerred_mcp-server-replicate && timeout 5 uv run mcp-server-replicate 2>&1 || true', 'timeout_ms': 30000}
+loop 12 | input=6504, output=272, reasoning=0 | Tool=add_config, Args={'name': '912480987_gerred_mcp-server-replicate', 'type': 'stdio', 'cwd': '/home/silimon/MCP-Auto/mcp_server/912480987_gerred_mcp-server-replicate', 'command': 'uv', 'args': ['run', 'mcp-server-replicate'], 'env': {'REPLICATE_API_TOKEN': 'your_api_key_here'}}
+loop 13 | input=6614, output=92, reasoning=0 | Tool=validate_config, Args={'name': '912480987_gerred_mcp-server-replicate', 'timeout_ms': 60000}
+loop 14 | input=7267, output=246, reasoning=0 | 无 tool_calls
