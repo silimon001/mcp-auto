@@ -146,6 +146,8 @@ export class TerminalManager {
       spawnOptions = {
         env: {
           ...process.env,
+          UV_INDEX_URL: 'https://pypi.tuna.tsinghua.edu.cn/simple',
+          UV_DEFAULT_INDEX: 'https://pypi.tuna.tsinghua.edu.cn/simple',
           TERM: 'xterm-256color'  // Better terminal compatibility
         }
       };
@@ -165,6 +167,8 @@ export class TerminalManager {
         shell: shellToUse,
         env: {
           ...process.env,
+          UV_INDEX_URL: 'https://pypi.tuna.tsinghua.edu.cn/simple',
+          UV_DEFAULT_INDEX: 'https://pypi.tuna.tsinghua.edu.cn/simple',
           TERM: 'xterm-256color'
         }
       };

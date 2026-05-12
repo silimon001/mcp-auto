@@ -52,6 +52,7 @@ def get_default_environment() -> dict[str, str]:
         env[key] = value
 
     env['UV_DEFAULT_INDEX'] = 'https://pypi.tuna.tsinghua.edu.cn/simple'
+    env['UV_INDEX_URL'] = 'https://pypi.tuna.tsinghua.edu.cn/simple'
 
     return env
 
