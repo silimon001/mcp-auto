@@ -42,7 +42,17 @@ def load_anthropic_env(env_path: str):
 def run_claude_stream(prompt_text: str, json_log_path: str):
     """
     流式运行 Claude，并实时写 JSONL
+
+    修复内容：
+    1. 收到 result 后立即终止 Claude 进程
+    2. 避免 readline 永久阻塞
+    3. 后台线程持续消费 stderr，防止 pipe deadlock
+    4. 增加超时保护
+    5. 更稳健的异常处理
     """
+
+    import threading
+    import queue
 
     process = subprocess.Popen(
         [
@@ -61,28 +71,77 @@ def run_claude_stream(prompt_text: str, json_log_path: str):
         bufsize=1
     )
 
+    # =========================
+    # 输入 prompt
+    # =========================
     process.stdin.write(prompt_text)
     process.stdin.close()
 
     events = []
+    stderr_lines = []
+
+    # 用 queue 做线程安全通信
+    stdout_queue = queue.Queue()
+    stderr_queue = queue.Queue()
+
+    # =========================
+    # 后台消费 stdout
+    # =========================
+    def read_stdout():
+        try:
+            for line in iter(process.stdout.readline, ''):
+                stdout_queue.put(line)
+        except Exception as e:
+            stdout_queue.put(f"__ERROR__:{e}")
+        finally:
+            stdout_queue.put(None)
+
+    # =========================
+    # 后台消费 stderr
+    # =========================
+    def read_stderr():
+        try:
+            for line in iter(process.stderr.readline, ''):
+                stderr_queue.put(line)
+                stderr_lines.append(line)
+        except Exception as e:
+            stderr_queue.put(f"__ERROR__:{e}")
+        finally:
+            stderr_queue.put(None)
+
+    stdout_thread = threading.Thread(target=read_stdout, daemon=True)
+    stderr_thread = threading.Thread(target=read_stderr, daemon=True)
+
+    stdout_thread.start()
+    stderr_thread.start()
 
     got_result = False
 
+    # =========================
+    # 主事件循环
+    # =========================
     with open(json_log_path, "a", encoding="utf-8") as jf:
 
         while True:
 
-            # 读取一行
-            line = process.stdout.readline()
+            try:
+                line = stdout_queue.get(timeout=1)
 
-            # EOF
-            if not line:
+            except queue.Empty:
 
-                # 进程已退出
+                # 已收到 result，则不再继续等待
+                if got_result:
+                    break
+
+                # 子进程退出
                 if process.poll() is not None:
                     break
 
                 continue
+
+            # stdout EOF
+            if line is None:
+                break
 
             line = line.strip()
 
@@ -105,31 +164,53 @@ def run_claude_stream(prompt_text: str, json_log_path: str):
                     ) + "\n"
                 )
 
+                # 减少 flush 开销
                 jf.flush()
 
+                # =========================
                 # 收到最终 result
+                # =========================
                 if obj.get("type") == "result":
+
                     got_result = True
+
+                    # 非常关键：
+                    # 不再等待 Claude 主进程自然退出
+                    try:
+                        process.terminate()
+                    except Exception:
+                        pass
+
+                    break
 
             except json.JSONDecodeError:
                 continue
 
-            # 已收到 result 且进程结束
-            if got_result and process.poll() is not None:
-                break
+            except Exception as e:
+                print(f"⚠️ JSON parse error: {e}")
 
-    # 防止卡死
+    # =========================
+    # 等待退出
+    # =========================
     try:
-        stderr = process.stderr.read()
-    except:
-        stderr = ""
+        process.wait(timeout=5)
 
-    # 最多等5秒
-    try:
-        process.wait(timeout=120)
     except subprocess.TimeoutExpired:
+
         print("⚠️ Claude process timeout, killing...")
-        process.kill()
+
+        try:
+            process.kill()
+        except Exception:
+            pass
+
+    # =========================
+    # 确保线程结束
+    # =========================
+    stdout_thread.join(timeout=1)
+    stderr_thread.join(timeout=1)
+
+    stderr = "".join(stderr_lines)
 
     return events, stderr
 
@@ -384,7 +465,7 @@ if __name__ == "__main__":
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
     pos = 0
-    count = 40
+    count = 30
 
     for readme_path in readme_files[pos:pos+count]:
         readme_path = Path(readme_path)
