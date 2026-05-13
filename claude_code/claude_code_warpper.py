@@ -465,7 +465,7 @@ if __name__ == "__main__":
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
     pos = 0
-    count = 30
+    count = 40
 
     for readme_path in readme_files[pos:pos+count]:
         readme_path = Path(readme_path)
