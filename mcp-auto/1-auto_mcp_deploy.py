@@ -20,16 +20,6 @@ from dataset_setting import dataset_name, framework_name
 
 load_dotenv('.mcp-auto_env')
 
-test_flag = False
-
-API_KEY = ''
-
-if test_flag:
-    API_KEY = os.getenv("QWEN_TMP_KEY")
-else:
-    API_KEY = os.getenv("QWEN_MCP_AUTO_KEY")
-
-
 os.makedirs(f"{os.getcwd()}/mcp_server", exist_ok=True)
 
 # ==================== 配置类 ====================
@@ -415,6 +405,16 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 
 # ==================== 主函数 ====================
 async def main():
+
+    test_flag = True
+
+    API_KEY = ''
+
+    if test_flag:
+        API_KEY = os.getenv("QWEN_TMP_KEY")
+    else:
+        API_KEY = os.getenv("QWEN_MCP_AUTO_KEY")
+
     pos = 0
     count = 40
 
