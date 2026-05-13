@@ -171,10 +171,17 @@ class Client:
             raise Exception(f"[FAIL] server {name}: Unknown transport type '{type}'")       
 
     async def init_stdio(self, config: dict):
+        env = get_safe_value(config, "env")
+        if env is None:
+            env = {}
+        # 强制添加清华源，解决连接超时问题
+        env['UV_DEFAULT_INDEX'] = 'https://pypi.tuna.tsinghua.edu.cn/simple'
+        env['UV_INDEX_URL'] = 'https://pypi.tuna.tsinghua.edu.cn/simple'
+        
         server_params = StdioServerParameters(
             command=get_safe_value(config, "command"),
             args=get_safe_value(config, "args"),
-            env=get_safe_value(config, "env"),
+            env=env,
             cwd=get_safe_value(config, "cwd"))
         stdio_transport = await self.exit_stack.enter_async_context(stdio_client(server_params))
         read_stream, write_stream = stdio_transport
