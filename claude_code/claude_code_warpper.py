@@ -464,7 +464,7 @@ if __name__ == "__main__":
     readme_dir = Path.cwd() / "data" / "dataset" / dataset_name / "sampled_validated_readme"
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
-    pos = 0
+    pos = 120
     count = 40
 
     for readme_path in readme_files[pos:pos+count]:
