@@ -1,5 +1,5 @@
 # py js_ts MCP-Bench LiveMCPBench
 
-dataset_name = "js_ts"
+dataset_name = "py"
 
 framework_name = 'claude-code'
