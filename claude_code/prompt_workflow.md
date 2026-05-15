@@ -4,7 +4,6 @@ Connect to an MCP server according to the Readme document. Complete the task in 
 
 # Notes
 
-* Analyze whether the MCP server described in this README can be deployed on a Linux platform. Some MCP servers can only be deployed on specific platforms, such as Windows or macOS. For such servers, immediately declare the task failed and strictly output "❌ @@Task Failed@@".
 * If you need to install the MCP server locally, please install it to `{WORKSPACE}/mcp_server/` and name it `{id}_{owner}_{name}`. And create an independent virtual environment for the MCP server.
 * Write the configuration used to connect to the MCP server into `{WORKSPACE}/mcp_server_config/config.json`. 
 * You need to verify that the configuration used to connect to the MCP server is correct. Here is a configuration verification application(named config_validation), and you only need to provide the name of the MCP server to perform a connection test. For example
