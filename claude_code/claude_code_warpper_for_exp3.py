@@ -28,7 +28,6 @@ def run_claude_stream(prompt_text: str, json_log_path: str):
     process = subprocess.Popen(
         [
             "claude-tap",
-            "--tap-live",
             "--",
             "--print",
             "--verbose",
@@ -435,8 +434,8 @@ if __name__ == "__main__":
     readme_dir = Path.cwd() / "data" / "dataset" / dataset_name / "sampled_validated_readme"
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
-    pos = 1
-    count = 1
+    pos = 0
+    count = 40
 
     for readme_path in readme_files[pos:pos+count]:
         readme_path = Path(readme_path)

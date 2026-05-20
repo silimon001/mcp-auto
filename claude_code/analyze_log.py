@@ -1,7 +1,8 @@
-
 from __future__ import annotations
 
+import json
 import re
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List
@@ -11,9 +12,9 @@ from typing import List
 # 1. 正则
 # ============================================================
 
-# 一个任务结束标记
+# RESULT block
 RESULT_RE = re.compile(
-    r"=+\s*\n\[RESULT\].*?\n.*?状态:.*?$",
+    r"=+\s*\n\[RESULT\].*?(?=\n=+|\Z)",
     re.MULTILINE | re.DOTALL
 )
 
@@ -22,32 +23,42 @@ TURN_RE = re.compile(
     r"\[TURN\s+(\d+)\]"
 )
 
-# tool 名
+# TOOL
 TOOL_RE = re.compile(
     r"\[ASSISTANT\]\[TOOL\]:\s*(.+)"
 )
 
-# TOOL INPUT
-TOOL_INPUT_RE = re.compile(
-    r"\[TOOL INPUT\]:\s*(.*?)"
-    r"(?=\n\[|\Z)",
-    re.DOTALL
+# assistant 普通输出
+ASSISTANT_RE = re.compile(
+    r"\[ASSISTANT\](?!\[TOOL\])\s*:?(.*)",
 )
 
-# 状态
-DONE_RE = re.compile(r"✅\s*@@Task Done@@")
-FAILED_RE = re.compile(r"❌\s*@@Task Failed@@")
+# RESULT 状态
+RESULT_FAIL_RE = re.compile(
+    r"状态:\s*❌\s*失败"
+)
 
+RESULT_SUCCESS_RE = re.compile(
+    r"状态:\s*✅\s*成功"
+)
+
+# DONE / FAILED FLAG
+DONE_LINE_RE = re.compile(
+    r"^\s*✅\s*@@Task Done@@\s*$"
+)
+
+FAILED_LINE_RE = re.compile(
+    r"^\s*❌\s*@@Task Failed@@\s*$"
+)
+
+SERVER_OK_RE = re.compile(
+    r"^\[OK\]\s+The server\s+.+?\s+started successfully,\s+tools:\s+.+$",
+    re.MULTILINE
+)
 
 # ============================================================
 # 2. 数据结构
 # ============================================================
-
-@dataclass
-class SegmentRecord:
-    serial_number: int
-    status: str
-    loops: List[LoopRecord] = field(default_factory=list)
 
 @dataclass
 class ToolCall:
@@ -61,13 +72,20 @@ class LoopRecord:
     tool_calls: list[ToolCall] = field(default_factory=list)
 
 
+@dataclass
+class SegmentRecord:
+    serial_number: int
+    status: str
+    loops: List[LoopRecord] = field(default_factory=list)
+
+
 # ============================================================
 # 3. Segment 切分
 # ============================================================
 
 def split_segments(text: str) -> list[str]:
     """
-    用 [RESULT] 分割多个任务段。
+    基于 [RESULT] 切分任务段
     """
 
     matches = list(RESULT_RE.finditer(text))
@@ -89,7 +107,6 @@ def split_segments(text: str) -> list[str]:
 
         start = end
 
-    # 最后残留
     tail = text[start:].strip()
 
     if tail:
@@ -99,40 +116,158 @@ def split_segments(text: str) -> list[str]:
 
 
 # ============================================================
-# 4. 提取状态
+# 4. assistant 输出提取
 # ============================================================
+
+def extract_last_assistant_message(segment: str) -> str:
+    """
+    仅提取最后一个 assistant 普通输出
+    不包含:
+        [ASSISTANT][TOOL]
+    """
+
+    lines = segment.splitlines()
+
+    messages = []
+
+    collecting = False
+    current = []
+
+    for line in lines:
+
+        # TOOL 行直接结束
+        if TOOL_RE.search(line):
+            if collecting and current:
+                messages.append("\n".join(current).strip())
+            collecting = False
+            current = []
+            continue
+
+        # assistant 开始
+        if line.startswith("[ASSISTANT]") and "[TOOL]" not in line:
+
+            if collecting and current:
+                messages.append("\n".join(current).strip())
+
+            collecting = True
+
+            content = line.replace("[ASSISTANT]", "").strip(": ")
+
+            current = [content]
+            continue
+
+        # 进入其它 block
+        if line.startswith("[USER]") \
+                or line.startswith("[SYSTEM]") \
+                or line.startswith("[TOOL]") \
+                or TURN_RE.search(line):
+
+            if collecting and current:
+                messages.append("\n".join(current).strip())
+
+            collecting = False
+            current = []
+            continue
+
+        # assistant continuation
+        if collecting:
+            current.append(line)
+
+    if collecting and current:
+        messages.append("\n".join(current).strip())
+
+    if not messages:
+        return ""
+
+    return messages[-1]
+
+
+# ============================================================
+# 5. 提取状态（新逻辑）
+# ============================================================
+
+def extract_last_flag(message: str) -> str | None:
+    """
+    只识别：
+        单独占一行的 flag
+
+    返回：
+        DONE
+        FAILED
+        None
+    """
+
+    flags = []
+
+    for raw_line in message.splitlines():
+
+        line = raw_line.strip()
+
+        if DONE_LINE_RE.fullmatch(line):
+            flags.append("DONE")
+
+        elif FAILED_LINE_RE.fullmatch(line):
+            flags.append("FAILED")
+
+    if not flags:
+        return None
+
+    return flags[-1]
 
 def extract_status(segment: str) -> str:
     """
-    优先：
-    DONE
-    FAILED
+    最终可靠判定逻辑：
 
-    如果没有任何 flag：
-    默认 FAILED
+    成功必须同时满足：
+
+    1. segment 中存在:
+       [OK] The server xxx started successfully
+
+    2. 最后 assistant message 中
+       最后一个独立行 flag 是:
+       ✅ @@Task Done@@
+
+    否则失败
     """
 
-    if DONE_RE.search(segment):
-        return "✅ @@Task Done@@"
+    # --------------------------------------------------------
+    # 1. 必须存在 server started successfully
+    # --------------------------------------------------------
 
-    if FAILED_RE.search(segment):
+    server_ok = bool(
+        SERVER_OK_RE.search(segment)
+    )
+
+    if not server_ok:
         return "❌ @@Task Failed@@"
+
+    # --------------------------------------------------------
+    # 2. 提取最后 assistant message
+    # --------------------------------------------------------
+
+    last_msg = extract_last_assistant_message(segment)
+
+    if not last_msg:
+        return "❌ @@Task Failed@@"
+
+    # --------------------------------------------------------
+    # 3. 提取最后 flag
+    # --------------------------------------------------------
+
+    last_flag = extract_last_flag(last_msg)
+
+    # --------------------------------------------------------
+    # 4. 最终判定
+    # --------------------------------------------------------
+
+    if last_flag == "DONE":
+        return "✅ @@Task Done@@"
 
     return "❌ @@Task Failed@@"
 
-
 # ============================================================
-# 5. 提取 loops
+# 6. compact json
 # ============================================================
-
-import json
-import re
-from collections import OrderedDict
-
-
-TURN_RE = re.compile(r"\[TURN\s+(\d+)\]")
-TOOL_RE = re.compile(r"\[ASSISTANT\]\[TOOL\]:\s*(.+)")
-
 
 def compact_json(raw: str) -> str:
 
@@ -156,83 +291,131 @@ def compact_json(raw: str) -> str:
 
     except Exception:
 
-        # fallback:
         return " ".join(
             raw.split()
         )
 
+
+# ============================================================
+# 7. 解析 loops
+# ============================================================
+
 def parse_loops(segment: str) -> list[LoopRecord]:
+
     lines = segment.splitlines()
+
     loop_map: OrderedDict[int, LoopRecord] = OrderedDict()
+
     current_turn = None
 
     i = 0
+
     while i < len(lines):
+
         line = lines[i]
 
         # -------------------------------------------------
         # TURN
         # -------------------------------------------------
+
         m = TURN_RE.search(line)
+
         if m:
+
             turn_id = int(m.group(1))
-            # 跳过 turn 0（初始化）
+
+            # 跳过 turn0
             if turn_id == 0:
                 current_turn = None
                 i += 1
                 continue
 
             current_turn = turn_id
+
             if current_turn not in loop_map:
-                loop_map[current_turn] = LoopRecord(loop_id=current_turn)
+                loop_map[current_turn] = LoopRecord(
+                    loop_id=current_turn
+                )
+
             i += 1
             continue
 
         # -------------------------------------------------
         # TOOL
         # -------------------------------------------------
+
         m = TOOL_RE.search(line)
+
         if m and current_turn is not None:
+
             tool_name = m.group(1).strip()
+
             i += 1
+
+            # 找 TOOL INPUT
             while i < len(lines):
+
                 if "[TOOL INPUT]:" in lines[i]:
                     break
+
                 if TOOL_RE.search(lines[i]):
                     break
+
                 if TURN_RE.search(lines[i]):
                     break
+
                 i += 1
 
             raw_args = "{}"
+
             if i < len(lines) and "[TOOL INPUT]:" in lines[i]:
+
                 i += 1
+
                 arg_lines = []
+
                 while i < len(lines):
+
                     nxt = lines[i]
+
                     if TURN_RE.search(nxt):
                         break
+
                     if TOOL_RE.search(nxt):
                         break
+
                     if nxt.startswith("[TOKENS]"):
                         break
+
                     if nxt.startswith("------------------------------------------------------------"):
                         break
+
                     arg_lines.append(nxt)
+
                     i += 1
+
                 raw_args = "\n".join(arg_lines)
 
             cleaned_args = compact_json(raw_args)
+
             loop_map[current_turn].tool_calls.append(
-                ToolCall(tool_name=tool_name, tool_args=cleaned_args)
+                ToolCall(
+                    tool_name=tool_name,
+                    tool_args=cleaned_args,
+                )
             )
+
             continue
 
         i += 1
 
-    # 重新编号，从 1 开始连续
+    # turn 连续重编号
     final_loops = []
-    for new_idx, (_, loop) in enumerate(loop_map.items(), start=1):
+
+    for new_idx, (_, loop) in enumerate(
+        loop_map.items(),
+        start=1
+    ):
         loop.loop_id = new_idx
         final_loops.append(loop)
 
@@ -240,7 +423,7 @@ def parse_loops(segment: str) -> list[LoopRecord]:
 
 
 # ============================================================
-# 6. 解析整个日志
+# 8. 解析整个日志
 # ============================================================
 
 def simplify_log_text(text: str) -> list[SegmentRecord]:
@@ -267,7 +450,7 @@ def simplify_log_text(text: str) -> list[SegmentRecord]:
 
 
 # ============================================================
-# 7. 输出简化日志
+# 9. 输出
 # ============================================================
 
 def write_simplified_log(
@@ -285,7 +468,6 @@ def write_simplified_log(
 
         for loop in seg.loops:
 
-            # 没有 tool call
             if not loop.tool_calls:
 
                 lines.append(
@@ -312,12 +494,12 @@ def write_simplified_log(
 
     output_path.write_text(
         "\n".join(lines).rstrip() + "\n",
-        encoding="utf-8"
+        encoding="utf-8",
     )
 
 
 # ============================================================
-# 8. 主入口
+# 10. 主入口
 # ============================================================
 
 def simplify_logs(log_paths: list[str]) -> list[Path]:
@@ -339,7 +521,10 @@ def simplify_logs(log_paths: list[str]) -> list[Path]:
             f"s_{path.stem}.log"
         )
 
-        write_simplified_log(records, output_path)
+        write_simplified_log(
+            records,
+            output_path,
+        )
 
         outputs.append(output_path)
 
@@ -347,21 +532,20 @@ def simplify_logs(log_paths: list[str]) -> list[Path]:
 
 
 # ============================================================
-# 9. CLI
+# 11. CLI
 # ============================================================
 
 if __name__ == "__main__":
 
-    from dataset_setting import dataset_name, framework_name
+    from dataset_setting import (
+        dataset_name,
+        framework_name,
+    )
 
     log_sources: list[str] = [
         f"log_file/{dataset_name}/{framework_name}/qwen3.5-plus/" + x
         for x in [
-            '0_40_2026-05-14_18-22-39.log',
-            '40_80_2026-05-14_20-07-47.log',
-            '80_120_2026-05-14_21-45-25.log',
-            '120_160_2026-05-14_23-11-23.log',
-            '160_200_2026-05-15_00-43-52.log'
+            '0_40_2026-05-13_16-11-13.log'
         ]
     ]
 
