@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from dataset_setting import dataset_name, framework_name
 
-LOG_DIR = Path(os.getcwd()) / "log_file" / dataset_name / framework_name / 'qwen3.5-plus'
+LOG_DIR = Path(os.getcwd()) / "log_file" / dataset_name / (framework_name + '_3') / 'qwen3.5-plus'
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -424,7 +424,7 @@ if __name__ == "__main__":
     with open('mcp_server_config/config.json', 'w', encoding='utf-8') as f:
         f.write('{\n\n}')
 
-    with open('claude_code/prompt_init.md', 'r', encoding='utf-8') as f:
+    with open('claude_code/prompt_for_exp3.md', 'r', encoding='utf-8') as f:
         task_prompt = f.read()
 
     task_prompt = task_prompt.replace("{WORKSPACE}", os.getcwd())
@@ -435,7 +435,7 @@ if __name__ == "__main__":
     readme_dir = Path.cwd() / "data" / "dataset" / dataset_name / "sampled_validated_readme"
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
-    pos = 12
+    pos = 1
     count = 1
 
     for readme_path in readme_files[pos:pos+count]:

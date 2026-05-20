@@ -1,6 +1,7 @@
 ---
 name: workflow
 description: xxx
+disable-model-invocation: true
 ---
 
 # Step 1: List Deployment Options

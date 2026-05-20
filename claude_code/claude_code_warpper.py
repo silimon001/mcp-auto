@@ -4,40 +4,11 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 from dataset_setting import dataset_name, framework_name
-from dotenv import load_dotenv
 
 LOG_DIR = Path(os.getcwd()) / "log_file" / dataset_name / framework_name / 'qwen3.5-plus'
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
-def load_anthropic_env(env_path: str):
-    """
-    加载指定 .env 文件中的 Anthropic 环境变量
-    """
-    env_file = Path(env_path)
-
-    if not env_file.exists():
-        raise FileNotFoundError(f".env file not found: {env_file}")
-
-    load_dotenv(dotenv_path=env_file, override=True)
-
-    required_vars = [
-        "ANTHROPIC_BASE_URL",
-        "ANTHROPIC_API_KEY",
-        "ANTHROPIC_MODEL"
-    ]
-
-    missing = [v for v in required_vars if not os.getenv(v)]
-
-    if missing:
-        raise ValueError(
-            f"Missing required environment variables: {missing}"
-        )
-
-    print("✅ Anthropic environment loaded")
-    for var in required_vars:
-        print(f"{var} = {os.getenv(var)}")
 
 def run_claude_stream(prompt_text: str, json_log_path: str):
     """
@@ -445,8 +416,6 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 # 6. 示例入口
 # =========================
 if __name__ == "__main__":
-    
-    load_anthropic_env(".mcp-auto_env")
 
     os.makedirs('mcp_server', exist_ok=True)
     os.makedirs('mcp_server_config', exist_ok=True)

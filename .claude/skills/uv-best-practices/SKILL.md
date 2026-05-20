@@ -1,6 +1,7 @@
 ---
 name: uv-best-practices
 description: When you need to use UV to deploy the MCP server, please use this skill.
+disable-model-invocation: true
 ---
 
 # uv Best Practices
