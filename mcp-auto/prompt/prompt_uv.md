@@ -25,7 +25,13 @@ uv is an extremely fast Python package and project manager.
 $ uvx --python 3.10 ruff
 ```
 
-**Note**: When you execute `uvx <package>`, it starts a server and waits for communication, blocking the process. Therefore, during **Step 4: Execute the Deployment Plan**, do not use this command to directly start the server, as it will cause the process to remain blocked indefinitely. Instead, configure the settings in the configuration file and then proceed to **Step 6: Verify the Server**.
+* The interface varies significantly between different versions of the mcp package, which can easily lead to interface incompatibility issues when using uvx. If you encounter this problem, please use the smallest available version as the dependency. You can use this command(curl -s https://pypi.org/pypi/<package>/json | jq '.info') to get package dependency information.
+
+```bash
+$ uvx --with mcp[cli]==x.x.x <mcp server> # Version x.x.x is the minimum available version.
+```
+
+**Note**: Executing the `uvx <package>` command will start the server and wait for communication, causing the process to block. This does not necessarily mean the server failed to start. Do not use this method to verify whether the server can start, because even if the server starts normally, it will time out while waiting for input.
 
 ## Two Methods for Setting Up a uv Project
 
