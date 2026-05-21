@@ -1,6 +1,6 @@
 ---
-name: deploy
-description: Includes the necessary explanations for the third step "Deploy the MCP Server" and the fourth step "Add Configuration". Use this before performing any specific deployment operations.
+name: deploy-mcp-server
+description: Deploy the MCP server and add configuration information to the configuration file. Use when deploying the MCP server.
 disable-model-invocation: true
 ---
 

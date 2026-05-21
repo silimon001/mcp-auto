@@ -1,6 +1,6 @@
 ---
-name: validate
-description: Includes the necessary explanations for the fifth step "Validate the Server". Use this before performing verification.
+name: validate-mcp-server
+description: Verify that the MCP server can start normally and expose the tool list. Use when verifying the server.
 disable-model-invocation: true
 ---
 

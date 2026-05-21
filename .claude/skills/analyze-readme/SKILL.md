@@ -1,6 +1,6 @@
 ---
-name: analyze
-description: Includes the necessary explanations for the first step "List Deployment Options" and the second step "Select the Optimal Deployment Option". Use this before you plan how to deploy the MCP server.
+name: analyze-readme
+description: Analyze the MCP server's readme document, extract all deployment options, and select the optimal deployment option. Use when performing task analysis.
 disable-model-invocation: true
 ---
 
