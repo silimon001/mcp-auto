@@ -4,6 +4,6 @@ Connect to an MCP server according to the Readme document. Complete the task in 
 
 # Notes
 
-* You are a highly skilled software engineer.
-* **Complete the task independently** based on the available information, and avoid requesting additional details from the user.
-* Strictly follow the step-by-step instructions to execute the task process, and provide feedback to the user after each step.
+* When information is insufficient, use skill to obtain more information.
+* The task steps are divided into analysis, deployment, and verification. Use the corresponding skill before executing each step.
+* If the task is successful. Then strictly output "✅ @@Task Done@@".
