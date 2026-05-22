@@ -434,10 +434,16 @@ if __name__ == "__main__":
     readme_dir = Path.cwd() / "data" / "dataset" / dataset_name / "sampled_validated_readme"
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
-    pos = 0
+    pos = 40
     count = 40
 
     for readme_path in readme_files[pos:pos+count]:
+
+        mcp_file = Path("/home/silimon/MCP-Auto/.mcp.json")
+        if mcp_file.exists():
+            mcp_file.unlink()
+            print("Deleted .mcp.json")
+
         readme_path = Path(readme_path)
         filename_parts = readme_path.stem.split('_')
         repo_id = filename_parts[0]
