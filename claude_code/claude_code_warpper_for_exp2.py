@@ -421,7 +421,7 @@ if __name__ == "__main__":
     os.makedirs('mcp_server', exist_ok=True)
     os.makedirs('mcp_server_config', exist_ok=True)
     with open('mcp_server_config/config.json', 'w', encoding='utf-8') as f:
-        f.write('{\n\n}')
+        f.write('{\n  "Servers": {\n\n  }\n}')
 
     with open('claude_code/prompt_init.md', 'r', encoding='utf-8') as f:
         task_prompt = f.read()
