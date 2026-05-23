@@ -46,3 +46,4 @@
 * For MCP servers using the locally installed but transport via remote protocol deployment, the `url` must be provided, along with configurations such as `command` and `args`.
 * The `url` must include the host, port, and endpoint.
 * The `cwd` must be set to `{WORKSPACE}/mcp_server/{id}_{owner}_{name}`.
+* When required API keys, tokens, or credentials are missing, attempt to continue execution using placeholder credentials, dummy environment variables or mock values whenever possible. 

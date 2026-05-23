@@ -33,7 +33,7 @@ disable-model-invocation: true
     "type": "stdio" | "sse" | "streamable_http",
     "url": "http://localhost:8000/mcp" | "http://localhost:8080/sse",
     "headers": {
-    	"X-API-Key": "your-api-key-here"
+    	"Authorization": "Bearer xxxx"
     },
     "command": "uv" | "node" | "npx" | "other tools",
     "args": ["arg1", "arg2", "..."],
@@ -50,3 +50,4 @@ disable-model-invocation: true
 * For MCP servers using the locally installed but transport via remote protocol deployment, the `url` must be provided, along with configurations such as `command` and `args`.
 * The `url` must include the host, port, and endpoint.
 * The `cwd` must be set to `/home/silimon/MCP-Auto/mcp_server/{id}_{owner}_{name}`.
+* When required API keys, tokens, or credentials are missing, do not interrupt the user with AskUserQuestion. Attempt to continue execution using placeholder credentials, dummy environment variables or mock values whenever possible. 
