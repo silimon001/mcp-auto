@@ -1,7 +1,7 @@
 ---
 name: use-uv-tool
 description: Includes user instructions on how to use UV. Use when using UV tools.
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # uv Best Practices

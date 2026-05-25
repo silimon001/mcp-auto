@@ -540,12 +540,13 @@ if __name__ == "__main__":
     from dataset_setting import (
         dataset_name,
         framework_name,
+        model_name
     )
-
+    HOME = Path.home()
     log_sources: list[str] = [
-        f"log_file/{dataset_name}/{framework_name}/qwen3.5-plus/" + x
+        str(HOME) + f"/mcp-auto/log_file/{dataset_name}/{framework_name + '_3'}/{model_name}/" + x
         for x in [
-            '0_40_2026-05-13_16-11-13.log'
+            '20_21_2026-05-25_17-27-05.log'
         ]
     ]
 

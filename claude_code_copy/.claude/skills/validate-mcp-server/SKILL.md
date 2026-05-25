@@ -1,15 +1,15 @@
 ---
 name: validate-mcp-server
 description: Verify that the MCP server can start normally and expose the tool list. Use when verifying the server.
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Step 5: Validate the Server
 
-5.1 You need to verify that the configuration used to connect to the MCP server is correct. Here is a configuration verification application(named config_validation), and you only need to provide the name of the MCP server to perform a connection test. For example
+5.1 You need to verify that the configuration used to connect to the MCP server is correct. Here is a configuration verification application(named config_validation), you only need to use this executable file; you don't need to know how it's implemented. For example
 
 ```bash
-/home/silimon/MCP-Auto/claude_code/config_validation id_onwer_name
+./config_validation id_onwer_name
 ```
 
 # Additional Tips

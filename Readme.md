@@ -1,3 +1,3 @@
-# MCP_Auto
+# MCP-Auto
 
-一个全面的MCP Server automatic deployment Agent。
+An MCP server automatic deployment agent。

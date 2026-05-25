@@ -1,7 +1,7 @@
 ---
 name: analyze-readme
 description: Analyze the MCP server's readme document, extract all deployment options, and select the optimal deployment option. Use when performing task analysis.
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Step 1: List Deployment Options

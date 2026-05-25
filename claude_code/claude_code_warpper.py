@@ -1,33 +1,31 @@
 import subprocess
 import json
 import os
+import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from dataset_setting import dataset_name, framework_name
+from dataset_setting import dataset_name, framework_name, model_name
 
-LOG_DIR = Path(os.getcwd()) / "log_file" / dataset_name / framework_name / 'qwen3.5-plus'
+HOME = Path.home()
+CWD = Path.cwd()
+MAIN_CWD = Path(os.path.dirname(os.getcwd()))
+
+LOG_DIR = MAIN_CWD / "log_file" / dataset_name / (framework_name) / model_name
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 def run_claude_stream(prompt_text: str, json_log_path: str):
-    """
-    流式运行 Claude，并实时写 JSONL
-
-    修复内容：
-    1. 收到 result 后立即终止 Claude 进程
-    2. 避免 readline 永久阻塞
-    3. 后台线程持续消费 stderr，防止 pipe deadlock
-    4. 增加超时保护
-    5. 更稳健的异常处理
-    """
 
     import threading
     import queue
 
     process = subprocess.Popen(
         [
-            "claude",
+            "claude-tap",
+            "--tap-no-live",
+            "--",
             "--print",
             "--verbose",
             "--max-turns", "20",
@@ -220,7 +218,6 @@ def render_content(obj):
     # fallback
     return str(obj)
 
-
 def collect_messages(events):
     """聚合事件，记录时间戳，并捕获 result 事件用于总结"""
     messages = {}
@@ -304,7 +301,6 @@ def collect_messages(events):
                 }
 
     return messages, order
-
 
 def write_log(messages, order, log_file):
     """按轮次和时间戳输出，末尾附加任务结果总结"""
@@ -393,12 +389,11 @@ def run_task(prompt_text: str, task_name, pos, count):
 
     print(f"✅ Done: {log_file}")
 
-
 # ==================== 工具函数 ====================
 def add_extra_info(dataset_name: str, repo_id: str) -> str:
-    """从数据集读取仓库额外信息"""
+    """add repo info"""
     final_text = ''
-    repo_info_path = Path.cwd() / "data" / "dataset" / dataset_name / "repo_info.json"
+    repo_info_path = MAIN_CWD / "data" / "dataset" / dataset_name / "repo_info.json"
     if repo_info_path.exists():
         with open(repo_info_path, 'r', encoding='utf-8') as f:
             repo_infos = json.load(f)
@@ -411,6 +406,66 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
                 break
     return final_text
 
+def normalize_model_name(name: str) -> str:
+    """
+    将:
+        qwen3.5-plus-2026-04-20
+    归一化为:
+        qwen3.5-plus
+    """
+
+    return re.sub(r"-\d{4}-\d{2}-\d{2}$", "", name)
+
+def verify_model(model_name: str):
+    settings_path = HOME / ".claude" / "settings.json"
+
+    if not settings_path.exists():
+        print("settings.json not found")
+        sys.exit(1)
+
+    settings = json.loads(settings_path.read_text())
+
+    anthropic_model = settings.get('env').get("ANTHROPIC_MODEL")
+
+    if not anthropic_model:
+        print("ANTHROPIC_MODEL not found in settings.json")
+        sys.exit(1)
+
+    normalized = normalize_model_name(anthropic_model)
+
+    if normalized != model_name:
+        print(
+            f"Model mismatch:\n"
+            f"expected: {model_name}\n"
+            f"actual:   {anthropic_model}"
+        )
+        sys.exit(1)
+
+    print(f"Model verified: {anthropic_model}")
+
+def env_ready():
+    import shutil
+    # 1. Delete .mcp.json
+    mcp_file = CWD / ".mcp.json"
+
+    if mcp_file.exists():
+        mcp_file.unlink()
+        print("Deleted .mcp.json")
+
+    # 2. Delete .claude dir
+    skills_dir = CWD / ".claude"
+
+    if skills_dir.exists():
+        shutil.rmtree(skills_dir)
+        print(f"Deleted {skills_dir} folder")
+
+    # 3. Delete CLAUDE.md
+    claude_md = CWD / 'CLAUDE.md'
+
+    if claude_md.exists():
+        claude_md.unlink()
+        print(f"Deleted {claude_md}")
+
 
 # =========================
 # 6. 示例入口
@@ -422,25 +477,25 @@ if __name__ == "__main__":
     with open('mcp_server_config/config.json', 'w', encoding='utf-8') as f:
         f.write('{\n  "Servers": {\n\n  }\n}')
 
-    with open('claude_code/prompt_workflow.md', 'r', encoding='utf-8') as f:
+    with open('prompt_for_exp.md', 'r', encoding='utf-8') as f:
         task_prompt = f.read()
-
-    task_prompt = task_prompt.replace("{WORKSPACE}", os.getcwd())
-    print(task_prompt)
+    task_prompt = task_prompt.replace("{WORKSPACE}", str(CWD))
 
     from glob import glob
-    # 获取待处理的 README 文件列表
-    readme_dir = Path.cwd() / "data" / "dataset" / dataset_name / "sampled_validated_readme"
+    readme_dir = MAIN_CWD / "data" / "dataset" / dataset_name / "sampled_validated_readme"
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
-    pos = 120
+    pos = 0
     count = 40
 
     for readme_path in readme_files[pos:pos+count]:
+
+        verify_model(model_name)
+        env_ready()
+
         readme_path = Path(readme_path)
         filename_parts = readme_path.stem.split('_')
         repo_id = filename_parts[0]
-        repo_name = '_'.join(filename_parts[1:]).replace('_README', '')
 
         with open(readme_path, 'r', encoding='utf-8') as f:
             readme_content = f.read()
@@ -450,7 +505,5 @@ if __name__ == "__main__":
         query = f'''\n=== README.md START ===\n{readme_content}\n=== README.md END ===\n{extra_info}'''
 
         all_prompt = task_prompt + query
-
-        print(all_prompt)
 
         run_task(all_prompt, "claude_code", pos, count)

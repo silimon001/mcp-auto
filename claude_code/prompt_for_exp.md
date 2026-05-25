@@ -6,10 +6,10 @@ Connect to an MCP server according to the Readme document. Complete the task in 
 
 * If you need to install the MCP server locally, please install it to `{WORKSPACE}/mcp_server/` and name it `{id}_{owner}_{name}`. And create an independent virtual environment for the MCP server.
 * Write the configuration used to connect to the MCP server into `{WORKSPACE}/mcp_server_config/config.json`. 
-* You need to verify that the configuration used to connect to the MCP server is correct. Here is a configuration verification application(named config_validation), and you only need to provide the name of the MCP server to perform a connection test. For example
+* You need to verify that the configuration used to connect to the MCP server is correct. Here is a configuration verification application(named config_validation), you only need to use this executable file; you don't need to know how it's implemented. For example
 
 ```bash
-{WORKSPACE}/claude_code/config_validation id_onwer_name
+./config_validation server_name
 ```
 
 * If you can successfully connect to the MCP server and obtain the list of tools it provides, the task is successful, then strictly output "✅ @@Task Done@@".
