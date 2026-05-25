@@ -12,7 +12,7 @@ disable-model-invocation: false
 
 # Step 4: Add Configuration
 
-4.1 Write the configuration used to connect to the MCP server into `/home/silimon/MCP-Auto/claude_code/mcp_server_config/config.json`. The configuration must strictly comply with the "Configuration Information Guidelines". And then proceed to Step 5.
+4.1 Write the configuration used to connect to the MCP server into `/home/silimon/mcp-auto/claude_code/mcp_server_config/config.json`. The configuration must strictly comply with the "Configuration Information Guidelines". And then proceed to Step 5.
 
 # Additional Tips
 
@@ -20,7 +20,7 @@ disable-model-invocation: false
 
 * Distinguish between the deployment operation and the server startup operation. Do not start the server during deployment—only execute deployment-related commands. Starting the server often causes it to remain in a waiting state for input, thereby blocking the process.
 - Name the server `{id}_{owner}_{name}`.
-- Regardless of the deployment method used, create a dedicated project folder for this MCP server at the path `/home/silimon/MCP-Auto/claude_code/mcp_server/{id}_{owner}_{name}`, and set this folder as the "cwd".
+- Regardless of the deployment method used, create a dedicated project folder for this MCP server at the path `/home/silimon/mcp-auto/claude_code/mcp_server/{id}_{owner}_{name}`, and set this folder as the "cwd".
 - When executing any command, use absolute paths instead of relative paths.
 - For servers that need to be deployed locally, be sure to set up a separate virtual development environment for this MCP server to ensure that it does not contaminate the user’s development environment.
 
@@ -41,7 +41,7 @@ disable-model-invocation: false
         "ENV_VAR1": "value1",
         "ENV_VAR2": "value2"
     },
-    "cwd": "/home/silimon/MCP-Auto/claude_code/mcp_server/{id}_{owner}_{name}"
+    "cwd": "/home/silimon/mcp-auto/claude_code/mcp_server/{id}_{owner}_{name}"
 }
 ```
 
@@ -49,5 +49,5 @@ disable-model-invocation: false
 * For MCP servers using the remote deployment, the `url` must be provided.
 * For MCP servers using the locally installed but transport via remote protocol deployment, the `url` must be provided, along with configurations such as `command` and `args`.
 * The `url` must include the host, port, and endpoint.
-* The `cwd` must be set to `/home/silimon/MCP-Auto/claude_code/mcp_server/{id}_{owner}_{name}`.
+* The `cwd` must be set to `/home/silimon/mcp-auto/claude_code/mcp_server/{id}_{owner}_{name}`.
 * When required API keys, tokens, or credentials are missing, do not interrupt the user with AskUserQuestion. Attempt to continue execution using placeholder credentials, dummy environment variables or mock values whenever possible. 

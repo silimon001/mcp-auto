@@ -98,7 +98,7 @@ if __name__ == "__main__":
     # config_path = str(sys.argv[1])
     # name = str(sys.argv[2])
 
-    config_path = "/home/silimon/MCP-Auto/mcp_server_config/config.json"
+    config_path = "/home/silimon/mcp-auto/mcp_server_config/config.json"
     name = 'test'
 
     anyio.run(lambda: main(config_path, name))
