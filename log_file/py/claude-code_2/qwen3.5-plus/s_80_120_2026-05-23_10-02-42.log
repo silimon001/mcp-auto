@@ -1,4 +1,4 @@
-1 | ✅ @@Task Done@@
+1 | ✅ @@Task Done@@ | Input: 54 Output: 1950 cache_creation: 30341 cache_read: 220603
 loop 1 | Tool=Skill, Args={"args":"README.md content for Hugging Face Hub Semantic Search MCP Server","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"Deploy HuggingFace Hub Semantic Search MCP server using uvx with config: command=uvx, args=[\"git+https://github.com/davanstrien/hub-semantic-search-mcp.git\"], env={HF_SEARCH_API_URL: https://davanstrien-huggingface-datasets-search-v2.hf.space}","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server_config/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
@@ -9,7 +9,7 @@ loop 7 | Tool=Skill, Args={"args":"Verify MCP server 998826768_davanstrien_hub-s
 loop 8 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 998826768_davanstrien_hub-semantic-search-mcp","timeout":120000}
 loop 9 | 无 tool_calls
 
-2 | ❌ @@Task Failed@@
+2 | ❌ @@Task Failed@@ | Input: 120 Output: 5599 cache_creation: 15528 cache_read: 587278
 loop 1 | Tool=Skill, Args={"args":"Connect to an MCP server according to the Readme document.","skill":"analyze-readme"}
 loop 2 | Tool=AskUserQuestion, Args={"questions":[{"header":"Unity Catalog","options":[{"label":"Will provide values","description":"I will provide the UC server URL, catalog name, and schema name"},{"label":"Use defaults/placeholder","description":"Use placeholder values for now (I'll change them later)"}],"question":"I need the following required configuration values to deploy the Unity Catalog MCP server: UC server URL (uc_server), catalog name (uc_catalog), and schema name (uc_schema). Please provide these values, or let me know if you'd like to proceed with placeholder values.","multiSelect":false}]}
 loop 3 | Tool=Bash, Args={"command":"which uvx && uvx --version 2>&1"} ; Tool=Glob, Args={"pattern":"**/mcp-server-unitycatalog/**"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/"}
@@ -33,7 +33,7 @@ loop 20 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/926414
 loop 21 | Tool=Bash, Args={"command":"printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"0.1\"}}}\\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"notifications/initialized\"}\\n{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/list\",\"params\":{}}\\n' | timeout 30 uv --directory /home/silimon/MCP-Auto/mcp_server/926414362_ognis1205_mcp-server-unitycatalog run mcp-server-unitycatalog --uc_server \"https://unity-catalog-server\" --uc_catalog \"test_catalog\" --uc_schema \"test_schema\" 2>&1 | head -20","timeout":45000}
 loop 22 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 926414362_ognis1205_mcp-server-unitycatalog 2>&1","timeout":120000}
 
-3 | ✅ @@Task Done@@
+3 | ✅ @@Task Done@@ | Input: 114 Output: 4772 cache_creation: 21910 cache_read: 549159
 loop 1 | Tool=Skill, Args={"args":"README.md content provided in task","skill":"analyze-readme"}
 loop 2 | Tool=AskUserQuestion, Args={"questions":[{"header":"Credentials","options":[{"label":"Provide now","description":"I will enter my LinkedIn email and password"},{"label":"Use placeholders","description":"Set placeholder values now, I'll update them later in the config"}],"question":"The MCP LinkedIn server requires LINKEDIN_EMAIL and LINKEDIN_PASSWORD environment variables. How would you like to proceed?","multiSelect":false}]}
 loop 3 | Tool=AskUserQuestion, Args={"questions":[{"header":"Credentials","multiSelect":false,"options":[{"description":"I will provide my LinkedIn email and password directly","label":"Enter credentials now"},{"description":"Set placeholder values and I'll update them later","label":"Use placeholders for now"}],"question":"Please choose how to provide your LinkedIn credentials (required for the MCP server to work):"}]}
@@ -54,7 +54,7 @@ loop 17 | Tool=Skill, Args={"args":"Verify the MCP LinkedIn server (server name:
 loop 18 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 1102803940_adhikasp_mcp-linkedin 2>&1 | head -80","timeout":60000}
 loop 19 | 无 tool_calls
 
-4 | ❌ @@Task Failed@@
+4 | ❌ @@Task Failed@@ | Input: 120 Output: 4577 cache_creation: 11624 cache_read: 621745
 loop 1 | Tool=Skill, Args={"args":"Analyze the SemaphoreUI MCP Server Readme to extract all deployment options and select the optimal deployment option.","skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/.claude/skills/analyze-readme/"} ; Tool=Bash, Args={"command":"uv tool list 2>/dev/null; echo \"---\"; which uv 2>/dev/null"} ; Tool=Bash, Args={"command":"python3 --version 2>/dev/null || echo \"Python not found\""}
 loop 3 | Tool=Bash, Args={"command":"git clone https://github.com/cloin/semaphore-mcp.git /home/silimon/MCP-Auto/semaphore-mcp 2>&1"}
@@ -76,7 +76,7 @@ loop 18 | Tool=Bash, Args={"command":"cat > /home/silimon/MCP-Auto/.mcp.json << 
 loop 19 | Tool=Bash, Args={"command":"\"/home/silimon/snap/code/238/.local/share/uv/tools/semaphore-mcp/bin/semaphore-mcp\" --help 2>&1"}
 loop 20 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Analyzing README and selecting deployment option","content":"Analyze README and select deployment option","status":"completed"},{"activeForm":"Deploying MCP server via uv tool install","content":"Deploy MCP server via uv tool install","status":"completed"},{"activeForm":"Configuring .mcp.json for Claude","content":"Configure .mcp.json for Claude","status":"completed"},{"activeForm":"Verifying MCP server startup and tool exposure","content":"Verify the MCP server starts and exposes tools","status":"in_progress"}]}
 
-5 | ❌ @@Task Failed@@
+5 | ❌ @@Task Failed@@ | Input: 120 Output: 4313 cache_creation: 45355 cache_read: 656156
 loop 1 | Tool=Skill, Args={"args":"Google Workspace MCP Server","skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/"} ; Tool=Glob, Args={"path":"/home/silimon/MCP-Auto","pattern":"**/*mcp*"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/semaphore-mcp/"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"empty or not found\""} ; Tool=Bash, Args={"command":"git ls-remote https://github.com/giuseppe-coco/Google-Workspace-MCP-Server.git HEAD 2>&1 | head -5"}
@@ -98,7 +98,7 @@ loop 18 | Tool=Bash, Args={"command":"uv pip list --python /home/silimon/MCP-Aut
 loop 19 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/1014315534_giuseppe-coco_Google-Workspace-MCP-Server/.venv/bin/python* 2>&1"}
 loop 20 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config/config.json"}
 
-6 | ❌ @@Task Failed@@
+6 | ❌ @@Task Failed@@ | Input: 120 Output: 5552 cache_creation: 20690 cache_read: 639833
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Analyze README and select deployment option","status":"in_progress","activeForm":"Analyzing README and selecting deployment option"},{"content":"Deploy the MCP server","status":"pending","activeForm":"Deploying the MCP server"},{"content":"Verify the MCP server","status":"pending","activeForm":"Verifying the MCP server"}]}
 loop 2 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README.md","skill":"analyze-readme"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/ && echo \"---\" && ls -la /home/silimon/MCP-Auto/semaphore-mcp/ 2>/dev/null || echo \"No semaphore-mcp dir\""} ; Tool=Glob, Args={"path":"/home/silimon/MCP-Auto","pattern":"**/.mcp*"}
@@ -120,7 +120,7 @@ loop 18 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config
 loop 19 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config/config.json"}
 loop 20 | Tool=Bash, Args={"command":"cat /home/silimon/MCP-Auto/mcp_server_config/config.json"}
 
-7 | ❌ @@Task Failed@@
+7 | ❌ @@Task Failed@@ | Input: 120 Output: 4469 cache_creation: 37887 cache_read: 726353
 loop 1 | Tool=Skill, Args={"args":"Connect to an MCP server according to the Readme document. Complete the task in an efficient manner.","skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/coleam00/supabase-mcp.git /tmp/supabase-mcp 2>&1 | tail -5"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /tmp/supabase-mcp/ && echo \"---\" && cat /tmp/supabase-mcp/Dockerfile && echo \"---\" && cat /tmp/supabase-mcp/requirements.txt 2>/dev/null && echo \"---\" && cat /tmp/supabase-mcp/pyproject.toml 2>/dev/null && echo \"---\" && cat /tmp/supabase-mcp/setup.py 2>/dev/null && echo \"---\" && cat /tmp/supabase-mcp/.env.example 2>/dev/null"}
@@ -142,7 +142,7 @@ loop 18 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/95725
 loop 19 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/957258614_coleam00_supabase-mcp/pyproject.toml"}
 loop 20 | Tool=Bash, Args={"command":"uv venv 2>&1"}
 
-8 | ❌ @@Task Failed@@
+8 | ❌ @@Task Failed@@ | Input: 120 Output: 4560 cache_creation: 24240 cache_read: 650307
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/semaphore-mcp/"} ; Tool=Glob, Args={"pattern":"semaphore-mcp/**/*"}
 loop 2 | Tool=Skill, Args={"skill":"analyze-readme"}
 loop 3 | Tool=Glob, Args={"pattern":"**/text-to-cad-mcp/**"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/.claude/skills/analyze-readme/SKILL.md"}
@@ -164,7 +164,7 @@ loop 18 | Tool=Bash, Args={"command":"uv pip install -r requirements.txt"}
 loop 19 | Tool=Bash, Args={"command":"uv pip install --python /home/silimon/MCP-Auto/mcp_server/977320540_gnucleus_text-to-cad-mcp/.venv/bin/python -r requirements.txt"}
 loop 20 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/mcp_server/977320540_gnucleus_text-to-cad-mcp/.venv/bin/python -c \"import mcp; import requests; import dotenv; print('OK')\" 2>&1"}
 
-9 | ✅ @@Task Done@@
+9 | ✅ @@Task Done@@ | Input: 60 Output: 2405 cache_creation: 8362 cache_read: 278116
 loop 1 | Tool=Skill, Args={"args":"Analyze the PyPSA MCP server's readme document, extract all deployment options, and select the optimal deployment option.","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"Deploy the PyPSA MCP server using uv run --with pypsamcp pypsamcp. Write the MCP configuration to .mcp.json in the current working directory /home/silimon/MCP-Auto. The server should be configured as an STDIO transport.","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/970530577_cdgaete_pypsa-mcp"}
@@ -176,7 +176,7 @@ loop 8 | Tool=Skill, Args={"args":"Verify that the PyPSA MCP server can start no
 loop 9 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 970530577_cdgaete_pypsa-mcp","timeout":120000}
 loop 10 | 无 tool_calls
 
-10 | ❌ @@Task Failed@@
+10 | ❌ @@Task Failed@@ | Input: 120 Output: 4882 cache_creation: 33072 cache_read: 619666
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/944202345_non-dirty_imap-mcp && mkdir -p /home/silimon/MCP-Auto/mcp_server_config"}
@@ -198,7 +198,7 @@ loop 18 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_
 loop 19 | Tool=TaskOutput, Args={"task_id":"bbk3ah3bl","block":true,"timeout":30000}
 loop 20 | Tool=AskUserQuestion, Args={"questions":[{"header":"Credentials","options":[{"label":"I have them, let me provide","description":"I have valid Gmail OAuth2 credentials ready to provide"},{"label":"Let me fill it manually","description":"I will edit config.yaml myself later"},{"label":"Skip credentials for now","description":"Mark the task as alert since the server needs valid Gmail credentials to start"}],"question":"Do you have valid Gmail OAuth2 credentials (client_id, client_secret, refresh_token) to fill in config.yaml so the server can fully start? This is required for the IMAP MCP server to connect to Gmail."}]}
 
-11 | ❌ @@Task Failed@@
+11 | ❌ @@Task Failed@@ | Input: 66 Output: 2780 cache_creation: 13670 cache_read: 311741
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto","skill":"analyze-readme"}
 loop 2 | Tool=AskUserQuestion, Args={"questions":[{"header":"Credentials","options":[{"label":"I'll provide them","description":"I will paste the credentials now"},{"label":"Use placeholders","description":"Deploy with placeholder values; I'll update them later"},{"label":"Skip deployment","description":"I don't have credentials right now"}],"question":"Please provide your TastyTrade OAuth credentials. If you don't have them yet, you can create them at https://my.tastytrade.com/app.html#/manage/api-access/oauth-applications. Would you like to proceed with placeholders?","multiSelect":false}]}
 loop 3 | Tool=Skill, Args={"args":"{\"target_dir\": \"/home/silimon/MCP-Auto\", \"config_path\": \"mcp.json\", \"server\": {\"name\": \"tastytrade\", \"command\": \"uvx\", \"args\": [\"tasty-agent\"], \"env\": {\"TASTYTRADE_CLIENT_SECRET\": \"your_client_secret\", \"TASTYTRADE_REFRESH_TOKEN\": \"your_refresh_token\", \"TASTYTRADE_ACCOUNT_ID\": \"your_account_id\"}}, \"mode\": \"replace_or_append\"}","skill":"deploy-mcp-server"}
@@ -211,7 +211,7 @@ loop 9 | Tool=Skill, Args={"args":"{\"server_config\": {\"cwd\": \"/home/silimon
 loop 10 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 885122598_ferdousbhai_tasty-agent","timeout":30000}
 loop 11 | 无 tool_calls
 
-12 | ❌ @@Task Failed@@
+12 | ❌ @@Task Failed@@ | Input: 120 Output: 4479 cache_creation: 24455 cache_read: 656940
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README.md","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README.md","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"which uv && uv --version"} ; Tool=Bash, Args={"command":"which node && node --version"} ; Tool=Bash, Args={"command":"which freecad || which FreeCAD || echo \"FreeCAD not found\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server_config/ 2>/dev/null || echo \"Config dir does not exist\""}
@@ -233,11 +233,11 @@ loop 18 | Tool=Bash, Args={"command":"echo -e '{\"jsonrpc\":\"2.0\",\"id\":1,\"m
 loop 19 | Tool=Bash, Args={"command":"echo -e '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0.0\"}}}\\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/call\",\"params\":{\"name\":\"test_echo\",\"arguments\":{\"message\":\"Hello FreeCAD MCP\"}}}' | uv run python working_bridge.py 2>/dev/null","timeout":15000}
 loop 20 | Tool=Bash, Args={"command":"(echo '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0.0\"}}}'; sleep 0.5; echo '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/call\",\"params\":{\"name\":\"test_echo\",\"arguments\":{\"message\":\"Hello FreeCAD MCP\"}}}'; sleep 1) | uv run python working_bridge.py 2>/dev/null","timeout":15000}
 
-13 | ❌ @@Task Failed@@
+13 | ❌ @@Task Failed@@ | Input: 12 Output: 599 cache_creation: 3192 cache_read: 49635
 loop 1 | Tool=Skill, Args={"skill":"analyze-readme"}
 loop 2 | 无 tool_calls
 
-14 | ❌ @@Task Failed@@
+14 | ❌ @@Task Failed@@ | Input: 36 Output: 1633 cache_creation: 4878 cache_read: 160745
 loop 1 | Tool=Skill, Args={"args":"Analyze the mcp-flowise MCP server README. Extract all deployment options (commands, env vars, configurations). Identify prerequisites, required vs optional env vars, and the optimal deployment method for a Linux environment with uvx available.","skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"echo \"FLOWISE_API_KEY set: $([ -n \"$FLOWISE_API_KEY\" ] && echo 'yes' || echo 'no')\" && echo \"FLOWISE_API_ENDPOINT set: $([ -n \"$FLOWISE_API_ENDPOINT\" ] && echo 'yes' || echo 'no')\" && echo \"FLOWISE_API_ENDPOINT value: ${FLOWISE_API_ENDPOINT:-not set}\""}
 loop 3 | Tool=Bash, Args={"command":"curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/api/v1/ 2>/dev/null || echo \"unreachable\""} ; Tool=Glob, Args={"path":"/home/silimon/MCP-Auto","pattern":"**/.mcp*"}
@@ -245,7 +245,7 @@ loop 4 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/.mcp-auto_env"}
 loop 5 | Tool=AskUserQuestion, Args={"questions":[{"header":"Flowise API","options":[{"label":"I have a Flowise instance","description":"I have a running Flowise server. I'll provide the endpoint URL and API key."},{"label":"No Flowise instance","description":"I don't have a Flowise server running. I may need to set one up first."}],"question":"I need to connect to a Flowise API. Do you have a Flowise server running? I need the endpoint URL (default: http://localhost:3000) and an API key.","multiSelect":false}]}
 loop 6 | 无 tool_calls
 
-15 | ❌ @@Task Failed@@
+15 | ❌ @@Task Failed@@ | Input: 120 Output: 2951 cache_creation: 247676 cache_read: 382345
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto","skill":"analyze-readme"}
 loop 2 | Tool=Glob, Args={"path":"/home/silimon/MCP-Auto","pattern":"**/memvid_mcp_server/**"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/semaphore-mcp/ 2>/dev/null || echo \"empty or not found\""} ; Tool=Bash, Args={"command":"which uv && uv --version"}
 loop 3 | Tool=Skill, Args={"args":"memvid_mcp_server","skill":"deploy-mcp-server"}
@@ -267,7 +267,7 @@ loop 18 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server
 loop 19 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config/config.json"}
 loop 20 | Tool=Edit, Args={"replace_all":false,"file_path":"/home/silimon/MCP-Auto/mcp_server_config/config.json","old_string":"  }\n}","new_string":"    \"1014591782_angrysky56_memvid_mcp_server\": {\n      \"type\": \"stdio\",\n      \"command\": \"uv\",\n      \"args\": [\n        \"run\",\n        \"python\",\n        \"memvid_mcp_server/main.py\"\n      ],\n      \"env\": {\n        \"PYTHONPATH\": \"/home/silimon/MCP-Auto/mcp_server/1014591782_angrysky56_memvid_mcp_server\",\n        \"PYTHONWARNINGS\": \"ignore\"\n      },\n      \"cwd\": \"/home/silimon/MCP-Auto/mcp_server/1014591782_angrysky56_memvid_mcp_server\"\n    }\n  }\n}"}
 
-16 | ❌ @@Task Failed@@
+16 | ❌ @@Task Failed@@ | Input: 120 Output: 4967 cache_creation: 14325 cache_read: 611969
 loop 1 | Tool=Skill, Args={"args":"# MCP Tasks Organizer\n[![smithery badge](https://smithery.ai/badge/@rohanpatriot/mcp-tasks-organizer)](https://smithery.ai/server/@rohanpatriot/mcp-tasks-organizer) [![Verified on MseeP](https://mseep.ai/badge.svg)](https://mseep.ai/app/4cba506f-04a5-422d-999d-6794c34ff81d) <a href=\"https://glama.ai/mcp/servers/@rohanpatriot/mcp-tasks-organizer\">\n  <img width=\"380\" height=\"200\" src=\"https://glama.ai/mcp/servers/@rohanpatriot/mcp-tasks-organizer/badge\" />\n</a>\n\nAn MCP server that converts Cursor agent plans into structured markdown task lists and organizes them in your repository. This server helps you track AI-generated plans and recommendations as actionable specifications.\n\n## Features\n\n- Automatically extracts tasks from Cursor agent plans\n- Creates a `.tasks` folder in your repository for organized task management\n- Uses descriptive filenames (e.g., \"refactor-authentication.md\") for easy identification\n- Automatically marks completed task lists with a ✅ prefix\n- Formats plans with proper Markdown structure\n- Organizes content into Overview, Implementation Details, and Next Steps\n- Integrates with Claude for Desktop and other MCP clients\n\n## Installation\n\n### Installing via Smithery\n\nTo install Tasks Organizer for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@huntsyea/mcp-tasks-organizer):\n\n```bash\nnpx -y @smithery/cli install @huntsyea/mcp-tasks-organizer --client claude\n```\n\n### Prerequisites\n\n- Python 3.10 or higher\n- pip or another Python package manager\n\n### Quick Install\n\nFor Unix-based systems (macOS, Linux):\n\n```bash\n# Clone the repository\ngit clone https://github.com/yourusername/mcp-tasks-organizer.git\ncd mcp-tasks-organizer\n\n# Run the installation script\n./install.sh\n```\n\nFor Windows:\n\n```batch\n# Clone the repository\ngit clone https://github.com/yourusername/mcp-tasks-organizer.git\ncd mcp-tasks-organizer\n\n# Run the installation script\ninstall.bat\n```\n\n### Manual Installation\n\n```bash\n# Clone the repository\ngit clone https://github.com/yourusername/mcp-tasks-organizer.git\ncd mcp-tasks-organizer\n\n# Create and activate a virtual environment (optional but recommended)\npython -m venv venv\nsource venv/bin/activate  # On Windows: venv\\Scripts\\activate\n\n# Install dependencies\npip install -r requirements.txt\n\n# Install the package\npip install -e .\n```\n\n## Usage with Claude for Desktop\n\n1. Install Claude for Desktop from [claude.ai/download](https://claude.ai/download)\n\n2. Configure Claude for Desktop to use this MCP server:\n\n   Open `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\\Claude\\claude_desktop_config.json` (Windows) and add:\n\n   ```json\n   {\n     \"mcpServers\": {\n       \"tasks-organizer\": {\n         \"command\": \"python\",\n         \"args\": [\"-m\", \"tasks_organizer\"]\n       }\n     }\n   }\n   ```\n\n3. Restart Claude for Desktop\n\n4. Use the server by asking Claude about your cursor plans, for example:\n   - \"Convert this cursor plan into a task list called 'Refactor Authentication' with description 'auth-refactor': [paste plan]\"\n   - \"Create a markdown task list from this cursor agent output with title 'Database Migration' and description 'db-migration': [paste output]\"\n   - \"Mark task 2 in the auth-refactor task list as complete\"\n   - \"List all task files in my repository\"\n\n## Available Tools\n\nThe server provides these tools:\n\n### 1. create_task_list\n\nCreate a new task list and save it to the .tasks folder.\n\nParameters:\n- `title`: Title for the task list\n- `description`: Short 2-3 word description for the filename (e.g., \"refactor-authentication\") \n- `repo_path`: Path to the repository root (defaults to current directory)\n- `include_metadata`: Whether to include creation date/time\n\n### 2. convert_plan_to_tasks\n\nConvert a Cursor agent's plan text into a formatted Markdown task list and save it.\n\nParameters:\n- `plan_text`: The plan text from the Cursor agent\n- `title`: Title for the task list\n- `description`: Short 2-3 word description for the filename (e.g., \"refactor-authentication\")\n- `repo_path`: Path to the repository root (defaults to current directory)\n- `include_metadata`: Whether to include metadata like date and time\n\n### 3. add_task\n\nAdd a new task to an existing task list.\n\nParameters:\n- `description`: The description identifier of the task list file\n- `task_text`: Text for the new task\n- `repo_path`: Path to the repository root (defaults to current directory)\n- `section`: Which section to add the task to (defaults to \"Tasks\")\n\n### 4. mark_task_complete\n\nMark a specific task as completed.\n\nParameters:\n- `description`: The description identifier of the task list file\n- `task_number`: The number of the task to mark as complete\n- `repo_path`: Path to the repository root (defaults to current directory)\n- `section`: Which section the task is in (defaults to \"Tasks\")\n\n### 5. check_all_tasks_complete\n\nCheck if all tasks are complete and mark the task list as completed by renaming with ✅ prefix.\n\nParameters:\n- `description`: The description identifier of the task list file\n- `repo_path`: Path to the repository root (defaults to current directory)\n\n### 6. list_task_files\n\nList all task files in the .tasks directory.\n\nParameters:\n- `repo_path`: Path to the repository root (defaults to current directory)\n- `include_completed`: Whether to include completed task lists in the output\n\n## How it Works\n\n1. The server creates a `.tasks` folder in your repository root\n2. Task lists are stored with descriptive filenames based on 2-3 word descriptions\n3. When all tasks in a list are completed, the file is renamed with a ✅ prefix\n4. The server parses the input text from Cursor's agent to extract tasks\n5. It extracts tasks using various pattern matching techniques:\n   - Numbered steps (1. First step)\n   - Bullet points (* Item one)\n   - Task-like sentences containing keywords like \"should\", \"must\", \"need to\"\n6. If no clear tasks are found, it organizes the content into logical sections\n7. The result can be tracked and updated as tasks progress\n\n## Example Workflow\n\n1. An agent proposes changes to your authentication system\n2. You convert this plan to a task list: `convert_plan_to_tasks(plan_text, \"Auth System Refactor\", \"auth-refactor\")`\n3. The tasks are saved to `.tasks/auth-refactor.md`\n4. As you complete tasks, mark them: `mark_task_complete(\"auth-refactor\", 1)`\n5. When all tasks are done: `check_all_tasks_complete(\"auth-refactor\")`\n6. The file is renamed to `.tasks/✅auth-refactor.md`\n\n## License\n\nMIT"}
 loop 2 | Tool=Skill, Args={"args":"Analyze the README for MCP Tasks Organizer and determine the optimal deployment option for a Linux environment.","skill":"analyze-readme"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"content":"Clone the MCP server repository","status":"pending","activeForm":"Cloning the MCP server repository"},{"content":"Install dependencies using uv","status":"pending","activeForm":"Installing dependencies using uv"},{"content":"Deploy and configure MCP server","status":"pending","activeForm":"Deploying and configuring MCP server"},{"content":"Verify MCP server connectivity","status":"pending","activeForm":"Verifying MCP server connectivity"}]}
@@ -289,7 +289,7 @@ loop 18 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/.claude/settings.
 loop 19 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/.claude/ 2>/dev/null"} ; Tool=Glob, Args={"path":"/home/silimon/MCP-Auto/.claude","pattern":"**/*.json"}
 loop 20 | Tool=Bash, Args={"command":"npx -y @smithery/cli install @rohanpatriot/mcp-tasks-organizer --client claude 2>&1 | tail -30","timeout":60000}
 
-17 | ❌ @@Task Failed@@
+17 | ❌ @@Task Failed@@ | Input: 120 Output: 3869 cache_creation: 12998 cache_read: 600733
 loop 1 | Tool=Skill, Args={"args":"README content for Snowflake MCP Server","skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/"} ; Tool=Bash, Args={"command":"which uv && uv --version"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null; echo \"---\"; ls /home/silimon/MCP-Auto/semaphore-mcp/ 2>/dev/null | head -20"} ; Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/snowflake-mcp-server 2>/dev/null; echo \"---\"; find /home/silimon/MCP-Auto -maxdepth 2 -name \"snowflake*\" 2>/dev/null"}
@@ -311,7 +311,7 @@ loop 18 | Tool=Bash, Args={"command":"cat /home/silimon/MCP-Auto/mcp_server/9485
 loop 19 | Tool=Bash, Args={"command":"cat /home/silimon/MCP-Auto/mcp_server_config/config.json 2>/dev/null || echo \"FILE_NOT_FOUND\""}
 loop 20 | Tool=Bash, Args={"command":"which uv"}
 
-18 | ❌ @@Task Failed@@
+18 | ❌ @@Task Failed@@ | Input: 120 Output: 3987 cache_creation: 16887 cache_read: 580853
 loop 1 | Tool=Skill, Args={"skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto | head -30"} ; Tool=Bash, Args={"command":"which uv && uv --version"} ; Tool=Bash, Args={"command":"which ripgrep 2>/dev/null || dpkg -l ripgrep 2>/dev/null || echo \"ripgrep not found\""}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/semaphore-mcp/ 2>/dev/null"} ; Tool=Bash, Args={"command":"which kit 2>/dev/null || echo \"kit not found\""}
@@ -333,7 +333,7 @@ loop 18 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config
 loop 19 | Tool=Edit, Args={"replace_all":false,"file_path":"/home/silimon/MCP-Auto/mcp_server_config/config.json","old_string":"    \"1014591782_angrysky56_memvid_mcp_server\": {\n      \"type\": \"stdio\",\n      \"command\": \"uv\",\n      \"args\": [\n        \"run\",\n        \"python\",\n        \"memvid_mcp_server/main.py\"\n      ],\n      \"env\": {\n        \"PYTHONPATH\": \"/home/silimon/MCP-Auto/mcp_server/1014591782_angrysky56_memvid_mcp_server\",\n        \"PYTHONWARNINGS\": \"ignore\"\n      },\n      \"cwd\": \"/home/silimon/MCP-Auto/mcp_server/1014591782_angrysky56_memvid_mcp_server\"\n    }\n  }\n}","new_string":"    \"1006413580_voxmenthe_search-tools-mcp\": {\n      \"type\": \"stdio\",\n      \"command\": \"/home/silimon/.local/bin/uv\",\n      \"args\": [\n        \"run\",\n        \"--directory\",\n        \"/home/silimon/MCP-Auto/mcp_server/1006413580_voxmenthe_search-tools-mcp\",\n        \"main.py\"\n      ],\n      \"cwd\": \"/home/silimon/MCP-Auto/mcp_server/1006413580_voxmenthe_search-tools-mcp\"\n    }\n  }\n}"}
 loop 20 | Tool=Bash, Args={"command":"python3 -c \"import json; json.load(open('/home/silimon/MCP-Auto/mcp_server_config/config.json'))\" 2>&1 || echo \"Invalid JSON\""}
 
-19 | ✅ @@Task Done@@
+19 | ✅ @@Task Done@@ | Input: 48 Output: 1765 cache_creation: 10092 cache_read: 223388
 loop 1 | Tool=Skill, Args={"args":"Analyze the README for akshare-one-mcp server and extract all deployment options. Select the optimal deployment method.","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"Deploy the akshare-one-mcp server using uvx (Option 2 from README). Add the MCP configuration to the client settings file.","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/io_github_zwldarren_akshare-one-mcp"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server_config/ 2>/dev/null && cat /home/silimon/MCP-Auto/mcp_server_config/config.json 2>/dev/null || echo \"Config file does not exist\""}
@@ -343,7 +343,7 @@ loop 6 | Tool=Skill, Args={"args":"Verify that the akshare-one-mcp server (named
 loop 7 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation io_github_zwldarren_akshare-one-mcp","timeout":120000}
 loop 8 | 无 tool_calls
 
-20 | ❌ @@Task Failed@@
+20 | ❌ @@Task Failed@@ | Input: 120 Output: 4603 cache_creation: 24413 cache_read: 650326
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README.md","skill":"analyze-readme"}
 loop 2 | Tool=Glob, Args={"path":"/home/silimon/MCP-Auto/semaphore-mcp","pattern":"**/*"} ; Tool=Glob, Args={"path":"/home/silimon/MCP-Auto","pattern":"vuln-nist-mcp-server/**/*"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/semaphore-mcp/ 2>/dev/null && echo \"---EXISTS---\" || echo \"---NOT_EXISTS---\""}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/.mcp.json 2>/dev/null; cat /home/silimon/MCP-Auto/.mcp.json 2>/dev/null || echo \"No .mcp.json found\""} ; Tool=Bash, Args={"command":"which uv && uv --version"}
@@ -365,7 +365,7 @@ loop 18 | Tool=Edit, Args={"replace_all":false,"file_path":"/home/silimon/MCP-Au
 loop 19 | Tool=Bash, Args={"command":"mv /home/silimon/MCP-Auto/mcp_server/vuln_nist_mcp_server_HaroldFinchIFT_vuln-nist-mcp-server /home/silimon/MCP-Auto/mcp_server/HaroldFinchIFT_vuln-nist-mcp-server"}
 loop 20 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/HaroldFinchIFT_vuln-nist-mcp-server/"}
 
-21 | ❌ @@Task Failed@@
+21 | ❌ @@Task Failed@@ | Input: 36 Output: 1082 cache_creation: 5141 cache_read: 161503
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README.md","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"skill":"use-uv-tool"}
 loop 3 | Tool=Bash, Args={"command":"echo \"MEM0_API_KEY is set: ${MEM0_API_KEY:+yes}\""} ; Tool=Bash, Args={"command":"which uvx"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/"}
@@ -373,7 +373,7 @@ loop 4 | Tool=AskUserQuestion, Args={"questions":[{"header":"API Key","options":
 loop 5 | Tool=AskUserQuestion, Args={"questions":[{"header":"API Key","options":[{"label":"I have it","description":"I'll provide my Mem0 API key"},{"label":"I need one","description":"I need instructions to get a Mem0 API key first"}],"question":"I need a Mem0 API key (MEM0_API_KEY) to connect to the Mem0 MCP server. Do you have one available?"}]}
 loop 6 | 无 tool_calls
 
-22 | ❌ @@Task Failed@@
+22 | ❌ @@Task Failed@@ | Input: 120 Output: 4092 cache_creation: 163429 cache_read: 522288
 loop 1 | Tool=Skill, Args={"args":"README.md","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"README.md","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"No mcp_server dir yet\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server_config/ 2>/dev/null || echo \"No mcp_server_config dir yet\""} ; Tool=Bash, Args={"command":"which uv && uv --version"}
@@ -395,7 +395,7 @@ loop 18 | Tool=TaskOutput, Args={"task_id":"bwujbr5fg","block":true,"timeout":30
 loop 19 | Tool=TaskOutput, Args={"task_id":"bwujbr5fg","block":true,"timeout":300000}
 loop 20 | Tool=Bash, Args={"command":"tail -20 /tmp/claude-1000/-home-silimon-MCP-Auto/d86a1803-c4c9-49da-92ed-1aca4ee0fb18/tasks/bwujbr5fg.output 2>/dev/null"}
 
-23 | ✅ @@Task Done@@
+23 | ✅ @@Task Done@@ | Input: 54 Output: 2109 cache_creation: 9806 cache_read: 252294
 loop 1 | Tool=Skill, Args={"skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server_config/ 2>/dev/null; echo \"---\"; ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null; echo \"---\"; cat /home/silimon/MCP-Auto/.env 2>/dev/null || echo \"no .env\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/log_file/ 2>/dev/null"}
@@ -406,7 +406,7 @@ loop 7 | Tool=Skill, Args={"skill":"validate-mcp-server"}
 loop 8 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 969267582_sugarforever_amap-mcp-server","timeout":30000}
 loop 9 | 无 tool_calls
 
-24 | ❌ @@Task Failed@@
+24 | ❌ @@Task Failed@@ | Input: 120 Output: 4312 cache_creation: 23871 cache_read: 685887
 loop 1 | Tool=Skill, Args={"args":"Use the README content provided to analyze the draw_architecture_mcp server and extract all deployment options.","skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/draw_architecture_mcp/ 2>/dev/null || echo \"Directory not found\""} ; Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/semaphore-mcp/ 2>/dev/null | head -20"} ; Tool=Bash, Args={"command":"cat /home/silimon/MCP-Auto/.mcp.json 2>/dev/null || echo \"File not found or deleted\""}
 loop 3 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/semaphore-mcp/README.md"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/semaphore-mcp/.env.example"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/semaphore-mcp/pyproject.toml"}
@@ -428,7 +428,7 @@ loop 18 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/draw_architecture
 loop 19 | Tool=Grep, Args={"-i":true,"output_mode":"files_with_matches","path":"/home/silimon","pattern":"zhipuai.*key|ZHIPUAI"}
 loop 20 | Tool=Bash, Args={"command":"grep \"ZHIPUAI_API_KEY\" /home/silimon/.claude/projects/-home-silimon-MCP-Auto/7d271864-fed5-4e67-87e8-d0a8dc05c4b2.jsonl 2>/dev/null | grep -v \"your_zhipuai\" | grep -v \"未配置\" | grep -v \"未找到\" | head -5"}
 
-25 | ❌ @@Task Failed@@
+25 | ❌ @@Task Failed@@ | Input: 120 Output: 6311 cache_creation: 44958 cache_read: 649141
 loop 1 | Tool=Skill, Args={"args":"# Computer Control MCP\n\n### MCP server that provides computer control capabilities, like mouse, keyboard, OCR, etc. using PyAutoGUI, RapidOCR, ONNXRuntime. Similar to 'computer-use' by Anthropic. With Zero External Dependencies.\n\n<div align=\"center\" style=\"text-align:center;font-family: monospace; display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px\">\n    <a href=\"https://nextjs-boilerplate-ashy-nine-64.vercel.app/demo-computer-control\"><img\n            src=\"https://komarev.com/ghpvc/?username=AB498&label=DEMO&style=for-the-badge&color=CC0000\" /></a>\n    <a href=\"https://discord.gg/ZeeqSBpjU2\"><img\n            src=\"https://img.shields.io/discord/1095854826786668545?style=for-the-badge&color=0000CC\" alt=\"Discord\"></a>\n    <a href=\"https://img.shields.io/badge/License-MIT-yellow.svg\"><img\n            src=\"https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge&color=00CC00\" alt=\"License: MIT\"></a>\n    <a href=\"https://pypi.org/project/computer-control-mcp\"><img\n            src=\"https://img.shields.io/pypi/v/computer-control-mcp?style=for-the-badge\" alt=\"PyPi\"></a>\n</div>\n\n---\n\n![MCP Computer Control Demo](https://github.com/AB498/computer-control-mcp/blob/main/demonstration.gif?raw=true)\n\n## Quick Usage (MCP Setup Using `uvx`)\n\n***Note:** Running `uvx computer-control-mcp@latest` for the first time will download python dependencies (around 70MB) which may take some time. Recommended to run this in a terminal before using it as MCP. Subsequent runs will be instant.* \n\n```json\n{\n  \"mcpServers\": {\n    \"computer-control-mcp\": {\n      \"command\": \"uvx\",\n      \"args\": [\"computer-control-mcp@latest\"]\n    }\n  }\n}\n```\n\nOR install globally with `pip`:\n```bash\npip install computer-control-mcp\n```\nThen run the server with:\n```bash\ncomputer-control-mcp # instead of uvx computer-control-mcp, so you can use the latest version, also you can `uv cache clean` to clear the cache and `uvx` again to use latest version.\n```\n\n## Features\n\n- Control mouse movements and clicks\n- Type text at the current cursor position\n- Take screenshots of the entire screen or specific windows with optional saving to downloads directory\n- Extract text from screenshots using OCR (Optical Character Recognition)\n- List and activate windows\n- Press keyboard keys\n- Drag and drop operations\n- Enhanced screenshot capture for GPU-accelerated windows (Windows only)\n\n## Note on GPU-accelerated Windows\n\nTraditional screenshot methods like GDI/PrintWindow fail to capture GPU-accelerated windows, resulting in black screens. This impacts games, media players, Electron apps, browsers with GPU acceleration, streaming software, and CAD tools. Use WGC through `take_screenshot` tool's flag or `ENV` variable\n\n## Configuration\n\n### Custom Screenshot Directory\n\nBy default, screenshots are saved to the OS downloads directory. You can customize this by setting the `COMPUTER_CONTROL_MCP_SCREENSHOT_DIR` environment variable:\n\n```json\n{\n  \"mcpServers\": {\n    \"computer-control-mcp\": {\n      \"command\": \"uvx\",\n      \"args\": [\"computer-control-mcp@latest\"],\n      \"env\": {\n        \"COMPUTER_CONTROL_MCP_SCREENSHOT_DIR\": \"C:\\\\Users\\\\YourName\\\\Pictures\\\\Screenshots\"\n      }\n    }\n  }\n}\n```\n\nOr set it system-wide:\n```bash\n# Windows (PowerShell)\n$env:COMPUTER_CONTROL_MCP_SCREENSHOT_DIR = \"C:\\Users\\YourName\\Pictures\\Screenshots\"\n\n# macOS/Linux\nexport COMPUTER_CONTROL_MCP_SCREENSHOT_DIR=\"/home/yourname/Pictures/Screenshots\"\n```\n\nIf the specified directory doesn't exist, the server will fall back to the default downloads directory.\n\n### Automatic WGC for Specific Windows\n\nYou can configure the system to automatically use Windows Graphics Capture (WGC) for specific windows by setting the `COMPUTER_CONTROL_MCP_WGC_PATTERNS` environment variable. This variable should contain comma-separated patterns that match window titles:\n\n```json\n{\n  \"mcpServers\": {\n    \"computer-control-mcp\": {\n      \"command\": \"uvx\",\n      \"args\": [\"computer-control-mcp@latest\"],\n      \"env\": {\n        \"COMPUTER_CONTROL_MCP_WGC_PATTERNS\": \"obs, discord, game, steam\"\n      }\n    }\n  }\n}\n```\n\nOr set it system-wide:\n```bash\n# Windows (PowerShell)\n$env:COMPUTER_CONTROL_MCP_WGC_PATTERNS = \"obs, discord, game, steam\"\n\n# macOS/Linux\nexport COMPUTER_CONTROL_MCP_WGC_PATTERNS=\"obs, discord, game, steam\"\n```\n\nWhen this variable is set, any window whose title contains any of the specified patterns will automatically use WGC for screenshot capture, eliminating black screens for GPU-accelerated applications.\n\n## Available Tools\n\n### Mouse Control\n- `click_screen(x: int, y: int)`: Click at specified screen coordinates\n- `move_mouse(x: int, y: int)`: Move mouse cursor to specified coordinates\n- `drag_mouse(from_x: int, from_y: int, to_x: int, to_y: int, duration: float = 0.5)`: Drag mouse from one position to another\n- `mouse_down(button: str = \"left\")`: Hold down a mouse button ('left', 'right', 'middle')\n- `mouse_up(button: str = \"left\")`: Release a mouse button ('left', 'right', 'middle')\n\n### Keyboard Control\n- `type_text(text: str)`: Type the specified text at current cursor position\n- `press_key(key: str)`: Press a specified keyboard key\n- `key_down(key: str)`: Hold down a specific keyboard key until released\n- `key_up(key: str)`: Release a specific keyboard key\n- `press_keys(keys: Union[str, List[Union[str, List[str]]]])`: Press keyboard keys (supports single keys, sequences, and combinations)\n\n### Screen and Window Management\n- `take_screenshot(title_pattern: str = None, use_regex: bool = False, threshold: int = 60, scale_percent_for_ocr: int = None, save_to_downloads: bool = False, use_wgc: bool = False)`: Capture screen or window\n- `take_screenshot_with_ocr(title_pattern: str = None, use_regex: bool = False, threshold: int = 10, scale_percent_for_ocr: int = None, save_to_downloads: bool = False)`: Extract adn return text with coordinates using OCR from screen or window\n- `get_screen_size()`: Get current screen resolution\n- `list_windows()`: List all open windows\n- `activate_window(title_pattern: str, use_regex: bool = False, threshold: int = 60)`: Bring specified window to foreground\n- `wait_milliseconds(milliseconds: int)`: Wait for a specified number of milliseconds\n\n## Development\n\n### Setting up the Development Environment\n\n```bash\n# Clone the repository\ngit clone https://github.com/AB498/computer-control-mcp.git\ncd computer-control-mcp\n\n# Build/Run:\n\n# 1. Install in development mode | Meaning that your edits to source code will be reflected in the installed package.\npip install -e .\n\n# Then Start server | This is equivalent to `uvx computer-control-mcp@latest` just the local code is used\ncomputer-control-mcp\n\n# -- OR --\n\n# 2. Build after `pip install hatch` | This needs version increment in orer to reflect code changes\nhatch build\n\n# Windows\n$latest = Get-ChildItem .\\dist\\*.whl | Sort-Object LastWriteTime -Descending | Select-Object -First 1\npip install $latest.FullName --upgrade \n\n# Non-windows\npip install dist/*.whl --upgrade\n\n# Run\ncomputer-control-mcp\n```\n\n### Running Tests\n\n```bash\npython -m pytest\n```\n\n## API Reference\n\nSee the [API Reference](docs/api.md) for detailed information about the available functions and classes.\n\n## License\n\nMIT\n\n## For more information or help\n\n- [Email (abcd49800@gmail.com)](mailto:abcd49800@gmail.com)\n- [Discord (CodePlayground)](https://discord.gg/ZeeqSBpjU2)"}
 loop 2 | Tool=Skill, Args={"skill":"analyze-readme"}
 loop 3 | Tool=Skill, Args={"skill":"deploy-mcp-server"}
@@ -450,7 +450,7 @@ loop 18 | Tool=Bash, Args={"command":"cp /run/user/1000/.mutter-Xwaylandauth.4ZZ
 loop 19 | Tool=Bash, Args={"command":"DISPLAY=:0 /home/silimon/.cache/uv/archive-v0/R7irOzIMXnK6MLw8Wz7N0/bin/computer-control-mcp 2>&1 | head -20","timeout":15000}
 loop 20 | Tool=Bash, Args={"command":"hostname; echo \"---\"; cat /etc/hostname 2>/dev/null; echo \"---\"; xauth list 2>&1"}
 
-26 | ❌ @@Task Failed@@
+26 | ❌ @@Task Failed@@ | Input: 120 Output: 6225 cache_creation: 30441 cache_read: 671953
 loop 1 | Tool=Skill, Args={"args":"# OpenAI WebSearch MCP Server 🔍\n\n[![PyPI version](https://badge.fury.io/py/openai-websearch-mcp.svg)](https://badge.fury.io/py/openai-websearch-mcp)\n[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)\n[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n\nAn advanced MCP server that provides intelligent web search capabilities using OpenAI's reasoning models. Perfect for AI assistants that need up-to-date information with smart reasoning capabilities.\n\n## ✨ Features\n\n- **🧠 Reasoning Model Support**: Full compatibility with OpenAI's latest reasoning models (gpt-5, gpt-5-mini, gpt-5-nano, o3, o4-mini)\n- **⚡ Smart Effort Control**: Intelligent `reasoning_effort` defaults based on use case\n- **🔄 Multi-Mode Search**: Fast iterations with gpt-5-mini or deep research with gpt-5\n- **🌍 Localized Results**: Support for location-based search customization\n- **📝 Rich Descriptions**: Complete parameter documentation for easy integration\n- **🔧 Flexible Configuration**: Environment variable support for easy deployment\n\n## 🚀 Quick Start\n\n### One-Click Installation for Claude Desktop\n\n```bash\nOPENAI_API_KEY=sk-xxxx uvx --with openai-websearch-mcp openai-websearch-mcp-install\n```\n\nReplace `sk-xxxx` with your OpenAI API key from the [OpenAI Platform](https://platform.openai.com/).\n\n## ⚙️ Configuration\n\n### Claude Desktop\n\nAdd to your `claude_desktop_config.json`:\n\n```json\n{\n  \"mcpServers\": {\n    \"openai-websearch-mcp\": {\n      \"command\": \"uvx\",\n      \"args\": [\"openai-websearch-mcp\"],\n      \"env\": {\n        \"OPENAI_API_KEY\": \"your-api-key-here\",\n        \"OPENAI_DEFAULT_MODEL\": \"gpt-5-mini\"\n      }\n    }\n  }\n}\n```\n\n### Cursor\n\nAdd to your MCP settings in Cursor:\n\n1. Open Cursor Settings (`Cmd/Ctrl + ,`)\n2. Search for \"MCP\" or go to Extensions → MCP\n3. Add server configuration:\n\n```json\n{\n  \"mcpServers\": {\n    \"openai-websearch-mcp\": {\n      \"command\": \"uvx\",\n      \"args\": [\"openai-websearch-mcp\"],\n      \"env\": {\n        \"OPENAI_API_KEY\": \"your-api-key-here\",\n        \"OPENAI_DEFAULT_MODEL\": \"gpt-5-mini\"\n      }\n    }\n  }\n}\n```\n\n### Claude Code\n\nClaude Code automatically detects MCP servers configured for Claude Desktop. Use the same configuration as above for Claude Desktop.\n\n### Local Development\n\nFor local testing, use the absolute path to your virtual environment:\n\n```json\n{\n  \"mcpServers\": {\n    \"openai-websearch-mcp\": {\n      \"command\": \"/path/to/your/project/.venv/bin/python\",\n      \"args\": [\"-m\", \"openai_websearch_mcp\"],\n      \"env\": {\n        \"OPENAI_API_KEY\": \"your-api-key-here\",\n        \"OPENAI_DEFAULT_MODEL\": \"gpt-5-mini\",\n        \"PYTHONPATH\": \"/path/to/your/project/src\"\n      }\n    }\n  }\n}\n```\n\n## 🛠️ Available Tools\n\n### `openai_web_search`\n\nIntelligent web search with reasoning model support.\n\n#### Parameters\n\n| Parameter | Type | Description | Default |\n|-----------|------|-------------|---------|\n| `input` | `string` | The search query or question to search for | *Required* |\n| `model` | `string` | AI model to use. Supports gpt-4o, gpt-4o-mini, gpt-5, gpt-5-mini, gpt-5-nano, o3, o4-mini | `gpt-5-mini` |\n| `reasoning_effort` | `string` | Reasoning effort level: low, medium, high, minimal | Smart default |\n| `type` | `string` | Web search API version | `web_search_preview` |\n| `search_context_size` | `string` | Context amount: low, medium, high | `medium` |\n| `user_location` | `object` | Optional location for localized results | `null` |\n\n## 💬 Usage Examples\n\nOnce configured, simply ask your AI assistant to search for information using natural language:\n\n### Quick Search\n> \"Search for the latest developments in AI reasoning models using openai_web_search\"\n\n### Deep Research \n> \"Use openai_web_search with gpt-5 and high reasoning effort to provide a comprehensive analysis of quantum computing breakthroughs\"\n\n### Localized Search\n> \"Search for local tech meetups in San Francisco this week using openai_web_search\"\n\nThe AI assistant will automatically use the `openai_web_search` tool with appropriate parameters based on your request.\n\n## 🤖 Model Selection Guide\n\n### Quick Multi-Round Searches 🚀\n- **Recommended**: `gpt-5-mini` with `reasoning_effort: \"low\"`\n- **Use Case**: Fast iterations, real-time information, multiple quick queries\n- **Benefits**: Lower latency, cost-effective for frequent searches\n\n### Deep Research 🔬\n- **Recommended**: `gpt-5` with `reasoning_effort: \"medium\"` or `\"high\"`\n- **Use Case**: Comprehensive analysis, complex topics, detailed investigation\n- **Benefits**: Multi-round reasoned results, no need for agent iterations\n\n### Model Comparison\n\n| Model | Reasoning | Default Effort | Best For |\n|-------|-----------|----------------|----------|\n| `gpt-4o` | ❌ | N/A | Standard search |\n| `gpt-4o-mini` | ❌ | N/A | Basic queries |\n| `gpt-5-mini` | ✅ | `low` | Fast iterations |\n| `gpt-5` | ✅ | `medium` | Deep research |\n| `gpt-5-nano` | ✅ | `medium` | Balanced approach |\n| `o3` | ✅ | `medium` | Advanced reasoning |\n| `o4-mini` | ✅ | `medium` | Efficient reasoning |\n\n## 📦 Installation\n\n### Using uvx (Recommended)\n\n```bash\n# Install and run directly\nuvx openai-websearch-mcp\n\n# Or install globally\nuvx install openai-websearch-mcp\n```\n\n### Using pip\n\n```bash\n# Install from PyPI\npip install openai-websearch-mcp\n\n# Run the server\npython -m openai_websearch_mcp\n```\n\n### From Source\n\n```bash\n# Clone the repository\ngit clone https://github.com/yourusername/openai-websearch-mcp.git\ncd openai-websearch-mcp\n\n# Install dependencies\nuv sync\n\n# Run in development mode\nuv run python -m openai_websearch_mcp\n```\n\n## 👩‍💻 Development\n\n### Setup Development Environment\n\n```bash\n# Clone and setup\ngit clone https://github.com/yourusername/openai-websearch-mcp.git\ncd openai-websearch-mcp\n\n# Create virtual environment and install dependencies\nuv sync\n\n# Run tests\nuv run python -m pytest\n\n# Install in development mode\nuv pip install -e .\n```\n\n### Environment Variables\n\n| Variable | Description | Default |\n|----------|-------------|---------|\n| `OPENAI_API_KEY` | Your OpenAI API key | *Required* |\n| `OPENAI_DEFAULT_MODEL` | Default model to use | `gpt-5-mini` |\n\n## 🐛 Debugging\n\n### Using MCP Inspector\n\n```bash\n# For uvx installations\nnpx @modelcontextprotocol/inspector uvx openai-websearch-mcp\n\n# For pip installations\nnpx @modelcontextprotocol/inspector python -m openai_websearch_mcp\n```\n\n### Common Issues\n\n**Issue**: \"Unsupported parameter: 'reasoning.effort'\"\n**Solution**: This occurs when using non-reasoning models (gpt-4o, gpt-4o-mini) with reasoning_effort parameter. The server automatically handles this by only applying reasoning parameters to compatible models.\n\n**Issue**: \"No module named 'openai_websearch_mcp'\"\n**Solution**: Ensure you've installed the package correctly and your Python path includes the package location.\n\n## 📄 License\n\nThis project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.\n\n## 🙏 Acknowledgments\n\n- 🤖 Generated with [Claude Code](https://claude.ai/code)\n- 🔥 Powered by [OpenAI's Web Search API](https://openai.com)\n- 🛠️ Built on the [Model Context Protocol](https://modelcontextprotocol.io/)\n\n---\n\n**Co-Authored-By**: Claude <noreply@anthropic.com>","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"skill":"analyze-readme"}
 loop 3 | Tool=Bash, Args={"command":"which uvx && uvx --version"} ; Tool=Glob, Args={"pattern":"**/.mcp*.json"} ; Tool=Glob, Args={"pattern":"**/claude_desktop_config.json"}
@@ -472,7 +472,7 @@ loop 18 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/94708
 loop 19 | Tool=Bash, Args={"command":"echo '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0.0\"}}}' | timeout 15 OPENAI_API_KEY=test-key OPENAI_DEFAULT_MODEL=gpt-5-mini uvx openai-websearch-mcp 2>&1 || true","timeout":30000}
 loop 20 | Tool=Bash, Args={"command":"env OPENAI_API_KEY=test-key OPENAI_DEFAULT_MODEL=gpt-5-mini timeout 15 uvx openai-websearch-mcp 2>&1 <<'EOF'\n{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0.0\"}}}\nEOF\n","timeout":30000}
 
-27 | ❌ @@Task Failed@@
+27 | ❌ @@Task Failed@@ | Input: 78 Output: 3863 cache_creation: 12063 cache_read: 380965
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README.md","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"garmin-workouts-mcp uvx GARMIN_EMAIL GARMIN_PASSWORD","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/garmin-workouts-mcp_st3v_garmin-workouts-mcp"} ; Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server_config"} ; Tool=Glob, Args={"path":"/home/silimon/MCP-Auto","pattern":"mcp_server_config/config.json"}
@@ -487,7 +487,7 @@ loop 11 | Tool=AskUserQuestion, Args={"questions":[{"header":"Credentials","opti
 loop 12 | Tool=TodoWrite, Args={"todos":[{"content":"Deploy garmin-workouts-mcp via uvx","status":"completed","activeForm":"Deploying garmin-workouts-mcp via uvx"},{"content":"Add config to mcp_server_config/config.json","status":"completed","activeForm":"Adding config to mcp_server_config/config.json"},{"content":"Validate server starts and exposes tools","status":"completed","activeForm":"Validating server starts and exposes tools"}]}
 loop 13 | 无 tool_calls
 
-28 | ❌ @@Task Failed@@
+28 | ❌ @@Task Failed@@ | Input: 120 Output: 4520 cache_creation: 33271 cache_read: 667709
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp-obsidian-enhanced/ 2>/dev/null || echo \"Repo not found locally\""}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/labeveryday/mcp-obsidian-enhanced.git"}
 loop 3 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/mcp-obsidian-enhanced/README.md","skill":"analyze-readme"}
@@ -509,7 +509,7 @@ loop 18 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Analyzing README deploym
 loop 19 | Tool=Skill, Args={"args":"Validate the MCP server at /home/silimon/MCP-Auto/mcp_server/984915615_labeveryday_mcp-obsidian-enhanced using stdio transport","skill":"validate-mcp-server"}
 loop 20 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 984915615_labeveryday_mcp-obsidian-enhanced","timeout":30000}
 
-29 | ✅ @@Task Done@@
+29 | ✅ @@Task Done@@ | Input: 90 Output: 2562 cache_creation: 36118 cache_read: 432126
 loop 1 | Tool=Skill, Args={"args":"AWS MCP Server README","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"Deploy AWS MCP server using uvx with stdio transport","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/951314828_alexei-led_aws-mcp-server"} ; Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server_config"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config/config.json"}
@@ -526,7 +526,7 @@ loop 13 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config
 loop 14 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server_config/config.json","offset":120}
 loop 15 | 无 tool_calls
 
-30 | ❌ @@Task Failed@@
+30 | ❌ @@Task Failed@@ | Input: 120 Output: 5636 cache_creation: 21708 cache_read: 665784
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README_task.md","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"add mcp server dialog-mcp with http transport to https://reddit-research-mcp.fastmcp.app/mcp","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server_config/ 2>/dev/null && cat /home/silimon/MCP-Auto/mcp_server_config/config.json 2>/dev/null || echo \"No config found\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"No mcp_server dir\""}
@@ -548,7 +548,7 @@ loop 18 | Tool=Bash, Args={"command":"ls -la ~/.mcp-remote/ 2>/dev/null && ls -l
 loop 19 | Tool=Bash, Args={"command":"find ~/.mcp-remote/ -type f 2>/dev/null"}
 loop 20 | Tool=Bash, Args={"command":"cat /home/silimon/MCP-Auto/mcp_server_config/config.json | python3 -c \"import json,sys; d=json.load(sys.stdin); [print(f'{k}: {v.get(\\\"type\\\",\\\"stdio\\\")}')\" 2>/dev/null"}
 
-31 | ❌ @@Task Failed@@
+31 | ❌ @@Task Failed@@ | Input: 54 Output: 3064 cache_creation: 9374 cache_read: 251877
 loop 1 | Tool=Bash, Args={"command":"which uv && uv --version"} ; Tool=Bash, Args={"command":"cat /home/silimon/MCP-Auto/.mcp.json 2>/dev/null || echo \"No .mcp.json found\""} ; Tool=Bash, Args={"command":"curl -s http://localhost:12315/api/health 2>/dev/null || echo \"LogSeq API not reachable at localhost:12315\""}
 loop 2 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/mcp-logseq/README.md or the README content provided","skill":"analyze-readme"}
 loop 3 | Tool=Skill, Args={"args":"README.md content provided in the task","skill":"analyze-readme"}
@@ -559,7 +559,7 @@ loop 7 | Tool=AskUserQuestion, Args={"questions":[{"header":"LogSeq Token","opti
 loop 8 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp-logseq/ 2>/dev/null && echo \"EXISTS\" || echo \"NOT FOUND\""}
 loop 9 | 无 tool_calls
 
-32 | ❌ @@Task Failed@@
+32 | ❌ @@Task Failed@@ | Input: 120 Output: 4156 cache_creation: 192144 cache_read: 461735
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server"}
@@ -581,7 +581,7 @@ loop 18 | Tool=Bash, Args={"command":"uv pip install transformers","timeout":300
 loop 19 | Tool=TaskOutput, Args={"task_id":"bz4zoudqa","block":true,"timeout":600000}
 loop 20 | Tool=TaskStop, Args={"task_id":"bz4zoudqa"}
 
-33 | ❌ @@Task Failed@@
+33 | ❌ @@Task Failed@@ | Input: 120 Output: 4292 cache_creation: 28315 cache_read: 611585
 loop 1 | Tool=Skill, Args={"args":"Read the README.md at the root of the repo for DATAMIMIC MCP server deployment options","skill":"analyze-readme"}
 loop 2 | Tool=TodoWrite, Args={"todos":[{"content":"Analyze README deployment options","status":"in_progress","activeForm":"Analyzing README deployment options"},{"content":"Deploy the MCP server","status":"pending","activeForm":"Deploying the MCP server"},{"content":"Verify the MCP server","status":"pending","activeForm":"Verifying the MCP server"}]}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Analyzing README deployment options","content":"Analyze README deployment options","status":"completed"},{"activeForm":"Deploying the MCP server","content":"Deploy the MCP server","status":"in_progress"},{"activeForm":"Verifying the MCP server","content":"Verify the MCP server","status":"pending"}]}
@@ -603,7 +603,7 @@ loop 18 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Analyzing README deploym
 loop 19 | Tool=Skill, Args={"args":"Verify DATAMIMIC MCP server (id: datamimic_rapiddweller_datamimic). Start the server with SSE transport on 127.0.0.1:8765, then verify it exposes the tool list.","skill":"validate-mcp-server"}
 loop 20 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation datamimic_rapiddweller_datamimic 2>&1","timeout":60000}
 
-34 | ✅ @@Task Done@@
+34 | ✅ @@Task Done@@ | Input: 66 Output: 2384 cache_creation: 12958 cache_read: 322248
 loop 1 | Tool=Skill, Args={"args":"Connect to an MCP server according to the Readme document. Complete the task in an efficient manner.","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"Deploy the MCP server described in README using uvx method with wanyi-watermark package","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1081441335_Ryan7t_wanyi-watermark"} ; Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server_config"} ; Tool=Glob, Args={"pattern":"**/mcp_server_config/config.json"} ; Tool=Glob, Args={"pattern":"**/mcp_server_config/*.json"}
@@ -616,7 +616,7 @@ loop 9 | Tool=Skill, Args={"args":"Validate the MCP server 1081441335_Ryan7t_wan
 loop 10 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 1081441335_Ryan7t_wanyi-watermark 2>&1","timeout":60000}
 loop 11 | 无 tool_calls
 
-35 | ✅ @@Task Done@@
+35 | ✅ @@Task Done@@ | Input: 54 Output: 1955 cache_creation: 16430 cache_read: 265227
 loop 1 | Tool=Skill, Args={"args":"ccontext-mcp README - extract deployment options for MCP server connection","skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"args":"Deploy ccontext-mcp using uvx","skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server_config/config.json 2>/dev/null && cat /home/silimon/MCP-Auto/mcp_server_config/config.json || echo \"Config file does not exist\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"mcp_server dir does not exist\""} ; Tool=Bash, Args={"command":"which uvx 2>/dev/null || which uv 2>/dev/null || echo \"uv not found\""}
@@ -627,7 +627,7 @@ loop 7 | Tool=Skill, Args={"args":"Verify ccontext-mcp server starts and exposes
 loop 8 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 1111728305_ChesterRa_ccontext","timeout":60000}
 loop 9 | 无 tool_calls
 
-36 | ✅ @@Task Done@@
+36 | ✅ @@Task Done@@ | Input: 108 Output: 4069 cache_creation: 19150 cache_read: 566324
 loop 1 | Tool=Skill, Args={"args":"Dappier MCP server README content","skill":"analyze-readme"}
 loop 2 | Tool=TodoWrite, Args={"todos":[{"content":"Analyze README and select deployment option","status":"completed","activeForm":"Analyzing README and selecting deployment option"},{"content":"Deploy Dappier MCP server via uvx","status":"in_progress","activeForm":"Deploying Dappier MCP server via uvx"},{"content":"Verify MCP server starts and exposes tool list","status":"pending","activeForm":"Verifying MCP server starts and exposes tool list"}]} ; Tool=Bash, Args={"command":"which uvx 2>/dev/null && uvx --version 2>/dev/null || echo \"uvx not found\""} ; Tool=Glob, Args={"pattern":"**/.mcp.json"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/ | head -30"} ; Tool=Glob, Args={"path":"/home/silimon/MCP-Auto","pattern":"**/mcp*.json"}
@@ -647,7 +647,7 @@ loop 16 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_
 loop 17 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Analyzing README and selecting deployment option","content":"Analyze README and select deployment option","status":"completed"},{"activeForm":"Deploying Dappier MCP server via uvx","content":"Deploy Dappier MCP server via uvx","status":"completed"},{"activeForm":"Verifying MCP server starts and exposes tool list","content":"Verify MCP server starts and exposes tool list","status":"completed"}]}
 loop 18 | 无 tool_calls
 
-37 | ❌ @@Task Failed@@
+37 | ❌ @@Task Failed@@ | Input: 120 Output: 4462 cache_creation: 22970 cache_read: 673771
 loop 1 | Tool=Skill, Args={"args":"nano-banana-mcp README analysis for deployment","skill":"analyze-readme"}
 loop 2 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/nano-banana-mcp/ 2>/dev/null | head -20"} ; Tool=Bash, Args={"command":"which uv && uv --version"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/.mcp.json"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"content":"Clone nano-banana-mcp repository","status":"in_progress","activeForm":"Cloning nano-banana-mcp repository"},{"content":"Install dependencies with uv","status":"pending","activeForm":"Installing dependencies with uv"},{"content":"Set up environment variables (cookies)","status":"pending","activeForm":"Setting up environment variables"},{"content":"Deploy and configure MCP server","status":"pending","activeForm":"Deploying and configuring MCP server"},{"content":"Verify MCP server connectivity","status":"pending","activeForm":"Verifying MCP server connectivity"}]}
@@ -669,7 +669,7 @@ loop 18 | Tool=Bash, Args={"command":"curl -s \"https://raw.githubusercontent.co
 loop 19 | Tool=Bash, Args={"command":"curl -s \"https://raw.githubusercontent.com/daveremy/nano-banana-2-mcp/main/README.md\" 2>&1 | head -80"} ; Tool=Bash, Args={"command":"curl -s \"https://raw.githubusercontent.com/easy-to-use-ai/nano-banana-pro-mcp/main/README.md\" 2>&1 | head -80"}
 loop 20 | Tool=Bash, Args={"command":"curl -s \"https://api.github.com/search/repositories?q=gemini_webapi+mcp+in:description&per_page=10\" | python3 -c \"import json,sys; data=json.load(sys.stdin); [print(f\\\"{r['full_name']} - {r['html_url']}\\\") for r in data.get('items',[])]\""}
 
-38 | ✅ @@Task Done@@
+38 | ✅ @@Task Done@@ | Input: 84 Output: 3497 cache_creation: 16906 cache_read: 424931
 loop 1 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/mcp-alchemy/README.md","skill":"analyze-readme"}
 loop 2 | Tool=Glob, Args={"pattern":".mcp.json"} ; Tool=Glob, Args={"pattern":"claude_desktop_config.json"} ; Tool=Bash, Args={"command":"which uvx && uvx --version 2>&1 || echo \"uvx not found\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp-alchemy/ 2>/dev/null || echo \"Directory not found\""}
 loop 3 | Tool=Glob, Args={"pattern":"**/.mcp*.json"} ; Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/.mcp* 2>/dev/null; echo \"---\"; ls /home/silimon/MCP-Auto/*.json 2>/dev/null || echo \"No JSON files at root\""}
@@ -685,7 +685,7 @@ loop 12 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_
 loop 13 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Creating project folder for mcp-alchemy","content":"Create project folder for mcp-alchemy","status":"completed"},{"activeForm":"Writing MCP server config","content":"Write MCP server config to config.json","status":"completed"},{"activeForm":"Verifying MCP server","content":"Verify the MCP server starts correctly","status":"completed"}]}
 loop 14 | 无 tool_calls
 
-39 | ✅ @@Task Done@@
+39 | ✅ @@Task Done@@ | Input: 84 Output: 2559 cache_creation: 26052 cache_read: 420262
 loop 1 | Tool=Skill, Args={"skill":"analyze-readme"}
 loop 2 | Tool=Skill, Args={"skill":"deploy-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null; echo \"---\"; ls /home/silimon/MCP-Auto/mcp_server_config/ 2>/dev/null"}
@@ -701,7 +701,7 @@ loop 12 | Tool=Skill, Args={"skill":"validate-mcp-server"}
 loop 13 | Tool=Bash, Args={"command":"/home/silimon/MCP-Auto/claude_code/config_validation 1065858913_thisishaykins_paystack-python-mcp","timeout":30000}
 loop 14 | 无 tool_calls
 
-40 | ❌ @@Task Failed@@
+40 | ❌ @@Task Failed@@ | Input: 120 Output: 3505 cache_creation: 22321 cache_read: 640765
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Analyze README for deployment options","status":"in_progress","activeForm":"Analyzing README for deployment options"},{"content":"Deploy the MCP server","status":"pending","activeForm":"Deploying the MCP server"},{"content":"Verify the MCP server","status":"pending","activeForm":"Verifying the MCP server"}]}
 loop 2 | Tool=Skill, Args={"args":"/home/silimon/MCP-Auto/README.md","skill":"analyze-readme"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Analyzing README for deployment options","content":"Analyze README for deployment options","status":"completed"},{"activeForm":"Deploying the MCP server","content":"Deploy the MCP server","status":"in_progress"},{"activeForm":"Verifying the MCP server","content":"Verify the MCP server","status":"pending"}]}
@@ -722,5 +722,3 @@ loop 17 | Tool=Bash, Args={"command":"apt-get update -qq && apt-get install -y -
 loop 18 | Tool=Bash, Args={"command":"uv tool install ripgrep 2>&1 || echo \"--- trying pip install ---\" && uv pip install --user ripgrep 2>&1 || true","timeout":60000} ; Tool=Grep, Args={"glob":"*.py","path":"/home/silimon/MCP-Auto/mcp_server/CodeRetrX_XuanwuAI_CodeRetrX/coderetrx/tools","pattern":"rg|ripgrep","output_mode":"content"}
 loop 19 | Tool=Bash, Args={"command":"ls /home/silimon/.local/bin/rg 2>/dev/null && echo \"found in .local/bin\" || ls /home/silimon/snap/code/238/.local/share/../bin/rg 2>/dev/null && echo \"found in snap bin\" || (uv tool dir)/bin/rg 2>/dev/null"}
 loop 20 | Tool=Bash, Args={"command":"ls /home/silimon/.local/bin/rg 2>/dev/null; uv tool dir"}
-
-41 | ❌ @@Task Failed@@

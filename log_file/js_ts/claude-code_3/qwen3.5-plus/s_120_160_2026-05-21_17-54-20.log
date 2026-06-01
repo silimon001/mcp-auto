@@ -1,4 +1,4 @@
-1 | ✅ @@Task Done@@
+1 | ✅ @@Task Done@@ | Input: 72 Output: 2752 cache_creation: 35691 cache_read: 353125
 loop 1 | Tool=WebFetch, Args={"prompt":"Extract all setup instructions for running the MCP server locally. What are the steps, prerequisites, and configuration?","url":"https://raw.githubusercontent.com/useshortcut/mcp-server-shortcut/main/docs/local-server.md"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/mcp_server/"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/useshortcut/mcp-server-shortcut.git 946193637_useshortcut_mcp-server-shortcut"}
@@ -12,7 +12,7 @@ loop 10 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"946193637_useshortc
 loop 11 | Tool=TodoWrite, Args={"todos":[{"content":"Clone Shortcut MCP server repo","status":"completed","activeForm":"Cloning Shortcut MCP server repo"},{"content":"Install dependencies and build","status":"completed","activeForm":"Installing dependencies and building"},{"content":"Add MCP config via add_config tool","status":"completed","activeForm":"Adding MCP config"},{"content":"Validate config via validate_config tool","status":"completed","activeForm":"Validating config"}]}
 loop 12 | 无 tool_calls
 
-2 | ❌ @@Task Failed@@
+2 | ❌ @@Task Failed@@ | Input: 120 Output: 3366 cache_creation: 33726 cache_read: 587452
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone the MCP server repo to mcp_server directory","status":"in_progress","activeForm":"Cloning the MCP server repo"},{"content":"Install dependencies and build the server","status":"pending","activeForm":"Installing dependencies and building"},{"content":"Set up .env file with required environment variables","status":"pending","activeForm":"Setting up environment variables"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server config","status":"pending","activeForm":"Validating MCP server config"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/taylor-lindores-reeves/mcp-github-projects.git /home/silimon/MCP-Auto/mcp_server/mcp-github-projects_taylor-lindores-reeves_mcp-github-projects"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning the MCP server repo","content":"Clone the MCP server repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the server","status":"in_progress"},{"activeForm":"Setting up environment variables","content":"Set up .env file with required environment variables","status":"pending"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"pending"},{"activeForm":"Validating MCP server config","content":"Validate the MCP server config","status":"pending"}]}
@@ -34,7 +34,7 @@ loop 18 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/MCP-Auto/
 loop 19 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning the MCP server repo","content":"Clone the MCP server repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the server","status":"completed"},{"activeForm":"Setting up environment variables","content":"Set up .env file with required environment variables","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating MCP server config","content":"Validate the MCP server config","status":"in_progress"}]}
 loop 20 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"mcp-github-projects_taylor-lindores-reeves_mcp-github-projects","timeout_ms":30000}
 
-3 | ❌ @@Task Failed@@
+3 | ❌ @@Task Failed@@ | Input: 120 Output: 2537 cache_creation: 10297 cache_read: 621427
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone firefly-iii-mcp repo to mcp_server directory","status":"in_progress","activeForm":"Cloning firefly-iii-mcp repo"},{"content":"Install dependencies and build the project","status":"pending","activeForm":"Installing dependencies and building"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate MCP server configuration","status":"pending","activeForm":"Validating MCP server configuration"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server"}
 loop 3 | Tool=Bash, Args={"command":"git clone https://github.com/etnperlong/firefly-iii-mcp.git /home/silimon/MCP-Auto/mcp_server/991420794_etnperlong_firefly-iii-mcp"}
@@ -56,7 +56,7 @@ loop 18 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/99142
 loop 19 | Tool=Bash, Args={"command":"chmod +x /home/silimon/MCP-Auto/mcp_server/991420794_etnperlong_firefly-iii-mcp/packages/local/dist/*.js 2>&1 || true"}
 loop 20 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/991420794_etnperlong_firefly-iii-mcp/packages/local/src/app.ts"}
 
-4 | ✅ @@Task Done@@
+4 | ✅ @@Task Done@@ | Input: 66 Output: 1739 cache_creation: 7626 cache_read: 331001
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"directory does not exist yet\""} ; Tool=Bash, Args={"command":"node --version && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/lamemind/mcp-server-multiverse.git /home/silimon/MCP-Auto/mcp_server/924190825_lamemind_mcp-server-multiverse"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/mcp_server/924190825_lamemind_mcp-server-multiverse/"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/924190825_lamemind_mcp-server-multiverse/package.json"}
@@ -69,7 +69,7 @@ loop 9 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"924190825_lamemind_m
 loop 10 | Tool=Bash, Args={"command":"echo \"Tools exposed:\"; cat <<'EOF'\n  test_read_file, test_read_text_file, test_read_media_file,\n  test_read_multiple_files, test_write_file, test_edit_file,\n  test_create_directory, test_list_directory, test_list_directory_with_sizes,\n  test_directory_tree, test_move_file, test_search_files,\n  test_get_file_info, test_list_allowed_directories\nEOF"}
 loop 11 | 无 tool_calls
 
-5 | ✅ @@Task Done@@
+5 | ✅ @@Task Done@@ | Input: 48 Output: 1772 cache_creation: 7152 cache_read: 229976
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server"}
 loop 2 | Tool=AskUserQuestion, Args={"questions":[{"header":"API Key","options":[{"label":"I'll provide it now","description":"I have a CoinMarketCap API key and will provide it"},{"label":"Use placeholder","description":"Install and configure with a placeholder, I'll update the key later"}],"question":"I need a CoinMarketCap API key to configure this MCP server. Do you have one, or should I use a placeholder?","multiSelect":false}]}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/shinzo-labs/coinmarketcap-mcp.git shinzo_labs_coinmarketcap-mcp"}
@@ -79,7 +79,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"args":["index.js"],"command":"no
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"shinzo_labs_coinmarketcap-mcp","timeout_ms":30000}
 loop 8 | 无 tool_calls
 
-6 | ✅ @@Task Done@@
+6 | ✅ @@Task Done@@ | Input: 48 Output: 846 cache_creation: 5990 cache_read: 233584
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/leon30083/trae-openspec-mcp.git /home/silimon/MCP-Auto/mcp_server/1086873678_leon30083_trae-openspec-mcp"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/1086873678_leon30083_trae-openspec-mcp/"}
@@ -89,7 +89,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"args":["mcp-server.js"],"command
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1086873678_leon30083_trae-openspec-mcp"}
 loop 8 | 无 tool_calls
 
-7 | ❌ @@Task Failed@@
+7 | ❌ @@Task Failed@@ | Input: 120 Output: 3213 cache_creation: 10393 cache_read: 639715
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone the YouTube MCP server repo","status":"in_progress","activeForm":"Cloning the YouTube MCP server repo"},{"content":"Install dependencies and build the project","status":"pending","activeForm":"Installing dependencies and building the project"},{"content":"Configure environment variables (YouTube API key)","status":"pending","activeForm":"Configuring environment variables"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server connection","status":"pending","activeForm":"Validating the MCP server connection"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/0GiS0/youtube-mcp-server.git /home/silimon/MCP-Auto/mcp_server/0GiS0_youtube-mcp-server"}
 loop 3 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/0GiS0_youtube-mcp-server/mcp-stdio/package.json"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/0GiS0_youtube-mcp-server/mcp-stdio/.env-sample"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/0GiS0_youtube-mcp-server/mcp-stdio/src/index.ts"}
@@ -111,7 +111,7 @@ loop 18 | Tool=mcp__MCP-Auto__add_config, Args={"args":["node","build/index.js"]
 loop 19 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning the YouTube MCP server repo","content":"Clone the YouTube MCP server repo","status":"completed"},{"activeForm":"Installing dependencies and building the project","content":"Install dependencies and build the project","status":"completed"},{"activeForm":"Configuring environment variables","content":"Configure environment variables (YouTube API key)","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating the MCP server connection","content":"Validate the MCP server connection","status":"in_progress"}]}
 loop 20 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"950898067_0GiS0_youtube-mcp-server","timeout_ms":30000}
 
-8 | ❌ @@Task Failed@@
+8 | ❌ @@Task Failed@@ | Input: 120 Output: 4431 cache_creation: 12792 cache_read: 651822
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone the mongo-mcp repository","status":"in_progress","activeForm":"Cloning the mongo-mcp repository"},{"content":"Install dependencies and build the project","status":"pending","activeForm":"Installing dependencies and building the project"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server configuration","status":"pending","activeForm":"Validating the MCP server configuration"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/1RB/mongo-mcp.git /home/silimon/MCP-Auto/mcp_server/943509346_1RB_mongo-mcp"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning the mongo-mcp repository","content":"Clone the mongo-mcp repository","status":"completed"},{"activeForm":"Installing dependencies and building the project","content":"Install dependencies and build the project","status":"in_progress"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"pending"},{"activeForm":"Validating the MCP server configuration","content":"Validate the MCP server configuration","status":"pending"}]}
@@ -133,7 +133,7 @@ loop 18 | Tool=Write, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/94350
 loop 19 | Tool=Bash, Args={"command":"node -e \"\nimport('mongodb-memory-server').then(async ({ MongoMemoryServer }) => {\n  const server = await MongoMemoryServer.create();\n  const uri = server.getUri();\n  console.log('MONGODB_URI:', uri);\n  setTimeout(async () => { await server.stop(); process.exit(0); }, 2000);\n}).catch(err => { console.error(err.message); process.exit(1); });\n\" 2>&1","timeout":120000}
 loop 20 | Tool=Bash, Args={"command":"echo '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0\"}}}' | timeout 15 node wrapper.js 2>/tmp/mongo_mcp_stderr.log; cat /tmp/mongo_mcp_stderr.log","timeout":30000}
 
-9 | ✅ @@Task Done@@
+9 | ✅ @@Task Done@@ | Input: 60 Output: 1719 cache_creation: 12813 cache_read: 300846
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1087856397_chongzixuan-ai_mcp-server-website"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/chongzixuan-ai/mcp-server-website.git /home/silimon/MCP-Auto/mcp_server/1087856397_chongzixuan-ai_mcp-server-website 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/1087856397_chongzixuan-ai_mcp-server-website/"}
@@ -145,7 +145,7 @@ loop 8 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1087856397_chongzixu
 loop 9 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["dist/serve-restart.js"],"command":"node","cwd":"/home/silimon/MCP-Auto/mcp_server/1087856397_chongzixuan-ai_mcp-server-website","name":"1087856397_chongzixuan-ai_mcp-server-website","type":"stdio","timeout_ms":30000}
 loop 10 | 无 tool_calls
 
-10 | ❌ @@Task Failed@@
+10 | ❌ @@Task Failed@@ | Input: 120 Output: 4964 cache_creation: 9331 cache_read: 624468
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/nacos_group_nacos-mcp-router"}
 loop 2 | Tool=mcp__MCP-Auto__add_config, Args={"args":["nacos-mcp-router@latest"],"env":{"NACOS_ADDR":"127.0.0.1:8848","NACOS_PASSWORD":"nacos","NACOS_USERNAME":"nacos"},"name":"nacos_group_nacos-mcp-router","type":"stdio","command":"npx","cwd":"/home/silimon/MCP-Auto/mcp_server/nacos_group_nacos-mcp-router"}
 loop 3 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"nacos_group_nacos-mcp-router","timeout_ms":60000}
@@ -167,7 +167,7 @@ loop 18 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/nacos
 loop 19 | Tool=Bash, Args={"command":"NACOS_ADDR=127.0.0.1:8848 NACOS_USERNAME=nacos NACOS_PASSWORD=nacos node /home/silimon/MCP-Auto/mcp_server/nacos_group_nacos-mcp-router/node_modules/nacos-mcp-router/dist/stdio.js &\nSERVER_PID=$!\nsleep 3\n\n# Check if still alive\nkill -0 $SERVER_PID 2>/dev/null && echo \"Process alive\" || echo \"Process dead\"\n\n# Send MCP init + tools/list via JSON-RPC\necho '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"0.1\"}}}' | timeout 10 npx -y nacos-mcp-router@latest 2>&1 | head -5 &\nPID2=$!\nsleep 5\nkill $PID2 2>/dev/null\nwait $PID2 2>/dev/null\necho \"---done---\"","timeout":20000}
 loop 20 | Tool=mcp__MCP-Auto__execute_command, Args={"command":"NACOS_ADDR=127.0.0.1:8848 NACOS_USERNAME=nacos NACOS_PASSWORD=nacos node /home/silimon/MCP-Auto/mcp_server/nacos_group_nacos-mcp-router/node_modules/nacos-mcp-router/dist/stdio.js","shell":"/bin/bash","timeout_ms":30000}
 
-11 | ✅ @@Task Done@@
+11 | ✅ @@Task Done@@ | Input: 72 Output: 2301 cache_creation: 7270 cache_read: 356303
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Create installation directory and install mcp-files package","status":"in_progress","activeForm":"Installing mcp-files package"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server starts and exposes tools","status":"pending","activeForm":"Validating MCP server"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1024009344_flesler_mcp-files"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1024009344_flesler_mcp-files && npm init -y && npm install mcp-files","timeout":120000}
@@ -181,7 +181,7 @@ loop 10 | Tool=Bash, Args={"command":"echo '{\"jsonrpc\":\"2.0\",\"id\":1,\"meth
 loop 11 | Tool=Bash, Args={"command":"echo '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0\"}}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}' | timeout 5 node ./node_modules/.bin/mcp-files 2>&1 | head -100","timeout":10000}
 loop 12 | 无 tool_calls
 
-12 | ✅ @@Task Done@@
+12 | ✅ @@Task Done@@ | Input: 72 Output: 2007 cache_creation: 7540 cache_read: 360638
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone the godot-doc-mcp repo to mcp_server directory","status":"in_progress","activeForm":"Cloning the godot-doc-mcp repo"},{"content":"Install dependencies with pnpm","status":"pending","activeForm":"Installing dependencies"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server configuration","status":"pending","activeForm":"Validating MCP server configuration"}]}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 3 | Tool=Bash, Args={"command":"git clone https://github.com/tkmct/godot-doc-mcp.git /home/silimon/MCP-Auto/mcp_server/1061117744_tkmct_godot-doc-mcp"}
@@ -195,7 +195,7 @@ loop 10 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1061117744_tkmct_go
 loop 11 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning the godot-doc-mcp repo","content":"Clone the godot-doc-mcp repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies","content":"Install dependencies with pnpm","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating MCP server configuration","content":"Validate the MCP server configuration","status":"completed"}]}
 loop 12 | 无 tool_calls
 
-13 | ✅ @@Task Done@@
+13 | ✅ @@Task Done@@ | Input: 42 Output: 1015 cache_creation: 5590 cache_read: 203280
 loop 1 | Tool=Bash, Args={"command":"which bun bunx node npx 2>/dev/null"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/carlosedp/mcp-bun.git /home/silimon/MCP-Auto/mcp_server/1014032453_carlosedp_mcp-bun"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1014032453_carlosedp_mcp-bun && bun install && bun run build","timeout":120000}
@@ -204,7 +204,7 @@ loop 5 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/MCP-Auto/m
 loop 6 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1014032453_carlosedp_mcp-bun","timeout_ms":30000}
 loop 7 | 无 tool_calls
 
-14 | ✅ @@Task Done@@
+14 | ✅ @@Task Done@@ | Input: 48 Output: 1756 cache_creation: 18603 cache_read: 273820
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"directory does not exist yet\""} ; Tool=Bash, Args={"command":"which npm && npm --version && which npx && which node && node --version"} ; Tool=Bash, Args={"command":"/home/silimon/.local/bin/uv --version"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/andycufari/ClaudePoint.git 993270942_andycufari_ClaudePoint 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/mcp_server/993270942_andycufari_ClaudePoint/"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/993270942_andycufari_ClaudePoint/package.json"}
@@ -214,7 +214,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"args":["bin/claudepoint.js"],"co
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"993270942_andycufari_ClaudePoint","timeout_ms":30000}
 loop 8 | 无 tool_calls
 
-15 | ✅ @@Task Done@@
+15 | ✅ @@Task Done@@ | Input: 48 Output: 1401 cache_creation: 7800 cache_read: 231920
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"directory does not exist\""} ; Tool=Bash, Args={"command":"node --version && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/EnventDigital/community-express-dev-mcp.git /home/silimon/MCP-Auto/mcp_server/985021554_EnventDigital_community-express-dev-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/985021554_EnventDigital_community-express-dev-mcp && npm install","timeout":120000}
@@ -224,7 +224,7 @@ loop 6 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/985021
 loop 7 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["/home/silimon/MCP-Auto/mcp_server/985021554_EnventDigital_community-express-dev-mcp/dist/src/index.js"],"command":"node","cwd":"/home/silimon/MCP-Auto/mcp_server/985021554_EnventDigital_community-express-dev-mcp","name":"985021554_EnventDigital_community-express-dev-mcp","type":"stdio"}
 loop 8 | 无 tool_calls
 
-16 | ✅ @@Task Done@@
+16 | ✅ @@Task Done@@ | Input: 84 Output: 2812 cache_creation: 9337 cache_read: 435777
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone tidewave_js repo to mcp_server directory","status":"in_progress","activeForm":"Cloning tidewave_js repo"},{"content":"Install dependencies and build the project","status":"pending","activeForm":"Installing dependencies and building"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate MCP server connection","status":"pending","activeForm":"Validating MCP server connection"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/tidewave-ai/tidewave_js.git /home/silimon/MCP-Auto/mcp_server/tidewave-ai_tidewave_js 2>&1"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning tidewave_js repo","content":"Clone tidewave_js repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the project","status":"in_progress"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"pending"},{"activeForm":"Validating MCP server connection","content":"Validate MCP server connection","status":"pending"}]}
@@ -240,7 +240,7 @@ loop 12 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"tidewave-ai_tidewav
 loop 13 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning tidewave_js repo","content":"Clone tidewave_js repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the project","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating MCP server connection","content":"Validate MCP server connection","status":"completed"}]}
 loop 14 | 无 tool_calls
 
-17 | ✅ @@Task Done@@
+17 | ✅ @@Task Done@@ | Input: 66 Output: 2073 cache_creation: 7512 cache_read: 330658
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Create directory and install prometheus-mcp package locally","status":"in_progress","activeForm":"Installing prometheus-mcp package locally"},{"content":"Add MCP server configuration using add_config tool","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server config using validate_config tool","status":"pending","activeForm":"Validating MCP server configuration"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1004185555_idanfishman_prometheus-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1004185555_idanfishman_prometheus-mcp && npm init -y 2>&1 && npm install prometheus-mcp@latest 2>&1","timeout":120000}
@@ -253,7 +253,7 @@ loop 9 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["node_mod
 loop 10 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Installing prometheus-mcp package locally","content":"Create directory and install prometheus-mcp package locally","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration using add_config tool","status":"completed"},{"activeForm":"Validating MCP server configuration","content":"Validate the MCP server config using validate_config tool","status":"completed"}]}
 loop 11 | 无 tool_calls
 
-18 | ✅ @@Task Done@@
+18 | ✅ @@Task Done@@ | Input: 66 Output: 2049 cache_creation: 10438 cache_read: 345821
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/scopecraft-ai/scopecraft-command.git 981253479_scopecraft_command 2>&1","timeout":120000}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/scopecraft/command.git 981253479_scopecraft_command 2>&1","timeout":120000}
@@ -266,7 +266,7 @@ loop 9 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/MCP-Auto/m
 loop 10 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"981253479_scopecraft_command","timeout_ms":30000}
 loop 11 | 无 tool_calls
 
-19 | ✅ @@Task Done@@
+19 | ✅ @@Task Done@@ | Input: 48 Output: 1187 cache_creation: 8084 cache_read: 232437
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1031595049_Dianel555_gemini-superclaude-mcp-server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/Dianel555/gemini-superclaude-mcp-server.git /home/silimon/MCP-Auto/mcp_server/1031595049_Dianel555_gemini-superclaude-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1031595049_Dianel555_gemini-superclaude-mcp-server && npm install"}
@@ -276,7 +276,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/MCP-Auto/m
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1031595049_Dianel555_gemini-superclaude-mcp-server","timeout_ms":30000}
 loop 8 | 无 tool_calls
 
-20 | ✅ @@Task Done@@
+20 | ✅ @@Task Done@@ | Input: 102 Output: 3237 cache_creation: 25410 cache_read: 609222
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone the sequential-thinking-recall repository","status":"in_progress","activeForm":"Cloning the repository"},{"content":"Install dependencies and build the project","status":"pending","activeForm":"Installing dependencies and building"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server configuration","status":"pending","activeForm":"Validating the MCP server configuration"}]}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 3 | Tool=Bash, Args={"command":"git clone https://github.com/recallnet/sequential-thinking-recall.git /home/silimon/MCP-Auto/mcp_server/954341398_recallnet_sequential-thinking-recall"}
@@ -295,7 +295,7 @@ loop 15 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["dist/in
 loop 16 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning the repository","content":"Clone the sequential-thinking-recall repository","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the project","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating the MCP server configuration","content":"Validate the MCP server configuration","status":"completed"}]}
 loop 17 | 无 tool_calls
 
-21 | ✅ @@Task Done@@
+21 | ✅ @@Task Done@@ | Input: 42 Output: 936 cache_creation: 5377 cache_read: 200255
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/cashfree/cashfree-mcp.git /home/silimon/MCP-Auto/mcp_server/974041083_cashfree_cashfree-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/974041083_cashfree_cashfree-mcp && npm install"}
@@ -304,7 +304,7 @@ loop 5 | Tool=mcp__MCP-Auto__add_config, Args={"name":"974041083_cashfree_cashfr
 loop 6 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"974041083_cashfree_cashfree-mcp","timeout_ms":30000}
 loop 7 | 无 tool_calls
 
-22 | ✅ @@Task Done@@
+22 | ✅ @@Task Done@@ | Input: 84 Output: 3641 cache_creation: 25222 cache_read: 482446
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"node --version && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/GravityKit/GravityMCP.git /home/silimon/MCP-Auto/mcp_server/1055215914_GravityKit_GravityMCP"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1055215914_GravityKit_GravityMCP && npm install","timeout":120000}
@@ -324,7 +324,7 @@ loop 16 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/105521
 loop 17 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1055215914_GravityKit_GravityMCP","timeout_ms":60000}
 loop 18 | 无 tool_calls
 
-23 | ❌ @@Task Failed@@
+23 | ❌ @@Task Failed@@ | Input: 120 Output: 5192 cache_creation: 23808 cache_read: 769244
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist yet\""} ; Tool=Bash, Args={"command":"node --version && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/980918825_sudowealth_schwab-mcp && cd /home/silimon/MCP-Auto/mcp_server/980918825_sudowealth_schwab-mcp && git clone https://github.com/sudowealth/schwab-mcp.git ."}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/980918825_sudowealth_schwab-mcp/"}
@@ -346,7 +346,7 @@ loop 18 | Tool=Bash, Args={"command":"timeout 5 curl -skv https://localhost:8788
 loop 19 | Tool=Bash, Args={"command":"kill %1 2>/dev/null; wait 2>/dev/null; echo \"killed\""}
 loop 20 | Tool=Bash, Args={"command":"npx mcp-remote --help 2>&1 | head -30"}
 
-24 | ✅ @@Task Done@@
+24 | ✅ @@Task Done@@ | Input: 72 Output: 1512 cache_creation: 12704 cache_read: 382230
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone and install SmartBear MCP server","status":"in_progress","activeForm":"Cloning and installing SmartBear MCP server"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate MCP server connection","status":"pending","activeForm":"Validating MCP server connection"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server"}
 loop 3 | Tool=Bash, Args={"command":"git clone https://github.com/SmartBear/smartbear-mcp.git /home/silimon/MCP-Auto/mcp_server/987066093_SmartBear_smartbear-mcp"}
@@ -360,7 +360,7 @@ loop 10 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"987066093_SmartBear
 loop 11 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning and installing SmartBear MCP server","content":"Clone and install SmartBear MCP server","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating MCP server connection","content":"Validate MCP server connection","status":"completed"}]}
 loop 12 | 无 tool_calls
 
-25 | ✅ @@Task Done@@
+25 | ✅ @@Task Done@@ | Input: 84 Output: 1444 cache_creation: 8687 cache_read: 422864
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/Sujimoshi/drawio-mcp.git /home/silimon/MCP-Auto/mcp_server/Sujimoshi_drawio-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/Sujimoshi_drawio-mcp && npm install"}
@@ -376,7 +376,7 @@ loop 12 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"Sujimoshi_drawio-mc
 loop 13 | Tool=TodoWrite, Args={"todos":[]}
 loop 14 | 无 tool_calls
 
-26 | ✅ @@Task Done@@
+26 | ✅ @@Task Done@@ | Input: 66 Output: 2443 cache_creation: 8249 cache_read: 342379
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"env | grep -i google 2>/dev/null; env | grep -i api.key 2>/dev/null; env | grep -i gemini 2>/dev/null"} ; Tool=Bash, Args={"command":"node --version && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"grep -r \"GOOGLE_API_KEY\\|google.*api.*key\\|apiKey\" /home/silimon/MCP-Auto/.claude/ 2>/dev/null | head -20"} ; Tool=Bash, Args={"command":"grep -r \"GOOGLE_API_KEY\\|GOOGLE_API\" /home/silimon/MCP-Auto/claude_code/ 2>/dev/null | head -20"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1102522224_greatSumini_nanobanana-api-mcp"}
@@ -389,7 +389,7 @@ loop 9 | Tool=mcp__MCP-Auto__add_config, Args={"args":["--apiKey","PLACEHOLDER_K
 loop 10 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1102522224_greatSumini_nanobanana-api-mcp","timeout_ms":30000}
 loop 11 | 无 tool_calls
 
-27 | ✅ @@Task Done@@
+27 | ✅ @@Task Done@@ | Input: 84 Output: 2021 cache_creation: 6778 cache_read: 415719
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone and build the LocalStack MCP server","status":"in_progress","activeForm":"Cloning and building the LocalStack MCP server"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server config","status":"pending","activeForm":"Validating the MCP server config"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1017450787_localstack_localstack-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1017450787_localstack_localstack-mcp-server && git clone https://github.com/localstack/localstack-mcp-server.git . 2>&1","timeout":120000}
@@ -405,7 +405,7 @@ loop 12 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1017450787_localsta
 loop 13 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning and building the LocalStack MCP server","content":"Clone and build the LocalStack MCP server","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating the MCP server config","content":"Validate the MCP server config","status":"completed"}]}
 loop 14 | 无 tool_calls
 
-28 | ❌ @@Task Failed@@
+28 | ❌ @@Task Failed@@ | Input: 120 Output: 9388 cache_creation: 36718 cache_read: 944188
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"directory does not exist\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/ 2>/dev/null"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/bestk/vscode-internal-command-mcp-server /home/silimon/MCP-Auto/mcp_server/1049633925_bestK_vscode-internal-command-mcp-server 2>&1"}
 loop 3 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/1049633925_bestK_vscode-internal-command-mcp-server/package.json"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/1049633925_bestK_vscode-internal-command-mcp-server/src/fastMcpServer.ts"} ; Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/1049633925_bestK_vscode-internal-command-mcp-server/src/extension.ts"}
@@ -427,7 +427,7 @@ loop 18 | Tool=Bash, Args={"command":"node /home/silimon/MCP-Auto/mcp_server/104
 loop 19 | Tool=Bash, Args={"command":"node /home/silimon/MCP-Auto/mcp_server/1049633925_bestK_vscode-internal-command-mcp-server/standaloneServer.js &\nSERVER_PID=$!\nsleep 2\n\nINIT_RESPONSE=$(curl -s -D- -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0.0\"}}}')\n\nSESSION_ID=$(echo \"$INIT_RESPONSE\" | grep -ioP 'mcp-session-id:\\s*\\K[^\\r\\n;]+')\n\necho \"=== get_workspace_info ===\"\ncurl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -H \"mcp-session-id: $SESSION_ID\" \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"get_workspace_info\",\"arguments\":{}}}'\necho \"\"\n\necho \"\"\necho \"=== list_vscode_commands ===\"\ncurl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -H \"mcp-session-id: $SESSION_ID\" \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"list_vscode_commands\",\"arguments\":{}}}'\necho \"\"\n\necho \"\"\necho \"=== execute_vscode_command ===\"\ncurl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -H \"mcp-session-id: $SESSION_ID\" \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"tools/call\",\"params\":{\"name\":\"execute_vscode_command\",\"arguments\":{\"command\":\"test.command\"}}}'\necho \"\"\n\nkill $SERVER_PID 2>/dev/null; wait $SERVER_PID 2>/dev/null","timeout":30000}
 loop 20 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Installing npm dependencies","content":"Install npm dependencies and compile the project","status":"completed"},{"activeForm":"Creating mock vscode module and standalone server","content":"Create mock vscode module and standalone entry point","status":"completed"},{"activeForm":"Compiling and testing server","content":"Compile and test the standalone server","status":"completed"},{"activeForm":"Adding MCP configuration","content":"Add MCP server configuration","status":"in_progress"},{"activeForm":"Validating MCP connection","content":"Validate MCP server connection","status":"pending"}]}
 
-29 | ❌ @@Task Failed@@
+29 | ❌ @@Task Failed@@ | Input: 120 Output: 2854 cache_creation: 13751 cache_read: 684953
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ | grep 1067210400"}
 loop 3 | Tool=Bash, Args={"command":"git clone https://github.com/ShunsukeHayashi/rpgmaker-mz-mcp.git /home/silimon/MCP-Auto/mcp_server/1067210400_ShunsukeHayashi_rpgmaker-mz-mcp","timeout":120000}
@@ -449,7 +449,7 @@ loop 18 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/10672
 loop 19 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning rpgmaker-mz-mcp repo","content":"Clone rpgmaker-mz-mcp repo","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"in_progress"},{"activeForm":"Validating MCP server configuration","content":"Validate MCP server config","status":"pending"}]}
 loop 20 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/MCP-Auto/mcp_server/1067210400_ShunsukeHayashi_rpgmaker-mz-mcp/dist/index.js"],"command":"node","cwd":"/home/silimon/MCP-Auto/mcp_server/1067210400_ShunsukeHayashi_rpgmaker-mz-mcp","name":"1067210400_ShunsukeHayashi_rpgmaker-mz-mcp","type":"stdio"}
 
-30 | ✅ @@Task Done@@
+30 | ✅ @@Task Done@@ | Input: 48 Output: 1347 cache_creation: 7582 cache_read: 237218
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/bldbl_chunkydotdev_bldbl-mcp"} ; Tool=Bash, Args={"command":"npm view @bldbl/mcp 2>&1 | head -40"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/bldbl_chunkydotdev_bldbl-mcp && npm init -y 2>&1 | tail -3"}
 loop 3 | Tool=Bash, Args={"command":"npm init -y"}
@@ -459,7 +459,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"env":{"BUILDABLE_API_KEY":"bp_yo
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"bldbl_chunkydotdev_bldbl-mcp","timeout_ms":30000}
 loop 8 | 无 tool_calls
 
-31 | ✅ @@Task Done@@
+31 | ✅ @@Task Done@@ | Input: 60 Output: 2442 cache_creation: 21838 cache_read: 316637
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/ | head -30"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/Nazruden/clickup-mcp-server.git /home/silimon/MCP-Auto/mcp_server/928479577_Nazruden_clickup-mcp-server 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/928479577_Nazruden_clickup-mcp-server && npm install 2>&1","timeout":120000} ; Tool=Glob, Args={"pattern":"**/mcp_server_config*","path":"/home/silimon/MCP-Auto"}
@@ -471,7 +471,7 @@ loop 8 | Tool=mcp__MCP-Auto__add_config, Args={"args":["dist/index.js"],"command
 loop 9 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"928479577_Nazruden_clickup-mcp-server","timeout_ms":30000}
 loop 10 | 无 tool_calls
 
-32 | ❌ @@Task Failed@@
+32 | ❌ @@Task Failed@@ | Input: 120 Output: 3657 cache_creation: 14115 cache_read: 652787
 loop 1 | Tool=mcp__MCP-Auto__add_config, Args={"name":"socket_mcp_socketsecurity_mcp","type":"streamable_http","url":"https://mcp.socket.dev/","cwd":"/home/silimon/MCP-Auto/mcp_server/socket_mcp_socketsecurity_mcp"}
 loop 2 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"socket_mcp_socketsecurity_mcp"}
 loop 3 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"name":"socket_mcp_socketsecurity_mcp","type":"streamable_http","url":"https://mcp.socket.dev/mcp","cwd":"/home/silimon/MCP-Auto/mcp_server/socket_mcp_socketsecurity_mcp"}
@@ -493,7 +493,7 @@ loop 18 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/socket
 loop 19 | Tool=Bash, Args={"command":"echo '{\"jsonrpc\":\"2.0\",\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0\"}},\"id\":1}' | node --experimental-strip-types /home/silimon/MCP-Auto/mcp_server/socket_mcp_socketsecurity_mcp/node_modules/@socketsecurity/mcp/index.js 2>/dev/null","timeout":15000}
 loop 20 | Tool=Bash, Args={"command":"echo '{\"jsonrpc\":\"2.0\",\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0\"}},\"id\":1}' | node --experimental-strip-types /home/silimon/MCP-Auto/mcp_server/socket_mcp_socketsecurity_mcp/node_modules/@socketsecurity/mcp/index.js 2>&1","timeout":15000}
 
-33 | ❌ @@Task Failed@@
+33 | ❌ @@Task Failed@@ | Input: 120 Output: 4574 cache_creation: 16945 cache_read: 695943
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone the Spotify MCP server repository","status":"in_progress","activeForm":"Cloning the Spotify MCP server repository"},{"content":"Install dependencies and set up environment","status":"pending","activeForm":"Installing dependencies and setting up environment"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Start the server and validate connection","status":"pending","activeForm":"Starting the server and validating connection"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/iceener/spotify-streamable-mcp-server.git 1036997879_iceener_spotify-streamable-mcp-server"}
@@ -515,7 +515,7 @@ loop 18 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1036997879_iceener_
 loop 19 | Tool=Bash, Args={"command":"curl -s -X POST http://127.0.0.1:3000/mcp -H \"Content-Type: application/json\" -H \"Accept: application/json, text/event-stream\" -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0.0\"}}}' 2>&1"}
 loop 20 | Tool=Bash, Args={"command":"curl -s http://127.0.0.1:3000/health 2>&1 || echo \"Server down\""}
 
-34 | ✅ @@Task Done@@
+34 | ✅ @@Task Done@@ | Input: 114 Output: 2619 cache_creation: 15600 cache_read: 622408
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/1094050966_ankushthakur2007_miyami-websearch-mcp"} ; Tool=Bash, Args={"command":"node --version"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1094050966_ankushthakur2007_miyami-websearch-mcp && npm install miyami-websearch-mcp","timeout":120000}
 loop 3 | Tool=Bash, Args={"command":"ls node_modules/.bin/miyami-websearch-mcp"}
@@ -536,7 +536,7 @@ loop 17 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/10940
 loop 18 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1094050966_ankushthakur2007_miyami-websearch-mcp","timeout_ms":60000}
 loop 19 | 无 tool_calls
 
-35 | ❌ @@Task Failed@@
+35 | ❌ @@Task Failed@@ | Input: 120 Output: 7169 cache_creation: 25476 cache_read: 746393
 loop 1 | Tool=Bash, Args={"command":"which docker && docker --version 2>/dev/null; which node && node --version 2>/dev/null; which uv && uv --version 2>/dev/null"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg && cd /home/silimon/MCP-Auto/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg && git clone https://github.com/vignesh-codes/ai-agents-mcp-pg.git . 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg/"}
@@ -558,7 +558,7 @@ loop 18 | Tool=Read, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/915820
 loop 19 | Tool=Write, Args={"file_path":"/home/silimon/MCP-Auto/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg/src/index.ts","content":"#!/usr/bin/env node\n\n// Wrapper script that reads DB URL from environment variable\n// and passes it to the MCP server\nimport { Server } from \"@modelcontextprotocol/sdk/server/index.js\";\nimport { StdioServerTransport } from \"@modelcontextprotocol/sdk/server/stdio.js\";\nimport {\n  CallToolRequestSchema,\n  ListResourcesRequestSchema,\n  ListToolsRequestSchema,\n  ReadResourceRequestSchema,\n} from \"@modelcontextprotocol/sdk/types.js\";\nimport * as pg from \"pg\";\n\nconst databaseUrl = process.env.DATABASE_URL;\n\nif (!databaseUrl) {\n  console.error(\"DATABASE_URL environment variable is required\");\n  process.exit(1);\n}\n\n// Initialize the server\nconst server = new Server(\n  {\n    name: \"example-servers/postgres\",\n    version: \"0.1.0\",\n  },\n  {\n    capabilities: {\n      resources: {},\n      tools: {},\n    },\n  },\n);\n\nconst resourceBaseUrl = new URL(databaseUrl);\nresourceBaseUrl.protocol = \"postgres:\";\nresourceBaseUrl.password = \"\";\n\nconst pool = new pg.Pool({\n  connectionString: databaseUrl,\n});\n\nconst SCHEMA_PATH = \"schema\";\n\n// List resources handler\nserver.setRequestHandler(ListResourcesRequestSchema, async () => {\n  const client = await pool.connect();\n  try {\n    const result = await client.query(\n      \"SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'\"\n    );\n    return {\n      resources: result.rows.map((row) => ({\n        uri: new URL(`${row.table_name}/${SCHEMA_PATH}`, resourceBaseUrl).href,\n        mimeType: \"application/json\",\n        name: `\"${row.table_name}\" database schema`,\n        description: `Schema information for the \"${row.table_name}\" table, including column names and data types. Use this to understand the table structure before querying or modifying it.`,\n      })),\n    };\n  } catch (error) {\n    throw error;\n  } finally {\n    client.release();\n  }\n});\n\n// Read resource handler\nserver.setRequestHandler(ReadResourceRequestSchema, async (request) => {\n  const resourceUrl = new URL(request.params.uri);\n  const pathComponents = resourceUrl.pathname.split(\"/\");\n  const schema = pathComponents.pop();\n  const tableName = pathComponents.pop();\n\n  if (schema !== SCHEMA_PATH) {\n    throw new Error(\"Invalid resource URI - must end with '/schema' to retrieve table schema information\");\n  }\n\n  const client = await pool.connect();\n  try {\n    const result = await client.query(\n      \"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = $1\",\n      [tableName],\n    );\n    return {\n      contents: [\n        {\n          uri: request.params.uri,\n          mimeType: \"application/json\",\n          text: JSON.stringify(result.rows, null 2),\n        },\n      ],\n    };\n  } catch (error) {\n    throw error;\n  } finally {\n    client.release();\n  }\n});\n\n// List tools handler\nserver.setRequestHandler(ListToolsRequestSchema, async () => {\n  return {\n    tools: [\n      {\n        name: \"query\",\n        description: \"Run a read-only SQL query against the PostgreSQL database and return the results as JSON. Only SELECT statements and other non-modifying operations are allowed.\",\n        inputSchema: {\n          type: \"object\",\n          properties: {\n            sql: {\n              type: \"string\",\n              description: \"The SQL query to execute. Must be a SELECT statement or other read-only operation.\"\n            },\n          },\n        },\n      },\n      {\n        name: \"create_table\",\n        description: \"Create a new table in the PostgreSQL database with specified columns and data types.\",\n        inputSchema: {\n          type: \"object\",\n          properties: {\n            tableName: {\n              type: \"string\",\n              description: \"Name for the new table.\"\n            },\n            columns: {\n              type: \"array\",\n              description: \"List of column definitions for the table, each with a name and PostgreSQL data type.\",\n              items: {\n                type: \"object\",\n                properties: {\n                  name: { type: \"string\", description: \"Column name.\" },\n                  type: { type: \"string\", description: \"PostgreSQL data type for this column.\" },\n                },\n                required: [\"name\", \"type\"],\n              },\n            },\n          },\n          required: [\"tableName\", \"columns\"],\n        },\n      },\n      {\n        name: \"insert_entry\",\n        description: \"Insert a new row/record into an existing table in the PostgreSQL database.\",\n        inputSchema: {\n          type: \"object\",\n          properties: {\n            tableName: {\n              type: \"string\",\n              description: \"Name of the existing table to insert data into.\"\n            },\n            values: {\n              type: \"object\",\n              description: \"Key-value pairs where keys are column names and values are the data to insert.\",\n              additionalProperties: { type: \"string\" },\n            },\n          },\n          required: [\"tableName\", \"values\"],\n        },\n      },\n      {\n        name: \"delete_table\",\n        description: \"Permanently delete/drop an entire table from the PostgreSQL database.\",\n        inputSchema: {\n          type: \"object\",\n          properties: {\n            tableName: {\n              type: \"string\",\n              description: \"Name of the table to delete.\"\n            },\n          },\n          required: [\"tableName\"],\n        },\n      },\n      {\n        name: \"update_entry\",\n        description: \"Update existing rows in a PostgreSQL table that match specified conditions.\",\n        inputSchema: {\n          type: \"object\",\n          properties: {\n            tableName: {\n              type: \"string\",\n              description: \"Name of the table containing records to update.\"\n            },\n            values: {\n              type: \"object\",\n              description: \"Key-value pairs of columns to update and their new values.\",\n              additionalProperties: { type: \"string\" },\n            },\n            conditions: {\n              type: \"object\",\n              description: \"Key-value pairs that specify which rows to update (WHERE clause conditions).\",\n              additionalProperties: { type: \"string\" },\n            },\n          },\n          required: [\"tableName\", \"values\", \"conditions\"],\n        },\n      },\n      {\n        name: \"delete_entry\",\n        description: \"Delete rows/records from a PostgreSQL table that match specified conditions.\",\n        inputSchema: {\n          type: \"object\",\n          properties: {\n            tableName: {\n              type: \"string\",\n              description: \"Name of the table to delete records from.\"\n            },\n            conditions: {\n              type: \"object\",\n              description: \"Key-value pairs that specify which rows to delete.\",\n              additionalProperties: { type: \"string\" },\n            },\n          },\n          required: [\"tableName\", \"conditions\"],\n        },\n      },\n    ],\n  };\n});\n\n// Call tool handler\nserver.setRequestHandler(CallToolRequestSchema, async (request) => {\n  if (request.params.name === \"query\") {\n    const sql = request.params.arguments?.sql as string;\n    const client = await pool.connect();\n    try {\n      await client.query(\"BEGIN TRANSACTION READ ONLY\");\n      const result = await client.query(sql);\n      return {\n        content: [{ type: \"text\", text: JSON.stringify(result.rows, null, 2) }],\n        isError: false,\n      };\n    } catch (error) {\n      throw error;\n    } finally {\n      await client.query(\"ROLLBACK\");\n      client.release();\n    }\n  }\n\n  if (request.params.name === \"create_table\") {\n    const { tableName, columns } = request.params.arguments as {\n      tableName: string;\n      columns: { name: string; type: string }[];\n    };\n    const columnDefinitions = columns.map((col) => `${col.name} ${col.type}`).join(\", \");\n    const client = await pool.connect();\n    try {\n      const createTableQuery = `CREATE TABLE ${tableName} (${columnDefinitions})`;\n      await client.query(createTableQuery);\n      return {\n        content: [{\n          type: \"text\",\n          text: `Table \"${tableName}\" created successfully with columns: ${columns.map((col) => `${col.name} (${col.type})`).join(\", \")}`,\n        }],\n        isError: false,\n      };\n    } catch (error) {\n      throw error;\n    } finally {\n      client.release();\n    }\n  }\n\n  if (request.params.name === \"insert_entry\") {\n    const { tableName, values } = request.params.arguments as {\n      tableName: string;\n      values: Record<string, string>;\n    };\n    const columns = Object.keys(values).join(\", \");\n    const placeholders = Object.keys(values).map((_, index) => `$${index + 1}`).join(\", \");\n    const valuesArray = Object.values(values);\n    const client = await pool.connect();\n    try {\n      const insertQuery = `INSERT INTO ${tableName} (${columns}) VALUES (${placeholders}) RETURNING *`;\n      const result = await client.query(insertQuery, valuesArray);\n      return {\n        content: [{\n          type: \"text\",\n          text: `Inserted into table \"${tableName}\": ${JSON.stringify(result.rows[0], null, 2)}`,\n        }],\n        isError: false,\n      };\n    } catch (error) {\n      throw error;\n    } finally {\n      client.release();\n    }\n  }\n\n  if (request.params.name === \"delete_table\") {\n    const { tableName } = request.params.arguments as { tableName: string };\n    const client = await pool.connect();\n    try {\n      const deleteTableQuery = `DROP TABLE IF EXISTS ${tableName}`;\n      await client.query(deleteTableQuery);\n      return {\n        content: [{ type: \"text\", text: `Table \"${tableName}\" deleted successfully` }],\n        isError: false,\n      };\n    } catch (error) {\n      throw error;\n    } finally {\n      client.release();\n    }\n  }\n\n  if (request.params.name === \"update_entry\") {\n    const { tableName, values, conditions } = request.params.arguments as {\n      tableName: string;\n      values: Record<string, string>;\n      conditions: Record<string, string>;\n    };\n    const setClauses = Object.entries(values).map((_, index) => `${Object.keys(values)[index]} = $${index + 1}`).join(\", \");\n    const whereClauses = Object.entries(conditions).map((_, index) => `${Object.keys(conditions)[index]} = $${Object.keys(values).length + index + 1}`).join(\" AND \");\n    const queryParams = [...Object.values(values), ...Object.values(conditions)];\n    const client = await pool.connect();\n    try {\n      const updateQuery = `UPDATE ${tableName} SET ${setClauses} WHERE ${whereClauses} RETURNING *`;\n      const result = await client.query(updateQuery, queryParams);\n      return {\n        content: [{\n          type: \"text\",\n          text: `Updated entry in table \"${tableName}\": ${JSON.stringify(result.rows, null, 2)}`,\n        }],\n        isError: false,\n      };\n    } catch (error) {\n      throw error;\n    } finally {\n      client.release();\n    }\n  }\n\n  if (request.params.name === \"delete_entry\") {\n    const { tableName, conditions } = request.params.arguments as {\n      tableName: string;\n      conditions: Record<string, string>;\n    };\n    const whereClauses = Object.entries(conditions).map((_, index) => `${Object.keys(conditions)[index]} = $${index + 1}`).join(\" AND \");\n    const queryParams = Object.values(conditions);\n    const client = await pool.connect();\n    try {\n      const deleteQuery = `DELETE FROM ${tableName} WHERE ${whereClauses} RETURNING *`;\n      const result = await client.query(deleteQuery, queryParams);\n      return {\n        content: [{\n          type: \"text\",\n          text: `Deleted entry from table \"${tableName}\": ${JSON.stringify(result.rows, null, 2)}`,\n        }],\n        isError: false,\n      };\n    } catch (error) {\n      throw error;\n    } finally {\n      client.release();\n    }\n  }\n\n  throw new Error(`Unknown tool: ${request.params.name}`);\n});\n\nasync function runServer() {\n  const transport = new StdioServerTransport();\n  await server.connect(transport);\n}\n\nrunServer().catch((error) => {\n  console.error(\"Server error:\", error);\n  process.exit(1);\n});\n"}
 loop 20 | Tool=Edit, Args={"replace_all":false,"file_path":"/home/silimon/MCP-Auto/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg/src/index.ts","old_string":"text: JSON.stringify(result.rows, null 2),","new_string":"text: JSON.stringify(result.rows, null, 2),"}
 
-36 | ✅ @@Task Done@@
+36 | ✅ @@Task Done@@ | Input: 102 Output: 2333 cache_creation: 11082 cache_read: 563398
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone vitest-mcp repo to mcp_server directory","status":"in_progress","activeForm":"Cloning vitest-mcp repo"},{"content":"Install dependencies and build the project","status":"pending","activeForm":"Installing dependencies and building"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server connection","status":"pending","activeForm":"Validating MCP server connection"}]}
 loop 2 | Tool=Bash, Args={"command":"node --version && npm --version && npx --version"} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 3 | Tool=Bash, Args={"command":"git clone https://github.com/djankies/vitest-mcp.git /home/silimon/MCP-Auto/mcp_server/1032297394_djankies_vitest-mcp","timeout":60000}
@@ -577,7 +577,7 @@ loop 15 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1032297394_djankies
 loop 16 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning vitest-mcp repo","content":"Clone vitest-mcp repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the project","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating MCP server connection","content":"Validate the MCP server connection","status":"completed"}]}
 loop 17 | 无 tool_calls
 
-37 | ❌ @@Task Failed@@
+37 | ❌ @@Task Failed@@ | Input: 120 Output: 4880 cache_creation: 17636 cache_read: 716478
 loop 1 | Tool=Bash, Args={"command":"node --version && npm --version && npx --version"} ; Tool=Bash, Args={"command":"which pnpm 2>/dev/null || echo \"pnpm not found\""} ; Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null || echo \"directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/sdd330/feishu-mcp-server.git /home/silimon/MCP-Auto/mcp_server/955019898_sdd330_feishu-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"git ls-remote https://github.com/sdd330/feishu-mcp-server 2>&1 | head -5"} ; Tool=Bash, Args={"command":"curl -sI https://github.com/sdd330/feishu-mcp-server 2>&1 | head -5"}
@@ -599,7 +599,7 @@ loop 18 | Tool=Bash, Args={"command":"rm -rf /tmp/feishu-Xdong320; git clone --d
 loop 19 | Tool=Bash, Args={"command":"cat /tmp/feishu-isagoakira/README.md 2>/dev/null | head -30; echo \"---\"; ls /tmp/feishu-isagoakira/src/ 2>/dev/null; echo \"---\"; cat /tmp/feishu-isagoakira/package.json 2>/dev/null | head -15"}
 loop 20 | Tool=Bash, Args={"command":"rm -rf /tmp/feishu-isagoakira; git clone --depth 1 https://github.com/leeeeeeeee1/feishu-mcp-server.git /tmp/feishu-leeeeeeeee1 2>&1"}
 
-38 | ❌ @@Task Failed@@
+38 | ❌ @@Task Failed@@ | Input: 120 Output: 2877 cache_creation: 16220 cache_read: 668751
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone grok-search-mcp repo to mcp_server directory","status":"in_progress","activeForm":"Cloning grok-search-mcp repo"},{"content":"Install dependencies and verify installation","status":"pending","activeForm":"Installing dependencies"},{"content":"Configure MCP server with add_config tool","status":"pending","activeForm":"Configuring MCP server"},{"content":"Validate the MCP server configuration","status":"pending","activeForm":"Validating MCP server"}]}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/MCP-Auto/mcp_server/ 2>/dev/null; mkdir -p /home/silimon/MCP-Auto/mcp_server/1007460502_stat-guy_grok-search-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/MCP-Auto/mcp_server/1007460502_stat-guy_grok-search-mcp && git clone https://github.com/stat-guy/grok-search-mcp.git . 2>&1"}
@@ -621,7 +621,7 @@ loop 18 | Tool=mcp__MCP-Auto__add_config, Args={"args":["-y","grok-search-mcp"],
 loop 19 | Tool=mcp__MCP-Auto__add_config, Args={"args":["-y","grok-search-mcp"],"cwd":"/home/silimon/MCP-Auto/mcp_server/1007460502_stat-guy_grok-search-mcp","env":{"XAI_API_KEY":"placeholder_api_key"},"name":"1007460502_stat-guy_grok-search-mcp","type":"stdio","url":""}
 loop 20 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning grok-search-mcp repo","content":"Clone grok-search-mcp repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies","content":"Install dependencies and verify installation","status":"completed"},{"activeForm":"Configuring MCP server","content":"Configure MCP server with add_config tool","status":"completed"},{"activeForm":"Validating MCP server","content":"Validate the MCP server configuration","status":"in_progress"}]}
 
-39 | ✅ @@Task Done@@
+39 | ✅ @@Task Done@@ | Input: 102 Output: 3116 cache_creation: 8503 cache_read: 530568
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Check prerequisites (Node.js version)","status":"in_progress","activeForm":"Checking prerequisites"},{"content":"Install CLI for Microsoft 365 globally","status":"pending","activeForm":"Installing CLI for Microsoft 365 globally"},{"content":"Install MCP server locally","status":"pending","activeForm":"Installing MCP server locally"},{"content":"Configure m365 CLI settings","status":"pending","activeForm":"Configuring m365 CLI settings"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server","status":"pending","activeForm":"Validating the MCP server"}]}
 loop 2 | Tool=Bash, Args={"command":"node --version"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Checking prerequisites","content":"Check prerequisites (Node.js version)","status":"completed"},{"activeForm":"Installing CLI for Microsoft 365 globally","content":"Install CLI for Microsoft 365 globally","status":"in_progress"},{"activeForm":"Installing MCP server locally","content":"Install MCP server locally","status":"pending"},{"activeForm":"Configuring m365 CLI settings","content":"Configure m365 CLI settings","status":"pending"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"pending"},{"activeForm":"Validating the MCP server","content":"Validate the MCP server","status":"pending"}]}
@@ -640,7 +640,7 @@ loop 15 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"968325406_pnp_cli-m
 loop 16 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Checking prerequisites","content":"Check prerequisites (Node.js version)","status":"completed"},{"activeForm":"Installing CLI for Microsoft 365 globally","content":"Install CLI for Microsoft 365 globally","status":"completed"},{"activeForm":"Installing MCP server locally","content":"Install MCP server locally","status":"completed"},{"activeForm":"Configuring m365 CLI settings","content":"Configure m365 CLI settings","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating the MCP server","content":"Validate the MCP server","status":"completed"}]}
 loop 17 | 无 tool_calls
 
-40 | ✅ @@Task Done@@
+40 | ✅ @@Task Done@@ | Input: 96 Output: 3416 cache_creation: 11301 cache_read: 503694
 loop 1 | Tool=TodoWrite, Args={"todos":[{"content":"Clone lsp-mcp repo to mcp_server directory","status":"in_progress","activeForm":"Cloning lsp-mcp repo"},{"content":"Install dependencies and build the project","status":"pending","activeForm":"Installing dependencies and building"},{"content":"Add MCP server configuration","status":"pending","activeForm":"Adding MCP server configuration"},{"content":"Validate the MCP server connection","status":"pending","activeForm":"Validating MCP server connection"}]}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/MCP-Auto/mcp_server && git clone https://github.com/Tritlo/lsp-mcp.git /home/silimon/MCP-Auto/mcp_server/952869992_tritlo_lsp-mcp"}
 loop 3 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning lsp-mcp repo","content":"Clone lsp-mcp repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the project","status":"in_progress"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"pending"},{"activeForm":"Validating MCP server connection","content":"Validate the MCP server connection","status":"pending"}]}
@@ -657,5 +657,3 @@ loop 13 | Tool=Bash, Args={"command":"ls -la /home/silimon/MCP-Auto/mcp_server/9
 loop 14 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["/home/silimon/MCP-Auto/mcp_server/952869992_tritlo_lsp-mcp/dist/index.js","typescript","/home/silimon/MCP-Auto/mcp_server/952869992_tritlo_lsp-mcp/node_modules/.bin/typescript-language-server","--stdio"],"command":"node","cwd":"/home/silimon/MCP-Auto/mcp_server/952869992_tritlo_lsp-mcp","name":"952869992_tritlo_lsp-mcp","type":"stdio"}
 loop 15 | Tool=TodoWrite, Args={"todos":[{"activeForm":"Cloning lsp-mcp repo","content":"Clone lsp-mcp repo to mcp_server directory","status":"completed"},{"activeForm":"Installing dependencies and building","content":"Install dependencies and build the project","status":"completed"},{"activeForm":"Adding MCP server configuration","content":"Add MCP server configuration","status":"completed"},{"activeForm":"Validating MCP server connection","content":"Validate the MCP server connection","status":"completed"}]}
 loop 16 | 无 tool_calls
-
-41 | ❌ @@Task Failed@@

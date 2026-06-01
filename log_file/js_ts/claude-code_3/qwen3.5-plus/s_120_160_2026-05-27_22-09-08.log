@@ -1,4 +1,4 @@
-1 | ❌ @@Task Failed@@
+1 | ❌ @@Task Failed@@ | Input: 84 Output: 3278 cache_creation: 62448 cache_read: 599036
 loop 1 | Tool=WebFetch, Args={"url":"https://raw.githubusercontent.com/useshortcut/mcp-server-shortcut/main/docs/local-server.md","prompt":"Extract all local installation steps, requirements, environment variables, and configuration details for running the Shortcut MCP server locally."}
 loop 2 | Tool=TaskCreate, Args={"subject":"Install @shortcut/mcp MCP server locally"} ; Tool=TaskCreate, Args={"subject":"Add MCP server configuration"} ; Tool=TaskCreate, Args={"subject":"Validate MCP server and obtain tools list"}
 loop 3 | Tool=TaskUpdate, Args={"status":"in_progress","taskId":"1"}
@@ -14,7 +14,7 @@ loop 12 | Tool=AskUserQuestion, Args={"questions":[{"header":"API Token","multiS
 loop 13 | Tool=TaskUpdate, Args={"status":"completed","taskId":"3"}
 loop 14 | 无 tool_calls
 
-2 | ❌ @@Task Failed@@
+2 | ❌ @@Task Failed@@ | Input: 60 Output: 1878 cache_creation: 36401 cache_read: 299545
 loop 1 | Tool=Bash, Args={"command":"which bun node npm npx 2>/dev/null"} ; Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"curl -fsSL https://bun.sh/install | bash 2>&1","timeout":60000} ; Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/taylor-lindores-reeves/mcp-github-projects.git 2>&1","timeout":120000}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/mcp-github-projects/package.json 2>&1"} ; Tool=TaskOutput, Args={"task_id":"bof8z8d6r","block":true,"timeout":60000}
@@ -26,7 +26,7 @@ loop 8 | Tool=AskUserQuestion, Args={"questions":[{"header":"GitHub Token","opti
 loop 9 | Tool=AskUserQuestion, Args={"questions":[{"header":"GitHub Token","multiSelect":false,"options":[{"description":"I'll provide my GitHub Personal Access Token and owner info","label":"I'll provide it","preview":"Please provide your GitHub Personal Access Token, GITHUB_OWNER, and GITHUB_OWNER_TYPE in the next message."},{"description":"Use placeholder values to test if the server can at least start","label":"Use placeholder","preview":"The server will start but API calls will fail without a valid token."}],"question":"This MCP server requires a GitHub Personal Access Token (GITHUB_TOKEN) and owner (GITHUB_OWNER) to function. Would you like to provide these credentials, or should I set it up with placeholder values to test that the server can start?"}]}
 loop 10 | 无 tool_calls
 
-3 | ❌ @@Task Failed@@
+3 | ❌ @@Task Failed@@ | Input: 120 Output: 2813 cache_creation: 12422 cache_read: 642436
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"which node && node --version && which npm && npm --version && which npx && npx --version"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/etnperlong/firefly-iii-mcp.git etnperlong_firefly-iii-mcp","timeout":120000}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/etnperlong_firefly-iii-mcp && npm install","timeout":180000}
@@ -48,7 +48,7 @@ loop 18 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_
 loop 19 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/etnperlong_firefly-iii-mcp-local/node_modules/@firefly-iii-mcp/local/dist/app.js"}
 loop 20 | Tool=mcp__MCP-Auto__add_config, Args={"args":["node","/home/silimon/mcp-auto/claude_code/mcp_server/etnperlong_firefly-iii-mcp-local/node_modules/@firefly-iii-mcp/local/dist/app.js","--pat","dummy-pat-for-testing","--baseUrl","http://localhost:8080","--preset","default"],"command":"npx","name":"etnperlong_firefly-iii-mcp","type":"stdio","cwd":"/home/silimon/mcp-auto/claude_code/mcp_server/etnperlong_firefly-iii-mcp-local"}
 
-4 | ❌ @@Task Failed@@
+4 | ❌ @@Task Failed@@ | Input: 120 Output: 3704 cache_creation: 10256 cache_read: 630304
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/lamemind/mcp-server-multiverse.git lamemind_mcp-server-multiverse"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/lamemind_mcp-server-multiverse/"}
@@ -70,7 +70,7 @@ loop 18 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["/home/s
 loop 19 | Tool=Bash, Args={"command":"grep -r \"import.*test_multiverse\\|import.*\\.json\" /home/silimon/mcp-auto/claude_code/mcp_server/lamemind_mcp-server-multiverse/dist/ 2>/dev/null; echo \"---\"; ls /home/silimon/mcp-auto/claude_code/mcp_server/lamemind_mcp-server-multiverse/dist/"}
 loop 20 | Tool=Bash, Args={"command":"node dist/index.js test_multiverse.json 2>&1 &\nPID=$!\nsleep 2\nkill $PID 2>/dev/null\necho \"Process exited with: $?\""}
 
-5 | ✅ @@Task Done@@
+5 | ✅ @@Task Done@@ | Input: 60 Output: 1916 cache_creation: 6466 cache_read: 297611
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/shinzo-labs/coinmarketcap-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/952163210_shinzo-labs_coinmarketcap-mcp"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/952163210_shinzo-labs_coinmarketcap-mcp/"}
@@ -82,7 +82,7 @@ loop 8 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/mcp-auto/c
 loop 9 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"952163210_shinzo-labs_coinmarketcap-mcp","timeout_ms":30000}
 loop 10 | 无 tool_calls
 
-6 | ✅ @@Task Done@@
+6 | ✅ @@Task Done@@ | Input: 48 Output: 1129 cache_creation: 8849 cache_read: 238433
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"node --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/leon30083/trae-openspec-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/leon30083_trae-openspec-mcp"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/mcp-auto/claude_code/mcp_server/leon30083_trae-openspec-mcp/"}
@@ -92,7 +92,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"args":["mcp-server.js"],"command
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"leon30083_trae-openspec-mcp","timeout_ms":30000}
 loop 8 | 无 tool_calls
 
-7 | ✅ @@Task Done@@
+7 | ✅ @@Task Done@@ | Input: 96 Output: 2496 cache_creation: 16051 cache_read: 497242
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist yet\""}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/0GiS0/youtube-mcp-server.git 0GiS0_0GiS0_youtube-mcp-server"}
 loop 3 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/0GiS0_0GiS0_youtube-mcp-server/mcp-stdio/package.json"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/0GiS0_0GiS0_youtube-mcp-server/mcp-stdio/.env-sample"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/0GiS0_0GiS0_youtube-mcp-server/mcp-stdio/tsconfig.json"}
@@ -110,7 +110,7 @@ loop 14 | Tool=mcp__MCP-Auto__add_config, Args={"args":["build/index.js"],"comma
 loop 15 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"0GiS0_0GiS0_youtube-mcp-server","timeout_ms":30000}
 loop 16 | 无 tool_calls
 
-8 | ❌ @@Task Failed@@
+8 | ❌ @@Task Failed@@ | Input: 120 Output: 5105 cache_creation: 16085 cache_read: 685749
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server/943509346_1RB_mongo-mcp"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/943509346_1RB_mongo-mcp && git clone https://github.com/1RB/mongo-mcp.git . 2>&1"}
 loop 3 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/943509346_1RB_mongo-mcp/package.json"}
@@ -132,7 +132,7 @@ loop 18 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_
 loop 19 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/943509346_1RB_mongo-mcp/src/seed.ts"}
 loop 20 | Tool=Bash, Args={"command":"/tmp/mongodb-linux-x86_64-ubuntu2204-7.0.16/bin/mongosh --eval '\nconst db = db.getSiblingDB(\"test\");\ndb.users.drop(); db.products.drop(); db.orders.drop();\n\nconst users = db.users.insertMany([\n  { name: \"John Doe\", email: \"john@example.com\", age: 32, address: { street: \"123 Main St\", city: \"San Francisco\", state: \"CA\", zip: \"94103\", coordinates: { lat: 37.7749, lng: -122.4194 } }, interests: [\"technology\", \"photography\", \"travel\"], memberSince: new Date(\"2020-01-15\"), active: true },\n  { name: \"Jane Smith\", email: \"jane@example.com\", age: 28, address: { street: \"456 Oak Ave\", city: \"New York\", state: \"NY\", zip: \"10001\", coordinates: { lat: 40.7128, lng: -74.0060 } }, interests: [\"art\", \"music\", \"cooking\"], memberSince: new Date(\"2021-03-10\"), active: true },\n  { name: \"Bob Johnson\", email: \"bob@example.com\", age: 45, address: { street: \"789 Pine Rd\", city: \"Chicago\", state: \"IL\", zip: \"60601\", coordinates: { lat: 41.8781, lng: -87.6298 } }, interests: [\"sports\", \"movies\", \"gardening\"], memberSince: new Date(\"2019-07-22\"), active: false }\n]);\nconst products = db.products.insertMany([\n  { name: \"Smartphone X\", sku: \"PHONE-X-123\", category: \"electronics\", price: 999.99, specifications: { brand: \"TechCo\", model: \"X\", ram: \"8GB\", storage: \"256GB\", screenSize: \"6.5\" }, inStock: true, quantity: 50, tags: [\"smartphone\", \"high-end\", \"camera\"], rating: 4.8, lastUpdated: new Date() },\n  { name: \"Coffee Maker Deluxe\", sku: \"HOME-CM-456\", category: \"appliances\", price: 129.99, specifications: { brand: \"HomeGoods\", model: \"Deluxe\", capacity: \"12 cups\", color: \"black\", programs: [\"regular\", \"strong\", \"iced\"] }, inStock: true, quantity: 25, tags: [\"coffee\", \"kitchen\", \"morning\"], rating: 4.2, lastUpdated: new Date() },\n  { name: \"Designer Desk Lamp\", sku: \"HOME-DL-789\", category: \"home decor\", price: 79.99, specifications: { brand: \"LightWorks\", model: \"Modern\", material: \"brushed aluminum\", height: \"18 inches\", bulbType: \"LED\" }, inStock: false, quantity: 0, tags: [\"lamp\", \"office\", \"lighting\"], rating: 4.5, lastUpdated: new Date() }\n]);\ndb.orders.insertMany([\n  { orderNumber: \"ORD-12345\", userId: users.insertedIds[0], userEmail: \"john@example.com\", date: new Date(\"2023-05-15\"), items: [{ productId: products.insertedIds[0], name: \"Smartphone X\", quantity: 1, price: 999.99 }], total: 999.99, shipping: { address: { street: \"123 Main St\", city: \"San Francisco\", state: \"CA\", zip: \"94103\", coordinates: { lat: 37.7749, lng: -122.4194 } }, method: \"express\", trackingNumber: \"TRK123456789\" }, payment: { method: \"credit_card\", status: \"completed\" }, status: \"delivered\" },\n  { orderNumber: \"ORD-67890\", userId: users.insertedIds[1], userEmail: \"jane@example.com\", date: new Date(\"2023-06-20\"), items: [{ productId: products.insertedIds[1], name: \"Coffee Maker Deluxe\", quantity: 1, price: 129.99 }, { productId: products.insertedIds[2], name: \"Designer Desk Lamp\", quantity: 2, price: 79.99 }], total: 289.97, shipping: { address: { street: \"456 Oak Ave\", city: \"New York\", state: \"NY\", zip: \"10001\", coordinates: { lat: 40.7128, lng: -74.0060 } }, method: \"standard\", trackingNumber: \"TRK987654321\" }, payment: { method: \"paypal\", status: \"completed\" }, status: \"shipped\" },\n  { orderNumber: \"ORD-24680\", userId: users.insertedIds[2], userEmail: \"bob@example.com\", date: new Date(\"2023-07-05\"), items: [{ productId: products.insertedIds[0], name: \"Smartphone X\", quantity: 1, price: 999.99 }], total: 999.99, shipping: { address: { street: \"789 Pine Rd\", city: \"Chicago\", state: \"IL\", zip: \"60601\", coordinates: { lat: 41.8781, lng: -87.6298 } }, method: \"standard\", trackingNumber: null }, payment: { method: \"credit_card\", status: \"pending\" }, status: \"processing\" }\n]);\nprint(\"Done! Collections: \" + db.getCollectionNames().join(\", \"));\n' mongodb://localhost:27017/test 2>&1","timeout":30000}
 
-9 | ✅ @@Task Done@@
+9 | ✅ @@Task Done@@ | Input: 78 Output: 1873 cache_creation: 8654 cache_read: 401729
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/chongzixuan-ai/mcp-server-website.git 1087856397_chongzixuan-ai_mcp-server-website"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/chongzixuan-ai/mcp-server-website.git 1087856397_chongzixuan-ai_mcp-server-website"}
@@ -147,7 +147,7 @@ loop 11 | Tool=mcp__MCP-Auto__add_config, Args={"command":"node","args":["/home/
 loop 12 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1087856397_chongzixuan-ai_mcp-server-website","timeout_ms":30000}
 loop 13 | 无 tool_calls
 
-10 | ✅ @@Task Done@@
+10 | ✅ @@Task Done@@ | Input: 42 Output: 1620 cache_creation: 6475 cache_read: 206709
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server/nacos_mcp-router"} ; Tool=mcp__MCP-Auto__add_config, Args={"name":"nacos_mcp-router","type":"stdio","command":"npx","args":["nacos-mcp-router@latest"],"env":{"NACOS_ADDR":"127.0.0.1:8848","NACOS_USERNAME":"nacos","NACOS_PASSWORD":"nacos"},"cwd":"/home/silimon/mcp-auto/claude_code/mcp_server/nacos_mcp-router"}
 loop 2 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"nacos_mcp-router","timeout_ms":30000}
 loop 3 | Tool=Bash, Args={"command":"NACOS_ADDR=127.0.0.1:8848 NACOS_USERNAME=nacos NACOS_PASSWORD=nacos timeout 15 npx nacos-mcp-router@latest 2>&1 || true","timeout":30000}
@@ -156,7 +156,7 @@ loop 5 | Tool=Bash, Args={"command":"NACOS_ADDR=127.0.0.1:8848 NACOS_USERNAME=na
 loop 6 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["nacos-mcp-router@latest"],"command":"uvx","cwd":"/home/silimon/mcp-auto/claude_code/mcp_server/nacos_mcp-router","env":{"NACOS_ADDR":"127.0.0.1:8848","NACOS_PASSWORD":"nacos","NACOS_USERNAME":"nacos"},"name":"nacos_mcp-router","type":"stdio","timeout_ms":30000}
 loop 7 | 无 tool_calls
 
-11 | ✅ @@Task Done@@
+11 | ✅ @@Task Done@@ | Input: 102 Output: 3107 cache_creation: 11791 cache_read: 532723
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/flesler/mcp-files.git /home/silimon/mcp-auto/claude_code/mcp_server/1024009344_flesler_mcp-files"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/1024009344_flesler_mcp-files && npm install","timeout":120000}
@@ -175,7 +175,7 @@ loop 15 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_s
 loop 16 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/1024009344_flesler_mcp-files/src/tools/searchReplace.ts"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/1024009344_flesler_mcp-files/src/tools/importSymbol.ts"}
 loop 17 | 无 tool_calls
 
-12 | ✅ @@Task Done@@
+12 | ✅ @@Task Done@@ | Input: 72 Output: 1601 cache_creation: 8625 cache_read: 364173
 loop 1 | Tool=TaskCreate, Args={"subject":"Set up Godot API Docs MCP server"}
 loop 2 | Tool=TaskUpdate, Args={"status":"in_progress","taskId":"1"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
@@ -189,7 +189,7 @@ loop 10 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1061117744_tkmct_go
 loop 11 | Tool=TaskUpdate, Args={"status":"completed","taskId":"1"}
 loop 12 | 无 tool_calls
 
-13 | ✅ @@Task Done@@
+13 | ✅ @@Task Done@@ | Input: 48 Output: 1271 cache_creation: 7013 cache_read: 236108
 loop 1 | Tool=Bash, Args={"command":"which bun 2>/dev/null; which npx 2>/dev/null; which node 2>/dev/null; node --version 2>/dev/null; bun --version 2>/dev/null"} ; Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/carlosedp/mcp-bun.git /home/silimon/mcp-auto/claude_code/mcp_server/1014032453_carlosedp_mcp-bun"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/1014032453_carlosedp_mcp-bun && bun install"}
@@ -199,7 +199,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"command":"bun","args":["/home/si
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1014032453_carlosedp_mcp-bun","timeout_ms":30000}
 loop 8 | 无 tool_calls
 
-14 | ✅ @@Task Done@@
+14 | ✅ @@Task Done@@ | Input: 54 Output: 1640 cache_creation: 9879 cache_read: 283827
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server/993270942_andycufari_ClaudePoint"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/993270942_andycufari_ClaudePoint && git clone https://github.com/andycufari/ClaudePoint.git . 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/mcp-auto/claude_code/mcp_server/993270942_andycufari_ClaudePoint/"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/993270942_andycufari_ClaudePoint/package.json"}
@@ -210,7 +210,7 @@ loop 7 | Tool=mcp__MCP-Auto__add_config, Args={"name":"993270942_andycufari_Clau
 loop 8 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"993270942_andycufari_ClaudePoint"}
 loop 9 | 无 tool_calls
 
-15 | ✅ @@Task Done@@
+15 | ✅ @@Task Done@@ | Input: 60 Output: 1434 cache_creation: 7914 cache_read: 294501
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/EnventDigital/community-express-dev-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/985021554_EnventDigital_community-express-dev-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/985021554_EnventDigital_community-express-dev-mcp && npm install","timeout":120000}
@@ -222,7 +222,7 @@ loop 8 | Tool=mcp__MCP-Auto__add_config, Args={"name":"985021554_EnventDigital_c
 loop 9 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"985021554_EnventDigital_community-express-dev-mcp","timeout_ms":30000}
 loop 10 | 无 tool_calls
 
-16 | ✅ @@Task Done@@
+16 | ✅ @@Task Done@@ | Input: 54 Output: 2000 cache_creation: 8709 cache_read: 280426
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"} ; Tool=Bash, Args={"command":"git clone https://github.com/tidewave-ai/tidewave_js.git /home/silimon/mcp-auto/claude_code/mcp_server/1039667740_tidewave-ai_tidewave_js 2>&1"}
 loop 2 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/1039667740_tidewave-ai_tidewave_js/"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/1039667740_tidewave-ai_tidewave_js/package.json"}
 loop 3 | Tool=Bash, Args={"command":"which bun 2>&1 || echo \"bun not found\""}
@@ -233,7 +233,7 @@ loop 7 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/mcp-auto/c
 loop 8 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1039667740_tidewave-ai_tidewave_js","timeout_ms":30000}
 loop 9 | 无 tool_calls
 
-17 | ✅ @@Task Done@@
+17 | ✅ @@Task Done@@ | Input: 42 Output: 1312 cache_creation: 7358 cache_read: 206737
 loop 1 | Tool=Bash, Args={"command":"node --version"} ; Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"directory does not exist yet\""}
 loop 2 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server/1004185555_idanfishman_prometheus-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/1004185555_idanfishman_prometheus-mcp && npm init -y && npm install prometheus-mcp","timeout":120000}
@@ -242,7 +242,7 @@ loop 5 | Tool=mcp__MCP-Auto__add_config, Args={"args":["prometheus-mcp","stdio"]
 loop 6 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1004185555_idanfishman_prometheus-mcp","timeout_ms":30000}
 loop 7 | 无 tool_calls
 
-18 | ✅ @@Task Done@@
+18 | ✅ @@Task Done@@ | Input: 102 Output: 2301 cache_creation: 7761 cache_read: 525339
 loop 1 | Tool=TaskCreate, Args={"subject":"Install Scopecraft MCP server"}
 loop 2 | Tool=TaskUpdate, Args={"status":"in_progress","taskId":"1"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
@@ -261,7 +261,7 @@ loop 15 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"981253479_scopecraf
 loop 16 | Tool=TaskUpdate, Args={"status":"completed","taskId":"2"}
 loop 17 | 无 tool_calls
 
-19 | ✅ @@Task Done@@
+19 | ✅ @@Task Done@@ | Input: 48 Output: 1455 cache_creation: 6808 cache_read: 235263
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"} ; Tool=Bash, Args={"command":"node --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/Dianel555/gemini-superclaude-mcp-server.git /home/silimon/mcp-auto/claude_code/mcp_server/Dianel555_gemini-superclaude-mcp-server","timeout":60000}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/Dianel555_gemini-superclaude-mcp-server && npm install","timeout":120000}
@@ -271,7 +271,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"name":"Dianel555_gemini-supercla
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"Dianel555_gemini-superclaude-mcp-server","timeout_ms":30000}
 loop 8 | 无 tool_calls
 
-20 | ✅ @@Task Done@@
+20 | ✅ @@Task Done@@ | Input: 66 Output: 1688 cache_creation: 29216 cache_read: 356254
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/recallnet/sequential-thinking-recall.git /home/silimon/mcp-auto/claude_code/mcp_server/954341398_recallnet_sequential-thinking-recall"}
 loop 3 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/954341398_recallnet_sequential-thinking-recall/package.json"}
@@ -284,7 +284,7 @@ loop 9 | Tool=mcp__MCP-Auto__add_config, Args={"args":["/home/silimon/mcp-auto/c
 loop 10 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"954341398_recallnet_sequential-thinking-recall","timeout_ms":30000}
 loop 11 | 无 tool_calls
 
-21 | ✅ @@Task Done@@
+21 | ✅ @@Task Done@@ | Input: 54 Output: 1217 cache_creation: 7960 cache_read: 263843
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/cashfree/cashfree-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/974041083_cashfree_cashfree-mcp"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/974041083_cashfree_cashfree-mcp/"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/974041083_cashfree_cashfree-mcp/package.json"}
@@ -295,7 +295,7 @@ loop 7 | Tool=mcp__MCP-Auto__add_config, Args={"name":"974041083_cashfree_cashfr
 loop 8 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"974041083_cashfree_cashfree-mcp","timeout_ms":30000}
 loop 9 | 无 tool_calls
 
-22 | ✅ @@Task Done@@
+22 | ✅ @@Task Done@@ | Input: 66 Output: 1254 cache_creation: 7023 cache_read: 332566
 loop 1 | Tool=TaskCreate, Args={"subject":"Set up GravityMCP server"}
 loop 2 | Tool=TaskUpdate, Args={"status":"in_progress","taskId":"1"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server && ls /home/silimon/mcp-auto/claude_code/mcp_server/"}
@@ -308,7 +308,7 @@ loop 9 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1055215914_GravityKi
 loop 10 | Tool=TaskUpdate, Args={"status":"completed","taskId":"1"}
 loop 11 | 无 tool_calls
 
-23 | ❌ @@Task Failed@@
+23 | ❌ @@Task Failed@@ | Input: 120 Output: 4863 cache_creation: 19013 cache_read: 721482
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist yet\""} ; Tool=Bash, Args={"command":"which node && node --version && which npm && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/sudowealth/schwab-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/980918825_sudowealth_schwab-mcp"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/980918825_sudowealth_schwab-mcp/"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/980918825_sudowealth_schwab-mcp/package.json"}
@@ -330,7 +330,7 @@ loop 18 | Tool=Bash, Args={"command":"npx wrangler dev 2>&1 &\nWRANGLER_PID=$!\n
 loop 19 | Tool=Bash, Args={"command":"kill $(lsof -t -i:8788) 2>/dev/null; echo \"Port 8788 cleared\""}
 loop 20 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/980918825_sudowealth_schwab-mcp/src/auth/"}
 
-24 | ✅ @@Task Done@@
+24 | ✅ @@Task Done@@ | Input: 96 Output: 2641 cache_creation: 16309 cache_read: 508723
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server/987066093_SmartBear_smartbear-mcp"}
 loop 2 | Tool=Bash, Args={"command":"node --version && npm --version && npx --version"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/987066093_SmartBear_smartbear-mcp && npm init -y && npm install @smartbear/mcp@latest","timeout":120000}
@@ -348,7 +348,7 @@ loop 14 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["/home/s
 loop 15 | Tool=Bash, Args={"command":"python3 -c \"import json; config = json.load(open('/home/silimon/mcp-auto/claude_code/mcp_server_config/config.json')); print(json.dumps(config['Servers']['987066093_SmartBear_smartbear-mcp'], indent=2))\""}
 loop 16 | 无 tool_calls
 
-25 | ✅ @@Task Done@@
+25 | ✅ @@Task Done@@ | Input: 96 Output: 2381 cache_creation: 8253 cache_read: 500837
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server/1047058755_Sujimoshi_drawio-mcp"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/1047058755_Sujimoshi_drawio-mcp && git clone https://github.com/Sujimoshi/drawio-mcp.git . 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"npm install 2>&1"}
@@ -366,7 +366,7 @@ loop 14 | Tool=Bash, Args={"command":"npm run build 2>&1"}
 loop 15 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1047058755_Sujimoshi_drawio-mcp","timeout_ms":30000}
 loop 16 | 无 tool_calls
 
-26 | ❌ @@Task Failed@@
+26 | ❌ @@Task Failed@@ | Input: 120 Output: 3473 cache_creation: 16337 cache_read: 705150
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"} ; Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/greatSumini/nanobanana-api-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/1102522224_greatSumini_nanobanana-api-mcp"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/1102522224_greatSumini_nanobanana-api-mcp/"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/1102522224_greatSumini_nanobanana-api-mcp/package.json"}
@@ -388,7 +388,7 @@ loop 18 | Tool=Bash, Args={"command":"cat /home/silimon/mcp-auto/claude_code/.cl
 loop 19 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/.claude/settings.json"}
 loop 20 | Tool=Glob, Args={"pattern":"**/settings.json","path":"/home/silimon/mcp-auto/claude_code"} ; Tool=Glob, Args={"pattern":"**/settings.json","path":"/home/silimon/.claude"}
 
-27 | ✅ @@Task Done@@
+27 | ✅ @@Task Done@@ | Input: 72 Output: 1746 cache_creation: 7162 cache_read: 361669
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/localstack/localstack-mcp-server.git 1017450787_localstack_localstack-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/localstack/localstack-mcp-server.git 1017450787_localstack_localstack-mcp-server"}
@@ -402,7 +402,7 @@ loop 10 | Tool=mcp__MCP-Auto__add_config, Args={"command":"node","args":["/home/
 loop 11 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1017450787_localstack_localstack-mcp-server","timeout_ms":30000}
 loop 12 | 无 tool_calls
 
-28 | ❌ @@Task Failed@@
+28 | ❌ @@Task Failed@@ | Input: 120 Output: 6638 cache_creation: 25652 cache_read: 800159
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/bestk/vscode-internal-command-mcp-server.git 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/mcp-auto/claude_code/mcp_server/vscode-internal-command-mcp-server/"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/vscode-internal-command-mcp-server/package.json"}
@@ -424,7 +424,7 @@ loop 18 | Tool=Bash, Args={"command":"node server.js &\nSERVER_PID=$!\nsleep 2\n
 loop 19 | Tool=Bash, Args={"command":"node server.js &\nSERVER_PID=$!\nsleep 2\n\n# Initialize session\necho \"=== Initialize ===\"\nINIT_RESPONSE=$(curl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -d '{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"initialize\",\n    \"params\": {\n      \"protocolVersion\": \"2024-11-05\",\n      \"capabilities\": {},\n      \"clientInfo\": {\"name\": \"test-client\", \"version\": \"1.0.0\"}\n    }\n  }')\necho \"$INIT_RESPONSE\"\necho \"\"\n\n# Extract session ID\nSESSION_ID=$(echo \"$INIT_RESPONSE\" | grep -ioi 'x-session-id: [a-f0-9-]*' | head -1 | awk '{print $2}' || echo \"\")\necho \"Session ID: '$SESSION_ID'\"\n\n# If no session ID in headers, try using it without\necho \"=== Tools List (with session init) ===\"\ncurl -s -D - -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -d '{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"initialize\",\n    \"params\": {\n      \"protocolVersion\": \"2024-11-05\",\n      \"capabilities\": {},\n      \"clientInfo\": {\"name\": \"test-client\", \"version\": \"1.0.0\"}\n    }\n  }' 2>/dev/null\n\necho \"\"\necho \"=== Sending initialized notification ===\"\ncurl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -d '{\n    \"jsonrpc\": \"2.0\",\n    \"method\": \"notifications/initialized\"\n  }' 2>/dev/null\n\necho \"\"\necho \"=== Tools List ===\"\ncurl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -d '{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 2,\n    \"method\": \"tools/list\"\n  }' 2>/dev/null\n\necho \"\"\n\n# Kill the server\nkill $SERVER_PID 2>/dev/null\nwait $SERVER_PID 2>/dev/null","timeout":30000}
 loop 20 | Tool=Bash, Args={"command":"node server.js &\nSERVER_PID=$!\nsleep 2\n\n# Initialize session and capture session ID\nFULL_RESPONSE=$(curl -s -D - -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -d '{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"initialize\",\n    \"params\": {\n      \"protocolVersion\": \"2024-11-05\",\n      \"capabilities\": {},\n      \"clientInfo\": {\"name\": \"test-client\", \"version\": \"1.0.0\"}\n    }\n  }' 2>/dev/null)\n\nSESSION_ID=$(echo \"$FULL_RESPONSE\" | grep -ioi 'mcp-session-id: [^ ]*' | awk '{print $2}' | tr -d '\\r\\n ')\necho \"Session ID: '$SESSION_ID'\"\n\n# Send initialized notification\necho \"=== Initialized Notification ===\"\ncurl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -H \"Mcp-Session-Id: $SESSION_ID\" \\\n  -d '{\"jsonrpc\": \"2.0\", \"method\": \"notifications/initialized\"}' 2>/dev/null\n\necho \"\"\n\n# List tools\necho \"=== Tools List ===\"\nTOOLS_RESPONSE=$(curl -s -X POST http://localhost:8080/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Accept: application/json, text/event-stream\" \\\n  -H \"Mcp-Session-Id: $SESSION_ID\" \\\n  -d '{\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"tools/list\"}' 2>/dev/null)\necho \"$TOOLS_RESPONSE\"\necho \"\"\n\n# Kill the server\nkill $SERVER_PID 2>/dev/null\nwait $SERVER_PID 2>/dev/null","timeout":30000}
 
-29 | ❌ @@Task Failed@@
+29 | ❌ @@Task Failed@@ | Input: 120 Output: 3464 cache_creation: 12979 cache_read: 673902
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server && ls /home/silimon/mcp-auto/claude_code/mcp_server/"} ; Tool=Bash, Args={"command":"node --version && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/ShunsukeHayashi/rpgmaker-mz-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/1067210400_ShunsukeHayashi_rpgmaker-mz-mcp"}
 loop 3 | Tool=WebSearch, Args={"query":"ShunsukeHayashi rpgmaker-mz-mcp github MCP server"}
@@ -446,7 +446,7 @@ loop 18 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_
 loop 19 | Tool=Bash, Args={"command":"npm install 2>&1"}
 loop 20 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/1067210400_ShunsukeHayashi_rpgmaker-mz-mcp/dist/"}
 
-30 | ✅ @@Task Done@@
+30 | ✅ @@Task Done@@ | Input: 96 Output: 3256 cache_creation: 10453 cache_read: 492508
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && npm init -y 2>&1 | tail -3"}
 loop 3 | Tool=Bash, Args={"command":"npm install @bldbl/mcp 2>&1"}
@@ -464,7 +464,7 @@ loop 14 | Tool=mcp__MCP-Auto__add_config, Args={"args":["-y","@bldbl/mcp"],"comm
 loop 15 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1003196317_chunkydotdev_bldbl-mcp","timeout_ms":15000}
 loop 16 | 无 tool_calls
 
-31 | ✅ @@Task Done@@
+31 | ✅ @@Task Done@@ | Input: 54 Output: 1597 cache_creation: 10062 cache_read: 275068
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/Nazruden/clickup-mcp-server.git Nazruden_clickup-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/Nazruden_clickup-mcp-server && npm install"}
@@ -475,7 +475,7 @@ loop 7 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["dist/ind
 loop 8 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["dist/index.js"],"command":"node","cwd":"/home/silimon/mcp-auto/claude_code/mcp_server/Nazruden_clickup-mcp-server","env":{"CLICKUP_PERSONAL_TOKEN":"YOUR_CLICKUP_PERSONAL_TOKEN_HERE","DOTENV_X_QUIET":"true"},"name":"Nazruden_clickup-mcp-server","timeout_ms":30000,"type":"stdio"}
 loop 9 | 无 tool_calls
 
-32 | ❌ @@Task Failed@@
+32 | ❌ @@Task Failed@@ | Input: 120 Output: 4667 cache_creation: 47381 cache_read: 713616
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/SocketDev/socket-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/986337803_SocketDev_socket-mcp"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/986337803_SocketDev_socket-mcp && npm install"}
@@ -497,7 +497,7 @@ loop 18 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"args":["@socket
 loop 19 | Tool=Bash, Args={"command":"curl -sI \"https://mcp.socket.dev/\" 2>&1 | head -20"} ; Tool=Bash, Args={"command":"curl -sI \"https://mcp.socket.dev/sse\" 2>&1 | head -20"} ; Tool=Bash, Args={"command":"curl -sI \"https://mcp.socket.dev/mcp\" 2>&1 | head -20"}
 loop 20 | Tool=Bash, Args={"command":"cat lib/env.ts"}
 
-33 | ❌ @@Task Failed@@
+33 | ❌ @@Task Failed@@ | Input: 120 Output: 5297 cache_creation: 23640 cache_read: 757367
 loop 1 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""} ; Tool=Bash, Args={"command":"which node && node --version && which npm && npm --version"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/iceener/spotify-streamable-mcp-server.git /home/silimon/mcp-auto/claude_code/mcp_server/1036997879_iceener_spotify-streamable-mcp-server"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/1036997879_iceener_spotify-streamable-mcp-server/"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/1036997879_iceener_spotify-streamable-mcp-server/package.json"}
@@ -519,7 +519,7 @@ loop 18 | Tool=Bash, Args={"command":"curl -fsSL https://bun.sh/install | bash 2
 loop 19 | Tool=Bash, Args={"command":"cat /tmp/claude-1000/-home-silimon-mcp-auto-claude-code/0a61c900-b78d-40e1-8b7d-9139bf303043/tasks/b15blikl7.output"}
 loop 20 | Tool=Bash, Args={"command":"ls -la ~/.bun/bin/bun 2>/dev/null && ~/.bun/bin/bun --version || echo \"Bun not found at ~/.bun/bin/\""}
 
-34 | ✅ @@Task Done@@
+34 | ✅ @@Task Done@@ | Input: 48 Output: 1932 cache_creation: 8590 cache_read: 242561
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server/1094050966_ankushthakur2007_miyami-websearch-mcp"} ; Tool=Bash, Args={"command":"node --version"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/1094050966_ankushthakur2007_miyami-websearch-mcp && npm init -y && npm install miyami-websearch-mcp","timeout":120000}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/1094050966_ankushthakur2007_miyami-websearch-mcp/node_modules/.bin/ | grep miyami"}
@@ -529,7 +529,7 @@ loop 6 | Tool=mcp__MCP-Auto__add_config, Args={"name":"1094050966_ankushthakur20
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1094050966_ankushthakur2007_miyami-websearch-mcp","timeout_ms":60000}
 loop 8 | 无 tool_calls
 
-35 | ❌ @@Task Failed@@
+35 | ❌ @@Task Failed@@ | Input: 120 Output: 4497 cache_creation: 18176 cache_read: 773974
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"} ; Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/"} ; Tool=Bash, Args={"command":"docker --version 2>&1; docker ps 2>&1 | head -5"}
 loop 2 | Tool=Bash, Args={"command":"git clone https://github.com/vignesh-codes/ai-agents-mcp-pg.git /home/silimon/mcp-auto/claude_code/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg 2>&1"}
 loop 3 | Tool=Bash, Args={"command":"ls -la /home/silimon/mcp-auto/claude_code/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg/"} ; Tool=Bash, Args={"command":"ls -la /home/silimon/mcp-auto/claude_code/mcp_server/915820387_vignesh-codes_ai-agents-mcp-pg/src/"}
@@ -551,7 +551,7 @@ loop 18 | Tool=Bash, Args={"command":"sudo -n apt-get install -y postgresql post
 loop 19 | Tool=Bash, Args={"command":"which conda 2>&1; which mamba 2>&1; which pipx 2>&1; which apt 2>&1; which dpkg 2>&1; which apt-get 2>&1"}
 loop 20 | Tool=Bash, Args={"command":"apt-get download postgresql postgresql-common 2>&1 | head -10"}
 
-36 | ✅ @@Task Done@@
+36 | ✅ @@Task Done@@ | Input: 54 Output: 1375 cache_creation: 12033 cache_read: 281001
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"}
 loop 2 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/djankies/vitest-mcp.git 1032297394_djankies_vitest-mcp"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/1032297394_djankies_vitest-mcp/"}
@@ -562,7 +562,7 @@ loop 7 | Tool=mcp__MCP-Auto__add_config, Args={"name":"1032297394_djankies_vites
 loop 8 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"1032297394_djankies_vitest-mcp","timeout_ms":30000}
 loop 9 | 无 tool_calls
 
-37 | ❌ @@Task Failed@@
+37 | ❌ @@Task Failed@@ | Input: 120 Output: 3682 cache_creation: 90010 cache_read: 661179
 loop 1 | Tool=TaskCreate, Args={"subject":"Clone and build feishu-mcp-server"}
 loop 2 | Tool=TaskUpdate, Args={"status":"in_progress","taskId":"1"}
 loop 3 | Tool=Bash, Args={"command":"ls /home/silimon/mcp-auto/claude_code/mcp_server/ 2>/dev/null || echo \"Directory does not exist\""}
@@ -584,7 +584,7 @@ loop 18 | Tool=Bash, Args={"command":"curl -s \"https://raw.githubusercontent.co
 loop 19 | Tool=Bash, Args={"command":"curl -s \"https://api.github.com/repos/DemonDamon/AgenticX\" 2>/dev/null | python3 -c \"import sys,json; d=json.load(sys.stdin); print(f\\\"Name: {d.get('full_name','')}\\nDesc: {d.get('description','')}\\nStars: {d.get('stargazers_count','')}\\nLang: {d.get('language','')}\\nURL: {d.get('html_url','')}\\nMsg: {d.get('message','')}\\\")\""}
 loop 20 | Tool=Bash, Args={"command":"curl -s \"https://api.github.com/users/sdd330/repos?per_page=30\" 2>/dev/null | python3 -c \"import sys,json; data=json.load(sys.stdin); [print(f'{r[\\\"name\\\"]} - {r[\\\"html_url\\\"]}') for r in data if isinstance(data, list)]\" 2>/dev/null"}
 
-38 | ✅ @@Task Done@@
+38 | ✅ @@Task Done@@ | Input: 48 Output: 1615 cache_creation: 21312 cache_read: 269642
 loop 1 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/stat-guy/grok-search-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/stat-guy_grok-search-mcp"}
 loop 2 | Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/stat-guy_grok-search-mcp/package.json"}
 loop 3 | Tool=Bash, Args={"command":"cd /home/silimon/mcp-auto/claude_code/mcp_server/stat-guy_grok-search-mcp && npm install"} ; Tool=Read, Args={"file_path":"/home/silimon/mcp-auto/claude_code/mcp_server/stat-guy_grok-search-mcp/index.js","limit":10}
@@ -594,7 +594,7 @@ loop 6 | Tool=mcp__MCP-Auto__update_and_validate_config, Args={"command":"node",
 loop 7 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"stat-guy_grok-search-mcp"}
 loop 8 | 无 tool_calls
 
-39 | ❌ @@Task Failed@@
+39 | ❌ @@Task Failed@@ | Input: 120 Output: 3062 cache_creation: 9962 cache_read: 647937
 loop 1 | Tool=TaskCreate, Args={"subject":"Install CLI for Microsoft 365 MCP Server"}
 loop 2 | Tool=TaskUpdate, Args={"taskId":"1","status":"in_progress","activeForm":"Installing CLI for Microsoft 365 MCP Server"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server"} ; Tool=Bash, Args={"command":"node --version && npm --version"}
@@ -616,7 +616,7 @@ loop 18 | Tool=Bash, Args={"command":"ls -la /home/silimon/mcp-auto/claude_code/
 loop 19 | Tool=Bash, Args={"command":"ls -la /home/silimon/mcp-auto/claude_code/mcp_server/pnp_cli-microsoft365-mcp-server/ 2>&1"}
 loop 20 | Tool=Bash, Args={"command":"git clone https://github.com/pnp/cli-microsoft365-mcp-server.git /home/silimon/mcp-auto/claude_code/mcp_server/pnp_cli-microsoft365-mcp-server 2>&1","timeout":120000}
 
-40 | ✅ @@Task Done@@
+40 | ✅ @@Task Done@@ | Input: 84 Output: 2818 cache_creation: 9828 cache_read: 441530
 loop 1 | Tool=TaskCreate, Args={"subject":"Clone and build lsp-mcp server"} ; Tool=TaskCreate, Args={"subject":"Add MCP configuration"} ; Tool=TaskCreate, Args={"subject":"Validate the MCP server connection"}
 loop 2 | Tool=TaskUpdate, Args={"status":"in_progress","taskId":"1"}
 loop 3 | Tool=Bash, Args={"command":"mkdir -p /home/silimon/mcp-auto/claude_code/mcp_server && git clone https://github.com/Tritlo/lsp-mcp.git /home/silimon/mcp-auto/claude_code/mcp_server/952869992_Tritlo_lsp-mcp"}
@@ -631,5 +631,3 @@ loop 11 | Tool=TaskUpdate, Args={"status":"completed","taskId":"2"} ; Tool=TaskU
 loop 12 | Tool=mcp__MCP-Auto__validate_config, Args={"name":"952869992_Tritlo_lsp-mcp","timeout_ms":30000}
 loop 13 | Tool=TaskUpdate, Args={"status":"completed","taskId":"3"}
 loop 14 | 无 tool_calls
-
-41 | ❌ @@Task Failed@@
