@@ -9,9 +9,8 @@ from exp_setting import dataset_name, framework_name, model_name
 
 HOME = Path.home()
 CWD = Path.cwd()
-MAIN_CWD = Path(os.path.dirname(os.getcwd()))
 
-LOG_DIR = MAIN_CWD / "log_file" / dataset_name / (framework_name + '_2') / model_name
+LOG_DIR = CWD / "log_file" / dataset_name / (framework_name) / model_name
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -393,7 +392,7 @@ def run_task(prompt_text: str, task_name, pos, count):
 def add_extra_info(dataset_name: str, repo_id: str) -> str:
     """add repo info"""
     final_text = ''
-    repo_info_path = MAIN_CWD / "data" / "dataset" / dataset_name / "repo_info.json"
+    repo_info_path = CWD / "data" / "dataset" / dataset_name / "repo_info.json"
     if repo_info_path.exists():
         with open(repo_info_path, 'r', encoding='utf-8') as f:
             repo_infos = json.load(f)
@@ -405,16 +404,6 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
                 final_text += f'\n=== REPO INFO START ===\n{info}\n=== REPO INFO END ===\n'
                 break
     return final_text
-
-def normalize_model_name(name: str) -> str:
-    """
-    将:
-        qwen3.5-plus-2026-04-20
-    归一化为:
-        qwen3.5-plus
-    """
-
-    return re.sub(r"-\d{4}-\d{2}-\d{2}$", "", name)
 
 def verify_model(model_name: str):
     settings_path = HOME / ".claude" / "settings.json"
@@ -431,9 +420,7 @@ def verify_model(model_name: str):
         print("ANTHROPIC_MODEL not found in settings.json")
         sys.exit(1)
 
-    normalized = normalize_model_name(anthropic_model)
-
-    if normalized != model_name:
+    if anthropic_model != model_name:
         print(
             f"Model mismatch:\n"
             f"expected: {model_name}\n"
@@ -455,7 +442,7 @@ def env_ready():
     import shutil
 
     skills_dir = CWD / ".claude"
-    src_dir = MAIN_CWD / "claude_code_copy" / ".claude"
+    src_dir = CWD / "claude_code_copy" / ".claude"
 
     if skills_dir.exists():
         shutil.rmtree(skills_dir)
@@ -495,7 +482,7 @@ if __name__ == "__main__":
 
 
     from glob import glob
-    readme_dir = MAIN_CWD / "data" / "dataset" / dataset_name / "sampled_validated_readme"
+    readme_dir = CWD / "data" / "dataset" / dataset_name / "sampled_validated_readme"
     readme_files = sorted(glob(str(readme_dir / "*.md")), key=os.path.getsize)
     
     pos = 0
