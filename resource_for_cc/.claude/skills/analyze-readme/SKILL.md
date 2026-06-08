@@ -1,6 +1,6 @@
 ---
 name: analyze-readme
-description: Analyze the MCP server's readme document, extract all deployment options, and select the optimal deployment option. Use when performing task analysis.
+description: Analyze the MCP server's README document, extract all deployment options, and select the optimal deployment option. Use when performing task analysis.
 disable-model-invocation: false
 ---
 
@@ -41,12 +41,3 @@ disable-model-invocation: false
 **Notes**
 
 * Deployment options marked `[PROHIBITED]` must not be used.
-
----
-
-### Development Environments Available on the User’s Machine
-
-* Linux (Ubuntu)
-* Python: The user does not have Python installed. Please use uv to replace Python.
-* Node.js：node、npm、npx、yarn、pnpm
-* Git

@@ -338,7 +338,7 @@ def simplify_logs(log_sources: list[str]) -> list[Path]:
 # ----------------------------
 if __name__ == "__main__":
 
-    from dataset_setting import framework_name, dataset_name
+    from exp_setting import framework_name, dataset_name
 
     log_sources: list[str] = [
         f"log_file/{dataset_name}/{framework_name}/qwen3.5-plus/" + x

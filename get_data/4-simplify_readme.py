@@ -1,7 +1,7 @@
 import re
 import os
 from glob import glob
-from dataset_setting import dataset_name
+from exp_setting import dataset_name
 
 def clean_text(text):
     # 1. 删除HTML标签

@@ -1,6 +1,6 @@
 import os
 import shutil
-from dataset_setting import dataset_name
+from exp_setting import dataset_name
 
 dataset_path = "data/dataset/" + dataset_name
 simplified_readme_path = dataset_path + '/simplified_readme'

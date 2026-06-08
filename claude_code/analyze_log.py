@@ -210,7 +210,7 @@ def simplify_logs(log_paths: List[str]) -> List[Path]:
 # ========================== CLI 示例（可替换为自己的调用） ==========================
 if __name__ == "__main__":
     # 这里只是一个示例，实际使用时请按需修改
-    from dataset_setting import dataset_name, framework_name, model_name
+    from exp_setting import dataset_name, framework_name, model_name
     HOME = Path.home()
     log_sources = [
         str(HOME) + f"/mcp-auto/log_file/{dataset_name}/{framework_name + '_3'}/{model_name}/" + x

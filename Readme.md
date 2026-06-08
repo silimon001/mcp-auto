@@ -1,3 +1,3 @@
 # MCP-Auto
 
-An MCP server automatic deployment agent。
+An MCP server automatic deployment agent.

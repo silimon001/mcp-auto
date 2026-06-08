@@ -5,7 +5,7 @@ import os
 import glob
 import logging
 from openai import OpenAI
-from dataset_setting import dataset_name
+from exp_setting import dataset_name
 
 
 PROMPT_PATH = "get_data/prompt_5_classify_readme.md"

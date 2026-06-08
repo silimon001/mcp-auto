@@ -16,7 +16,7 @@ from MCP_Client import Client
 from mcp import Tool
 
 import simplify
-from dataset_setting import dataset_name, framework_name
+from exp_setting import dataset_name, framework_name
 
 load_dotenv('.mcp-auto_env')
 

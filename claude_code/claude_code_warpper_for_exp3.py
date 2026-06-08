@@ -5,7 +5,7 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from dataset_setting import dataset_name, framework_name, model_name
+from exp_setting import dataset_name, framework_name, model_name
 
 HOME = Path.home()
 CWD = Path.cwd()
@@ -24,13 +24,13 @@ def run_claude_stream(prompt_text: str, json_log_path: str):
     process = subprocess.Popen(
         [
             "claude-tap",
-            "--tap-no-live",
             "--",
             "--print",
             "--verbose",
             "--max-turns", "20",
             "--output-format", "stream-json",
-            "--permission-mode", "bypassPermissions"
+            "--permission-mode", "bypassPermissions",
+            "--exclude-dynamic-system-prompt-sections"
         ],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
