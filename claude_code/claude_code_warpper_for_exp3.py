@@ -229,7 +229,7 @@ def env_ready():
     import shutil
     # 1. Add .mcp.json
     target_mcp = CWD / ".mcp.json"
-    source_mcp = CWD / "claude_code_copy" / ".mcp.json"
+    source_mcp = CWD / "resource_for_cc" / ".mcp.json"
     if target_mcp.exists(): target_mcp.unlink()
     shutil.copy2(source_mcp, target_mcp)
     print("Add .mcp.json")

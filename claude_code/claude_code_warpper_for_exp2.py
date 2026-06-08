@@ -233,7 +233,7 @@ def env_ready():
 
     # 2. Add skills
     skills_dir = CWD / ".claude"
-    src_dir = CWD / "claude_code_copy" / ".claude"
+    src_dir = CWD / "resource_for_cc" / ".claude"
     if skills_dir.exists(): shutil.rmtree(skills_dir)
     skills_dir.mkdir(parents=True, exist_ok=True)
     for item in src_dir.iterdir():
