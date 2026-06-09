@@ -42,7 +42,7 @@ class Config:
 
         # 路径配置
         self.cwd = os.getcwd()
-        self.prompt_dir = Path(self.cwd) / "mcp-auto" / "prompt"
+        self.prompt_dir = Path(self.cwd) / "mcp-auto-agent" / "prompt"
         self.log_dir = Path(self.cwd) / "log_file" / dataset_name / framework_name / model_name
         self.data_dir = Path(self.cwd) / "data"
 
@@ -227,13 +227,29 @@ class PromptManager:
                 elif name == 'uv':
                     content = content.replace("{HOME}", str(Path.home()))
                 combined += content
-            except Exception:
+            except Exception as e:
                 pass
         return combined
+
+
+# 高风险模式，可根据实际需求扩展
+FORBIDDEN_PATTERNS = [
+    r'\bsudo\b',               # 提权
+    r'\bmkfs\.',               # 格式化
+]
+
+def is_command_safe(command: str) -> bool:
+    """检查命令是否包含禁止模式"""
+    for pattern in FORBIDDEN_PATTERNS:
+        if re.search(pattern, command):
+            return False
+    # 还可以限制命令长度、检查命令是否存在等
+    return True
 
 # ==================== 执行循环（状态机） ====================
 class ExecutionLoop:
     """处理单个 README 的完整对话流程"""
+
     def __init__(self, config: Config, logger: Logger, mcp_manager: MCPClientManager,
                  llm_client: LLMClient, conv_manager: ConversationManager, prompt_manager: PromptManager):
         self.config = config
@@ -281,17 +297,36 @@ class ExecutionLoop:
                     server_name = "MCP-Auto"   # 固定服务器名（可根据实际情况调整）
                     self.logger.log(f"[Call Tool] Server: {server_name}, Tool: {tool_name}, Args: {tool_args}")
 
-                    # 自动化/用户确认逻辑
-                    tool_validation = False
-                    call_tool_result, tool_validation = await self.before_execute_tool_hook(
-                        server_name, tool_name, tool_args, auto=self.config.auto_deploy)
+                    # 1. 参数校验 / 修正
+                    checked_args, can_proceed = await self.tool_calling_hook(server_name, tool_name, tool_args)
 
+                    if not can_proceed:
+                        # 校验失败，将错误消息作为工具调用结果返回给模型
+                        call_tool_result = checked_args
+                        self.logger.log('\n' + call_tool_result + '\n' + '-'*52 + '\n')
+                        self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
+                        continue
+
+                    # 2. 用户确认（非 auto 时）
+                    if not self.config.auto_deploy:
+                        if input("(Y/N): ").strip().lower() != 'y':
+                            call_tool_result = "Users refuse to use this tool; please reflect on this and choose the right tool."
+                            self.logger.log('\n' + call_tool_result + '\n' + '-'*52 + '\n')
+                            self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
+                            continue
+
+                    # 3. 实际工具调用
+                    call_tool_result = await self.mcp_manager.call_tool(server_name, tool_name, checked_args)
+
+                    # 4. 结果简化（后处理）
+                    call_tool_result = await self.tool_result_hook(tool_name, call_tool_result)
+
+                    # 5. 将最终结果加入对话历史
                     self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
                     self.logger.log('\n' + call_tool_result + '\n' + '-'*52 + '\n')
 
-                    # 根据工具调用结果进行阶段切换
-                    if tool_validation:
-                        await self.after_execute_tool_hook(tool_name, call_tool_result)
+                    # 6. 动态 prompt 路由（根据工具名插入阶段提示词）
+                    await self.prompt_router_trigger(tool_name, call_tool_result)
 
             else:
                 # 检查任务完成标志
@@ -300,60 +335,65 @@ class ExecutionLoop:
                 # 继续对话
                 self.conv_manager.add_user_message("come on!")
 
-    async def before_execute_tool_hook(self, server_name: str, tool_name: str, tool_args: dict, auto: bool):
-        """根据自动化策略执行工具调用"""
-        command = tool_args.get('command', '')
-        if 'pip ' in command and 'uv ' not in command:
-            return "Don't use pip, use uv pip instead.", False
-        if tool_name == 'need_use_these_tools':
-            def _is_valid_tools_combination(tools: list) -> bool:
-                """校验 tools 列表是否符合允许的组合"""
-                if not isinstance(tools, list):
-                    return False
+    async def tool_calling_hook(self, server_name: str, tool_name: str, tool_args: dict) -> tuple:
 
-                length = len(tools)
-                if length == 1:
-                    return tools[0] in {'node', 'uv', 'none'}
-                elif length == 2:
-                    tool_set = set(tools)
-                    return 'git' in tool_set and ('uv' in tool_set or 'node' in tool_set) and len(tool_set) == 2
-                elif length == 3:
-                    tool_set = set(tools)
-                    return tool_set == {'git', 'uv', 'node'}
-                else:
-                    return False
-            tools = tool_args.get('tools', [])
-            if not _is_valid_tools_combination(tools):
-                error_msg = 'tools must be one of: ["git","uv"], ["git","node"], ["node"], ["uv"], ["none"], ["git","uv","node"] (order does not matter)'
+        if tool_name == 'execute_command':
+            command = tool_args.get('command', '')
+            if not command.strip():
+                return "Command is empty.", False
+            if not is_command_safe(command):
+                error_msg = (
+                    f"Command rejected due to security policy: {command[:100]}..."
+                    if len(command) > 100 else f"Command rejected: {command}"
+                )
+                self.logger.log(f"[Security] Blocked command: {command}", is_error=True)
                 return error_msg, False
 
-        if auto:
-            result = await self.mcp_manager.call_tool(server_name, tool_name, tool_args)
-            return result, True
-        else:
-            if input("(Y/N): ").strip().lower() == 'y':
-                result = await self.mcp_manager.call_tool(server_name, tool_name, tool_args)
-                return result, True
-            else:
-                return "Users refuse to use this tool; please reflect on this and choose the right tool.", False
+        if tool_name == 'need_use_these_tools':
+            tools = tool_args.get('tools', [])
+            if not self._is_valid_tools_combination(tools):
+                error_msg = (
+                    'tools must be one of: ["git","uv"], ["git","node"], '
+                    '["node"], ["uv"], ["none"], ["git","uv","node"] '
+                    '(order does not matter)'
+                )
+                return error_msg, False
 
-    async def after_execute_tool_hook(self, tool_name: str, need_these_tools: str):
-        """根据调用的工具名称切换阶段、插入系统 prompt 和工具集"""
+        return tool_args, True
+
+    async def tool_result_hook(self, tool_name: str, call_tool_result: str) -> str:
+        """接入 simplify 做简化（或其它结果后处理）"""
         if tool_name == 'execute_command':
-            response = simplify.simplify_log(response)
+            return simplify.simplify_log(call_tool_result)
+        return call_tool_result
 
-        elif tool_name == 'need_use_these_tools':
-            # 进入部署阶段
+    async def prompt_router_trigger(self, tool_name: str, call_tool_result: str) -> None:
+        """根据被调用的工具动态添加提示词，切换阶段"""
+        if tool_name == 'need_use_these_tools':
             deploy_prompt = self.prompt_manager.load_prompts(['deploy'])
             self.conv_manager.add_user_message(deploy_prompt)
 
-            tools_prompt = self.prompt_manager.load_prompts(json.loads(need_these_tools))
+            tools_prompt = self.prompt_manager.load_prompts(json.loads(call_tool_result))
             self.conv_manager.add_user_message(tools_prompt)
 
         elif tool_name == 'add_config':
             validate_prompt = self.prompt_manager.load_prompts(['validate'])
             self.conv_manager.add_user_message(validate_prompt)
 
+    @staticmethod
+    def _is_valid_tools_combination(tools: list) -> bool:
+        """校验 tools 列表是否符合允许的组合"""
+        if not isinstance(tools, list):
+            return False
+        length = len(tools)
+        if length == 1:
+            return tools[0] in {'node', 'uv', 'none'}
+        if length == 2:
+            tool_set = set(tools)
+            return 'git' in tool_set and ('uv' in tool_set or 'node' in tool_set) and len(tool_set) == 2
+        if length == 3:
+            return set(tools) == {'git', 'uv', 'node'}
+        return False
 
 # ==================== 工具函数 ====================
 def add_extra_info(dataset_name: str, repo_id: str) -> str:
@@ -441,7 +481,6 @@ async def main():
         await loop.run(init_prompt, query, repo_id, str(readme_path))
 
     await mcp_manager.shutdown()
-
 
 if __name__ == '__main__':
     asyncio.run(main())
