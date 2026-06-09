@@ -29,7 +29,7 @@
     "type": "stdio" | "sse" | "streamable_http",
     "url": "http://localhost:8000/mcp" | "http://localhost:8080/sse",
     "headers": {
-    	"X-API-Key": "your-api-key-here"
+    	"Authorization": "Bearer xxxx"
     },
     "command": "uv" | "node" | "npx" | "other tools",
     "args": ["arg1", "arg2", "..."],
@@ -37,7 +37,7 @@
         "ENV_VAR1": "value1",
         "ENV_VAR2": "value2"
     },
-    "cwd": "{WORKSPACE}/mcp_server/{id}_{owner}_{name}"
+    "cwd": "/home/silimon/mcp-auto/mcp_server/{id}_{owner}_{name}"
 }
 ```
 

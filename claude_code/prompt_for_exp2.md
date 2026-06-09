@@ -4,6 +4,7 @@ Set up the MCP server while adhering to these MCP server installation rules:
 * Use `{id}_{owner}_{name}` as the server name in `{WORKSPACE}/mcp_server_config/config.json`.
 * Before you begin the installation, please create a new MCP server directory under the `{WORKSPACE}/mcp_server/` directory.
 * Make sure you read the user's existing config.json file before editing it with this new mcp, to not overwrite any existing servers.
+* The configuration includes the following fields: `type`, `url`, `headers`, `command`, `args`, `env`, and `cwd`.
 * Use commands aligned with the user's shell and operating system best practices.
 * Use an executable file (named config_validation; do not attempt to read it as a file) to validate the new configuration added to config.json. For example
 

@@ -16,7 +16,7 @@ from MCP_Client import Client
 from mcp import Tool
 
 import simplify
-from exp_setting import dataset_name, framework_name
+from exp_setting import dataset_name, framework_name, model_name
 
 load_dotenv('.mcp-auto_env')
 
@@ -30,7 +30,7 @@ class Config:
         self.count = count
         self.enable_logging = enable_logging
         self.auto_deploy = False
-        self.max_chat_loop = 21
+        self.max_chat_loop = 0
 
         # LLM 配置
         self.model: str = None
@@ -55,7 +55,6 @@ class Config:
         self.is_streaming = is_streaming
         self.enable_thinking = enable_thinking
 
-
 # ==================== 日志管理器 ====================
 class Logger:
     """封装日志记录功能"""
@@ -67,8 +66,7 @@ class Logger:
     def _setup(self):
         if not self.config.enable_logging:
             return
-
-        # 关键修复：递归创建目录
+        
         self.config.log_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -91,7 +89,6 @@ class Logger:
                 logging.error(content)
             else:
                 logging.info(content)
-
 
 # ==================== MCP 客户端管理器 ====================
 class MCPClientManager:
@@ -117,8 +114,6 @@ class MCPClientManager:
     async def call_tool(self, server_name: str, tool_name: str, tool_args: dict) -> str:
         result = await self.clients[server_name].session.call_tool(tool_name, tool_args)
         response = result.content[0].text
-        if tool_name == 'execute_command':
-            response = simplify.simplify_log(response)
         return response
 
     async def shutdown(self):
@@ -128,7 +123,6 @@ class MCPClientManager:
                 await client.cleanup()
             except Exception as e:
                 print(f"Error shutting down client-server connect {name}: {e}")
-
 
 # ==================== LLM 客户端 ====================
 class LLMClient:
@@ -158,7 +152,7 @@ class LLMClient:
                 messages=messages,
                 tools=tools,
                 stream=self.config.is_streaming,
-                temperature=0.1, # (0, 2]
+                temperature=0.1, # [0, 2)
                 tool_choice="auto",
                 extra_body={"enable_thinking": self.config.enable_thinking}
             )
@@ -175,14 +169,12 @@ class LLMClient:
             'response': self._delete_reasoning(choices)
         }
 
-
 # ==================== 对话管理器 ====================
 class ConversationManager:
     """管理消息列表、工具消息筛选"""
     def __init__(self):
         self.messages: List[dict] = []
-        self.all_tool_messages: List[dict] = []          # 所有可用工具（OpenAI格式）
-        self.active_tool_names: List[str] = []           # 当前可用的工具名列表
+        self.tools: List[str] = []
 
     def register_tools(self, tools: List[Tool]):
         """将 MCP Tool 转换为 OpenAI function 格式并存储"""
@@ -199,28 +191,22 @@ class ConversationManager:
                     }
                 }
             }
-            self.all_tool_messages.append(tool_msg)
-
-    def set_active_tools(self, names: List[str]):
-        """设置当前阶段可用的工具"""
-        self.active_tool_names = names
-
-    def get_active_tool_messages(self) -> List[dict]:
-        """返回当前激活的工具消息列表"""
-        return [t for t in self.all_tool_messages if t['function']['name'] in self.active_tool_names]
+            self.tools.append(tool_msg)
 
     def add_system_message(self, content: str):
         self.messages.append({"role": "system", "content": content})
 
-    def add_user_message(self, content: str):
+    def add_query(self, content: str):
         self.messages.append({"role": "user", "content": content})
+
+    def add_user_message(self, content: str):
+        self.messages.append({"role": "user", "content": [{"type": "text", "text": content, "cache_control": {"type": "ephemeral"}}]})
 
     def add_assistant_message(self, message: dict):
         self.messages.append(message)
 
     def add_tool_result(self, tool_call_id: str, content: str):
         self.messages.append({"role": "tool", "tool_call_id": tool_call_id, "content": content})
-
 
 # ==================== Prompt 与工具动态管理器 ====================
 class PromptManager:
@@ -245,17 +231,6 @@ class PromptManager:
                 pass
         return combined
 
-    def get_tool_names_for_phase(self, phase: str) -> List[str]:
-        """根据阶段返回应激活的工具名称列表"""
-        phase_tool_map = {
-            'analyze': ['need_use_these_tools'],
-            'deploy': ['add_config', 'execute_command'],
-            'validate': ['validate_config'],
-            'fix': ['update_and_validate_config', 'execute_command'],
-        }
-        return phase_tool_map.get(phase, [])
-
-
 # ==================== 执行循环（状态机） ====================
 class ExecutionLoop:
     """处理单个 README 的完整对话流程"""
@@ -277,21 +252,19 @@ class ExecutionLoop:
         # 初始化消息
         self.conv_manager.messages = []
         self.conv_manager.add_system_message(prompt)
-        self.conv_manager.add_user_message(query)
+        self.conv_manager.add_query(query)
 
         while True:
-            if self.llm_client.communicate_count >= self.config.max_chat_loop:
+            if self.llm_client.communicate_count > self.config.max_chat_loop:
                 break
 
             # 阶段控制：第一次通信前插入分析 prompt 并设置工具
             if self.llm_client.communicate_count == 0:
                 analyze_prompt = self.prompt_manager.load_prompts(['analyze'])
-                self.conv_manager.add_system_message(analyze_prompt)
-                self.conv_manager.set_active_tools(self.prompt_manager.get_tool_names_for_phase('analyze'))
+                self.conv_manager.add_user_message(analyze_prompt)
 
             # 调用 LLM
-            tools = self.conv_manager.get_active_tool_messages()
-            all_response = self.llm_client.communicate(self.conv_manager.messages, tools)
+            all_response = self.llm_client.communicate(self.conv_manager.messages, self.conv_manager.tools)
             usage = all_response['usage']
             self.logger.log('Token Usage: ' + json.dumps(usage, ensure_ascii=False))
 
@@ -310,7 +283,7 @@ class ExecutionLoop:
 
                     # 自动化/用户确认逻辑
                     tool_validation = False
-                    call_tool_result, tool_validation = await self._execute_tool_with_policy(
+                    call_tool_result, tool_validation = await self.before_execute_tool_hook(
                         server_name, tool_name, tool_args, auto=self.config.auto_deploy)
 
                     self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
@@ -318,7 +291,7 @@ class ExecutionLoop:
 
                     # 根据工具调用结果进行阶段切换
                     if tool_validation:
-                        await self._handle_phase_transition(tool_name, tool_args, call_tool_result)
+                        await self.after_execute_tool_hook(tool_name, call_tool_result)
 
             else:
                 # 检查任务完成标志
@@ -327,7 +300,7 @@ class ExecutionLoop:
                 # 继续对话
                 self.conv_manager.add_user_message("come on!")
 
-    async def _execute_tool_with_policy(self, server_name: str, tool_name: str, tool_args: dict, auto: bool):
+    async def before_execute_tool_hook(self, server_name: str, tool_name: str, tool_args: dict, auto: bool):
         """根据自动化策略执行工具调用"""
         command = tool_args.get('command', '')
         if 'pip ' in command and 'uv ' not in command:
@@ -364,35 +337,30 @@ class ExecutionLoop:
             else:
                 return "Users refuse to use this tool; please reflect on this and choose the right tool.", False
 
-    async def _handle_phase_transition(self, tool_name: str, tool_args: dict, call_tool_result: str):
+    async def after_execute_tool_hook(self, tool_name: str, need_these_tools: str):
         """根据调用的工具名称切换阶段、插入系统 prompt 和工具集"""
-        if tool_name == 'need_use_these_tools':
+        if tool_name == 'execute_command':
+            response = simplify.simplify_log(response)
+
+        elif tool_name == 'need_use_these_tools':
             # 进入部署阶段
-            self.conv_manager.set_active_tools(self.prompt_manager.get_tool_names_for_phase('deploy'))
             deploy_prompt = self.prompt_manager.load_prompts(['deploy'])
-            self.conv_manager.add_system_message(deploy_prompt)
-            # 动态插入工具说明（原 call_tool_result 内容）
-            tools_prompt = self.prompt_manager.load_prompts(json.loads(call_tool_result))
-            self.conv_manager.add_system_message(tools_prompt)
+            self.conv_manager.add_user_message(deploy_prompt)
+
+            tools_prompt = self.prompt_manager.load_prompts(json.loads(need_these_tools))
+            self.conv_manager.add_user_message(tools_prompt)
 
         elif tool_name == 'add_config':
-            self.conv_manager.set_active_tools(self.prompt_manager.get_tool_names_for_phase('validate'))
             validate_prompt = self.prompt_manager.load_prompts(['validate'])
-            self.conv_manager.add_system_message(validate_prompt)
-
-        elif tool_name == 'validate_config':
-            self.conv_manager.set_active_tools(self.prompt_manager.get_tool_names_for_phase('fix'))
-            # 可以插入额外的用户提示（被注释掉的部分）
+            self.conv_manager.add_user_message(validate_prompt)
 
 
 # ==================== 工具函数 ====================
 def add_extra_info(dataset_name: str, repo_id: str) -> str:
-    """从数据集读取仓库额外信息"""
     final_text = ''
     repo_info_path = Path.cwd() / "data" / "dataset" / dataset_name / "repo_info.json"
     if repo_info_path.exists():
-        with open(repo_info_path, 'r', encoding='utf-8') as f:
-            repo_infos = json.load(f)
+        with open(repo_info_path, 'r', encoding='utf-8') as f: repo_infos = json.load(f)
         for repo_info in repo_infos:
             if repo_info.get('id') == int(repo_id):
                 info = {k: repo_info.get(k) for k in ["id", "description", "language", "size", "topic", "html_url"]}
@@ -401,7 +369,6 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
                 final_text += f'\n=== REPO INFO START ===\n{info}\n=== REPO INFO END ===\n'
                 break
     return final_text
-
 
 # ==================== 主函数 ====================
 async def main():
@@ -419,8 +386,8 @@ async def main():
     count = 40
 
     # 初始化配置
-    model_name = 'qwen3.5-plus'
     config = Config(pos, count, model_name, enable_logging=True)
+
     config.set_llm(
         model=model_name,
         base_url='https://dashscope.aliyuncs.com/compatible-mode/v1',
@@ -428,6 +395,7 @@ async def main():
         is_streaming=False,
         enable_thinking=True
     )
+
     config.auto_deploy = True
     config.max_chat_loop = 20
 
