@@ -9,7 +9,7 @@ disable-model-invocation: false
 5.1 You need to verify that the configuration used to connect to the MCP server is correct. Here is a configuration verification application(named config_validation), you only need to use this executable file; you don't need to know how it's implemented. For example
 
 ```bash
-/home/silimon/mcp-auto/claude_code/config_validation {id}_{owner}_{name}
+/home/silimon/mcp-auto/config_validation {id}_{owner}_{name}
 ```
 
 # Additional Tips

@@ -11,7 +11,7 @@ LOG_DIR = CWD / "log_file" / dataset_name / framework_name / model_name
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-def run_claude_stream(prompt_text: str, json_log_path: str):
+def run_claude_stream(prompt_text: str):
     process = subprocess.Popen(
         ["claude-tap", "--", "--print", "--verbose", "--max-turns", "20",
          "--output-format", "stream-json", "--permission-mode", "bypassPermissions",
@@ -27,50 +27,75 @@ def run_claude_stream(prompt_text: str, json_log_path: str):
 
     def read_stdout():
         try:
-            for line in iter(process.stdout.readline, ''): stdout_queue.put(line)
-        except Exception as e: stdout_queue.put(f"__ERROR__:{e}")
-        finally: stdout_queue.put(None)
+            for line in iter(process.stdout.readline, ''):
+                stdout_queue.put(line)
+        except Exception as e:
+            stdout_queue.put(f"__ERROR__:{e}")
+        finally:
+            stdout_queue.put(None)
 
     def read_stderr():
         try:
             for line in iter(process.stderr.readline, ''):
-                stderr_queue.put(line); stderr_lines.append(line)
-        except Exception as e: stderr_queue.put(f"__ERROR__:{e}")
-        finally: stderr_queue.put(None)
+                stderr_queue.put(line)
+                stderr_lines.append(line)
+        except Exception as e:
+            stderr_queue.put(f"__ERROR__:{e}")
+        finally:
+            stderr_queue.put(None)
 
     stdout_thread = threading.Thread(target=read_stdout, daemon=True)
     stderr_thread = threading.Thread(target=read_stderr, daemon=True)
-    stdout_thread.start(); stderr_thread.start()
+    stdout_thread.start()
+    stderr_thread.start()
+
     got_result = False
 
-    with open(json_log_path, "a", encoding="utf-8") as jf:
-        while True:
-            try: line = stdout_queue.get(timeout=1)
-            except queue.Empty:
-                if got_result or process.poll() is not None: break
-                continue
-            if line is None: break
-            line = line.strip()
-            if not line: continue
-            try:
-                obj = json.loads(line)
-                obj["_received_at"] = datetime.now(timezone.utc).isoformat()
-                events.append(obj)
-                jf.write(json.dumps(obj, ensure_ascii=False) + "\n"); jf.flush()
-                if obj.get("type") == "result":
-                    got_result = True
-                    try: process.terminate()
-                    except Exception: pass
-                    break
-            except json.JSONDecodeError: continue
-            except Exception as e: print(f"⚠️ JSON parse error: {e}")
+    while True:
+        try:
+            line = stdout_queue.get(timeout=1)
+        except queue.Empty:
+            if got_result or process.poll() is not None:
+                break
+            continue
 
-    try: process.wait(timeout=5)
+        if line is None:
+            break
+
+        line = line.strip()
+        if not line:
+            continue
+
+        try:
+            obj = json.loads(line)
+            obj["_received_at"] = datetime.now(timezone.utc).isoformat()
+            events.append(obj)
+
+            if obj.get("type") == "result":
+                got_result = True
+                try:
+                    process.terminate()
+                except Exception:
+                    pass
+                break
+
+        except json.JSONDecodeError:
+            continue
+        except Exception as e:
+            print(f"⚠️ JSON parse error: {e}")
+
+    try:
+        process.wait(timeout=5)
     except subprocess.TimeoutExpired:
         print("⚠️ Claude process timeout, killing...")
-        try: process.kill()
-        except Exception: pass
-    stdout_thread.join(timeout=1); stderr_thread.join(timeout=1)
+        try:
+            process.kill()
+        except Exception:
+            pass
+
+    stdout_thread.join(timeout=1)
+    stderr_thread.join(timeout=1)
+
     return events, "".join(stderr_lines)
 
 @dataclass
@@ -192,8 +217,7 @@ def write_timeline_log(timeline, log_file):
             f.write("-" * 80 + "\n")
 
 def run_task(prompt_text: str, task_name, pos, count):
-    json_log_path = f"{LOG_DIR}/tmp_{task_name}.jsonl"
-    events, stderr = run_claude_stream(prompt_text, json_log_path)
+    events, stderr = run_claude_stream(prompt_text)
     parser = ClaudeStreamParser()
     timeline = parser.parse_events(events)
     log_file = f"{LOG_DIR}/{pos}_{pos+count}_{timestamp}.log"
