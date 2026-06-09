@@ -1,6 +1,6 @@
 ---
 name: use-uv-tool
-description: Includes user instructions on how to use UV. Use when using UV tools.
+description: Enforce and guide the use of uv for Python project setup, dependency management, and execution, including creating virtual environments and replacing pip/python commands with uv/uvx equivalents. Use when setting up, installing, or running Python or MCP server projects under uv-based environment requirements.
 disable-model-invocation: false
 ---
 

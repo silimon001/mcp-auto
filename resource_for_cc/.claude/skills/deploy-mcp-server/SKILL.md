@@ -1,6 +1,6 @@
 ---
 name: deploy-mcp-server
-description: Deploy the MCP server and add configuration information to the configuration file. Use when deploying the MCP server.
+description: Deploy an MCP server based on a selected deployment strategy, execute the installation and setup steps, and generate the corresponding MCP client configuration file. Use when performing MCP server setup, installation, integration, or environment provisioning tasks.
 disable-model-invocation: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: analyze-readme
-description: Analyze the MCP server's README document, extract all deployment options, and select the optimal deployment option. Use when performing task analysis.
+description: Analyze an MCP server README to extract all available deployment methods (including free-install, local, and remote options), classify them, and determine the optimal deployment strategy. Use this when the task involves understanding, comparing, or selecting deployment approaches from documentation or setup guides.
 disable-model-invocation: false
 ---
 

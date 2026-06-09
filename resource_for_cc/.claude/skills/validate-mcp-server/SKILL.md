@@ -1,6 +1,6 @@
 ---
 name: validate-mcp-server
-description: Verify that the MCP server can start normally and expose the tool list. Use when verifying the server.
+description: Validate an MCP server after deployment by checking whether it starts successfully and exposes available tools using the provided validation executable. Use when performing post-deployment verification, health checks, or configuration correctness testing for MCP server setups.
 disable-model-invocation: false
 ---
 
