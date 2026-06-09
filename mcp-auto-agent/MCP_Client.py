@@ -159,7 +159,7 @@ class Client:
         self._server_process_started = False  # 标记是否由我们启动了服务器进程
 
     async def init(self, name: str, config: dict):
-        type = config.get("type", "stdio")
+        type = config.get("type", None)
         
         if type == "stdio":
             await self.init_stdio(config)
@@ -168,7 +168,7 @@ class Client:
         elif type == "streamable_http":
             await self.init_streamable_http(config)
         else:
-            raise Exception(f"[FAIL] server {name}: Unknown transport type '{type}'")       
+            raise Exception(f"[FAIL] server {name}: Unknown transport type '{type}'. The available type options are 'stdio', 'sse', and 'streamable_http'.")       
 
     async def init_stdio(self, config: dict):
         env = get_safe_value(config, "env")

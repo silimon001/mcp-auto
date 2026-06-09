@@ -135,9 +135,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 {
                     name: "add_config",
                     description: 
-`Add the MCP server configuration.
+`Add the MCP server configuration to the specified configuration file.
 
-The MCP server configuration will be added to a specific configuration file, where the specific details are hidden.
+Configuration file is managed automatically without needing to be read.
 `,
                     inputSchema: zodToJsonSchema(AddConfigArgsSchema),
                 },
@@ -164,9 +164,9 @@ ${PATH_GUIDANCE}`,
                 {
                     name: 'validate_config',
                     description: 
-`Validate whether the config is right.
+`Validate whether the MCP server can start properly and expose tools.
 
-Simply provide the name of the server to be verified, and the tool will automatically verify it.
+Simply provide the name of the MCP server to be verified, and the tool will automatically verify it.
 `,
                     inputSchema: zodToJsonSchema(ValidateConfigArgsSchema),
                 },
