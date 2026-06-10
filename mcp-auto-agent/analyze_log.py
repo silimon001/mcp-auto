@@ -338,12 +338,12 @@ def simplify_logs(log_sources: list[str]) -> list[Path]:
 # ----------------------------
 if __name__ == "__main__":
 
-    from exp_setting import framework_name, dataset_name
+    from exp_setting import framework_name, dataset_name, model_name
 
     log_sources: list[str] = [
-        f"log_file/{dataset_name}/{framework_name}/qwen3.5-plus/" + x
+        f"log_file/{dataset_name}/{framework_name}/{model_name}/" + x
         for x in [
-            '0_40_2026-05-20_18-58-06.log'
+            '0_40_2026-06-09_21-09-56.log'
         ]
     ]
 

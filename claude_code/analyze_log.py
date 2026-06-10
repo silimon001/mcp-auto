@@ -1,237 +1,187 @@
-from __future__ import annotations
-
-import json
+import os
 import re
+import sys
 from collections import OrderedDict
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import List, Dict, Optional
 
 
-# ========================== 正则定义 ==========================
-RESULT_RE = re.compile(r"=+\s*\n\[RESULT\].*?(?=\n=+|\Z)", re.MULTILINE | re.DOTALL)
-TURN_RE = re.compile(r"\[TURN\s+(\d+)\]")
-TOOL_RE = re.compile(r"\[ASSISTANT\]\[TOOL\]:\s*(.+)")
-SERVER_OK_RE = re.compile(r"^\[OK\]\s+The server\s+.+?\s+started successfully,\s+tools:\s+.+$", re.MULTILINE)
-DONE_LINE_RE = re.compile(
-    r"^\s*✅ @@Task Done@@\s*$",
-    re.MULTILINE
-)
-TOKEN_USAGE_RE = re.compile(
-    r"Token\s+使用:\s*\n\s*-\s+输入:\s*(\d+)\s*\n\s*-\s+输出:\s*(\d+)\s*\n\s*-\s+缓存创建:\s*(\d+)\s*\n\s*-\s+缓存读取:\s*(\d+)",
-    re.MULTILINE
-)
+def check_success(turns):
+    """判断任务是否成功"""
+    server_start_pattern = re.compile(
+        r'\[OK\] The server .+ started successfully, tools:'
+    )
+    server_started = False
+    for turn_num in sorted(turns.keys()):
+        turn = turns[turn_num]
+        # 检查是否服务器启动
+        if not server_started:
+            for result in turn.get('tool_results', []):
+                if server_start_pattern.search(result):
+                    server_started = True
+                    break
+        # 启动后才检查任务完成标志
+        if server_started:
+            for text in turn.get('assistant_texts', []):
+                if '✅ @@Task Done@@' in text:
+                    return True
+    return False
 
 
-# ========================== 数据结构 ==========================
-@dataclass
-class ToolCall:
-    tool_name: str
-    tool_args: str
-
-@dataclass
-class LoopRecord:
-    loop_id: int
-    tool_calls: List[ToolCall] = field(default_factory=list)
-
-@dataclass
-class SegmentRecord:
-    serial_number: int
-    status: str                # "✅ @@Task Done@@" 或 "❌ @@Task Failed@@"
-    loops: List[LoopRecord] = field(default_factory=list)
-    token_usage: Dict[str, int] = field(default_factory=dict)
-
-
-# ========================== 辅助函数 ==========================
-def compact_json(raw: str) -> str:
-    """将工具参数压缩为单行 JSON（移除 description 字段）"""
-    raw = raw.strip()
-    if not raw:
-        return "{}"
-    try:
-        data = json.loads(raw)
-        if isinstance(data, dict):
-            data.pop("description", None)
-        return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
-    except Exception:
-        return " ".join(raw.split())
-
-def extract_token_usage(segment: str) -> Dict[str, int]:
-    """从 [RESULT] 块中提取 token 用量"""
-    result_match = RESULT_RE.search(segment)
-    if not result_match:
-        return {}
-    m = TOKEN_USAGE_RE.search(result_match.group(0))
-    if not m:
-        return {}
-    return {
-        "input": int(m.group(1)),
-        "output": int(m.group(2)),
-        "cache_creation": int(m.group(3)),
-        "cache_read": int(m.group(4))
+def parse_session(session_text):
+    """逐行解析一个会话，返回 turns, token_usage, status_line"""
+    lines = session_text.splitlines()
+    turns = OrderedDict()
+    token_usage = {
+        'input_tokens': '',
+        'output_tokens': '',
+        'cache_creation_input_tokens': '',
+        'cache_read_input_tokens': ''
     }
-
-def extract_status(segment: str) -> str:
-    """
-    成功条件：同时存在 SERVER_OK_RE 和 DONE_LINE_RE
-    注意：DONE_LINE_RE 可出现在任何位置（不一定在最后一轮）
-    """
-    has_server_ok = bool(SERVER_OK_RE.search(segment))
-    has_done_flag = bool(DONE_LINE_RE.search(segment))
-    if has_server_ok and has_done_flag:
-        return "✅ @@Task Done@@"
-    return "❌ @@Task Failed@@"
-
-def split_segments(text: str) -> List[str]:
-    """基于 [RESULT] 切分任务段"""
-    matches = list(RESULT_RE.finditer(text))
-    if not matches:
-        return [text]
-    segments = []
-    start = 0
-    for m in matches:
-        end = m.end()
-        seg = text[start:end].strip()
-        if seg:
-            segments.append(seg)
-        start = end
-
-    return segments
-
-def parse_loops(segment: str) -> List[LoopRecord]:
-    """提取所有工具调用，按 TURN 分组，并重新编号"""
-    lines = segment.splitlines()
-    loop_map = OrderedDict()          # turn_id -> LoopRecord
-    current_turn = None
+    status_line = ""
+    turn_num = 0
     i = 0
+
+    def init_turn(num):
+        if num not in turns:
+            turns[num] = {
+                'tool_calls': [],
+                'tool_results': [],
+                'assistant_texts': []
+            }
 
     while i < len(lines):
         line = lines[i]
 
-        # 匹配 [TURN X]
-        m = TURN_RE.search(line)
-        if m:
-            turn_id = int(m.group(1))
-            if turn_id == 0:
-                current_turn = None
+        # 1. 提取 Turn 编号
+        m_turn = re.match(r'^\[Turn (\d+)\]', line)
+        if m_turn:
+            turn_num = int(m_turn.group(1))
+            init_turn(turn_num)
+
+        # 2. TOOL_CALL 行
+        if 'TOOL_CALL' in line:
+            init_turn(turn_num)
+            if i + 1 < len(lines):
+                tool_line = lines[i + 1].strip()
+                m_tool = re.match(r'tool=([^,]+),\s*args=(.+)', tool_line)
+                if m_tool:
+                    turns[turn_num]['tool_calls'].append({
+                        'tool': m_tool.group(1),
+                        'args': m_tool.group(2)
+                    })
+                i += 2
+            else:
                 i += 1
-                continue
-            current_turn = turn_id
-            if current_turn not in loop_map:
-                loop_map[current_turn] = LoopRecord(loop_id=current_turn)
-            i += 1
             continue
 
-        # 匹配 [ASSISTANT][TOOL]: tool_name
-        m = TOOL_RE.search(line)
-        if m and current_turn is not None:
-            tool_name = m.group(1).strip()
+        # 3. TOOL_RESULT 块（修正：使用子串匹配，不要求整行相等）
+        if 'TOOL_RESULT' in line:
+            init_turn(turn_num)
+            result_lines = []
             i += 1
-            # 定位 [TOOL INPUT]:
             while i < len(lines):
-                if "[TOOL INPUT]:" in lines[i]:
+                l = lines[i]
+                if (re.match(r'^\[Turn \d+\]', l) or
+                    'TOOL_CALL' in l or
+                    'ASSISTANT_TEXT' in l or
+                    'TOOL_RESULT' in l or
+                    'ASSISTANT_THINKING' in l or
+                    'SESSION_INIT' in l or
+                    'TOKEN USAGE' in l):
                     break
-                if TOOL_RE.search(lines[i]) or TURN_RE.search(lines[i]):
-                    break
+                result_lines.append(l)
                 i += 1
+            turns[turn_num]['tool_results'].append('\n'.join(result_lines))
+            continue
 
-            raw_args = "{}"
-            if i < len(lines) and "[TOOL INPUT]:" in lines[i]:
+        # 4. ASSISTANT_TEXT 块（不含 THINKING）
+        if 'ASSISTANT_TEXT' in line and 'ASSISTANT_THINKING' not in line:
+            init_turn(turn_num)
+            text_lines = []
+            i += 1
+            while i < len(lines):
+                l = lines[i]
+                if (re.match(r'^\[Turn \d+\]', l) or
+                    'TOOL_CALL' in l or
+                    'ASSISTANT_TEXT' in l or
+                    'TOOL_RESULT' in l or
+                    'ASSISTANT_THINKING' in l or
+                    'SESSION_INIT' in l or
+                    'TOKEN USAGE' in l):
+                    break
+                text_lines.append(l)
                 i += 1
-                arg_lines = []
-                while i < len(lines):
-                    nxt = lines[i]
-                    if TURN_RE.search(nxt) or TOOL_RE.search(nxt):
-                        break
-                    if nxt.startswith("[TOKENS]") or nxt.startswith("-" * 60):
-                        break
-                    arg_lines.append(nxt)
+            turns[turn_num]['assistant_texts'].append('\n'.join(text_lines))
+            continue
+
+        # 5. TOKEN USAGE 块（仅提取所需字段）
+        if line.startswith('TOKEN USAGE:'):
+            i += 1
+            while i < len(lines):
+                l = lines[i]
+                if l.strip() == '':
                     i += 1
-                raw_args = "\n".join(arg_lines)
+                    break
+                for field in ['input_tokens', 'output_tokens',
+                              'cache_creation_input_tokens', 'cache_read_input_tokens']:
+                    m = re.match(r'\s*' + field + r':\s*(\d+)', l)
+                    if m:
+                        token_usage[field] = m.group(1)
+                        break
+                i += 1
+            continue
 
-            cleaned_args = compact_json(raw_args)
-            loop_map[current_turn].tool_calls.append(ToolCall(tool_name, cleaned_args))
+        # 6. status 行
+        m_status = re.match(r'^status=(.+)', line)
+        if m_status:
+            status_line = m_status.group(1).strip()
+            i += 1
             continue
 
         i += 1
 
-    # 重新编号 loop (1,2,3...)
-    final_loops = []
-    for new_idx, (_, loop) in enumerate(loop_map.items(), start=1):
-        loop.loop_id = new_idx
-        final_loops.append(loop)
-    return final_loops
+    return turns, token_usage, status_line
 
 
-# ========================== 主处理流程 ==========================
-def simplify_log_text(text: str) -> List[SegmentRecord]:
-    segments = split_segments(text)
-    results = []
-    for idx, seg in enumerate(segments, start=1):
-        status = extract_status(seg)
-        loops = parse_loops(seg)
-        token_usage = extract_token_usage(seg)
-        results.append(SegmentRecord(idx, status, loops, token_usage))
-    return results
+def process_log(filepath):
+    dirname = os.path.dirname(filepath)
+    basename = os.path.basename(filepath)
+    out_filepath = os.path.join(dirname, "s_" + basename) if dirname else "s_" + basename
 
-def write_simplified_log(records: List[SegmentRecord], output_path: Path) -> None:
-    lines = []
-    for seg in records:
-        # 第一行：序号 | 状态 | token 用量（如果有）
-        line = f"{seg.serial_number} | {seg.status}"
-        if seg.token_usage:
-            tu = seg.token_usage
-            line += f" | Input: {tu['input']} Output: {tu['output']} cache_creation: {tu['cache_creation']} cache_read: {tu['cache_read']}"
-        lines.append(line)
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
 
-        # 工具调用记录
-        for loop in seg.loops:
-            if not loop.tool_calls:
-                lines.append(f"loop {loop.loop_id} | 无 tool_calls")
-            else:
-                tool_strs = [f"Tool={tc.tool_name}, Args={tc.tool_args}" for tc in loop.tool_calls]
-                lines.append(f"loop {loop.loop_id} | {' ; '.join(tool_strs)}")
-        lines.append("")   # 空行分隔不同 segment
+    # 按 SESSION_INIT 分割
+    sessions = re.split(r'^\[.*?\] SESSION_INIT\s*\n', content, flags=re.MULTILINE)
+    if not re.match(r'^\[.*?\] SESSION_INIT', content.split('\n')[0]):
+        sessions = sessions[1:]
 
-    output_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    session_idx = 0
+    with open(out_filepath, 'w', encoding='utf-8') as fout:
+        for session_text in sessions:
+            if not session_text.strip():
+                continue
 
-def simplify_logs(log_paths: List[str]) -> List[Path]:
-    outputs = []
-    for path_str in log_paths:
-        path = Path(path_str)
-        text = path.read_text(encoding="utf-8", errors="replace")
-        records = simplify_log_text(text)
-        out_path = path.with_name(f"s_{path.stem}.log")
-        write_simplified_log(records, out_path)
-        outputs.append(out_path)
-    return outputs
+            session_idx += 1
+            turns, token_usage, status_line = parse_session(session_text)
+            success = check_success(turns)
+            flag = "✅ @@Task Done@@" if success else "❌ @@Task Failed@@"
 
+            print(f"{session_idx} | {flag} | "
+                  f"Input: {token_usage['input_tokens']} "
+                  f"Output: {token_usage['output_tokens']} "
+                  f"cache_creation: {token_usage['cache_creation_input_tokens']} "
+                  f"cache_read: {token_usage['cache_read_input_tokens']}",
+                  file=fout)
 
-# ========================== CLI 示例（可替换为自己的调用） ==========================
-if __name__ == "__main__":
-    # 这里只是一个示例，实际使用时请按需修改
-    from exp_setting import dataset_name, framework_name, model_name
-    HOME = Path.home()
-    log_sources = [
-        str(HOME) + f"/mcp-auto/log_file/{dataset_name}/{framework_name + '_3'}/{model_name}/" + x
-        for x in [
-           '0_40_2026-05-20_23-56-06.log',
-'0_40_2026-05-28_14-49-22.log',
-'0_40_2026-05-28_16-52-15.log',
-'40_80_2026-05-21_13-17-58.log',
-'40_80_2026-05-28_18-29-20.log',
-'40_80_2026-05-28_20-18-08.log',
-'80_120_2026-05-21_14-24-28.log',
-'80_120_2026-05-28_22-27-32.log',
-'80_120_2026-05-29_09-10-32.log',
-'120_160_2026-05-21_16-10-28.log',
-'120_160_2026-05-29_11-42-57.log',
-'120_160_2026-05-29_14-58-19.log',
-'160_200_2026-05-21_18-10-38.log',
-'160_200_2026-05-30_00-05-36.log',
-'160_200_2026-05-30_21-43-07.log'
-                  ]
-    ]
-    outputs = simplify_logs(log_sources)
-    for p in outputs:
-        print("written:", p)
+            for turn_num in sorted(turns.keys()):
+                tool_calls = turns[turn_num].get('tool_calls', [])
+                if tool_calls:
+                    call_strs = [f"Tool={tc['tool']}, Args={tc['args']}" for tc in tool_calls]
+                    print(f"loop {turn_num} | {'; '.join(call_strs)}", file=fout)
+                else:
+                    print(f"loop {turn_num} | 无 tool_calls", file=fout)
+            print(file=fout)
+
+if __name__ == '__main__':
+    
+    process_log('log_file/py/claude-code-1/qwen3.5-plus-2026-04-20/120_160_2026-06-10_09-49-24.log')
