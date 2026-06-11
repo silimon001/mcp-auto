@@ -143,11 +143,11 @@ class LLMClient:
         """发送请求并返回解析后的响应和用量"""
         response = None
         if self.config.base_url == 'https://dashscope.aliyuncs.com/compatible-mode/v1':
-            session = OpenAI(
+            client = OpenAI(
                 api_key=self.config.api_key,
                 base_url=self.config.base_url,
             )
-            response = session.chat.completions.create(
+            response = client.chat.completions.create(
                 model=self.config.model,
                 messages=messages,
                 tools=tools,
@@ -155,6 +155,26 @@ class LLMClient:
                 temperature=0.1, # [0, 2)
                 tool_choice="auto",
                 extra_body={"enable_thinking": self.config.enable_thinking}
+            )
+            usage = response.usage.to_dict()
+            choices = response.choices[0].message.to_dict()
+        elif self.config.base_url == "https://api.deepseek.com":
+            client = OpenAI(
+                api_key=self.config.api_key,
+                base_url="https://api.deepseek.com")
+
+            enable = 'disabled'
+            if self.config.enable_thinking:
+                enable = 'enabled'
+
+            response = client.chat.completions.create(
+                model="deepseek-v4-flash",
+                messages=messages,
+                stream=False,
+                temperature=0.1,
+                tools=tools,
+                reasoning_effort="high",
+                extra_body={"thinking": {"type": enable}}
             )
             usage = response.usage.to_dict()
             choices = response.choices[0].message.to_dict()
@@ -293,7 +313,17 @@ class ExecutionLoop:
             if response.get('tool_calls') is not None:
                 for tool_call in response['tool_calls']:
                     tool_name = tool_call['function']['name']
-                    tool_args = json.loads(tool_call['function']['arguments'])
+                    raw_args = tool_call['function']['arguments']
+                    try:
+                        tool_args = json.loads(raw_args)
+                    except json.JSONDecodeError as e:
+                        self.logger.log(
+                            f"[Invalid Tool Args Raw]\n{raw_args}", is_error=True)
+                        call_tool_result = (f"Tool arguments are not valid JSON: {e}")
+
+                        self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
+                        continue
+
                     server_name = "MCP-Auto"   # 固定服务器名（可根据实际情况调整）
                     self.logger.log(f"[Call Tool] Server: {server_name}, Tool: {tool_name}, Args: {tool_args}")
 
@@ -339,14 +369,30 @@ class ExecutionLoop:
 
         if tool_name == 'execute_command':
             command = tool_args.get('command', '')
+            timeout_ms = tool_args.get('timeout_ms')
+
             if not command.strip():
                 return "Command is empty.", False
+
+            if timeout_ms is None:
+                return "Missing required parameter: timeout_ms", False
+
+            try:
+                timeout_ms = int(timeout_ms)
+                if timeout_ms <= 0:
+                    return "Invalid timeout_ms: must be greater than 0", False
+            except (TypeError, ValueError):
+                return "Invalid timeout_ms: must be a number", False
+
             if not is_command_safe(command):
                 error_msg = (
                     f"Command rejected due to security policy: {command[:100]}..."
                     if len(command) > 100 else f"Command rejected: {command}"
                 )
-                self.logger.log(f"[Security] Blocked command: {command}", is_error=True)
+                self.logger.log(
+                    f"[Security] Blocked command: {command}",
+                    is_error=True
+                )
                 return error_msg, False
 
         if tool_name == 'need_use_these_tools':
@@ -413,16 +459,9 @@ def add_extra_info(dataset_name: str, repo_id: str) -> str:
 # ==================== 主函数 ====================
 async def main():
 
-    test_flag = True
+    API_KEY = os.getenv("DEEPSEEK_KEY")
 
-    API_KEY = ''
-
-    if test_flag:
-        API_KEY = os.getenv("QWEN_TMP_KEY")
-    else:
-        API_KEY = os.getenv("QWEN_MCP_AUTO_KEY")
-
-    pos = 0
+    pos = 18
     count = 40
 
     # 初始化配置
@@ -430,7 +469,7 @@ async def main():
 
     config.set_llm(
         model=model_name,
-        base_url='https://dashscope.aliyuncs.com/compatible-mode/v1',
+        base_url='https://api.deepseek.com',  # https://api.deepseek.com https://dashscope.aliyuncs.com/compatible-mode/v1
         api_key=API_KEY,
         is_streaming=False,
         enable_thinking=True
