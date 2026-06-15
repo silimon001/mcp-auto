@@ -111,10 +111,11 @@ class MCPClientManager:
             self.all_tools.extend(client.tools)
             self.logger.log(f"Client {name} initialized with tools: {[tool.name for tool in client.tools]}")
 
-    async def call_tool(self, server_name: str, tool_name: str, tool_args: dict) -> str:
+    async def call_tool(self, server_name: str, tool_name: str, tool_args: dict) -> tuple[str, bool]:
         result = await self.clients[server_name].session.call_tool(tool_name, tool_args)
-        response = result.content[0].text
-        return response
+        text = result.content[0].text
+        is_error = result.isError
+        return text, is_error
 
     async def shutdown(self):
         for name, client in self.clients.items():
@@ -132,62 +133,90 @@ class LLMClient:
         self.logger = logger
         self.communicate_count = 0
 
-    @staticmethod
-    def _delete_reasoning(msg: dict) -> dict:
-        """移除 reasoning_content 字段"""
-        if 'reasoning_content' in msg:
-            return {k: v for k, v in msg.items() if k != 'reasoning_content'}
-        return msg
+    def communicate(self, messages: List[dict], tools: List[dict], max_retry: int = 3) -> dict:
 
-    def communicate(self, messages: List[dict], tools: List[dict]) -> dict:
-        """发送请求并返回解析后的响应和用量"""
-        response = None
-        if self.config.base_url == 'https://dashscope.aliyuncs.com/compatible-mode/v1':
-            client = OpenAI(
-                api_key=self.config.api_key,
-                base_url=self.config.base_url,
-            )
-            response = client.chat.completions.create(
-                model=self.config.model,
-                messages=messages,
-                tools=tools,
-                stream=self.config.is_streaming,
-                temperature=0.1, # [0, 2)
-                tool_choice="auto",
-                extra_body={"enable_thinking": self.config.enable_thinking}
-            )
-            usage = response.usage.to_dict()
-            choices = response.choices[0].message.to_dict()
-        elif self.config.base_url == "https://api.deepseek.com":
-            client = OpenAI(
-                api_key=self.config.api_key,
-                base_url="https://api.deepseek.com")
+            client = OpenAI(api_key=self.config.api_key, base_url=self.config.base_url)
 
-            enable = 'disabled'
-            if self.config.enable_thinking:
-                enable = 'enabled'
+            last_exception = None
 
-            response = client.chat.completions.create(
-                model="deepseek-v4-flash",
-                messages=messages,
-                stream=False,
-                temperature=0.1,
-                tools=tools,
-                reasoning_effort="high",
-                extra_body={"thinking": {"type": enable}}
-            )
-            usage = response.usage.to_dict()
-            choices = response.choices[0].message.to_dict()
-        else:
-            # 预留其他 API 适配位置
-            raise NotImplementedError("Unsupported base_url")
+            for attempt in range(1, max_retry + 1):
+                try:
+                    if self.config.base_url == "https://dashscope.aliyuncs.com/compatible-mode/v1":
 
-        self.communicate_count += 1
-        self.logger.log(f"--- Communicate Count: {self.communicate_count} ---")
-        return {
-            'usage': usage,
-            'response': self._delete_reasoning(choices)
-        }
+                        response = client.chat.completions.create(
+                            model=self.config.model,
+                            messages=messages,
+                            tools=tools,
+                            stream=False,
+                            temperature=0.1, # [0, 2)
+                            tool_choice="auto",
+                            extra_body={
+                                "enable_thinking": self.config.enable_thinking
+                            }
+                        )
+
+                    elif self.config.base_url == "https://api.deepseek.com":
+
+                        enable = "enabled" if self.config.enable_thinking else "disabled"
+
+                        response = client.chat.completions.create(
+                            model="deepseek-v4-flash",
+                            messages=messages,
+                            stream=False,
+                            temperature=0.1,
+                            tools=tools,
+                            reasoning_effort="max",
+                            extra_body={
+                                "thinking": {"type": enable}
+                            }
+                        )
+
+                    else:
+                        raise NotImplementedError(
+                            f"Unsupported base_url: {self.config.base_url}"
+                        )
+
+                    usage = response.usage
+                    message = response.choices[0].message
+
+                    self.communicate_count += 1
+
+                    return {
+                        "success": True,
+                        "usage": usage,
+                        "response": message,
+                        "error": None,
+                    }
+
+                except TimeoutError as e:
+                    last_exception = e
+                    self.logger.log(
+                        f"[Attempt {attempt}/{max_retry}] Timeout: {e}"
+                    )
+
+                except ConnectionError as e:
+                    last_exception = e
+                    self.logger.log(
+                        f"[Attempt {attempt}/{max_retry}] Connection Error: {e}"
+                    )
+
+                except Exception as e:
+                    last_exception = e
+                    self.logger.log(
+                        f"[Attempt {attempt}/{max_retry}] LLM Error: {type(e).__name__}: {e}"
+                    )
+
+                if attempt < max_retry:
+                    time.sleep(2 ** (attempt - 1))
+
+            self.logger.log(f"Communicate failed after {max_retry} retries")
+
+            return {
+                "success": False,
+                "usage": None,
+                "response": None,
+                "error": str(last_exception),
+            }
 
 # ==================== 对话管理器 ====================
 class ConversationManager:
@@ -220,7 +249,7 @@ class ConversationManager:
         self.messages.append({"role": "user", "content": content})
 
     def add_user_message(self, content: str):
-        self.messages.append({"role": "user", "content": [{"type": "text", "text": content, "cache_control": {"type": "ephemeral"}}]})
+        self.messages.append({"role": "user", "content": content})
 
     def add_assistant_message(self, message: dict):
         self.messages.append(message)
@@ -235,24 +264,26 @@ class PromptManager:
         self.config = config
 
     def load_prompts(self, names: List[str]) -> str:
-        """加载多个 prompt 文件内容并拼接"""
         combined = ""
-        for name in names:
+
+        for name in sorted(names):
             prompt_path = self.config.prompt_dir / f"prompt_{name}.md"
             try:
                 with open(prompt_path, "r", encoding="utf-8") as f:
                     content = f.read()
-                if name == 'git' or name == 'deploy':
+
+                if name in ("git", "deploy"):
                     content = content.replace("{WORKSPACE}", str(self.config.cwd))
-                elif name == 'uv':
+                elif name == "uv":
                     content = content.replace("{HOME}", str(Path.home()))
+
                 combined += content
-            except Exception as e:
+
+            except Exception:
                 pass
+
         return combined
 
-
-# 高风险模式，可根据实际需求扩展
 FORBIDDEN_PATTERNS = [
     r'\bsudo\b',               # 提权
     r'\bmkfs\.',               # 格式化
@@ -263,7 +294,7 @@ def is_command_safe(command: str) -> bool:
     for pattern in FORBIDDEN_PATTERNS:
         if re.search(pattern, command):
             return False
-    # 还可以限制命令长度、检查命令是否存在等
+
     return True
 
 # ==================== 执行循环（状态机） ====================
@@ -282,117 +313,103 @@ class ExecutionLoop:
     async def run(self, prompt: str, query: str, readme_id: str, readme_path: str):
         """执行主对话循环"""
         self.llm_client.communicate_count = 0
-        self.logger.log(f'Dealing with {readme_id} {readme_path} ...')
-        self.logger.log(f'\n=========\n{query}\n==========\n')
-
-        # 初始化消息
+        self.logger.log(f"Dealing with {readme_id} {readme_path} ...")
+        self.logger.log(f"\n{query}\n")
+        # 初始化对话
         self.conv_manager.messages = []
         self.conv_manager.add_system_message(prompt)
         self.conv_manager.add_query(query)
-
         while True:
-            if self.llm_client.communicate_count > self.config.max_chat_loop:
+            # 防止无限循环
+            if self.llm_client.communicate_count >= self.config.max_chat_loop:
+                self.logger.log("Reach max_chat_loop, stop execution.", is_error=True)
                 break
-
-            # 阶段控制：第一次通信前插入分析 prompt 并设置工具
+            # 第一次对话前插入分析 Prompt
             if self.llm_client.communicate_count == 0:
-                analyze_prompt = self.prompt_manager.load_prompts(['analyze'])
+                analyze_prompt = self.prompt_manager.load_prompts(["analyze"])
                 self.conv_manager.add_user_message(analyze_prompt)
-
-            # 调用 LLM
+            # ========================== LLM 调用 ==========================
             all_response = self.llm_client.communicate(self.conv_manager.messages, self.conv_manager.tools)
-            usage = all_response['usage']
-            self.logger.log('Token Usage: ' + json.dumps(usage, ensure_ascii=False))
-
-            response = all_response['response']
-            self.conv_manager.add_assistant_message(response)
-            content = response.get('content', '')
-            self.logger.log('Response: ' + (content if content else '[tool_calls]'))
-
-            # 处理工具调用
-            if response.get('tool_calls') is not None:
-                for tool_call in response['tool_calls']:
-                    tool_name = tool_call['function']['name']
-                    raw_args = tool_call['function']['arguments']
+            if not all_response["success"]:
+                self.logger.log(f"LLM Communication Failed: {all_response['error']}", is_error=True)
+                break
+            usage = all_response["usage"]
+            response = all_response["response"]
+            self.conv_manager.add_assistant_message(response.to_dict())
+            content = response.content
+            self.logger.log("Response:\n" + content)
+            self.logger.log("Token Usage: " + json.dumps(usage.to_dict(), ensure_ascii=False, default=str))
+            self.logger.log(f"--- Communicate Count: {self.llm_client.communicate_count} ---\n")
+            # ========================== Tool Calling ==========================
+            if response.tool_calls:
+                for tool_call in response.tool_calls:
+                    tool_name = tool_call.function.name
+                    raw_args = tool_call.function.arguments
+                    # JSON 参数解析
                     try:
                         tool_args = json.loads(raw_args)
                     except json.JSONDecodeError as e:
-                        self.logger.log(
-                            f"[Invalid Tool Args Raw]\n{raw_args}", is_error=True)
-                        call_tool_result = (f"Tool arguments are not valid JSON: {e}")
-
-                        self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
+                        self.logger.log(f"[Invalid Tool Args Raw]\n{raw_args}", is_error=True)
+                        tool_result = f"Tool arguments are not valid JSON: {e}"
+                        self.conv_manager.add_tool_result(tool_call.id, tool_result)
                         continue
-
-                    server_name = "MCP-Auto"   # 固定服务器名（可根据实际情况调整）
+                    server_name = "MCP-Auto" # 
                     self.logger.log(f"[Call Tool] Server: {server_name}, Tool: {tool_name}, Args: {tool_args}")
-
-                    # 1. 参数校验 / 修正
+                    # Tool Hook
                     checked_args, can_proceed = await self.tool_calling_hook(server_name, tool_name, tool_args)
-
                     if not can_proceed:
-                        # 校验失败，将错误消息作为工具调用结果返回给模型
-                        call_tool_result = checked_args
-                        self.logger.log('\n' + call_tool_result + '\n' + '-'*52 + '\n')
-                        self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
+                        tool_result = checked_args
+                        self.logger.log("\n" + tool_result + "\n" + "-" * 52 + "\n")
+                        self.conv_manager.add_tool_result(tool_call.id, tool_result)
                         continue
-
-                    # 2. 用户确认（非 auto 时）
+                    # 用户确认
                     if not self.config.auto_deploy:
-                        if input("(Y/N): ").strip().lower() != 'y':
-                            call_tool_result = "Users refuse to use this tool; please reflect on this and choose the right tool."
-                            self.logger.log('\n' + call_tool_result + '\n' + '-'*52 + '\n')
-                            self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
+                        answer = input("(Y/N): ").strip().lower()
+                        if answer != "y":
+                            tool_result = "User refused this tool call. Please reconsider and choose another action."
+                            self.logger.log("\n" + tool_result + "\n" + "-" * 52 + "\n")
+                            self.conv_manager.add_tool_result(tool_call.id, tool_result)
                             continue
-
-                    # 3. 实际工具调用
-                    call_tool_result = await self.mcp_manager.call_tool(server_name, tool_name, checked_args)
-
-                    # 4. 结果简化（后处理）
-                    call_tool_result = await self.tool_result_hook(tool_name, call_tool_result)
-
-                    # 5. 将最终结果加入对话历史
-                    self.conv_manager.add_tool_result(tool_call['id'], call_tool_result)
-                    self.logger.log('\n' + call_tool_result + '\n' + '-'*52 + '\n')
-
-                    # 6. 动态 prompt 路由（根据工具名插入阶段提示词）
-                    await self.prompt_router_trigger(tool_name, call_tool_result)
-
+                    # 执行 Tool
+                    try:
+                        tool_result, is_tool_error = await self.mcp_manager.call_tool(server_name, tool_name, checked_args)
+                    except Exception as e:
+                        is_tool_error = True
+                        tool_result = f"Tool execution failed: {type(e).__name__}: {e}"
+                        self.logger.log(tool_result, is_error=True)
+                    # Tool Result Hook
+                    try:
+                        tool_result = await self.tool_result_hook(tool_name, tool_result)
+                    except Exception as e:
+                        self.logger.log(f"tool_result_hook failed: {e}", is_error=True)
+                    # 写回对话
+                    self.conv_manager.add_tool_result(tool_call.id, tool_result)
+                    self.logger.log("\n" + tool_result + "\n" + "-" * 52 + "\n")
+                    # Prompt Router
+                    try:
+                        await self.prompt_router_trigger(tool_name, tool_result)
+                    except Exception as e:
+                        self.logger.log(f"prompt_router_trigger failed: {e}", is_error=True)
+            # ========================== 无 Tool Call ==========================
             else:
-                # 检查任务完成标志
-                if content and any(marker in content for marker in ["@@Task Done@@", "@@Task Failed@@", "@@Task Alert@@"]):
+                if any(marker in content for marker in ("@@Task Done@@", "@@Task Failed@@", "@@Task Alert@@")):
                     break
-                # 继续对话
                 self.conv_manager.add_user_message("come on!")
 
     async def tool_calling_hook(self, server_name: str, tool_name: str, tool_args: dict) -> tuple:
 
         if tool_name == 'execute_command':
             command = tool_args.get('command', '')
-            timeout_ms = tool_args.get('timeout_ms')
 
             if not command.strip():
                 return "Command is empty.", False
-
-            if timeout_ms is None:
-                return "Missing required parameter: timeout_ms", False
-
-            try:
-                timeout_ms = int(timeout_ms)
-                if timeout_ms <= 0:
-                    return "Invalid timeout_ms: must be greater than 0", False
-            except (TypeError, ValueError):
-                return "Invalid timeout_ms: must be a number", False
 
             if not is_command_safe(command):
                 error_msg = (
                     f"Command rejected due to security policy: {command[:100]}..."
                     if len(command) > 100 else f"Command rejected: {command}"
                 )
-                self.logger.log(
-                    f"[Security] Blocked command: {command}",
-                    is_error=True
-                )
+                self.logger.log(f"[Security] Blocked command: {command}", is_error=True)
                 return error_msg, False
 
         if tool_name == 'need_use_these_tools':
@@ -461,7 +478,7 @@ async def main():
 
     API_KEY = os.getenv("DEEPSEEK_KEY")
 
-    pos = 18
+    pos = 0
     count = 40
 
     # 初始化配置
