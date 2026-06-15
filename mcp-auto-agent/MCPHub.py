@@ -328,6 +328,7 @@ class ExecutionLoop:
             if self.llm_client.communicate_count == 0:
                 analyze_prompt = self.prompt_manager.load_prompts(["analyze"])
                 self.conv_manager.add_user_message(analyze_prompt)
+                self.logger.log('Add analyze prompt.')
             # ========================== LLM 调用 ==========================
             all_response = self.llm_client.communicate(self.conv_manager.messages, self.conv_manager.tools)
             if not all_response["success"]:
@@ -435,13 +436,15 @@ class ExecutionLoop:
         if tool_name == 'need_use_these_tools':
             deploy_prompt = self.prompt_manager.load_prompts(['deploy'])
             self.conv_manager.add_user_message(deploy_prompt)
-
+            self.logger.log('Add deploy prompt.')
             tools_prompt = self.prompt_manager.load_prompts(json.loads(call_tool_result))
             self.conv_manager.add_user_message(tools_prompt)
+            self.logger.log(f'Add {call_tool_result} prompt.')
 
         elif tool_name == 'add_config':
             validate_prompt = self.prompt_manager.load_prompts(['validate'])
             self.conv_manager.add_user_message(validate_prompt)
+            self.logger.log('Add validate prompt.')
 
     @staticmethod
     def _is_valid_tools_combination(tools: list) -> bool:
